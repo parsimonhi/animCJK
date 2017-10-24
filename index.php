@@ -606,7 +606,7 @@ $c2=getCharList("frequentLess1000");
 $c=$c1.$c2;
 $km=mb_strlen($c,'UTF-8');
 echo "<h2>Frequently used simplified hanzi (".$km." characters)</h2>\n";
-echo "<p><span class=\"sameInBoth\">Black</span> Same in Chinese and Japanese</p>\n";
+echo "<p><span class=\"sameInBoth\">Black</span> Same in simplified Chinese and Japanese</p>\n";
 echo "<p><span class=\"notSameInBoth\">Blue</span> Different in simplified Chinese and Japanese</p>\n";
 echo "<p><span class=\"notInBoth\">Green</span> Not frequently used in japanese</p>\n";
 echo "<p>The difference can be the stroke order, a stroke direction, the number of stroke or the glyph itself.</p>\n";
