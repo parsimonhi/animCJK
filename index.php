@@ -579,9 +579,9 @@ $lm=7;
 for ($l=0;$l<$lm;$l++) {$a[$l]=getCharList("g".($l+1));$b.=$a[$l];}
 $km=mb_strlen($b,'UTF-8');
 echo "<h2>Jōyō kanji (".$km." characters)</h2>\n";
-echo "<p><span class=\"sameInBoth\">Black</span> Same in Japanese and Chinese</p>\n";
-echo "<p><span class=\"notSameInBoth\">Blue</span> Different in Japanese and Chinese</p>\n";
-echo "<p><span class=\"notInBoth\">Green</span> Not frequently used in Chinese</p>\n";
+echo "<p><span class=\"sameInBoth\">Black</span> Same in Japanese and simplified Chinese</p>\n";
+echo "<p><span class=\"notSameInBoth\">Blue</span> Different in Japanese and simplified Chinese</p>\n";
+echo "<p><span class=\"notInBoth\">Green</span> Not frequently used in simplified Chinese</p>\n";
 echo "<p>The difference can be the stroke order, a stroke direction, the number of stroke or the glyph itself.</p>\n";
 for ($l=0;$l<$lm;$l++)
 {
@@ -607,7 +607,7 @@ $c=$c1.$c2;
 $km=mb_strlen($c,'UTF-8');
 echo "<h2>Frequently used simplified hanzi (".$km." characters)</h2>\n";
 echo "<p><span class=\"sameInBoth\">Black</span> Same in Chinese and Japanese</p>\n";
-echo "<p><span class=\"notSameInBoth\">Blue</span> Different in Chinese and Japanese (stroke order, stroke direction, number of stroke or glyph)</p>\n";
+echo "<p><span class=\"notSameInBoth\">Blue</span> Different in simplified Chinese and Japanese</p>\n";
 echo "<p><span class=\"notInBoth\">Green</span> Not frequently used in japanese</p>\n";
 echo "<p>The difference can be the stroke order, a stroke direction, the number of stroke or the glyph itself.</p>\n";
 $l=0;
