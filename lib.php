@@ -345,6 +345,7 @@ function convertSet($s,$lang)
 		if (preg_match("/^g([1-6])$/",$s)) $r=preg_replace("/^g([1-6])$/","Joyo kanji, grade $1",$s);
 		else if ($s=="g7") $r="Jōyō kanji, junior high school";
 		else if ($s=="g8") $r="Jinmeyō kanji";
+		else if ($s=="g9") $r="Jinmeyō kanji, traditional variant";
 		else $r="Uncommon kanji";
 	}
 	else $r="";
