@@ -5,7 +5,7 @@
 <meta name="viewport" content="initial-scale=1.0,user-scalable=yes">
 <style>
 <?php $fs=256; ?>
-body {font-size:1em;font-family:"arial",sans-serif;background:#eee;}
+body {font-size:1em;font-family:"arial",sans-serif;background:#fff;}
 h1,div.link,div.input,#a,footer {text-align:center;}
 div.link a, div.navigation a {color:#000;}
 div.input, div.navigation {padding-top:1em;}
@@ -28,18 +28,41 @@ div.navigation a {display:inline-block;padding:0.25em;}
 {	
 	margin-top:0.5em;
 	font-size:2em;
-	-webkit-appearance:button;
+	border:1px solid #ccc;
+	background:#fff;
+	color:#000;
+	border-radius:1em;
+	padding:0.125em 0.5em;
 }
 #a
 {
+	position:relative;
 	width:<?php echo $fs;?>px;
 	height:<?php echo $fs;?>px;
 	margin:1em auto;
 }
-#a {border:1px solid #ccc;background:#fff;color:#000;}
+#a {border:1px solid #ccc;background:transparent;color:#000;}
+#a.noBorder {border-color:transparent};
 #ok:hover,
 #joyoSection button:hover,
 #frequentSection button:hover {cursor:pointer;}
+#ok:focus,
+#ok:active
+{
+	border-color:#999;
+	background:#999;
+	color:#fff;
+	outline:none;
+}
+#ok:hover
+{
+	border-color:#666;
+	background:#666;
+	color:#fff;
+	outline:none;
+}
+#ok::-moz-focus-inner {border: 0;}
+
 label {display:inline-block;white-space:nowrap;margin:0 0.5em 1em 0.5em;}
 svg
 {
@@ -55,13 +78,69 @@ svg.error {font-size:<?php echo $fs;?>px;}
 }
 div.dico {margin:0 0.25em;padding-top:0.25em;text-align:left;line-height:1.25em;}
 span.cjkChar {vertical-align:top;}
+div.grid
+{
+	position:absolute;
+	box-sizing:border-box;
+	z-index:-1;
+}
+div.grid0
+{
+	left:0;
+	top:0;
+	bottom:0;
+	right:0;
+	border:1px solid #ccc;
+}
+div.grid1
+{
+	top:25%;
+	left:0;
+	width:100%;
+	height:50%;
+	border-top:1px solid #ccc;
+	border-bottom:1px solid #ccc;
+}
+div.grid2
+{
+	top:0;
+	left:25%;
+	width:50%;
+	height:100%;
+	border-left:1px solid #ccc;
+	border-right:1px solid #ccc;
+}
+div.grid3
+{
+	top:0;
+	left:0;
+	width:100%;
+	height:50%;
+	border-bottom:1px solid #ccc;
+}
+div.grid4
+{
+	top:0;
+	left:0;
+	width:50%;
+	height:100%;
+	border-right:1px solid #ccc;
+}
+div.grid5
+{
+	left:9.175%;
+	top:9.175%;
+	width:81.65%;
+	height:81.65%;
+	border:1px solid #ccc;
+}
 
 #joyoSection {display:block;}
 #frequentSection {display:none;}
 #joyoSection button, #frequentSection button
 {
-	border:1px solid #ccc;
-	background:#fff;
+	border:0;
+	background:transparent;
 	color:#000;
 	font-size:1.25em;
 	margin:0.1em;
@@ -72,7 +151,7 @@ span.cjkChar {vertical-align:top;}
 span.sameInBoth
 {
 	display:inline-block;
-	width:3em;
+	width:1em;
 	color:transparent;
 	background:#000;
 }
@@ -82,7 +161,7 @@ span.sameInBoth
 span.notSameInBoth
 {
 	display:inline-block;
-	width:3em;
+	width:1em;
 	color:transparent;
 	background:#00f;
 }
@@ -92,7 +171,7 @@ span.notSameInBoth
 span.notInBoth
 {
 	display:inline-block;
-	width:3em;
+	width:1em;
 	color:transparent;
 	background:#090;
 }
@@ -147,7 +226,7 @@ function setNumber(x)
 					if (cy>(900-fs-(fs>>3))) cy=900-fs-(fs>>3);
 					sx=((k+1)>=10)?0.875:1;
 					sy=-1;
-					e=document.createElementNS('http://www.w3.org/2000/svg','circle');;
+					e=document.createElementNS('http://www.w3.org/2000/svg','circle');
 					e.setAttribute("cx",cx);
 					e.setAttribute("cy",cy);
 					e.setAttribute("r",fs);
@@ -155,7 +234,7 @@ function setNumber(x)
 					e.setAttribute("fill","#fff");
 					e.setAttribute("stroke-width",Math.max(1,fs>>3));
 					g.appendChild(e);
-					e=document.createElementNS('http://www.w3.org/2000/svg','text');;
+					e=document.createElementNS('http://www.w3.org/2000/svg','text');
 					e.setAttribute("x",cx);
 					e.setAttribute("y",cy+(fs>>1));
 					e.setAttribute("text-anchor","middle");
@@ -182,6 +261,31 @@ function setNumber(x)
 			}
 	}
 }
+function setGrid(x)
+{
+	var a,e,list,k,km;
+	a=document.getElementById("a");
+	list=document.querySelectorAll("#a div.grid");
+	km=list?list.length:0;
+	if (x)
+	{
+		if (!km)
+		{
+			a.className="noBorder";
+			for (k=0;k<6;k++)
+			{
+				e=document.createElement('div');
+				e.className="grid grid"+k;
+				a.appendChild(e);
+			}
+		}
+	}
+	else
+	{
+		a.className="";
+		for (k=0;k<km;k++) a.removeChild(list[k]);
+	}
+}
 function setSection()
 {
 	var list,k,km;
@@ -204,6 +308,10 @@ function setSection()
 function switchNumber()
 {
 	setNumber(document.getElementById("number").checked);
+}
+function switchGrid()
+{
+	setGrid(document.getElementById("grid").checked);
 }
 function switchSection()
 {
@@ -245,6 +353,7 @@ function ok()
 		{
 			document.getElementById("a").innerHTML=xhr.responseText;
 			setNumber(document.getElementById("number").checked);
+			setGrid(document.getElementById("grid").checked);
 			setSection();
         }
     };
@@ -280,6 +389,7 @@ function doIt(c)
 </div>
 <div class="sectionCheckBox">
 <label for="number">Stroke numbering: <input id="number" type="checkbox" onclick="switchNumber()"></label>
+<label for="grid">Grid: <input id="grid" type="checkbox" onclick="switchGrid()"></label>
 </div>
 <input id="data" type="text" maxlength="1" value="" placeholder="Enter data here">
 <input id="ok" type="button" value="Refresh" onclick="ok()">

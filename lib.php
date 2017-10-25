@@ -415,4 +415,76 @@ function getDictionaryData($char,$lang="zh-Hans")
 	return $s;
 }
 
+function buildSvg($a)
+{
+	$u=decUnicode($a->{'character'});
+	$id="z".$u;
+	$x="xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"";
+	$s="<svg id=\"".$id."\" class=\"acjk\" version=\"1.1\" viewBox=\"0 0 1024 1024\" ".$x.">\n";
+	$s.="<style>\n<![CDATA[\n";
+	$s.="\t@keyframes ".$id."k {\n";
+	$s.="\t\tfrom {\n";
+	$s.="\t\t\tstroke:#c00;\n";
+	$s.="\t\t\tstroke-dashoffset:3000;\n";
+	$s.="\t\t}\n";
+	$s.="\t\t75% {\n";
+	$s.="\t\t\tstroke:#c00;\n";
+	$s.="\t\t\tstroke-dashoffset:0;\n";
+	$s.="\t\t}\n";
+	$s.="\t\tto {\n";
+	$s.="\t\t\tstroke:#000;\n";
+	$s.="\t\t}\n";
+	$s.="\t}\n";
+	$s.="\t#".$id." path[clip-path] {\n";
+	$s.="\t\tanimation:".$id."k 1s linear both;\n";
+	$s.="\t\tstroke-dasharray:3000;\n";
+	$s.="\t\tstroke-width:128;\n";// acjk.strokeWidthMax + 8 or 16?
+	$s.="\t\tstroke-linecap:round;\n";
+	$s.="\t\tfill:none;\n";
+	$s.="\t}\n";
+	$k=0;
+	foreach($a->{'strokes'} as $p)
+	{
+		$k++;
+		$s.="\t#".$id." path[clip-path=\"url(#".$id."c".$k.")\"] {animation-delay:".$k."s;}\n";
+	}
+	$s.="\t#".$id." path {fill:#ccc;}\n";
+	$s.="]]>\n</style>\n";
+
+	$s.="<g transform=\"scale(1,-1) translate(0,-900)\">\n";
+	$k=0;
+	foreach($a->{'strokes'} as $p)
+	{
+		$k++;
+		$p=str_replace(","," ",$p);
+		$p=preg_replace("#\s?([MQCLZ])\s?#","$1",$p);
+		$s.="\t";
+		//$s.="<clipPath id=\"".$id."c".$k."\">";
+		$s.="<path id=\"".$id."d".$k."\" d=\"".$p."\"/>\n";
+		//$s.="</clipPath>\n";
+	}
+	$s.="\t<defs>\n";
+	$k=0;
+	foreach($a->{'strokes'} as $p)
+	{
+		$k++;
+		$s.="\t\t<clipPath id=\"".$id."c".$k."\">";
+		$s.="<use xlink:href=\"#".$id."d".$k."\"/>";
+		$s.="</clipPath>\n";
+	}
+	$s.="\t</defs>\n";
+	$k=0;
+	foreach($a->{'medians'} as $m)
+	{
+		$k++;
+		$z="";
+		foreach($m as $point) $z.=($z?"L":"M").$point[0]." ".$point[1];
+		$s.="\t<path pathLength=\"2999\" clip-path=\"url(#".$id."c".$k.")\" d=\"".$z."\"/>\n";
+	}
+	
+	$s.="</g>\n";
+	$s.="</svg>";
+	return $s;
+}
+
 ?>
