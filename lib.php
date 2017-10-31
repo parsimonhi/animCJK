@@ -415,6 +415,26 @@ function getDictionaryData($char,$lang="zh-Hans")
 	return $s;
 }
 
+function transformPathFromGraphics($p)
+{
+	if (preg_match_all("#([MQCLZ ]+)([0-9.-]+) ([0-9.-]+)#",$p,$m))
+	{
+		$npm=count($m[0]);
+		$q="";
+		for ($np=0;$np<$npm;$np++)
+		{
+			$x=intval($m[2][$np]);
+			$y=-(intval($m[3][$np])-900);
+			$q.=$m[1][$np].$x." ".$y;
+		}
+		if (preg_match("/Z/",$p)) $q.=" Z";
+		//print "<br>p=".$p."<br>";
+		//print "<br>q=".$q."<br>";
+		return $q;
+	}
+	return $p;
+}
+
 function buildSvg($a)
 {
 	$u=decUnicode($a->{'character'});
@@ -422,67 +442,67 @@ function buildSvg($a)
 	$x="xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"";
 	$s="<svg id=\"".$id."\" class=\"acjk\" version=\"1.1\" viewBox=\"0 0 1024 1024\" ".$x.">\n";
 	$s.="<style>\n<![CDATA[\n";
-	$s.="\t@keyframes ".$id."k {\n";
-	$s.="\t\tfrom {\n";
-	$s.="\t\t\tstroke:#c00;\n";
-	$s.="\t\t\tstroke-dashoffset:3000;\n";
-	$s.="\t\t}\n";
-	$s.="\t\t75% {\n";
-	$s.="\t\t\tstroke:#c00;\n";
-	$s.="\t\t\tstroke-dashoffset:0;\n";
-	$s.="\t\t}\n";
-	$s.="\t\tto {\n";
-	$s.="\t\t\tstroke:#000;\n";
-	$s.="\t\t}\n";
+	$s.="@keyframes ".$id."k {\n";
+	$s.="\tfrom {\n";
+	$s.="\t\tstroke:#c00;\n";
+	$s.="\t\tstroke-dashoffset:3000;\n";
 	$s.="\t}\n";
-	$s.="\t#".$id." path[clip-path] {\n";
-	$s.="\t\tanimation:".$id."k 1s linear both;\n";
-	$s.="\t\tstroke-dasharray:3000;\n";
-	$s.="\t\tstroke-width:128;\n";// acjk.strokeWidthMax + 8 or 16?
-	$s.="\t\tstroke-linecap:round;\n";
-	$s.="\t\tfill:none;\n";
+	$s.="\t75% {\n";
+	$s.="\t\tstroke:#c00;\n";
+	$s.="\t\tstroke-dashoffset:0;\n";
 	$s.="\t}\n";
+	$s.="\tto {\n";
+	$s.="\t\tstroke:#000;\n";
+	$s.="\t}\n";
+	$s.="}\n";
+	$s.="#".$id." path[clip-path] {\n";
+	$s.="\tanimation:".$id."k 1s linear both;\n";
+	$s.="\tstroke-dasharray:3000;\n";
+	$s.="\tstroke-width:128;\n";// acjk.strokeWidthMax + 8 or 16?
+	$s.="\tstroke-linecap:round;\n";
+	$s.="\tfill:none;\n";
+	$s.="}\n";
 	$k=0;
 	foreach($a->{'strokes'} as $p)
 	{
 		$k++;
-		$s.="\t#".$id." path[clip-path=\"url(#".$id."c".$k.")\"] {animation-delay:".$k."s;}\n";
+		$s.="#".$id." path[clip-path=\"url(#".$id."c".$k.")\"] {animation-delay:".$k."s;}\n";
 	}
-	$s.="\t#".$id." path {fill:#ccc;}\n";
+	$s.="#".$id." path {fill:#ccc;}\n";
 	$s.="]]>\n</style>\n";
 
-	$s.="<g transform=\"scale(1,-1) translate(0,-900)\">\n";
+	//$s.="<g transform=\"scale(1,-1) translate(0,-900)\">\n";
 	$k=0;
 	foreach($a->{'strokes'} as $p)
 	{
 		$k++;
 		$p=str_replace(","," ",$p);
 		$p=preg_replace("#\s?([MQCLZ])\s?#","$1",$p);
-		$s.="\t";
-		//$s.="<clipPath id=\"".$id."c".$k."\">";
+		$p=preg_replace("#([^ ])-#","$1 -",$p);
+		if (!isset($_GET["t"])||($_GET["t"]==1)) $p=transformPathFromGraphics($p);
 		$s.="<path id=\"".$id."d".$k."\" d=\"".$p."\"/>\n";
-		//$s.="</clipPath>\n";
 	}
-	$s.="\t<defs>\n";
+	$s.="<defs>\n";
 	$k=0;
 	foreach($a->{'strokes'} as $p)
 	{
 		$k++;
-		$s.="\t\t<clipPath id=\"".$id."c".$k."\">";
+		$s.="\t<clipPath id=\"".$id."c".$k."\">";
 		$s.="<use xlink:href=\"#".$id."d".$k."\"/>";
 		$s.="</clipPath>\n";
 	}
-	$s.="\t</defs>\n";
+	$s.="</defs>\n";
 	$k=0;
 	foreach($a->{'medians'} as $m)
 	{
 		$k++;
 		$z="";
 		foreach($m as $point) $z.=($z?"L":"M").$point[0]." ".$point[1];
-		$s.="\t<path pathLength=\"2999\" clip-path=\"url(#".$id."c".$k.")\" d=\"".$z."\"/>\n";
+		if (!isset($_GET["t"])||($_GET["t"]==1)) $z=transformPathFromGraphics($z);
+		$s.="<path pathLength=\"2999\" clip-path=\"url(#".$id."c".$k.")\" d=\"".$z."\"/>\n";
 	}
 	
-	$s.="</g>\n";
+	//$s.="</g>\n";
 	$s.="</svg>";
 	return $s;
 }

@@ -28,11 +28,10 @@ div.navigation a {display:inline-block;padding:0.25em;}
 {	
 	margin-top:0.5em;
 	font-size:2em;
-	border:1px solid #ccc;
-	background:#fff;
-	color:#000;
-	border-radius:1em;
-	padding:0.125em 0.5em;
+	border:0;
+	background:#999;
+	color:#fff;
+	border-radius:0.5em;
 }
 #a
 {
@@ -42,25 +41,13 @@ div.navigation a {display:inline-block;padding:0.25em;}
 	margin:1em auto;
 }
 #a {border:1px solid #ccc;background:transparent;color:#000;}
-#a.noBorder {border-color:transparent};
+#a.noBorder {border-color:transparent}
 #ok:hover,
 #joyoSection button:hover,
 #frequentSection button:hover {cursor:pointer;}
 #ok:focus,
-#ok:active
-{
-	border-color:#999;
-	background:#999;
-	color:#fff;
-	outline:none;
-}
-#ok:hover
-{
-	border-color:#666;
-	background:#666;
-	color:#fff;
-	outline:none;
-}
+#ok:active,
+#ok:hover {background:#c00;outline:none;}
 #ok::-moz-focus-inner {border: 0;}
 
 label {display:inline-block;white-space:nowrap;margin:0 0.5em 1em 0.5em;}
@@ -392,7 +379,7 @@ function doIt(c)
 <label for="grid">Grid: <input id="grid" type="checkbox" onclick="switchGrid()"></label>
 </div>
 <input id="data" type="text" maxlength="1" value="" placeholder="Enter data here">
-<input id="ok" type="button" value="Refresh" onclick="ok()">
+<input id="ok" type="button" value="Animate" onclick="ok()">
 </div>
 <div id="a"></div>
 <div id="b"></div>
@@ -692,7 +679,8 @@ echo "<h2>Jōyō kanji (".$km." characters)</h2>\n";
 echo "<p><span class=\"sameInBoth\">Black</span> Same in Japanese and simplified Chinese</p>\n";
 echo "<p><span class=\"notSameInBoth\">Blue</span> Different in Japanese and simplified Chinese</p>\n";
 echo "<p><span class=\"notInBoth\">Green</span> Not frequently used in simplified Chinese</p>\n";
-echo "<p>The difference can be the stroke order, a stroke direction, the number of stroke or the glyph itself.</p>\n";
+echo "<p>The difference can be the stroke order (as for 田), a stroke direction (as for 返),
+the number of stroke (as in 部) or the glyph itself (as for 直).</p>\n";
 for ($l=0;$l<$lm;$l++)
 {
 	navigation("Ja");
@@ -718,8 +706,9 @@ $km=mb_strlen($c,'UTF-8');
 echo "<h2>Frequently used simplified hanzi (".$km." characters)</h2>\n";
 echo "<p><span class=\"sameInBoth\">Black</span> Same in simplified Chinese and Japanese</p>\n";
 echo "<p><span class=\"notSameInBoth\">Blue</span> Different in simplified Chinese and Japanese</p>\n";
-echo "<p><span class=\"notInBoth\">Green</span> Not frequently used in japanese</p>\n";
-echo "<p>The difference can be the stroke order, a stroke direction, the number of stroke or the glyph itself.</p>\n";
+echo "<p><span class=\"notInBoth\">Green</span> Not frequently used in Japanese</p>\n";
+echo "<p>The difference can be the stroke order (as for 田), a stroke direction (as for 返),
+the number of stroke (as in 部) or the glyph itself (as for 直).</p>\n";
 $l=0;
 for ($k=0;$k<$km;$k++)
 {
