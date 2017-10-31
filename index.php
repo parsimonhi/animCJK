@@ -187,7 +187,7 @@ function setNumber(x)
 			{
 				// since several character svg can be in the page, do not set g outside the loop
 				g=list[k];
-				while (g.parentNode.tagName=="g") g=g.parentNode;
+				while (g.parentNode.tagName=="svg") g=g.parentNode;
 				if (g!=go) {l=1;go=g;} else l++;
 				a=list[k].getAttribute("d");
 				a=a.replace(/([0-9])[-]/g,"$1 -");
@@ -229,7 +229,7 @@ function setNumber(x)
 					e.setAttribute("font-weight","normal");
 					e.setAttribute("fill","#000");
 					e.setAttribute("font-size",(fs>>1)*3);
-					e.setAttribute("transform","matrix("+sx+",0,0,"+sy+","+(cx-sx*cx)+","+(cy-sy*cy)+")");
+					//e.setAttribute("transform","matrix("+sx+",0,0,"+sy+","+(cx-sx*cx)+","+(cy-sy*cy)+")");
 					e.textContent=l;
 					g.appendChild(e);
 				}
@@ -238,7 +238,7 @@ function setNumber(x)
 	}
 	else
 	{
-		list=document.querySelectorAll("svg.acjk>g>circle, svg.acjk>g>text");
+		list=document.querySelectorAll("svg.acjk circle, svg.acjk text");
 		km=list.length;
 		if (km) 
 			for (k=0;k<km;k++)
