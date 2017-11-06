@@ -187,7 +187,7 @@ function setNumber(x)
 			{
 				// since several character svg can be in the page, do not set g outside the loop
 				g=list[k];
-				while (g.parentNode.tagName=="svg") g=g.parentNode;
+				while (g.tagName!="svg") g=g.parentNode;
 				if (g!=go) {l=1;go=g;} else l++;
 				a=list[k].getAttribute("d");
 				a=a.replace(/([0-9])[-]/g,"$1 -");
@@ -229,7 +229,6 @@ function setNumber(x)
 					e.setAttribute("font-weight","normal");
 					e.setAttribute("fill","#000");
 					e.setAttribute("font-size",(fs>>1)*3);
-					//e.setAttribute("transform","matrix("+sx+",0,0,"+sy+","+(cx-sx*cx)+","+(cy-sy*cy)+")");
 					e.textContent=l;
 					g.appendChild(e);
 				}
@@ -647,11 +646,17 @@ function navigation($lang)
 }
 function decUnicode($u)
 {
-    $k=mb_convert_encoding($u,'UCS-2LE','UTF-8');
-    $len=strlen($k);
-    $k1=ord(substr($k,0,1));
-    if ($len>1) $k2=ord(substr($k,1,1));else $k2=0;
-    return $k2*256+$k1;
+	$len=strlen($u);
+	if ($len==0) return 63;
+	$r1=ord($u[0]);
+	if ($len==1) return $r1;
+	$r2=ord($u[1]);
+	if ($len==2) return (($r1&31)<< 6)+($r2&63);
+	$r3=ord($u[2]);
+	if ($len==3) return (($r1&15)<<12)+(($r2&63)<< 6)+($r3&63);
+	$r4=ord($u[3]);
+	if ($len==4) return (($r1& 7)<<18)+(($r2&63)<<12)+(($r3&63)<<6)+($r4&63);
+	return 63;
 }
 function check($char)
 {
@@ -699,9 +704,7 @@ for ($l=0;$l<$lm;$l++)
 </section>
 <section id="frequentSection" lang="zh-Hans">
 <?php
-$c1=getCharList("frequent2500");
-$c2=getCharList("frequentLess1000");
-$c=$c1.$c2;
+$c=getCharList("frequent2500").getCharList("frequentLess1000");
 $km=mb_strlen($c,'UTF-8');
 echo "<h2>Frequently used simplified hanzi (".$km." characters)</h2>\n";
 echo "<p><span class=\"sameInBoth\">Black</span> Same in simplified Chinese and Japanese</p>\n";
