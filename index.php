@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="initial-scale=1.0,user-scalable=yes">
+<?php if (isset($_GET["fs"])) $fs=intVal($_GET["fs"]);else $fs=256;?>
 <style>
-<?php $fs=256; ?>
 body {font-size:1em;font-family:"arial",sans-serif;background:#fff;}
 h1,div.link,div.input,#a,footer {text-align:center;}
 div.link a, div.navigation a {color:#000;}
@@ -26,6 +26,7 @@ div.navigation a {display:inline-block;padding:0.25em;}
 }
 #ok
 {	
+	-webkit-appearance:none;
 	margin-top:0.5em;
 	font-size:2em;
 	border:0;
@@ -303,6 +304,22 @@ function switchSection()
 {
 	ok();
 }
+function setSize(fs)
+{
+	var a,e=document.createElement("style");
+	a="#a {width:"+fs+"px;height:"+fs+"px;}";
+	a+="svg {width:"+fs+"px;height:"+fs+"px;}";
+	a+="svg.error {font-size:"+fs+"px;}";
+	a+="#b {width:"+fs+"px;}";
+	e.type='text/css';
+	if (e.styleSheet) e.styleSheet.cssText=a;
+	else e.appendChild(document.createTextNode(a));
+	document.getElementsByTagName('head')[0].appendChild(e);
+}
+function switchSize(fs)
+{
+	setSize(fs);
+}
 function hideSvg()
 {
 	var list,k,km;
@@ -376,6 +393,12 @@ function doIt(c)
 <div class="sectionCheckBox">
 <label for="number">Stroke numbering: <input id="number" type="checkbox" onclick="switchNumber()"></label>
 <label for="grid">Grid: <input id="grid" type="checkbox" onclick="switchGrid()"></label>
+</div>
+<div class="sectionSize">
+<label>128 px: <input id="fs128" type="radio" <?php if ($fs==128) echo "checked";?> name="sectionSize" onclick="switchSize(128)"></label>
+<label>256 px: <input id="fs256" type="radio" <?php if ($fs==256) echo "checked";?> name="sectionSize" onclick="switchSize(256)"></label>
+<label>512 px: <input id="fs512" type="radio" <?php if ($fs==512) echo "checked";?> name="sectionSize" onclick="switchSize(512)"></label>
+<label>1024 px: <input id="fs1024" type="radio" <?php if ($fs==1024) echo "checked";?> name="sectionSize" onclick="switchSize(1024)"></label>
 </div>
 <input id="data" type="text" maxlength="1" value="" placeholder="Enter data here">
 <input id="ok" type="button" value="Animate" onclick="ok()">
