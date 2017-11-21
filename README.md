@@ -14,6 +14,8 @@ Note that some svg files are in both svgsJa and svgsZhHans. However, take care b
 
 Each svg can be inserted as is in a web page, or with some modifications using for instance javascript.
 
+The animkanji_wp_plugin.zip contains a Wordpress plugin to insert animated kanji in a webpage using BBCode.
+
 To animate a character, animCJK uses the following method: the character shape is split in several paths (one per stroke). These paths are used as clip-path, and dashed lines are drawn over these paths. Initially, the space between two dashes is very large. Using a css animation, this space is reduced to zero. As a result, one has the impression that the strokes are drawn gradually.
 
 If several characters are inserted in the same page, and if one need to animate them one after the other, one has to modify the animation-delay in the css of the svg. If a character is displayed several times in the same page, one also need to modify the id of its elements. This can be done using javascript. Alternately, one can encapsulate each svg in an iframe.
