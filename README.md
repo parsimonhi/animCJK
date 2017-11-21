@@ -38,4 +38,4 @@ Makemeahanzi itself makes an extensive use of the Arphic PL KaitiM GB and Arphic
 
 ## Licences
 
-See https://github.com/parsimonhi/animCJK/blob/master/licenses/COPYING.txt for more details about licences.
+See https://github.com/parsimonhi/animCJK/blob/master/licenses/COPYING.txt for more details about licences concerning this project.
