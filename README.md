@@ -10,11 +10,13 @@ Each character has a corresponding svg file in animCJK repository that contains 
 
 ## SVG files
 
-The svgsJa folder contains svg files corresponding to the "jōyō kanji" (2136 characters).
+The svgsJa folder contains svg files corresponding to the "jōyō kanji" (2136 characters) and the "Jinmeyō Kanji" (862 characters).
 
 The svgsZhHans folder contains svg files corresponding to the "frequently used simplified hanzi" (3500 characters).
 
 Note that some svg files are in both svgsJa and svgsZhHans. However, take care because characters are not always the same in Japanese and in Chinese even when they share the same unicode.
+
+Take care of compatibility characters such as 勉 that has in Japanese the same shape as 勉 in Chinese, but has not the same unicode.
 
 Each svg can be inserted as is in a web page, or with some modifications using for instance javascript.
 
