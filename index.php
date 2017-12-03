@@ -177,19 +177,17 @@ function setNumber(x)
 		km=list.length;
 		l=0;
 		go=0;
+		delay1="0s";
 		for (k=0;k<km;k++)
 		{
-			if (k)
+			delay2=delay1;
+			delay1=list[k].getAttribute('data-delay');
+			// several character svg can be in the page, do not set g outside the loop
+			g=list[k];
+			while (g.tagName!="svg") g=g.parentNode;
+			if (g!=go) {l=1;go=g;} else l++;
+			if ((go==g)||(delay1!=delay2))
 			{
-				delay1=window.getComputedStyle(list[k]).getPropertyValue('animation-delay');
-				delay2=window.getComputedStyle(list[k-1]).getPropertyValue('animation-delay');
-			}
-			if (!k||(delay1!=delay2))
-			{
-				// since several character svg can be in the page, do not set g outside the loop
-				g=list[k];
-				while (g.tagName!="svg") g=g.parentNode;
-				if (g!=go) {l=1;go=g;} else l++;
 				a=list[k].getAttribute("d");
 				a=a.replace(/([0-9])[-]/g,"$1 -");
 				c=a.match(/M[ ]*([0-9.-]+)[ ,]+([0-9.-]+)[^0-9.-]+([0-9.-]+)[ ,]+([0-9.-]+)/);
@@ -230,6 +228,7 @@ function setNumber(x)
 					e.setAttribute("font-weight","normal");
 					e.setAttribute("fill","#000");
 					e.setAttribute("font-size",(fs>>1)*3);
+					//e.setAttribute("transform","matrix("+sx+",0,0,"+sy+","+(cx-sx*cx)+","+(cy-sy*cy)+")");
 					e.textContent=l;
 					g.appendChild(e);
 				}
