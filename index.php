@@ -304,7 +304,7 @@ function switchSection()
 {
 	ok();
 }
-function setSize(fs)
+function switchSize(fs)
 {
 	var a,e=document.createElement("style");
 	a="#a {width:"+fs+"px;height:"+fs+"px;}";
@@ -315,10 +315,6 @@ function setSize(fs)
 	if (e.styleSheet) e.styleSheet.cssText=a;
 	else e.appendChild(document.createTextNode(a));
 	document.getElementsByTagName('head')[0].appendChild(e);
-}
-function switchSize(fs)
-{
-	setSize(fs);
 }
 function hideSvg()
 {
@@ -577,6 +573,50 @@ function getCharList($set)
 		$a.="覇譜蹴離霧韻髄鯨鶏麓麗懸欄籍譲醸鐘響騰艦躍露顧魔鶴";
 		$a.="籠襲驚鑑鬱";
 	}
+	else if ($set=="g8")
+	{
+		// 1) jinmeiyō kanji which are not traditional forms of jōyō or jinmeiyō kanji (632 chars)
+		$a="丑丞乃之乎也云亘些亦亥亨亮仔伊伍伽佃佑伶侃侑俄俠俣俐倭俱倦倖偲傭儲允兎兜其冴凌凜凧凪凰凱函劉劫勁勺勿匁";
+		$a.="匡廿卜卯卿厨厩叉叡叢叶只吾吞吻哉哨啄哩喬喧喰喋嘩嘉嘗噌噂圃圭坐尭坦埴堰堺堵塙壕壬夷奄奎套娃姪姥娩嬉孟宏";
+		$a.="宋宕宥寅寓寵尖尤屑峨峻崚嵯嵩嶺巌巫已巳巴巷巽帖幌幡庄庇庚庵廟廻弘弛彗彦彪彬徠忽怜恢恰恕悌惟惚悉惇惹惺惣";
+		$a.="慧憐戊或戟托按挺挽掬捲捷捺捧掠揃摑摺撒撰撞播撫擢孜敦斐斡斧斯於旭昂昊昏昌昴晏晃晒晋晟晦晨智暉暢曙曝曳朋";
+		$a.="朔杏杖杜李杭杵杷枇柑柴柘柊柏柾柚桧栞桔桂栖桐栗梧梓梢梛梯桶梶椛梁棲椋椀楯楚楕椿楠楓椰楢楊榎樺榊榛槙槍槌";
+		$a.="樫槻樟樋橘樽橙檎檀櫂櫛櫓欣欽歎此殆毅毘毬汀汝汐汲沌沓沫洸洲洵洛浩浬淵淳渚淀淋渥湘湊湛溢滉溜漱漕漣澪濡瀕";
+		$a.="灘灸灼烏焰焚煌煤煉熙燕燎燦燭燿爾牒牟牡牽犀狼猪獅玖珂珈珊珀玲琢琉瑛琥琶琵琳瑚瑞瑶瑳瓜瓢甥甫畠畢疋疏皐皓";
+		$a.="眸瞥矩砦砥砧硯碓碗碩碧磐磯祇祢祐祷禄禎禽禾秦秤稀稔稟稜穣穹穿窄窪窺竣竪竺竿笈笹笙笠筈筑箕箔篇篠簞簾籾粥";
+		$a.="粟糊紘紗紐絃紬絆絢綺綜綴緋綾綸縞徽繫繡纂纏羚翔翠耀而耶耽聡肇肋肴胤胡脩腔脹膏臥舜舵芥芹芭芙芦苑茄苔苺茅";
+		$a.="茉茸茜莞荻莫莉菅菫菖萄菩萌萊菱葦葵萱葺萩董葡蓑蒔蒐蒼蒲蒙蓉蓮蔭蔣蔦蓬蔓蕎蕨蕉蕃蕪薙蕾蕗藁薩蘇蘭蝦蝶螺蟬";
+		$a.="蟹蠟衿袈袴裡裟裳襖訊訣註詢詫誼諏諄諒謂諺讃豹貰賑赳跨蹄蹟輔輯輿轟辰辻迂迄辿迪迦這逞逗逢遥遁遼邑祁郁鄭酉";
+		$a.="醇醐醍醬釉釘釧銑鋒鋸錘錐錆錫鍬鎧閃閏閤阿陀隈隼雀雁雛雫霞靖鞄鞍鞘鞠鞭頁頌頗顚颯饗馨馴馳駕駿驍魁魯鮎鯉鯛";
+		$a.="鰯鱒鱗鳩鳶鳳鴨鴻鵜鵬鷗鷲鷺鷹麒麟麿黎黛鼎";
+		// 2) jinmeiyō kanji that are traditional forms of jōyō kanji (212 chars)
+		// 52 of them are html entities because they may not be safely copied
+		$a.="亞惡爲&#64103;榮衞&#64098;圓緣薗"; //逸=64103 謁=64098
+		$a.="應櫻奧橫溫價&#64082;&#64061;&#64069;壞";//禍=64082 悔=64061 海=64069
+		$a.="懷樂渴卷陷寬&#64071;氣&#64078;&#64056;";//漢=64071 祈=64078
+		$a.="僞戲虛峽狹&#64105;曉&#64052;&#64099;駈";
+		$a.="勳薰惠揭鷄藝擊縣儉劍";
+		$a.="險圈檢顯驗嚴廣恆黃國";
+		$a.="黑&#64084;碎雜&#64077;&#64097;兒濕實&#64076;";
+		$a.="&#64091;&#64072;壽收&#64092;從澁獸縱&#64081;";
+		$a.="&#64067;&#64090;緖&#64034;敍將&#64026;涉燒奬";
+		$a.="條狀乘淨剩疊孃讓釀&#64025;";
+		$a.="眞寢愼盡粹醉穗瀨齊靜";
+		$a.="攝&#64086;專戰纖禪&#64080;壯爭莊";
+		$a.="搜巢曾裝&#64049;&#64059;瘦騷增&#64063;";
+		$a.="藏&#64101;臟卽帶滯瀧單&#64055;團";
+		$a.="彈晝鑄&#64095;廳徵聽&#64064;鎭轉";
+		$a.="傳&#64038;嶋燈盜稻德&#64085;&#64104;拜";
+		$a.="盃賣&#64068;髮拔&#64089;晚&#64053;祕&#64075;";
+		$a.="&#64100;&#64065;冨&#64048;&#64027;拂佛&#64051;步峯";
+		$a.="&#64058;飜每萬默埜彌藥與搖";
+		$a.="樣謠來賴覽&#63773;龍&#63798;凉綠";
+		$a.="淚壘&#63952;禮曆歷&#64087;鍊郞&#63785;&#63784;錄";//類=63952 練=64087 朗=63785 廊=63784
+		// 3) jinmeiyō kanji that are traditional forms of other jinmeiyō kanji (18 chars)
+		// 5 of them are html entities because they may not be safely copied
+		$a.="亙凛堯巖晄檜槇&#64070;&#64022;&#64074;禰&#64079;禱祿&#64083;穰萠遙";//渚=64070 猪=64022 琢=64074 祐=64079 禎=64083
+		$a=html_entity_decode($a,ENT_NOQUOTES,'UTF-8');
+	}
 	else if ($set=="frequent2500")
 	{
 		$a="一乙二十丁厂七卜人入八九几儿了力乃刀又三于干亏士工土才寸下大丈与万上小口巾山千乞川亿个勺久凡及夕丸么广亡门义之尸弓己已子";
@@ -655,6 +695,7 @@ function navigation($lang)
 			echo "<a href=\"#g".($l+1)."\">Grade ".($l+1)."</a>";
 		}
 		echo "<a href=\"#g7\">Junior high school</a>";
+		echo "<a href=\"#g8\">Jinmeiyō</a>";
 	}
 	else
 	{
@@ -700,7 +741,7 @@ function check($char)
 <?php
 $a=array();
 $b="";
-$lm=7;
+$lm=8;
 for ($l=0;$l<$lm;$l++) {$a[$l]=getCharList("g".($l+1));$b.=$a[$l];}
 $km=mb_strlen($b,'UTF-8');
 echo "<h2>Jōyō kanji (".$km." characters)</h2>\n";
@@ -714,7 +755,8 @@ for ($l=0;$l<$lm;$l++)
 	navigation("Ja");
 	$km=mb_strlen($a[$l],'UTF-8');
 	if ($l<6) echo "<h3 id='g".($l+1)."'>Grade ".($l+1)." (".$km." characters)</h3>\n";
-	else echo "<h3 id='g".($l+1)."'>Junior high school (".$km." characters)</h3>\n";
+	else if ($l==6) echo "<h3 id='g7'>Junior high school (".$km." characters)</h3>\n";
+	else echo "<h3 id='g8'>Jinmeiyō (".$km." characters)</h3>\n";
 	echo "<div>";
 	for ($k=0;$k<$km;$k++)
 	{

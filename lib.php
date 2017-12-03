@@ -12,11 +12,17 @@ function my_json_decode($s)
 
 function decUnicode($u)
 {
-    $k=mb_convert_encoding($u,'UCS-2LE','UTF-8');
-    $len=strlen($k);
-    $k1=ord(substr($k,0,1));
-    if ($len>1) $k2=ord(substr($k,1,1));else $k2=0;
-    return $k2*256+$k1;
+	$len=strlen($u);
+	if ($len==0) return 63;
+	$r1=ord($u[0]);
+	if ($len==1) return $r1;
+	$r2=ord($u[1]);
+	if ($len==2) return (($r1&31)<< 6)+($r2&63);
+	$r3=ord($u[2]);
+	if ($len==3) return (($r1&15)<<12)+(($r2&63)<< 6)+($r3&63);
+	$r4=ord($u[3]);
+	if ($len==4) return (($r1& 7)<<18)+(($r2&63)<<12)+(($r3&63)<<6)+($r4&63);
+	return 63;
 }
 
 function hexUnicode($u)
