@@ -73,7 +73,7 @@ function getSvgChar($char,$lang="zh-Hans")
 	if ($s) return $s;
 	else
 	{
-		if ($lang=="ja") return errorSvg(2,$lang,$char." is not","a jōyō kanji");
+		if ($lang=="ja") return errorSvg(2,$lang,$char." is not a jōyō","or jinmeyō kanji");
 		else return errorSvg(3,$lang,$char." is not a","frequently used","simplified hanzi");
 	}
 }

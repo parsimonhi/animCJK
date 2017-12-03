@@ -362,7 +362,7 @@ function getDictionaryData($char,$lang="zh-Hans")
 {
 	$s="<div class=\"dico\">";
 	$s.="<div class=\"unicode\"><span class=\"cjkChar\" lang=\"".$lang."\">".$char."</span> ";
-	$s.="U+".hexUnicode($char)."/"."&amp;#".decUnicode($char).";"."</div>\n";
+	$s.="U+".hexUnicode($char)." "."&amp;#".decUnicode($char).";"."</div>\n";
 	if ($lang=="ja") $handle=fopen("dictionaryJa.txt","r");
 	else $handle=fopen("dictionaryZhHans.txt","r");
 	if ($handle)
