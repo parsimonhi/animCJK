@@ -10,9 +10,9 @@ Each character has a corresponding svg file in animCJK repository that contains 
 
 ## SVG files
 
-The svgsJa folder contains svg files corresponding to the "jōyō kanji" (2136 characters) and the "jinmeyō Kanji" (862 characters).
+The svgsJa folder contains svg files corresponding to the union of the "jōyō kanji" (2136 characters) and the "jinmeyō Kanji" (862 characters). As a result, svgsJa folder contains 2998 characters.
 
-The svgsZhHans folder contains svg files corresponding to the "frequently used simplified hanzi" (3500 characters).
+The svgsZhHans folder contains svg files corresponding to the union of the "HSK hanzi" (2663) and the "frequently used simplified hanzi" (3500 characters). Only 38 characters of the "HSK hanzi" are not frequently used simplified hanzi. As a result, svgsZhHans folder contains 2538 characters.
 
 Note that some svg files are in both svgsJa and svgsZhHans. However, take care because characters are not always the same in Japanese and in Chinese even when they share the same unicode.
 
