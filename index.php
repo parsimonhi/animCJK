@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="initial-scale=1.0,user-scalable=yes">
+<meta name="description" content="SVG files to draw jōyō kanji, jinmeyō Kanji,
+HSK hanzi and frequently used simplified hanzi" stroke by stroke">
 <?php if (isset($_GET["fs"])) $fs=intVal($_GET["fs"]);else $fs=256;?>
 <style>
 body {font-size:1em;font-family:"arial",sans-serif;background:#fff;}
@@ -391,7 +393,7 @@ function doIt(c)
 </head>
 <body>
 <h1 id="top">AnimCJK Demo</h1>
-<div class="link"><a href="https://github.com/parsimonhi/animCJK">Download</a></div>
+<div class="link"><a href="https://github.com/parsimonhi/animCJK">Download page</a></div>
 <div class="input">
 <div class="sectionSwitch">
 <label><input id="joyoRadio" type="radio" checked name="sectionSwitch" onclick="switchSection()"> Japanese (Jōyō + jinmeyō kanji)</label>
@@ -412,6 +414,20 @@ function doIt(c)
 </div>
 <div id="a"></div>
 <div id="b"></div>
+<h2>Description</h2>
+<p>
+AnimCJK contains SVG files to draw Japanese kanji and simplified Chinese hanzi stroke by stroke.
+</p>
+<p>
+Enter a character in the data field above then click on "Animate" button,
+or click on any character in the lists below.
+</p>
+<p>The Japanese repository contains the "jōyō kanji" (2136 characters)
+and the "jinmeyō Kanji" (862 characters), that is 2998 characters.</p>
+<p>The Chinese repository contains the "HSK hanzi" (2663)
+and the "frequently used simplified hanzi" (3500 characters), that is 3538 characters
+(2625 characters are in both "HSK hanzi" and "frequently used simplified hanzi").</p>
+<h2>Legend</h2>
 <?php
 function getCharList($set)
 {
@@ -956,7 +972,7 @@ for ($l=0;$l<=$lm;$l++)
 <footer>
 <div id="bottom" class="link"><a href="#top">Top</a></div>
 <a href="licenses/COPYING.txt">Licences</a>
-- <a href="https://github.com/parsimonhi/animCJK">Download</a><br>
+- <a href="https://github.com/parsimonhi/animCJK">Download page</a><br>
 Copyright 2016-2017 - François Mizessyn
 </footer>
 <script>
