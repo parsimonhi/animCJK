@@ -7,9 +7,10 @@
 <style>
 body {font-size:1em;font-family:"arial",sans-serif;background:#fff;}
 h1,div.link,div.input,#a,footer {text-align:center;}
-div.link a, div.navigation a {color:#000;}
-div.input, div.navigation {padding-top:1em;}
-div.navigation a {display:inline-block;padding:0.25em;}
+h2,h3,nav {margin:0;padding:0.5em 0;}
+div.link a,nav a {color:#000;}
+div.input {padding-top:1em;}
+nav a {display:inline-block;padding:0.25em;}
 #data
 {
 	/* if one specifies "arial", characters are centered vertically, otherwise they may be not */
@@ -382,7 +383,7 @@ function doIt(c)
 <div class="link"><a href="https://github.com/parsimonhi/animCJK">Download</a></div>
 <div class="input">
 <div class="sectionSwitch">
-<label>Japanese (Jōyō kanji): <input id="joyoRadio" type="radio" checked name="sectionSwitch" onclick="switchSection()"></label>
+<label>Japanese (Jōyō and jinmeyō kanji): <input id="joyoRadio" type="radio" checked name="sectionSwitch" onclick="switchSection()"></label>
 <label>Chinese (Frequently used hanzi): <input id="frequentRadio" type="radio" name="sectionSwitch" onclick="switchSection()"></label>
 </div>
 <div class="sectionCheckBox">
@@ -686,7 +687,7 @@ function getCharList($set)
 function navigation($lang)
 {
 	$lm=7;
-	echo "<div class='navigation'>";
+	echo "<nav>";
 	if ($lang=="Ja")
 	{
 		for ($l=0;$l<($lm-1);$l++)
@@ -705,7 +706,7 @@ function navigation($lang)
 	}
 	echo "<a href=\"#top\">Top</a>";
 	echo "<a href=\"#bottom\">Bottom</a>";
-	echo "</div>\n";
+	echo "</nav>\n";
 }
 function decUnicode($u)
 {
@@ -741,21 +742,27 @@ function check($char)
 $a=array();
 $b="";
 $lm=8;
-for ($l=0;$l<$lm;$l++) {$a[$l]=getCharList("g".($l+1));$b.=$a[$l];}
+for ($l=0;$l<$lm;$l++)
+{
+	$a[$l]=getCharList("g".($l+1));
+	$b.=$a[$l];
+	if ($l==6) $kmJoyo=mb_strlen($b,'UTF-8');
+	else if ($l==7) $kmJinmeyo=mb_strlen($a[$l],'UTF-8');
+}
 $km=mb_strlen($b,'UTF-8');
-echo "<h2>Jōyō kanji (".$km." characters)</h2>\n";
 echo "<p><span class=\"sameInBoth\">Black</span> Same in Japanese and simplified Chinese</p>\n";
 echo "<p><span class=\"notSameInBoth\">Blue</span> Different in Japanese and simplified Chinese</p>\n";
 echo "<p><span class=\"notInBoth\">Green</span> Not frequently used in simplified Chinese</p>\n";
 echo "<p>The difference can be the stroke order (as for 田), a stroke direction (as for 返),
 the number of stroke (as in 部) or the glyph itself (as for 直).</p>\n";
+echo "<h2>Jōyō kanji (".$kmJoyo." characters)</h2>\n";
 for ($l=0;$l<$lm;$l++)
 {
 	navigation("Ja");
 	$km=mb_strlen($a[$l],'UTF-8');
 	if ($l<6) echo "<h3 id='g".($l+1)."'>Grade ".($l+1)." (".$km." characters)</h3>\n";
 	else if ($l==6) echo "<h3 id='g7'>Junior high school (".$km." characters)</h3>\n";
-	else echo "<h3 id='g8'>Jinmeiyō (".$km." characters)</h3>\n";
+	else echo "<h2 id='g8'>Jinmeiyō (".$kmJinmeyo." characters)</h2>\n";
 	echo "<div>";
 	for ($k=0;$k<$km;$k++)
 	{
@@ -770,12 +777,12 @@ for ($l=0;$l<$lm;$l++)
 <?php
 $c=getCharList("frequent2500").getCharList("frequentLess1000");
 $km=mb_strlen($c,'UTF-8');
-echo "<h2>Frequently used simplified hanzi (".$km." characters)</h2>\n";
 echo "<p><span class=\"sameInBoth\">Black</span> Same in simplified Chinese and Japanese</p>\n";
 echo "<p><span class=\"notSameInBoth\">Blue</span> Different in simplified Chinese and Japanese</p>\n";
 echo "<p><span class=\"notInBoth\">Green</span> Not frequently used in Japanese</p>\n";
 echo "<p>The difference can be the stroke order (as for 田), a stroke direction (as for 返),
 the number of stroke (as in 部) or the glyph itself (as for 直).</p>\n";
+echo "<h2>Frequently used simplified hanzi (".$km." characters)</h2>\n";
 $l=0;
 for ($k=0;$k<$km;$k++)
 {
