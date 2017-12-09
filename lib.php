@@ -353,6 +353,13 @@ function convertSet($s,$lang)
 		else if ($s=="g8") $r="Jinmeyō kanji";
 		else $r="Uncommon kanji";
 	}
+	else if ($lang=="zh-Hans")
+	{
+		if (preg_match("/^hsk([1-6])$/",$s)) $r=preg_replace("/^hsk([1-6])$/","HSK $1",$s);
+		else if ($s=="hsk7") $r="Frequent hanzi";
+		else if ($s=="hsk8") $r="Common hanji";
+		else $r="Uncommon hanji";
+	}
 	else $r="";
 	return $r;
 }
@@ -388,7 +395,14 @@ function getDictionaryData($char,$lang="zh-Hans")
 					{
 						$s.="<div class=\"pinyin\">Pinyin: ";
 						$ini=true;
-						foreach ($a->{'pinyin'} as $b) {if (!$ini) $s.=", ";$s.=$b;$ini=false;}
+						foreach ($a->{'pinyin'} as $b)
+						{
+							if (!$ini) $s.=", ";
+							$b=str_replace(" ",", ",$b);
+							$b=preg_replace("/\\([0-9]+\\)/","",$b);
+							$s.=$b;
+							$ini=false;
+						}
 						$s.="</div>";
 					}
 				}
