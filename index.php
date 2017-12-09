@@ -184,24 +184,22 @@ footer a {color:#000;}
 <script>
 function setNumber(x)
 {
-	var go,g,list,k,km,l,a,c,e,cx,cy,cx1,cy1,cx2,cy2,d,sx,sy,fs=40,delay1,delay2;
+	var go,g,list,k,km,l,a,c,e,cx,cy,cx1,cy1,cx2,cy2,d,sx,sy,fs=40;
 	if (x)
 	{
 		list=document.querySelectorAll("svg.acjk path[clip-path]");
 		km=list.length;
 		l=0;
 		go=0;
-		delay1="0s";
 		for (k=0;k<km;k++)
 		{
-			delay2=delay1;
-			delay1=list[k].getAttribute('data-delay');
 			// several character svg can be in the page, do not set g outside the loop
 			g=list[k];
 			while (g.tagName!="svg") g=g.parentNode;
-			if (g!=go) {l=1;go=g;} else l++;
-			if ((go==g)||(delay1!=delay2))
+			if (g!=go) {l=0;go=g;}
+			if (list[k].getAttribute('clip-path').match(/[0-9a]\)/))
 			{
+				l++;
 				a=list[k].getAttribute("d");
 				a=a.replace(/([0-9])[-]/g,"$1 -");
 				c=a.match(/M[ ]*([0-9.-]+)[ ,]+([0-9.-]+)[^0-9.-]+([0-9.-]+)[ ,]+([0-9.-]+)/);
