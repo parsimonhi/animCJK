@@ -2,7 +2,7 @@
 
 ## Description
 
-The purpose of this project is to display kanji (Japanese characters) or hanzi (Chinese characters) stroke by stroke.
+The purpose of this project is to display kanji and kana (Japanese characters) or hanzi (Chinese characters) stroke by stroke.
 
 For a demo, see http://gooo.free.fr/animCJK/official
 
@@ -11,6 +11,8 @@ Each character has a corresponding svg file in animCJK repository that contains 
 ## SVG files
 
 The svgsJa folder contains svg files corresponding to the union of the "jōyō kanji" (2136 characters) and the "jinmeyō Kanji" (862 characters). As a result, svgsJa folder contains 2998 characters.
+
+The svgsKana folder contains svg files corresponding to the "hiragana" (86 characters).
 
 The svgsZhHans folder contains svg files corresponding to the union of the "HSK hanzi" (2663) and the "frequently used simplified hanzi" (3500 characters). Only 38 characters of the "HSK hanzi" are not in the "frequently used simplified hanzi". As a result, svgsZhHans folder contains 3538 characters.
 
@@ -30,6 +32,7 @@ To animate a character, animCJK uses the following method: the character shape i
 
 If several characters are inserted in the same page, and if one need to animate them one after the other, one has to modify the animation-delay in the css of the svg. If a character is displayed several times in the same page, one also need to modify the id of its elements. This can be done using javascript. Alternately, one can encapsulate each svg in an iframe.
 
+Note: some kana (those which have a stroke overlapping on itself as あ, ぬ etc.) are special. The stroke which overlaps is split in several parts. So automatic procedures on these characters require some specific codes.
 ## Related works
 
 This project is derived from the remarquable makemeahanzi project which is designed to display Chinese characters. See https://github.com/skishore/makemeahanzi for more details. Many characters were modified or added in animCJK (about one thousand at the moment) because in Japanese, some characters have a different stroke order, or have a different glyph, or have a different stroke direction or are not commonly used in chinese (and therefore have no entry in makemeahanzi).
