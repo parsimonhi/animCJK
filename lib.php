@@ -464,7 +464,7 @@ function buildSvg($a)
 	$s.="@keyframes ".$id."k {\n";
 	$s.="\tfrom {\n";
 	$s.="\t\tstroke:#c00;\n";
-	$s.="\t\tstroke-dashoffset:3000;\n";
+	$s.="\t\tstroke-dashoffset:3334;\n";
 	$s.="\t}\n";
 	$s.="\t75% {\n";
 	$s.="\t\tstroke:#c00;\n";
@@ -476,7 +476,7 @@ function buildSvg($a)
 	$s.="}\n";
 	$s.="#".$id." path[clip-path] {\n";
 	$s.="\tanimation:".$id."k 1s linear both;\n";
-	$s.="\tstroke-dasharray:3000;\n";
+	$s.="\tstroke-dasharray:3334;\n";
 	$s.="\tstroke-width:128;\n";// acjk.strokeWidthMax + 8 or 16?
 	$s.="\tstroke-linecap:round;\n";
 	$s.="\tfill:none;\n";
@@ -518,7 +518,7 @@ function buildSvg($a)
 		$z="";
 		foreach($m as $point) $z.=($z?"L":"M").$point[0]." ".$point[1];
 		if (!isset($_GET["t"])||($_GET["t"]==1)) $z=transformPathFromGraphics($z);
-		$s.="<path pathLength=\"2999\" clip-path=\"url(#".$id."c".$k.")\" d=\"".$z."\"/>\n";
+		$s.="<path pathLength=\"3333\" clip-path=\"url(#".$id."c".$k.")\" d=\"".$z."\"/>\n";
 	}
 	
 	//$s.="</g>\n";
