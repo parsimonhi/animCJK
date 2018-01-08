@@ -414,7 +414,8 @@ function doIt(c)
 <div id="b"></div>
 <h2>Description</h2>
 <p>
-AnimCJK contains SVG files to draw Japanese kanji and simplified Chinese hanzi stroke by stroke.
+AnimCJK contains SVG files to draw 
+Japanese kana or kanji and simplified Chinese hanzi stroke by stroke.
 </p>
 <p>
 Enter a character in the data field above then click on "Animate" button,
@@ -907,9 +908,9 @@ for ($l=0;$l<$lm;$l++)
 	else if ($l==7) $kmJinmeyo=mb_strlen($a[$l],'UTF-8');
 }
 $km=mb_strlen($b,'UTF-8');
-echo "<p><span class=\"sameInBoth\">Black</span> Same in Japanese and simplified Chinese</p>\n";
-echo "<p><span class=\"notSameInBoth\">Blue</span> Different in Japanese and simplified Chinese</p>\n";
-echo "<p><span class=\"notInBoth\">Green</span> Not in HSK nor frequently used in simplified Chinese</p>\n";
+echo "<p><span class=\"sameInBoth\">Black</span> Same in Japanese and simplified Chinese repositories</p>\n";
+echo "<p><span class=\"notSameInBoth\">Blue</span> Different in Japanese and simplified Chinese repositories</p>\n";
+echo "<p><span class=\"notInBoth\">Green</span> Not in simplified Chinese repository</p>\n";
 echo "<p>The difference can be the stroke order (as for 田), a stroke direction (as for 返),
 the number of stroke (as in 部) or the glyph itself (as for 直).</p>\n";
 $hiragana=getCharList("hiragana");
@@ -973,9 +974,9 @@ $a[$lm]=getCharList("frequentNotHsk");
 $kmFrequentNotHsk=mb_strlen($a[$lm],'UTF-8');
 $b.=$a[$lm];
 $km=mb_strlen($b,'UTF-8');
-echo "<p><span class=\"sameInBoth\">Black</span> Same in simplified Chinese and Japanese</p>\n";
-echo "<p><span class=\"notSameInBoth\">Blue</span> Different in simplified Chinese and Japanese</p>\n";
-echo "<p><span class=\"notInBoth\">Green</span> Not frequently used in Japanese</p>\n";
+echo "<p><span class=\"sameInBoth\">Black</span> Same in simplified Chinese and Japanese repositories</p>\n";
+echo "<p><span class=\"notSameInBoth\">Blue</span> Different in simplified Chinese and Japanese repositories</p>\n";
+echo "<p><span class=\"notInBoth\">Green</span> Not in Japanese repository</p>\n";
 echo "<p>The difference can be the stroke order (as for 田), a stroke direction (as for 返),
 the number of stroke (as in 部) or the glyph itself (as for 直).</p>\n";
 /*
