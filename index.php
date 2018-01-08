@@ -394,7 +394,7 @@ function doIt(c)
 <div class="link"><a href="https://github.com/parsimonhi/animCJK">Download page</a></div>
 <div class="input">
 <div class="sectionSwitch">
-<label><input id="joyoRadio" type="radio" checked name="sectionSwitch" onclick="switchSection()"> Japanese (Kana, jōyō and jinmeyō kanji)</label>
+<label><input id="joyoRadio" type="radio" checked name="sectionSwitch" onclick="switchSection()"> Japanese (kana, jōyō and jinmeyō kanji)</label>
 <label><input id="frequentRadio" type="radio" name="sectionSwitch" onclick="switchSection()"> Simplifed Chinese (HSK and frequently used hanzi)</label>
 </div>
 <div class="sectionCheckBox">
@@ -1003,7 +1003,7 @@ for ($l=0;$l<=$lm;$l++)
 {
 	$km=mb_strlen($a[$l],'UTF-8');
 	if ($l<6) echo "<h3 id='hsk".($l+1)."'>HSK ".($l+1)." (".$km." characters)</h3>\n";
-	else echo "<h2 id='frequentNotHsk'>Frquently used hanzi not in HSK (".$kmFrequentNotHsk." characters)</h2>\n";
+	else echo "<h2 id='frequentNotHsk'>Frequently used hanzi not in HSK (".$kmFrequentNotHsk." characters)</h2>\n";
 	echo "<div>";
 	for ($k=0;$k<$km;$k++)
 	{
