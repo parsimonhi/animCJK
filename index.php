@@ -394,8 +394,8 @@ function doIt(c)
 <div class="link"><a href="https://github.com/parsimonhi/animCJK">Download page</a></div>
 <div class="input">
 <div class="sectionSwitch">
-<label><input id="joyoRadio" type="radio" checked name="sectionSwitch" onclick="switchSection()"> Japanese (Jōyō + jinmeyō kanji)</label>
-<label><input id="frequentRadio" type="radio" name="sectionSwitch" onclick="switchSection()"> Simplifed Chinese (HSK + frequently used hanzi)</label>
+<label><input id="joyoRadio" type="radio" checked name="sectionSwitch" onclick="switchSection()"> Japanese (Kana, jōyō and jinmeyō kanji)</label>
+<label><input id="frequentRadio" type="radio" name="sectionSwitch" onclick="switchSection()"> Simplifed Chinese (HSK and frequently used hanzi)</label>
 </div>
 <div class="sectionCheckBox">
 <label for="number"><input id="number" type="checkbox" onclick="switchNumber()"> Stroke numbering</label>
@@ -420,8 +420,9 @@ AnimCJK contains SVG files to draw Japanese kanji and simplified Chinese hanzi s
 Enter a character in the data field above then click on "Animate" button,
 or click on any character in the lists below.
 </p>
-<p>The Japanese repository contains the "jōyō kanji" (2136 characters)
-and the "jinmeyō Kanji" (862 characters), that is 2998 characters.</p>
+<p>The Japanese repository contains the "kana" (177 characters),
+the "jōyō kanji" (2136 characters) and
+the "jinmeyō Kanji" (862 characters), that is 3075 characters.</p>
 <p>The Chinese repository contains the "HSK hanzi" (2663)
 and the "frequently used simplified hanzi" (3500 characters), that is 3538 characters
 (2625 characters are in both "HSK hanzi" and "frequently used simplified hanzi").</p>
@@ -429,7 +430,23 @@ and the "frequently used simplified hanzi" (3500 characters), that is 3538 chara
 <?php
 function getCharList($set)
 {
-	if ($set=="g1")
+	if ($set=="hiragana")
+	{
+		$a="あいうえおかきくけこさしすせそたちつてとなにぬねの";
+		$a.="はひふへほまみむめもやゆよらりるれろわゐゑをん";
+		$a.="ゔがぎぐげござじずぜぞだぢづでどばびぶべぼぱぴぷぺぽ";
+		$a.="ぁぃぅぇぉゕゖっゃゅょゎ";
+		//$a.="ゝゞゟ";
+	}
+	else if ($set=="katakana")
+	{
+		$a="アイウエオカキクケコサシスセソタチツテトナニヌネノ";
+		$a.="ハヒフヘホマミムメモヤユヨラリルレロワヰヱヲン";
+		$a.="ヴガギグゲゴザジズゼゾダヂヅデドバビブベボパピプペポヷヸヹヺ";
+		$a.="ァィゥェォヵヶッャュョヮー";
+		//$a.="ヽヾ";
+	}
+	else if ($set=="g1")
 	{
 		$a="一七三上下中九二五人";
 		$a.="休先入八六円出力十千";
@@ -814,6 +831,8 @@ function navigation($lang)
 	echo "<nav>";
 	if ($lang=="Ja")
 	{
+		echo "<a href=\"#hiragana\">Hiragana</a>";
+		echo "<a href=\"#katakana\">Katakana</a>";
 		for ($l=0;$l<($lm-1);$l++)
 		{
 			echo "<a href=\"#g".($l+1)."\">Grade ".($l+1)."</a>";
@@ -859,8 +878,11 @@ function decUnicode($u)
 function check($char,$lang)
 {
 	$dec=decUnicode($char);
+	$kanaFile="svgsKana/".$dec.".svg";
 	$jaFile="svgsJa/".$dec.".svg";
 	$zhHansFile="svgsZhHans/".$dec.".svg";
+	$inKana=file_exists($kanaFile);
+	if ($inKana) return "notInBoth";
 	$inJa=file_exists($jaFile);
 	$inZhHans=file_exists($zhHansFile);
 	if ($inJa&&$inZhHans)
@@ -890,10 +912,33 @@ echo "<p><span class=\"notSameInBoth\">Blue</span> Different in Japanese and sim
 echo "<p><span class=\"notInBoth\">Green</span> Not in HSK nor frequently used in simplified Chinese</p>\n";
 echo "<p>The difference can be the stroke order (as for 田), a stroke direction (as for 返),
 the number of stroke (as in 部) or the glyph itself (as for 直).</p>\n";
+$hiragana=getCharList("hiragana");
+$kmHiragana=mb_strlen($hiragana,'UTF-8');
+$katakana=getCharList("katakana");
+$kmKatakana=mb_strlen($katakana,'UTF-8');
+$kmKana=$kmHiragana+$kmKatakana;
+echo "<h2>Kana (".$kmKana." characters)</h2>\n";
+echo "<h3 id='hiragana'>Hiragana (".$kmHiragana." characters)</h3>\n";
+echo "<div>";
+for ($k=0;$k<$kmHiragana;$k++)
+{
+	$u=mb_substr($hiragana,$k,1,'UTF-8');
+	echo "<button class=\"".check($u,"ja")."\" onclick=\"doIt('".$u."')\">".$u."</button>\n";
+}
+echo "</div>\n";
+navigation("Ja");
+echo "<h3 id='katakana'>Katakana (".$kmKatakana." characters)</h3>\n";
+echo "<div>";
+for ($k=0;$k<$kmKatakana;$k++)
+{
+	$u=mb_substr($katakana,$k,1,'UTF-8');
+	echo "<button class=\"".check($u,"ja")."\" onclick=\"doIt('".$u."')\">".$u."</button>\n";
+}
+echo "</div>\n";
+navigation("Ja");
 echo "<h2>Jōyō kanji (".$kmJoyo." characters)</h2>\n";
 for ($l=0;$l<$lm;$l++)
 {
-	navigation("Ja");
 	$km=mb_strlen($a[$l],'UTF-8');
 	if ($l<6) echo "<h3 id='g".($l+1)."'>Grade ".($l+1)." (".$km." characters)</h3>\n";
 	else if ($l==6) echo "<h3 id='g7'>Junior high school (".$km." characters)</h3>\n";
@@ -905,6 +950,7 @@ for ($l=0;$l<$lm;$l++)
 		echo "<button class=\"".check($u,"ja")."\" onclick=\"doIt('".$u."')\">".$u."</button>\n";
 	}
 	echo "</div>\n";
+	navigation("Ja");
 }
 ?>
 </section>
@@ -951,9 +997,9 @@ for ($k=0;$k<$km;$k++)
 }
 */
 echo "<h2>HSK hanzi (".$kmHsk." characters)</h2>\n";
+navigation("ZhHans");
 for ($l=0;$l<=$lm;$l++)
 {
-	navigation("ZhHans");
 	$km=mb_strlen($a[$l],'UTF-8');
 	if ($l<6) echo "<h3 id='hsk".($l+1)."'>HSK ".($l+1)." (".$km." characters)</h3>\n";
 	else echo "<h2 id='frequentNotHsk'>Frquently used hanzi not in HSK (".$kmFrequentNotHsk." characters)</h2>\n";
@@ -964,6 +1010,7 @@ for ($l=0;$l<=$lm;$l++)
 		echo "<button class=\"".check($u,"zhHans")."\" onclick=\"doIt('".$u."')\">".$u."</button>\n";
 	}
 	echo "</div>\n";
+	navigation("ZhHans");
 }
 ?>
 </section>

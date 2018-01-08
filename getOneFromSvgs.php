@@ -60,7 +60,8 @@ function getSvgChar($char,$lang="zh-Hans")
 	$dec=decUnicode($char);
 	if ($lang=="ja")
 	{
-		if (file_exists("svgsJa/".$dec.".svg")) $f="svgsJa/".$dec.".svg";
+		if (file_exists("svgsKana/".$dec.".svg")) $f="svgsKana/".$dec.".svg";
+		else if (file_exists("svgsJa/".$dec.".svg")) $f="svgsJa/".$dec.".svg";
 		else $f=null;
 	}
 	else // default (zh-Hans)
@@ -73,8 +74,8 @@ function getSvgChar($char,$lang="zh-Hans")
 	if ($s) return $s;
 	else
 	{
-		if ($lang=="ja") return errorSvg(2,$lang,$char." is not a jōyō","or jinmeyō kanji");
-		else return errorSvg(4,$lang,$char." is not in","HSK nor a","frequently used","simplified hanzi");
+		if ($lang=="ja") return errorSvg(3,$lang,$char." is not in","Japanese","repository");
+		else return errorSvg(3,$lang,$char." is not in","Chinese","repository");
 	}
 }
 
