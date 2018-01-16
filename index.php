@@ -1019,7 +1019,7 @@ for ($l=0;$l<=$lm;$l++)
 <div id="bottom" class="link"><a href="#top">Top</a></div>
 <a href="licenses/COPYING.txt">Licences</a>
 - <a href="https://github.com/parsimonhi/animCJK">Download page</a><br>
-Copyright 2016-2017 - François Mizessyn
+Copyright 2016-2018 - François Mizessyn
 </footer>
 <script>
 document.getElementById("data").addEventListener("keyup",function(event) {
