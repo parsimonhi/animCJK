@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html>
 <head>
@@ -423,7 +422,7 @@ or click on any character in the lists below.
 </p>
 <p>The Japanese repository contains the "kana" (177 characters),
 the "jōyō kanji" (2136 characters) and
-the "jinmeyō Kanji" (862 characters), that is 3075 characters.</p>
+the "jinmeyō Kanji" (862 characters), that is 3175 characters.</p>
 <p>The Chinese repository contains the "HSK hanzi" (2663)
 and the "frequently used simplified hanzi" (3500 characters), that is 3538 characters
 (2625 characters are in both "HSK hanzi" and "frequently used simplified hanzi").</p>
