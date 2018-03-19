@@ -7210,7 +7210,7 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <button class="notInBoth" onclick="doIt('矗')">矗</button>
 </div>
 <nav><a href="#hsk1">HSK 1</a><a href="#hsk2">HSK 2</a><a href="#hsk3">HSK 3</a><a href="#hsk4">HSK 4</a><a href="#hsk5">HSK 5</a><a href="#hsk6">HSK 6</a><a href="#frequentNotHsk">Frequent</a><a href="#commonNotHskNorFrequent">Common</a><a href="#top">Top</a><a href="#bottom">Bottom</a></nav>
-<h2 id='commonNotHskNorFrequent'>Commonly used hanzi not in HSK not frequently used (3462 characters)</h2>
+<h2 id='commonNotHskNorFrequent'>Commonly used hanzi not in HSK nor frequently used (3462 characters)</h2>
 <div><button class="notInBoth" onclick="doIt('乂')">乂</button>
 <button class="notInBoth" onclick="doIt('乜')">乜</button>
 <button class="notInBoth" onclick="doIt('亍')">亍</button>
