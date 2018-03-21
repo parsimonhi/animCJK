@@ -35,7 +35,7 @@ If several characters are inserted in the same page, and if one need to animate 
 Note: some kana (those which have a stroke overlapping on itself as あ, ぬ etc.) are special. The stroke which overlaps is split in several parts. So automatic procedures on these characters require some specific codes.
 ## Related works
 
-This project is derived from the remarquable makemeahanzi project which is designed to display Chinese characters. See https://github.com/skishore/makemeahanzi for more details. Many characters were modified or added in animCJK (about one thousand at the moment) because in Japanese, some characters have a different stroke order, or have a different glyph, or have a different stroke direction or are not commonly used in chinese (and therefore have no entry in makemeahanzi).
+This project is derived from the remarquable makemeahanzi project which is designed to display Chinese characters. See https://github.com/skishore/makemeahanzi for more details. Many characters were modified or added in animCJK (between one or two thousand at the moment) because in Japanese, some characters have a different stroke order, or have a different glyph, or have a different stroke direction or are not commonly used in chinese (and therefore have no entry in makemeahanzi).
 
 Even if character shapes have the same look in both makemeahanzi and animCJK project, the svg files are completely different. The css is different. The svg structure is different. The "median" paths are different. However, for people who would to reimport characters that were modified or added from animCJK to makemeahanzi, two files are provided (graphicsJa.txt and graphicsZhHans.txt) that have the same format as the graphics.txt of the makemeahanzi project.
 
