@@ -432,7 +432,7 @@ and the "frequently used simplified hanzi" (3500 characters) are subsets of the 
 <section id="joyoSection" lang="ja">
 <p><span class="sameInBoth">Black</span> Same in Japanese and simplified Chinese repositories</p>
 <p><span class="notSameInBoth">Blue</span> Different in Japanese and simplified Chinese repositories</p>
-<p><span class="notInBoth">Green</span> Not in simplified Chinese repository</p>
+<p><span class="notInBoth">Green</span> Not in both repositories</p>
 <p>The difference can be the stroke order (as for 田), a stroke direction (as for 返),
 the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <h2>Kana (177 characters)</h2>
@@ -1304,7 +1304,7 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <button class="notInBoth" onclick="doIt('団')">団</button>
 <button class="notInBoth" onclick="doIt('圧')">圧</button>
 <button class="sameInBoth" onclick="doIt('在')">在</button>
-<button class="sameInBoth" onclick="doIt('均')">均</button>
+<button class="notSameInBoth" onclick="doIt('均')">均</button>
 <button class="sameInBoth" onclick="doIt('基')">基</button>
 <button class="notInBoth" onclick="doIt('報')">報</button>
 <button class="sameInBoth" onclick="doIt('境')">境</button>
@@ -3646,7 +3646,7 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <section id="commonSection" lang="zh-Hans">
 <p><span class="sameInBoth">Black</span> Same in simplified Chinese and Japanese repositories</p>
 <p><span class="notSameInBoth">Blue</span> Different in simplified Chinese and Japanese repositories</p>
-<p><span class="notInBoth">Green</span> Not in Japanese repository</p>
+<p><span class="notInBoth">Green</span> Not in both repositories</p>
 <p>The difference can be the stroke order (as for 田), a stroke direction (as for 返),
 the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <h2>HSK hanzi (2663 characters)</h2>
@@ -5241,7 +5241,7 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <button class="notInBoth" onclick="doIt('抖')">抖</button>
 <button class="notSameInBoth" onclick="doIt('屈')">屈</button>
 <button class="notInBoth" onclick="doIt('荐')">荐</button>
-<button class="sameInBoth" onclick="doIt('均')">均</button>
+<button class="notSameInBoth" onclick="doIt('均')">均</button>
 <button class="notInBoth" onclick="doIt('飘')">飘</button>
 <button class="sameInBoth" onclick="doIt('矛')">矛</button>
 <button class="sameInBoth" onclick="doIt('摘')">摘</button>
