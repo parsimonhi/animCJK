@@ -10,6 +10,9 @@ function my_json_decode($s)
 	return json_decode($s);
 }
 
+mb_internal_encoding("UTF-8");
+mb_regex_encoding("UTF-8");
+
 function decUnicode($u)
 {
 	$len=strlen($u);
@@ -463,6 +466,10 @@ function buildSvg($a)
 	$s.="<style>\n<![CDATA[\n";
 	$s.="@keyframes ".$id."k {\n";
 	$s.="\tfrom {\n";
+	$s.="\t\tstroke:#ccc;\n";
+	$s.="\t\tstroke-dashoffset:3334;\n";
+	$s.="\t}\n";
+	$s.="\t1% {\n";
 	$s.="\t\tstroke:#c00;\n";
 	$s.="\t\tstroke-dashoffset:3334;\n";
 	$s.="\t}\n";
@@ -524,6 +531,41 @@ function buildSvg($a)
 	//$s.="</g>\n";
 	$s.="</svg>";
 	return $s;
+}
+
+function checkOfficialChar($a,$currentSet)
+{
+	// designed to check ja, kana and zhHans
+	$s="";
+	$sameInBoth=0;
+	$notSameInBoth=0;
+	$notInBoth=0;
+	$km=mb_strlen($a,'UTF-8');
+	for($k=0;$k<$km;$k++)
+	{
+		$u=mb_substr($a,$k,1,'UTF-8');
+		$dec=decUnicode($u);
+		if (($currentSet=="hiragana")||($currentSet=="katakana"))
+		{
+			$class="notInBoth";
+			$notInBoth++;
+		}
+		else
+		{
+			if (file_exists("svgsJa/".$dec.".svg")) $inJa=1; else $inJa=0;
+			if (file_exists("svgsZhHans/".$dec.".svg")) $inZhHans=1; else $inZhHans=0;
+			if ($inJa&&$inZhHans)
+			{
+				$f1=file_get_contents("svgsJa/".$dec.".svg");
+				$f2=file_get_contents("svgsZhHans/".$dec.".svg");
+				if ($f1==$f2) {$class="sameInBoth";$sameInBoth++;}
+				else {$class="notSameInBoth";$notSameInBoth++;}
+			}
+			else {$class="notInBoth";$notInBoth++;}
+		}
+		echo "<button class=\"".$class."\" onclick=\"doIt('".$u."')\">".$u."</button>\n";
+	}
+	echo "<br>Same in both:".$sameInBoth.", not same in both:".$notSameInBoth.", not in both: ".$notInBoth;
 }
 
 ?>
