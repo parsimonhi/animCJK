@@ -22,6 +22,22 @@ Take care of compatibility characters such as 勉 that has in Japanese the same 
 
 Each svg can be inserted as is in a web page, or with some modifications using for instance javascript.
 
+## Decomposition system
+
+Character decompositions using a specific system to animCJK are stored in separate files (decompositionJa.txt and decompositionZhHans.txt).
+
+A decomposition starts with a character, followed by its number of stroke (which indicates that the character is not decomposed), or followed by an ideographic description character (which indicates that the character is decomposed).
+The ideographic description character is followed by several component decompositions (3 for "⿲" and "⿳", 2 for ⿰","⿱","⿴","⿵","⿶","⿷","⿸","⿹","⿺" and "⿻).
+If a component has no corresponding character to represent it, its decomposition just starts with the ideographic description character.
+If a component has no corresponding character to represent it and no decomposition, its decomposition starts by a "?" followed by its number of stroke.
+A component may be represented by a character that has more strokes than it, followed by the decomposition of the component instead of the representing character.
+A component may be represented by a character that has a different glyph, but is semantically the same as the component.
+Special case 1: when a component is also the radical of the main character, a special mark is inserted just after the component character (actually a ".").
+Special case 2: sometimes, a component is split in several parts (when some strokes of other components are drawn "between" its parts). In such a case, each part is represented by a specific decomposition starting with the component character which is split, followed by a special mark (actually a ":"), followed by the decomposition of this part.
+When there is more than one special mark, the radical special mark is inserted first.
+It is mandatory to decompose a component which contains the radical of the main character. It is optional to decompose other components.
+If a character has several possible decompositions, just concatenate them.
+
 ## Plugin for Wordpress
 
 The animkanji_wp_plugin.zip contains a Wordpress plugin to insert animated kanji in a webpage using BBCode.
