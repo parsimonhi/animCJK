@@ -392,6 +392,10 @@ function getDictionaryData($char,$lang="zh-Hans")
 				}
 				if (count($a->{'radical'}))
 					$s.="<div class=\"radical\">Radical: <span class=\"cjkChar\" lang=\"".$lang."\">".$a->{'radical'}."</span></div>";
+				if (count($a->{'decomposition'}))
+					$s.="<div class=\"radical\">Decomposition: <span class=\"cjkChar\" lang=\"".$lang."\">".$a->{'decomposition'}."</span></div>";
+				if (count($a->{'acjk'}))
+					$s.="<div class=\"radical\">Acjk: <span class=\"cjkChar\" lang=\"".$lang."\">".$a->{'acjk'}."</span></div>";
 				if ($lang=="zh-Hans")
 				{
 					if (count($a->{'pinyin'}))
