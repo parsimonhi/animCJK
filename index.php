@@ -221,7 +221,7 @@ function setNumber(x)
 						cy=cy1;
 					}
 					if (cx<(fs+(fs>>3))) cx=fs+(fs>>3);
-					if (cy>(900-fs-(fs>>3))) cy=900-fs-(fs>>3);
+					if (cy<(fs+(fs>>3))) cy=fs+(fs>>3);
 					sx=((k+1)>=10)?0.875:1;
 					sy=-1;
 					e=document.createElementNS('http://www.w3.org/2000/svg','circle');
