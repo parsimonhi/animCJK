@@ -391,7 +391,10 @@ function doIt(c)
 </head>
 <body>
 <h1 id="top">AnimCJK Demo</h1>
-<div class="link"><a href="https://github.com/parsimonhi/animCJK">Download page</a></div>
+<div class="link">
+<a href="https://github.com/parsimonhi/animCJK">Download</a>
+- <a href="samples/index.php">Samples</a>
+</div>
 <div class="input">
 <div class="sectionSwitch">
 <label><input id="joyoRadio" type="radio" checked name="sectionSwitch" onclick="switchSection()"> Japanese (kana, jōyō and jinmeyō kanji)</label>
@@ -10679,7 +10682,8 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <footer>
 <div id="bottom" class="link"><a href="#top">Top</a></div>
 <a href="licenses/COPYING.txt">Licences</a>
-- <a href="https://github.com/parsimonhi/animCJK">Download page</a><br>
+- <a href="https://github.com/parsimonhi/animCJK">Download</a>
+- <a href="samples/index.php">Samples</a><br>
 Copyright 2016-2018 - François Mizessyn
 </footer>
 <script>

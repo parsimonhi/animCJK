@@ -1,0 +1,30 @@
+.autocomplete {
+	box-sizing:border-box;
+	position:relative;
+	display:inline-block;
+}
+.autocomplete-items {
+	box-sizing:border-box;
+	position:absolute;
+	border:1px solid #ccc;
+	border-bottom:none;
+	border-top:none;
+	z-index:1;
+	top:100%;
+	left:0;
+	right:0;
+	max-height:25em;
+	overflow:auto;
+}
+.autocomplete-items div {
+	box-sizing:border-box;
+	padding:0.5em;
+	cursor:pointer;
+	background-color:#fff; 
+	border-bottom:1px solid #ccc; 
+	height:2.5em;
+	line-height:1.5em;
+}
+.autocomplete-items div:hover {
+	background-color:#eee; 
+}

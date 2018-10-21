@@ -22,6 +22,12 @@ Take care of compatibility characters such as 勉 that has in Japanese the same 
 
 Each svg can be inserted as is in a web page, or with some modifications using for instance javascript.
 
+## Samples
+
+Several samples are provided to show how to use animCJK.
+These samples are stored in the samples folder.
+See http://gooo.free.fr/animCJK/official/samples
+
 ## Decomposition system
 
 Character decompositions using a specific system to animCJK are stored in dictionaryJa.txt and dictionaryZhHans.txt).
