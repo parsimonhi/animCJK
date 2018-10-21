@@ -26,7 +26,7 @@ Each svg can be inserted as is in a web page, or with some modifications using f
 
 Several samples are provided to show how to use animCJK.
 These samples are stored in the samples folder.
-See http://gooo.free.fr/animCJK/official/samples
+See also http://gooo.free.fr/animCJK/official/samples
 
 ## Decomposition system
 
