@@ -24,7 +24,7 @@ Each svg can be inserted as is in a web page, or with some modifications using f
 
 ## Decomposition system
 
-Character decompositions using a specific system to animCJK are stored in separate files (decompositionJa.txt and decompositionZhHans.txt).
+Character decompositions using a specific system to animCJK are stored in dictionaryJa.txt and dictionaryZhHans.txt).
 
 A decomposition starts with a character, followed by its number of stroke (which indicates that the character is not decomposed), or followed by an ideographic description character (which indicates that the character is decomposed).
 The ideographic description character is followed by several component decompositions (3 for "⿲" and "⿳", 2 for ⿰","⿱","⿴","⿵","⿶","⿷","⿸","⿹","⿺" and "⿻).
