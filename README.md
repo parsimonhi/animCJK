@@ -71,7 +71,7 @@ Even if character shapes have the same look in both makemeahanzi and animCJK pro
 
 Makemeahanzi itself makes an extensive use of the Arphic PL KaitiM GB and Arphic PL UKai fonts generously provided by Arphic Technology. See https://apps.ubuntu.com/cat/applications/precise/fonts-arphic-gkai00mp/ and https://apps.ubuntu.com/cat/applications/fonts-arphic-ukai/ for more details about these fonts.
 
-Many characters of animCJK just are just not present in these fonts (especially but not exclusively Japanese characters since these Arphic fonts are designed for Chinese). One used parts of other characters to design these missing characters and/or used svg editors (mainly Inkscape and BBEdit) to modify their shape. One didn't use any other fonts.
+Many characters of animCJK are not present in these fonts (especially but not exclusively Japanese characters since these Arphic fonts are designed for Chinese). One used parts of other characters to design these missing characters and/or used various editors (mainly Inkscape and BBEdit) to modify their shape. One didn't use any other fonts.
 
 ### Animated_GIF
 
