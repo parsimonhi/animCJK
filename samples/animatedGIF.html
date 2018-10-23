@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="initial-scale=1.0,user-scalable=yes">
+<meta name="description" content="Demo to create animated GIF image on the fly
+from AnimCJK SVG files">
+<link rel="stylesheet" href="_css/withLangSelector.css" type="text/css">
+<script src="_js/Animated_GIF.js"></script>
+<script src="_js/magicAcjk.js"></script>
+<title>AnimCJK animated GIF Demo</title>
+<script>
+function status(s,a)
+{
+	var e;
+	if (e=document.getElementById("status"));
+		if (a) e.innerHTML+=s;
+		else e.innerHTML=s;
+}
+function setSection()
+{
+	var e,lang;
+	e=document.getElementById("jaSection");
+	if (document.getElementById("jaRadio").checked) e.style.display="block";
+	else e.style.display="none";
+	e=document.getElementById("zhHansSection");
+	if (document.getElementById("zhHansRadio").checked) e.style.display="block";
+	else e.style.display="none";
+	lang=document.getElementById("jaRadio").checked?"ja":"zh-Hans";
+	document.getElementsByTagName('html')[0].setAttribute('lang',lang);
+}
+function switchSection()
+{
+	ok();
+}
+function ok()
+{
+	// do what is necessary when a user does something
+	var data,xhr,lang,target,file,msg=[];
+	// reset display
+	msg[0]="Error!";
+	msg[1]="No data!";
+	msg[2]="Svg not in Japanese repository!";
+	msg[3]="Svg not in simplified Chinese repository!";
+	msg[4]="Svg not in repository!";
+	msg[5]="Enter or click on another character to display it!";
+	status(msg[5]);
+	target=document.getElementById('a');
+	target.innerHTML="";
+    document.getElementById('data').focus();
+	// manage language
+	if (document.getElementById("jaRadio").checked)
+	{
+		lang="ja";
+		document.getElementById("jaSection").style.display="block";
+		document.getElementById("zhHansSection").style.display="none";
+	}
+	else if (document.getElementById("zhHansRadio").checked)
+	{
+		lang="zh-Hans";
+		document.getElementById("jaSection").style.display="none";
+		document.getElementById("zhHansSection").style.display="block";
+	}
+	else {status(msg[0]);return;}
+	setSection();
+    // get data from the input field
+	data=document.getElementById("data").value.replace(/\s/g,"");
+	if (!data)
+	{
+		status(msg[1]);
+		return;
+	}
+	// use ajax to get the svg file from the server
+	xhr=new XMLHttpRequest();
+	xhr.onreadystatechange=function()
+	{
+		if ((xhr.readyState==4)&&(xhr.status==200))
+		{
+			generateAnimatedGifFromSvg(xhr.responseText,target,1000);
+        }
+        else if ((xhr.readyState==4)&&(xhr.status==404))
+        {
+        	if (file.match(/svgsJa/)) status(msg[2]);
+        	else if (file.match(/svgsZhHans/)) status(msg[3]);
+        	else status(msg[4]);
+        }
+    };
+    file="../svgs"+((lang=="ja")?"Ja/":"ZhHans/")+data.codePointAt(0)+".svg";
+  	xhr.open("GET",file,true);
+  	xhr.send();
+}
+function doIt(e)
+{
+	// the user clicked on a character on the bottom list of the page
+	// put the character in the input field
+	document.getElementById("data").value=e.innerHTML;
+	e.className="visited";
+	// process as if the user clicked on the "Display" button
+	ok();
+}
+</script>
+</head>
+<body>
+<h1 id="top">AnimCJK animated GIF Demo</h1>
+<div class="link">
+<a href="https://github.com/parsimonhi/animCJK">Download</a>
+- <a href="./">Sample selector</a>
+</div>
+<div class="input">
+<div class="sectionSwitch">
+<label><input id="jaRadio" type="radio" checked name="sectionSwitch" onclick="switchSection()"> Japanese (jōyō kanji)</label>
+<label><input id="zhHansRadio" type="radio" name="sectionSwitch" onclick="switchSection()"> Simplifed Chinese (HSK hanzi)</label>
+</div>
+<input id="data" type="text" maxlength="1" value="" placeholder="Enter data here">
+<input id="ok" type="button" value="Create GIF" onclick="ok()">
+</div>
+<p id="status">Enter a character in the text input above or click on it in the list below!</p>
+<p id="p">Animated GIF image generated on the fly from a SVG</p>
+<div id="a"></div>
+<section id="jaSection" lang="ja">
+<h2>Jōyō kanji</h2>
+<h3>Jōyō kanji grade 1</h3>
+<p>
+一七三上下中九二五人休先入八六円出力十千口右名四土夕大天女子字学小山川左年手文日早月木本村
+林校森正気水火犬玉王生田男町白百目石空立竹糸耳花草虫見貝赤足車金雨青音
+</p>
+<h3>Jōyō kanji grade 2</h3>
+<p>
+万丸交京今会体何作元兄光公内冬刀分切前北午半南原友古台合同回図国園地場声売夏外多夜太妹姉室
+家寺少岩工市帰広店弓引弟弱強当形後心思戸才教数新方明星春昼時晴曜書朝来東楽歌止歩母毎毛池汽
+活海点父牛理用画番直矢知社秋科答算米紙細組絵線羽考聞肉自船色茶行西親角言計記話語読谷買走近
+通週道遠里野長門間雪雲電頭顔風食首馬高魚鳥鳴麦黄黒
+</p>
+<h3>Jōyō kanji grade 3</h3>
+<p>
+丁世両主乗予事仕他代住使係倍全具写列助勉動勝化区医去反取受号向君味命和品員商問坂夫始委守安
+定実客宮宿寒対局屋岸島州帳平幸度庫庭式役待急息悪悲想意感所打投拾持指放整旅族昔昭暑暗曲有服
+期板柱根植業様横橋次歯死氷決油波注泳洋流消深温港湖湯漢炭物球由申界畑病発登皮皿相県真着短研
+礼神祭福秒究章童笛第筆等箱級終緑練羊美習者育苦荷落葉薬血表詩調談豆負起路身転軽農返追送速進
+遊運部都配酒重鉄銀開院陽階集面題飲館駅鼻
+</p>
+<h3>Jōyō kanji grade 4</h3>
+<p>
+不争付令以仲伝位低例便信倉候借停健側働億兆児共兵典冷初別利刷副功加努労勇包卒協単博印参史司
+各告周唱喜器囲固型堂塩士変央失好季孫完官害察巣差希席帯底府康建径徒得必念愛成戦折挙改救敗散
+料旗昨景最望未末札材束松果栄案梅械極標機欠歴残殺毒氏民求治法泣浅浴清満漁灯無然焼照熱牧特産
+的省祝票種積競笑管節粉紀約結給続置老胃脈腸臣航良芸芽英菜街衣要覚観訓試説課議象貨貯費賞軍輪
+辞辺連達選郡量録鏡関陸隊静順願類飛飯養験
+</p>
+<h3>Jōyō kanji grade 5</h3>
+<p>
+久仏仮件任似余価保修俵個備像再刊判制券則効務勢厚句可営因団圧在均基報境墓増夢妻婦容寄富導居
+属布師常幹序弁張往復徳志応快性恩情態慣承技招授採接提損支政故敵断旧易暴条枝査格桜検構武比永
+河液混減測準演潔災燃版犯状独率現留略益眼破確示祖禁移程税築精素経統絶綿総編績織罪群義耕職肥
+能興舌舎術衛製複規解設許証評講謝識護豊財貧責貸貿賀資賛質輸述迷退逆造過適酸鉱銅銭防限険際雑
+非預領額飼
+</p>
+<h3>Jōyō kanji grade 6</h3>
+<p>
+並乱乳亡仁供俳値傷優党冊処刻割創劇勤危卵厳収后否吸呼善困垂城域奏奮姿存孝宅宇宗宙宝宣密寸専
+射将尊就尺届展層己巻幕干幼庁座延律従忘忠憲我批担拝拡捨探推揮操敬映晩暖暮朗机枚染株棒模権樹
+欲段沿泉洗派済源潮激灰熟片班異疑痛皇盛盟看砂磁私秘穀穴窓筋策簡糖系紅納純絹縦縮署翌聖肺背胸
+脳腹臓臨至若著蒸蔵蚕衆裁装裏補視覧討訪訳詞誌認誕誠誤論諸警貴賃遺郵郷針鋼閉閣降陛除障難革頂
+骨</p>
+<h3>Other jōyō kanji</h3>
+<p>
+乙了又丈与及乞凡刃巾互丹乏井冗凶刈勾匂匹升厄双介孔屯幻弔斗斤爪牙且丘丙丼巨仙凹凸占叱召囚奴
+尻尼巧払氾汁込斥旦玄瓦甘甲矛伎仰伐伏充刑劣匠企吉叫吐吏壮如妃妄尽巡帆弐忙扱汎汚汗江芋芝迅旨
+旬肌朽朱朴缶臼舟串亜佐伺伸但伯伴克冶励却即呂含吟呉吹呈坑坊壱妖妥妊妨妙寿尿尾岐床廷弄抗抄択
+把抜扶抑沙汰沃沖沢沈没狂芯芳迎那邦阪忌忍戒戻攻更肘肝肖杉秀辛享依佳侍侮併免刹刺到劾卓叔呪坪
+奈奇奉奔妬姓宛宜尚屈岡岳岬弥弦征彼怪怖拉押拐拒拠拘拙拓抽抵拍披抱抹況沼泥泊泌沸泡狙苛茎苗茂
+迭迫邪邸阻附房旺昆昇股肩肯肢肪枕枢析杯枠欧殴炎炊炉采玩祈祉盲突虎阜斉亭侶侯俊侵促俗冠削勃勅
+卑卸厘叙咽哀咲垣契威姻孤封峡峠帥帝幽弧悔恒恨拶拭括挟拷挑洪浄津洞狭狩茨荒荘逃郊郎怨怠怒施昧
+是胎胆胞柿柵栃架枯柔柄某柳為牲珍甚畏疫皆盆眉盾冒砕窃糾耐臭虐虹衷訃訂貞赴軌香俺倹倒倣俸倫兼
+冥凄准凍剥剣剛剤剖匿唄哺唆唇哲唐埋娯娠姫娘宴宰宵峰徐悦悟悩挨捉挫振捜挿捕浦浸浜浮涙浪華逝逐
+逓途透陥陣恣恐恵恥恋恭扇拳敏脇脊脅脂朕胴桁核桑栽桟栓桃殊殉烈珠祥泰畝畜畔疾症疲眠砲称租秩袖
+被既粋索紛紡紋翁耗致般蚊衰託貢軒辱酎酌釜隻飢鬼竜曹乾偽偶偵偏剰勘唾喝啓唯埼堆執培婚婆寂尉崖
+崎崇崩庶庸彩彫惧惨惜悼捻捗掛掘掲控据措掃排描堀淫涯渇渓渋淑渉淡添涼猫猛猟葛萎菓菊菌逸逮郭陰
+陳陶陪隆陵患悠戚斜斬旋曽脚脱梗梨殻爽瓶痕盗眺窒符粗粘粒紺紹紳累羞粛舷舶虚蛍蛇袋訟豚貪貫販赦
+軟酔釈釣頃鹿麻斎亀僅偉傍募傘喉喩喚喫喪圏堪堅堕塚堤塔塀塁奥媛媒婿尋嵐項幅帽幾廃廊弾御循慌惰
+愉握援換搭揚揺湧渦滋湿渡湾猶葬遇遂遅遍隅随惑扉掌敢斑暁晶替普腕椅椎棺棋棚棟款欺殖煮焦琴畳疎
+痩痘痢硬硝硫裕筒粧絞紫絡蛮裂詠詐詔診訴貼越超距軸酢鈍閑雇雄雰須傲傾傑債催僧勧嗅嗣嘆塞填毀塊
+塑塗奨嫉嫁嫌寛寝廉彙微慄慨慎携搾摂搬溺滑溝滞滝漠滅溶猿蓋蓄遡遜違遣隙隔愚慈愁暇腎腫腺腰楷棄
+楼歳殿煙煩煎献禍禅痴睦睡督碁稚窟裾褐裸継羨艇虞虜蜂触詣詮該詰誇詳誉賂賊賄跡践跳較載酬酪鉛鉢
+鈴雅雷零飾飽靴頓頑頒鼓僕僚塾墨奪嫡寡寧彰徴憎慢摘漆漸漬滴漂漫漏蔑遮遭隠慕暦膜概熊獄瑠瘍罰碑
+稲端箸箋箇綻維綱緒網腐蜜誓誘豪貌踊辣酵酷銃銘閥雌需餅駆駄髪魂儀勲舗嘲嘱噴墜墳審寮履幣慶弊影
+徹憧憬憤撮撤撲潰潟潤澄潜蔽遵遷慰憂慮戯摯撃摩敷暫膝膚槽歓璃畿監盤罵罷稽稼稿穂窮窯範縁緩緊締
+縄衝褒誰謁請諾賭賜賠賓賦趣踪踏輝輩舞鋭鋳閲震霊餓餌頬駒駐魅黙儒凝壊墾壌壇壁嬢憶懐憾擁濁濃獲
+薫薪薦薄還避隣憩曇膳膨獣磨穏篤緻緯縛繁縫融衡諦謎諧諮謀諭謡賢醒麺錦錮錯錠錬隷頼骸償嚇擬擦濯
+懇戴曖臆燥爵犠環療瞳瞭矯礁繊翼聴謹謙謄購轄醜鍵鍋鍛闇霜韓頻鮮齢濫藤藍藩懲璧癖癒瞬礎穫襟糧繕
+繭翻覆贈鎌鎖鎮闘顎顕騎騒瀬藻爆璽羅簿繰艶覇譜蹴離霧韻髄鯨鶏麓麗懸欄籍譲醸鐘響騰艦躍露顧魔鶴
+籠襲驚鑑鬱
+</p>
+</section>
+<section id="zhHansSection" lang="zh-hans">
+<h2>HSK hanzi</h2>
+<h3>HSK 1</h3>
+<p>
+我的你是了不们这一他么在有个好来人那会什没说吗想能上去她很看对里都子生时样和下现做大怎出点
+起天开谢些家后儿多话小回果见听觉太妈打再呢女前先明中作面爱电哪西候欢关车年喜认爸谁老机分今
+工东名同学叫本国友高请住钱吃朋系几气少医三兴服字水号师星识坐期买影二喝月写姐飞视衣钟十睡亮
+狗脑院书四米校客岁五漂喂块店语热杯昨饭冷午习六读商八汉租猫七菜北桌雨九椅茶京苹
+要就到为道可
+</p>
+<h3>HSK 2</h3>
+<p>
+知得过吧还以事也真让给但着意别所然走经因告最手找快等从情诉已问错孩它间次正进比帮晚动常长白
+第两非公身题完望离新思场始外件表希边男准员玩每备试体乐早门房球夫路日舞笑报教色远眼蛋息室运
+哥火条病弟您送近穿助司跑忙站跳便歌务黑票游唱考往步班药卖百妹足慢妻床休洗奶千共懂介红鱼牛馆
+肉旅鸡丈睛笔虽啡课咖纸左右旁雪贵汽瓜阴累绍踢宾泳零羊颜姓篮宜铅晴
+</p>
+<h3>HSK 3</h3>
+<p>
+啊把只如自发心定该当用地行
+而像被跟成感干法己信实方应头特相需放直才于带力种者安理重记加接拿解其又更马结难位刚查或变物
+总办主算必害选且向照提决求目留清世片口酒周赛须卡婚根单张万声音奇怕护花节怪愿除界担空阿注坏
+久议礼数平调文业包参风复忘假据嘴越简易答乎超轻满静故极讲趣戏容化束终差图半楚市城换船级刻迎
+段检脸择楼皮练历山元角街料板顾遇史画闻急糕脚聊居词突努辆句季双牙南冰响网箱园冒甜香叔搬迟烧
+借聪腿鞋树银短环哭康般境爷灯裤盘附阳健较耳草层末铁黄夏舒旧蓝疼河鸟骑饿瓶典育净李鲜扫惯邮帽
+啤梯鼻绿熊胖爬邻春朵饮裙澡渴衫刷衬姨秋碗绩冬刮瘦矮炼伞饱锻蕉斤筷
+</p>
+<h3>HSK 4</h3>
+<p>
+死之克无全美许亲尔保受活何
+伙谈部计任确利警士拉将证管处切失性此合队抱通并歉命入掉演够案约肯伤父指原底棒收交停格金内至
+消整度持光与象使察海绝反由论亚续母尽弄密线继份止拜紧联精转却基台另况否险言幸传量首改术局永
+烦取随式律费科麻流倒划味区支连弹吸呀醒梦赢丽付排敢油餐破激程讨责落林及争猜建惊标各民功示释
+引疑赶俩存断松博观码恐普价怀验呼祝剧乱展则深迷具福职即挺负脱仅资弃修危专甚苦适骗厌值众预际
+咱卫养导虑戴志杂误规陪森纪浪顺举按坚免印严推毛压败究评速获细丢态判货围签牌户质供奖袋脏效座
+沙扰困概登竟彩招巧剩烟封低技输仍扔社秀刀族广镜播温遍尝列毕聚尊汤优偶熟微抽艺研散饼糖富降怜
+既笨航匙秒挂勇钥奋忆折景默禁诚谅厅稍窗章仔款拒童翻洲互例垃染漫圾缺针扮邀闹辛竞厉厨允授估帅
+键傲减著鼓盒寄赚材尤愉序烤悔暂惜拾申批乘辣躺肥址占省增擦洋符骄羞贺敲购售耐琴貌倍桥肤厕植距
+虎济粗肚暖励积云幽龄汁钢篇汗酸叶趟抬悉页桶巾穷扬污填塑丰孙恼详葡萄脾凉厚矿逛堵胳谊泉袜膊懒
+盐江鸭膏慕阅寒棵橡泼础戚暑咳聘郊傅羽籍勺羡硕咸译乓嗽乒柿饺
+</p>
+<h3>HSK 5</h3>
+<p>
+杀嗯德神枪官救宝搞战布装贝击器制
+哈达待托强军代血疯鬼巴兄品英抓统维派恶糟令毒治控录拍组造集类曾投未威显偷权某立闭庭雷团王义
+唯夜靠独娘顿设置逃痛狂模索灵承产政领纳退秘架背追炸射傻藏瞧呆碰念华冲型麦似套私滚食形石测丝
+防恋武胜屋斗守致称吓古状疗操遗寻胡替拥股挑姑项摩享配迹阻属婆骨摄委暗训善轮顶兵锁木抢档群坦
+土伴恨移编刺毫库荣充创劳忍势吻营盖府透掌升临智归撞搜摆岛避织执戒佛妙宣烂悲妇圈敬劲醉吵龙挥
+彼废初素敌欧旦依雄朝恭补摇躲源滑碎弱臭幻闪沉卷财墙拳触胁施胸孕硬销虫握迫采辈限巨尾青席犹赞
+访良驾范猪淘洞冠伟珍朗欠丑烈村堆庆率寓谓余核损辩摸途敏版订俱尺鼠幕憾隔彻插尚构绪吐吹颗宁罚
+乡豪征括稳胆甲佩启赏震述阵乖咬蜜拼池虚频违诊络辞献农姻恢描匹软纯贴略陆载嫁喊灰摔厂怨剪豆挡
+糊卧域闲涂碍柜裁账固漏夹辑喷饰灾欣滩闯圆延凭捐挣宽驶伸析媒矩绕益壁汇缩诗殊含甩燃炒晕偿岸绳
+蛇链薄瞎齐哎逐肩筑艰冻遵酱齿忽肠押玻姿召柔阶歇亿胶眠仿潮舍宴兔奈胃挤脆询蜂夸企递铃振册璃慰
+宿睁脖陌返扇肌猴慌凌税湿膀幅泪拆玉币魅炮桃培腐砍宠腰俗弯渐措毯霉缓逗撕娶勤滴钓踩革惠淡拦逻
+赔熬漠衡趁盾尘骂跃粘疲肃幼嘉映俊沟愧娱催捡叉狮亏蹲乏哲披拐讽劝裹慧雾浓唉扩煮烫繁悄妨扶谨抖
+屈荐均飘矛摘润贷紫氛慎浅眉悠寂兼锅寿促辅览棋贡艳嗓综劣豫痒柴盼翅迅晒椒舅咨歪盆洒耽昆删届涨
+厢匆苗蝶狡夕寞纷煤裔蝴皂梳愁厦抄醋斜谦泛屉县恳猾兑贸壶帘竹叙蔬浇秩嫩虹粮鞭髦勿燥践梨炭乙吨
+孝厘姥趋塘骤绸惭糙窄桔浏嚏傍纲倡屿匀旬馒
+</p>
+<h3>HSK 6</h3>
+<p>
+哦斯嘿嗨犯嘛帝啦罪混恩杰圣探监哇姆吉奥狱谎伦踪屁尸
+蒂魔谋波毁诺撒州凶伯审蠢塔亡鲁堂露爆镇暴纽诞捕赌塞酷曲莫异誓雇野搭症攻蒙苏魂啥隐协泰抗迈绑
+沃副瓦丁粉徒灭孤伍纹残砸拖牢惹逮劫袭嫌怖墨陷蹈雅逼叛扯剂怒液磨娃刑泡堡愚盛皇夺盗汰猎潜霍爽
+扎讯侦欲杜盯赖胎帐抛遭若仪宫祖耍忠策钻桑尖惧痕佳掩荒督撤援郎埋惨浴侵挖兽洁晨奏欺端障慈仇逊
+黎额罢裂偏丧乌宇葬党壮珠勃唐荡扣仰君晓牧巡牲昏凡谷愤盟窃辜伪田蕾倾辱缝惑狼脉宗祸趴泽诱溜隆
+狠抵揭涉牵婴胞湖讶瞒呵缘予泄拨癌乳罐骚恰擅患剑牺割拔扭融臂舌焦赋径撑泥贩哼艘寸誉陈惩墓伏缠
+妒妆旋廉遥侧舰筹纵猛耀耻殿瘾唤棍疾磅谍忌堪奉廊仓鉴仁孔杆嫉箭揍捉恕吊踏罩尴郁尬崩港淋勾署奴
+弥抚甘唇截宙搅舱轨蛮侠滋闷债吞肿仙奔庄袖愈磁肺储番肖嘲氧井艇炉旗昂垫栋渡薪腾驱钉横贼溃拘犬
+佣忧宰坠霸瘤膝役菌崇哀浮卑谬抑壳铺腔摧晃僵妥窝岩诈虐诸挨喉扑董搏倦械纠挽晋棕栏氏央灌谱侣屏
+疫轰挪沿悬贫腹抹朴稿雕蜡粹添兜喘锋隶仗沮浑竭炎疏呈鄙煎耗晶衰掘谜捷馅瞄沾覆侄跪逝赠笼川湾翼
+筒丸塌吼枚辨擎绅侮峰庞丛剥妄漆筋贪兆畏枕陶讼穴遮瞬捣串赤脂歧饶疤篷谣摊钩苍凑缉酬舔畜垂悦畅
+循烛堕颠券衷盲膜斑氓稀嚷跨扁携粒呕跌坟御恒罕钞敞啰肢咙饥宅岗刊渣阱贿棉贤淹榜喻拟躁蓄慨坑颈
+焰鸽泣熏遣津翘逆柱滥皆鸣嘱弊蒸赴宪刹凝哨炫慷殖叨睹绘蚁顽隧颁橙捏坡剖锤丘膛枝旺酗芒噪辉叮巷
+贯嚼叹卸茫陋掏纤臣蔽俘颤砖驳迁宵袍洪撼卓翔秃驻眨幢削乞聋锦沼赂辐鸦拽阔皱哄谐蹦碳咋锐帆斥峡
+捞铜悼巢庇禽履浸衔绒雀熄杖悟寺霜殴钝逢奢挫撇弦掐昧庸搁梁涌挚坛窍腥晰祥旨叠框碑蓬咐酿唠墅亦
+伐咽婪惕稚曝捆泊嗅瓷渔哑驰屑烘栽铭冤溪舟绎胀肆溅拌吩剔茎竖枯椎勉缚挠崖瘫俯沫亭烹磕庙颇腻掠
+辖肪渗攀叭蚂歹憋喇缴郑吟溶碌娇蔓滤岔崭蚀儒捧昔掷馈帖谴颂唾宏痪敷渺僻榨澄扒裕芽瞪狭涕拙躬饪
+灿昌锈瘸琢掀朽渠拧辙惫帜雌拣斩岳拓劈虏稻滞滨蔑钦伺盈辫沸柬丙贬鞠壤杠窜洽啃颖坝铸煌衅怯苟侈
+迄谤觅绣魄堤墟泌粥濒寝旷伶岂隙韧痹衍瀑拢诽萎瓣搂捍枉袱扛徘诫徊膨诵掰揉嵌瘩涵滔疙唆烁凹桨吁
+沛熨捎晤筛攒毅泻勘耸紊呻镶沐蔼哗丐藐诬纬陵侥涩嗦惦凄淆睬茂饲睦瞩峻耕吝殃旱钙辰株惰喧凸辟廓
+甭稼涛媳彰嫂蹋愣搓蹬梢阐晾叼恍啬筐屡哺潇讳萌抒咀簸汹暧缀兢畔纺倔澈啸涮舆酝灶侃赁巩奠斟蕴缔
+遏惋昼陡譬搀迸徙眶狈讥秤蔚酌隘俐怠阂嘈眯裳畴淀峭垄瞻肴惮椭俭稠倘诧沧霞疆馋浊雹哆溉暄拄磋辽
+荤炊挎侨舶锲辕踊</p>
+</section>
+<footer>
+<div id="bottom" class="link"><a href="#top">Top</a></div>
+<a href="../licenses/COPYING.txt">Licences</a>
+- <a href="https://github.com/parsimonhi/animCJK">Download</a>
+- <a href="./">Sample selector</a>
+<br>
+Copyright 2016-2018 - François Mizessyn
+</footer>
+<script>
+function makeCharBtns()
+{
+	// build the bottom list of button
+	var k,km,list,s;
+	list=document.querySelectorAll("#jaSection p,#zhHansSection p");
+	km=list.length;
+	for(k=0;k<km;k++)
+	{
+		s=list[k].innerHTML;
+		s=s.replace(/\s/g,"");
+		s=s.replace(/(.)/g,"<button onclick=\"doIt(this);\">$1</button>");
+		list[k].innerHTML=s;
+	}
+}
+document.getElementById("data").addEventListener("keyup",function(event) {
+	event.preventDefault();
+	if (event.keyCode==13) ok();
+},false);
+window.addEventListener("load",makeCharBtns,false);
+</script>
+</body>
+</html>

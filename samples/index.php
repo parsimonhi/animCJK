@@ -58,6 +58,9 @@ else $data="";
 <meta name="viewport" content="initial-scale=1.0,user-scalable=yes">
 <style>
 body {text-align:center;}
+h2,ul {text-align:left;max-width:512px;}
+h2 {margin:0 auto;}
+ul {display:block;margin:1em auto;}
 a {color:#000;}
 a:visited {color:#666;}
 .actionBtn
@@ -91,11 +94,12 @@ label
 }
 input.charInput {font-size:2em;width:5.25em;text-align:center;}
 </style>
-<link rel="stylesheet" type="text/css" href="autocomplete.css">
+<link rel="stylesheet" type="text/css" href="_css/autocomplete.css">
 <title>AnimCJK - Sample selector</title>
 </head>
 <body>
 <h1>AnimCJK - Sample selector</h1>
+<h2>Simple samples</h2>
 <form id="sampleForm" action="animeOne.php" method="post">
 <div class="selectorDiv">
 <p>Select a language:</p>
@@ -122,13 +126,18 @@ input.charInput {font-size:2em;width:5.25em;text-align:center;}
 </div>
 <button id="submitBtn" type="submit" class="actionBtn">Display <?php echo $char;?></button>
 </form>
+<h2>Other samples</h2>
+<ul>
+<li><a href="animatedGIF.html">Animated GIF image generator</a>
+<li><a href="redPNG.html">Red PNG image generator</a>
+</ul>
 <footer>
 <a href="../">Home</a>
 - <a href="../licenses/COPYING.txt">Licences</a><br>
 Copyright 2016-2018 - François Mizessyn
 </footer>
 <div id="debug"></div>
-<script src="autocomplete.js"></script>
+<script src="_js/autocomplete.js"></script>
 <script>
 // Create a customized autocomplete list of possible decimal unicode for the selected lang
 <?php

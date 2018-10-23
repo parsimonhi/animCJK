@@ -55,15 +55,31 @@ To animate a character, animCJK uses the following method: the character shape i
 If several characters are inserted in the same page, and if one need to animate them one after the other, one has to modify the animation-delay in the css of the svg. If a character is displayed several times in the same page, one also need to modify the id of its elements. This can be done using javascript. Alternately, one can encapsulate each svg in an iframe.
 
 Note: some kana (those which have a stroke overlapping on itself as あ, ぬ etc.) are special. The stroke which overlaps is split in several parts. So automatic procedures on these characters require some specific codes.
+
 ## Related works
 
-This project is derived from the remarquable makemeahanzi project which is designed to display Chinese characters. See https://github.com/skishore/makemeahanzi for more details. Many characters were modified or added in animCJK (between one or two thousand at the moment):
-- some Japanese characters have a different stroke order, or have a different glyph, or have a different stroke direction or are not commonly used in chinese, and therefore have no entry in makemeahanzi.
+### makemeahanzi
+
+This project is derived from the remarquable makemeahanzi project which is designed to display Chinese characters. See https://github.com/skishore/makemeahanzi for more details. Many characters were modified or added in animCJK (between two or three thousand at the moment):
+- many Japanese characters have a different stroke order, or have a different glyph, or have a different stroke direction or are not commonly used in chinese, and therefore have no entry in makemeahanzi.
+- many character shapes were just slightly modified to look prettier.
 - some commonly used (but not frequently used) Chinese characters have no entry in makemeahanzi. 
 
 Even if character shapes have the same look in both makemeahanzi and animCJK project, the svg files are completely different. The css is different. The svg structure is different. The "median" paths are different. However, for people who would to reimport characters that were modified or added from animCJK to makemeahanzi, two files are provided (graphicsJa.txt and graphicsZhHans.txt) that have the same format as the graphics.txt of the makemeahanzi project.
 
+### Arphic PL KaitiM GB and Arphic PL UKai fonts
+
 Makemeahanzi itself makes an extensive use of the Arphic PL KaitiM GB and Arphic PL UKai fonts generously provided by Arphic Technology. See https://apps.ubuntu.com/cat/applications/precise/fonts-arphic-gkai00mp/ and https://apps.ubuntu.com/cat/applications/fonts-arphic-ukai/ for more details about these fonts.
+
+Many characters of animCJK just are just not present in these fonts (especially but not exclusively Japanese characters since these Arphic fonts are designed for Chinese). One used parts of other characters to design these missing characters and/or used svg editors (mainly Inkscape and BBEdit) to modify their shape. One didn't use any other fonts.
+
+### Animated_GIF
+
+Part of "animated GIF" sample of animCJK is derived from a sample of Animated_GIF project called "basic". See https://github.com/sole/Animated_GIF for more details.
+
+### Autocomplete
+
+The samples/index.php script uses two files, "autocomplete.js" and "autocomplete.css", derived from https://www.w3schools.com/howto/howto_js_autocomplete.asp, then adapted for animCJK project.
 
 ## Licences
 

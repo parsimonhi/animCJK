@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="initial-scale=1.0,user-scalable=yes">
+<meta name="description" content="Demo to create animated GIF and red PNG images
+on the fly from AnimCJK or MakeMeAHanzi SVG files">
+<title>Image factory</title>
+<script src="_js/Animated_GIF.js"></script>
+<script src="_js/magicAcjk.js"></script>
+<script>
+function status(s) {document.getElementById('status').innerHTML=s;}
+function ok()
+{
+	// do what is necessary when a user clicked on "create" input
+	var data,xhr,file,a,b;
+	// reset display
+	status("");
+	a=document.getElementById('a');
+	a.innerHTML="";
+	b=document.getElementById('b');
+	b.innerHTML="";
+	document.getElementById('a2').innerHTML="";
+	document.getElementById('b2').innerHTML="";
+    document.getElementById('data').focus();
+    document.getElementById('showSource').value="Show sources";
+    // get data from the input field
+	data=document.getElementById("data").value;
+	if (!data) {status("No data!"); return;}
+	// use ajax to get the svg file from the server
+	xhr=new XMLHttpRequest();
+	xhr.onreadystatechange=function()
+	{
+		if ((xhr.readyState==4)&&(xhr.status==200))
+		{
+			generateRedPngFromSvg(xhr.responseText,a);
+			generateAnimatedGifFromSvg(xhr.responseText,b,1000);
+        }
+        else if ((xhr.readyState==4)&&(xhr.status==404))
+        	status("Svg not found in svgs repository!");
+    };
+    // svgs folder of this demo contains MakeMeAHanzi svg files
+    // but the same code works if one puts animCJK svg files in this folder
+    file="../svgs/"+data.codePointAt(0)+".svg";
+    status("Svg file name: "+data.codePointAt(0)+".svg");
+  	xhr.open("GET",file,true);
+  	xhr.send();
+}
+function ok2(input)
+{
+	// show source of images, encoded in base64
+	// these data can be used to save images files locally or on a server
+	var e,e2,imgs;
+	if (input.value=="Show sources")
+	{
+		e=document.getElementById('a');
+		e2=document.getElementById('a2');
+		imgs=e.getElementsByTagName("img");
+		if (imgs&&imgs[0]) e2.innerHTML=imgs[0].getAttribute("src");
+		else e2.innerHTML="no data!";
+		e=document.getElementById('b');
+		e2=document.getElementById('b2');
+		imgs=e.getElementsByTagName("img");
+		if (imgs&&imgs[0]) e2.innerHTML=imgs[0].getAttribute("src");
+		else e2.innerHTML="no data!";
+		input.value="Hide sources";
+	}
+	else
+	{
+		input.value="Show sources";
+		document.getElementById('a2').innerHTML="";
+		document.getElementById('b2').innerHTML="";
+	}
+}
+</script>
+<style>
+#a,#b {display:inline-block;width:300px;height:300px;border:1px solid #ccc;}
+#status {color:#c00;}
+input {font-size:1em;}
+</style>
+</head>
+<body>
+<h1>Image factory</h1>
+<input id="data" type="text" maxlength="1" value="馬" placeholder="Enter a character here">
+<input type="button" value="Create" onclick="ok()">
+<p>Images generated on the fly</p>
+<p id="status"></p>
+<div id="a"></div>
+<div id="b"></div>
+<p>Display sources of the images encoded in base64:
+<input id="showSource" type="button" value="Show sources" onclick="ok2(this)"></p>
+<div>Source of red PNG image: <span id="a2"></span></div>
+<div>Source of animated GIF image: <span id="b2"></span></div>
+<footer>
+<p>Copyright 2016-2018 - François Mizessyn</p>
+</footer>
+</body>
+</html>
