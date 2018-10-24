@@ -71,11 +71,18 @@ function ok()
 	}
 	// use ajax to get the svg file from the server
 	xhr=new XMLHttpRequest();
+	xhr.acjkTarget=target;
 	xhr.onreadystatechange=function()
 	{
+		var s;
 		if ((xhr.readyState==4)&&(xhr.status==200))
 		{
-			generateRedPngFromSvg(xhr.responseText,target);
+			if (s.match(/make-me-a-hanzi/)||s.match(/<svg[\s\S]+class="acjk"/))
+			{
+				s=xhr.responseText;
+				generateRedPngFromSvg(s,xhr.acjkTarget);
+			}
+			else status(msg[4]);
         }
         else if ((xhr.readyState==4)&&(xhr.status==404))
         {

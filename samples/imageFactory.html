@@ -38,7 +38,7 @@ function ok()
 		{
 			var s=xhr.responseText;
 			// check the response (some servers may return an error page here)
-			if (s.match(/make-me-a-hanzi/)||s.match(/AnimCJK/))
+			if (s.match(/make-me-a-hanzi/)||s.match(/<svg[\s\S]+class="acjk"/))
 			{
 				generateRedPngFromSvg(s,xhr.a);
 				generateAnimatedGifFromSvg(s,xhr.b,1000);
