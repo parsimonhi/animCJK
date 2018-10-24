@@ -178,6 +178,7 @@ function generateRedPngFromSvg(s,target)
 	img.width=target.clientWidth;
 	img.height=target.clientHeight;
 	img.src=generatePngFromSvg(paths,mmah);
+	// in case of automatisation, this is the right place to save the image
 	target.appendChild(img);
 }
 function generateAnimatedGifFromSvg(s,target,delay)
