@@ -29,12 +29,22 @@ function ok()
 	if (!data) {status("No data!"); return;}
 	// use ajax to get the svg file from the server
 	xhr=new XMLHttpRequest();
+	xhr.a=a;
+	xhr.b=b;
+	xhr.data=data;
 	xhr.onreadystatechange=function()
 	{
 		if ((xhr.readyState==4)&&(xhr.status==200))
 		{
-			generateRedPngFromSvg(xhr.responseText,a);
-			generateAnimatedGifFromSvg(xhr.responseText,b,1000);
+			var s=xhr.responseText;
+			// check the response (some servers may return an error page here)
+			if (s.match(/make-me-a-hanzi/)||s.match(/AnimCJK/))
+			{
+				generateRedPngFromSvg(s,xhr.a);
+				generateAnimatedGifFromSvg(s,xhr.b,1000);
+				status("Svg file name: "+xhr.data.codePointAt(0)+".svg");
+			}
+			else status("Svg not found in svgs repository!");
         }
         else if ((xhr.readyState==4)&&(xhr.status==404))
         	status("Svg not found in svgs repository!");
@@ -42,7 +52,6 @@ function ok()
     // svgs folder of this demo contains MakeMeAHanzi svg files
     // but the same code works if one puts animCJK svg files in this folder
     file="../svgs/"+data.codePointAt(0)+".svg";
-    status("Svg file name: "+data.codePointAt(0)+".svg");
   	xhr.open("GET",file,true);
   	xhr.send();
 }
