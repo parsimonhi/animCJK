@@ -13,7 +13,7 @@ function colorize(k,km)
 	return "rgb("+computeOne(r,k,km)+","+computeOne(g,k,km)+","+computeOne(b,k,km)+")";
 }
 function makeAnimatedGifFromPngs(target,delay) {
-    var imgs = document.querySelectorAll('img.ghostImg');
+    var imgs = document.querySelectorAll('img.ghostImg'+target.id);
     var firstImage = imgs[0];
     var imageWidth = firstImage.clientWidth;
     var imageHeight = firstImage.clientHeight;
@@ -99,7 +99,7 @@ function makeAnimatedGifFromPngs(target,delay) {
 
     runTasks(tasks);
 }
-function generatePngFromSvg(paths,mmah)
+function generatePngFromSvg(paths,mmah,transparent)
 {
 	// paths is an array that contains a list of stroke d and fill attributes
 	// mmah indicates if the data come from MakeMeAHanzi instead of AnimCJK
@@ -110,7 +110,8 @@ function generatePngFromSvg(paths,mmah)
 	cn.width=1024;
 	cn.height=1024;
 	cx=cn.getContext("2d");
-	cx.fillStyle="white";
+	if (transparent) cx.fillStyle="transparent";
+	else cx.fillStyle="white";
 	cx.fillRect(0,0,cn.width,cn.height);
 	// draw strokes in the canvas 
 	km=paths.length;
@@ -177,7 +178,7 @@ function generateRedPngFromSvg(s,target)
 	img.style.border="0";
 	img.width=target.clientWidth;
 	img.height=target.clientHeight;
-	img.src=generatePngFromSvg(paths,mmah);
+	img.src=generatePngFromSvg(paths,mmah,0);
 	// in case of automatisation, this is the right place to save the image
 	target.appendChild(img);
 }
@@ -188,7 +189,7 @@ function generateAnimatedGifFromSvg(s,target,delay)
 	// target is a HTML element where the animated GIF will be displayed
 	// delay is the delay between two frames
 	// the size of the animated GIF image will be the size of target
-	var k1,k2,km,s1,s2,img,imgsSrc=[],ghost,mmah,m,paths,reg;
+	var k1,k2,km,img,imgsSrc=[],ghost,mmah,m,paths,reg;
 	// if mmah is true, assume the svg comes from MakeMeAHanzi
 	// else assume the svg comes from animCJK
 	mmah=!s.match(/class="acjk"/);
@@ -213,13 +214,13 @@ function generateAnimatedGifFromSvg(s,target,delay)
 				if (k2<k1) paths[k2].fill="#ccc";
 				else paths[k2].fill="#000";
 			}
-			imgsSrc[k1]=generatePngFromSvg(paths,mmah);
+			imgsSrc[k1]=generatePngFromSvg(paths,mmah,0);
 		}
 		for (k1=km;k1>=0;k1--)
 		{
 			img=document.createElement('img');
 			img.id="img"+k1;
-			img.className="ghostImg";
+			img.className="ghostImg"+target.id;
 			img.style.display="block";
 			img.style.border="0";
 			img.width=target.clientWidth;
