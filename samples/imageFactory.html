@@ -34,9 +34,10 @@ function ok()
 	xhr.data=data;
 	xhr.onreadystatechange=function()
 	{
+		var s;
 		if ((xhr.readyState==4)&&(xhr.status==200))
 		{
-			var s=xhr.responseText;
+			s=xhr.responseText;
 			// check the response (some servers may return an error page here)
 			if (s.match(/make-me-a-hanzi/)||s.match(/<svg[\s\S]+class="acjk"/))
 			{
@@ -92,11 +93,11 @@ input {font-size:1em;}
 <h1>Image factory</h1>
 <input id="data" type="text" maxlength="1" value="馬" placeholder="Enter a character here">
 <input type="button" value="Create" onclick="ok()">
+<p id="status">Push "Create" button to generate the images!</p>
 <p>Images generated on the fly</p>
-<p id="status"></p>
 <div id="a"></div>
 <div id="b"></div>
-<p>Display sources of the images encoded in base64:
+<p>Images encoded in base64:
 <input id="showSource" type="button" value="Show sources" onclick="ok2(this)"></p>
 <div>Source of red PNG image: <span id="a2"></span></div>
 <div>Source of animated GIF image: <span id="b2"></span></div>

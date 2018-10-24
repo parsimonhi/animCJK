@@ -87,6 +87,7 @@ function makeAnimatedGifFromPngs(target,delay) {
         });
         agAll.getBase64GIF(function(image) {
             imgAll.src = image;
+            // in case of automatisation, this is the right place to save the image
             doneCallback();
         });
         target.appendChild(imgAll);
@@ -222,9 +223,17 @@ function generateAnimatedGifFromSvg(s,target,delay)
 			img.style.border="0";
 			img.width=target.clientWidth;
 			img.height=target.clientHeight;
+			img.acjkKm=km;
+			img.acjkTarget=target;
+			img.acjkDelay=delay;
+			img.acjkGhost=ghost;
 			img.onload=function(){
-				var k,allDone=true;
+				var k,km,target,delay,allDone=true;
 				this.done=1;
+				km=this.acjkKm;
+				target=this.acjkTarget;
+				delay=this.acjkDelay;
+				ghost=this.acjkGhost;
 				for(k=0;k<=km;k++)
 					if (!document.getElementById("img"+k).done) {allDone=false;break;}
 				if (allDone) // ready to generate GIF image
