@@ -178,7 +178,7 @@ function generateRedPngFromSvg(s,target)
 	img.style.border="0";
 	img.width=target.clientWidth;
 	img.height=target.clientHeight;
-	img.src=generatePngFromSvg(paths,mmah,0);
+	img.src=generatePngFromSvg(paths,mmah,1);
 	// in case of automatisation, this is the right place to save the image
 	target.appendChild(img);
 }

@@ -84,7 +84,28 @@ function ok2(input)
 }
 </script>
 <style>
-#a,#b {display:inline-block;width:300px;height:300px;border:1px solid #ccc;background:#eef;}
+#a,#b
+{
+	position:relative;
+	display:inline-block;
+	width:300px;
+	height:300px;
+	border:1px solid #ccc;
+	background:#eee;
+	margin-bottom:2em;
+}
+#a:after
+{
+	position:absolute;
+	bottom:-2em;
+	content:'Transparent PNG';
+}
+#b:after
+{
+	position:absolute;
+	bottom:-2em;
+	content:'Not transparent animated GIF';
+}
 #status {color:#c00;}
 input {font-size:1em;}
 </style>
