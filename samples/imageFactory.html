@@ -13,15 +13,18 @@ function status(s) {document.getElementById('status').innerHTML=s;}
 function ok()
 {
 	// do what is necessary when a user clicked on "create" input
-	var data,xhr,file,a,b;
+	var data,xhr,file,a,b,c;
 	// reset display
 	status(" ");
 	a=document.getElementById('a');
 	a.innerHTML="";
 	b=document.getElementById('b');
 	b.innerHTML="";
+	c=document.getElementById('c');
+	c.innerHTML="";
 	document.getElementById('a2').innerHTML="";
 	document.getElementById('b2').innerHTML="";
+	document.getElementById('c2').innerHTML="";
     document.getElementById('data').focus();
     document.getElementById('showSource').value="Show sources";
     // get data from the input field
@@ -29,9 +32,7 @@ function ok()
 	if (!data) {status("No data!"); return;}
 	// use ajax to get the svg file from the server
 	xhr=new XMLHttpRequest();
-	xhr.a=a;
-	xhr.b=b;
-	xhr.data=data;
+	xhr.acjk={a:a,b:b,c:c,data:data};
 	xhr.onreadystatechange=function()
 	{
 		var s;
@@ -41,9 +42,10 @@ function ok()
 			// check the response (some servers may return an error page here)
 			if (s.match(/make-me-a-hanzi/)||s.match(/<svg[\s\S]+class="acjk"/))
 			{
-				generateRedPngFromSvg(s,xhr.a);
-				generateAnimatedGifFromSvg(s,xhr.b,1000);
-				status("Svg file name: "+xhr.data.codePointAt(0)+".svg");
+				generateRedPngFromSvg(s,xhr.acjk.a,"transparent");
+				generateRedPngFromSvg(s,xhr.acjk.b,"white");
+				generateAnimatedGifFromSvg(s,xhr.acjk.c,1000,"white");
+				status("Svg file name: "+xhr.acjk.data.codePointAt(0)+".svg");
 			}
 			else status("Svg not found in svgs repository!");
         }
@@ -73,6 +75,11 @@ function ok2(input)
 		imgs=e.getElementsByTagName("img");
 		if (imgs&&imgs[0]) e2.innerHTML=imgs[0].getAttribute("src");
 		else e2.innerHTML="no data!";
+		e=document.getElementById('c');
+		e2=document.getElementById('c2');
+		imgs=e.getElementsByTagName("img");
+		if (imgs&&imgs[0]) e2.innerHTML=imgs[0].getAttribute("src");
+		else e2.innerHTML="no data!";
 		input.value="Hide sources";
 	}
 	else
@@ -80,11 +87,12 @@ function ok2(input)
 		input.value="Show sources";
 		document.getElementById('a2').innerHTML="";
 		document.getElementById('b2').innerHTML="";
+		document.getElementById('c2').innerHTML="";
 	}
 }
 </script>
 <style>
-#a,#b
+#a,#b,#c
 {
 	position:relative;
 	display:inline-block;
@@ -104,6 +112,12 @@ function ok2(input)
 {
 	position:absolute;
 	bottom:-2em;
+	content:'Not transparent PNG';
+}
+#c:after
+{
+	position:absolute;
+	bottom:-2em;
 	content:'Not transparent animated GIF';
 }
 #status {color:#c00;}
@@ -118,10 +132,12 @@ input {font-size:1em;}
 <p>Images generated on the fly</p>
 <div id="a"></div>
 <div id="b"></div>
+<div id="c"></div>
 <p>Images encoded in base64:
 <input id="showSource" type="button" value="Show sources" onclick="ok2(this)"></p>
-<div>Source of red PNG image: <span id="a2"></span></div>
-<div>Source of animated GIF image: <span id="b2"></span></div>
+<div>Source of transparent red PNG image: <span id="a2"></span></div>
+<div>Source of not transparent red PNG image: <span id="b2"></span></div>
+<div>Source of not transparent animated GIF image: <span id="c2"></span></div>
 <footer>
 <p>Copyright 2016-2018 - François Mizessyn</p>
 </footer>

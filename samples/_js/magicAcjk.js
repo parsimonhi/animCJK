@@ -99,9 +99,10 @@ function makeAnimatedGifFromPngs(target,delay) {
 
     runTasks(tasks);
 }
-function generatePngFromSvg(paths,mmah,transparent)
+function generatePngFromSvg(paths,background,mmah)
 {
 	// paths is an array that contains a list of stroke d and fill attributes
+	// background will be the background of the image
 	// mmah indicates if the data come from MakeMeAHanzi instead of AnimCJK
 	// return a base64 encoded PNG image
 	var cn,cx,k,km,m,r,x0,y0,x1,y1,x2,y2,x3,y3;
@@ -110,8 +111,7 @@ function generatePngFromSvg(paths,mmah,transparent)
 	cn.width=1024;
 	cn.height=1024;
 	cx=cn.getContext("2d");
-	if (transparent) cx.fillStyle="transparent";
-	else cx.fillStyle="white";
+	cx.fillStyle=background;
 	cx.fillRect(0,0,cn.width,cn.height);
 	// draw strokes in the canvas 
 	km=paths.length;
@@ -154,13 +154,13 @@ function generatePngFromSvg(paths,mmah,transparent)
 	// generate a base64 encoded PNG from the canvas then return it
 	return cn.toDataURL("image/png");
 }
-function generateRedPngFromSvg(s,target)
+function generateRedPngFromSvg(s,target,background)
 {
 	// generate a "red" PNG image from a svg
 	// s is a text representing a character in svg format
-	// target is a HTML element where the animated GIF will be displayed
-	// delay is the delay between two frames
-	// the size of the animated GIF image will be the size of target
+	// target is a HTML element where the image will be displayed
+	// background will be the background of the image (including transparent)
+	// the size of the image will be the size of target
 	var k,km,img,reg,m,paths=[],mmah;
 	// if mmah is true, assume the svg comes from MakeMeAHanzi
 	// else assume the svg comes from animCJK
@@ -178,15 +178,16 @@ function generateRedPngFromSvg(s,target)
 	img.style.border="0";
 	img.width=target.clientWidth;
 	img.height=target.clientHeight;
-	img.src=generatePngFromSvg(paths,mmah,1);
+	img.src=generatePngFromSvg(paths,background,mmah);
 	// in case of automatisation, this is the right place to save the image
 	target.appendChild(img);
 }
-function generateAnimatedGifFromSvg(s,target,delay)
+function generateAnimatedGifFromSvg(s,target,delay,background)
 {
 	// generate an animated GIF image from a svg
 	// s is a text representing a character in svg format
-	// target is a HTML element where the animated GIF will be displayed
+	// target is a HTML element where the image will be displayed
+	// background will be the background of the image (excepting transparent)
 	// delay is the delay between two frames
 	// the size of the animated GIF image will be the size of target
 	var k1,k2,km,img,imgsSrc=[],ghost,mmah,m,paths,reg;
@@ -214,7 +215,7 @@ function generateAnimatedGifFromSvg(s,target,delay)
 				if (k2<k1) paths[k2].fill="#ccc";
 				else paths[k2].fill="#000";
 			}
-			imgsSrc[k1]=generatePngFromSvg(paths,mmah,0);
+			imgsSrc[k1]=generatePngFromSvg(paths,background,mmah);
 		}
 		for (k1=km;k1>=0;k1--)
 		{
@@ -225,17 +226,20 @@ function generateAnimatedGifFromSvg(s,target,delay)
 			img.style.border="0";
 			img.width=target.clientWidth;
 			img.height=target.clientHeight;
-			img.acjkKm=km;
-			img.acjkTarget=target;
-			img.acjkDelay=delay;
-			img.acjkGhost=ghost;
+			img.acjk={};
+			img.acjk.km=km;
+			img.acjk.target=target;
+			img.acjk.delay=delay;
+			img.acjk.ghost=ghost;
+			img.acjk.background=background;
 			img.onload=function(){
-				var k,km,target,delay,allDone=true;
+				var k,km,target,delay,background,allDone=true;
 				this.done=1;
-				km=this.acjkKm;
-				target=this.acjkTarget;
-				delay=this.acjkDelay;
-				ghost=this.acjkGhost;
+				km=this.acjk.km;
+				target=this.acjk.target;
+				delay=this.acjk.delay;
+				ghost=this.acjk.ghost;
+				background=this.acjk.background;
 				for(k=0;k<=km;k++)
 					if (!document.getElementById("img"+k).done) {allDone=false;break;}
 				if (allDone) // ready to generate GIF image
