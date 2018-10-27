@@ -188,6 +188,7 @@ function generateAnimatedGifFromSvg(s,target,delay,background)
 	// s is a text representing a character in svg format
 	// target is a HTML element where the image will be displayed
 	// background will be the background of the image (excepting transparent)
+	// if background is transparent, make grey strokes transparent and background white
 	// delay is the delay between two frames
 	// the size of the animated GIF image will be the size of target
 	var k1,k2,km,img,imgsSrc=[],ghost,mmah,m,paths,reg;
@@ -208,14 +209,26 @@ function generateAnimatedGifFromSvg(s,target,delay,background)
 	km=paths.length;
 	if (km)
 	{
-		for (k1=km;k1>=0;k1--) // generate km+1 images, the first is totally grey
+		for (k1=km;k1>=0;k1--) // generate km+1 images, the first is special
 		{
 			for (k2=0;k2<km;k2++)
 			{
-				if (k2<k1) paths[k2].fill="#ccc";
+				if (k2<k1)
+				{
+					// first trick to manage animated image with transparent background
+					// if background parameter is "transparent", draw transparent strokes
+					// else draw grey strokes
+					if (background=="transparent") paths[k2].fill="transparent";
+					else paths[k2].fill="#ccc";
+				}
 				else paths[k2].fill="#000";
 			}
-			imgsSrc[k1]=generatePngFromSvg(paths,background,mmah);
+			// second trick to manage animated image with transparent background
+			// if background parameter is "transparent", draw white background
+			// else draw background as is
+			if (background=="transparent")
+				imgsSrc[k1]=generatePngFromSvg(paths,"#fff",mmah);
+			else imgsSrc[k1]=generatePngFromSvg(paths,background,mmah);
 		}
 		for (k1=km;k1>=0;k1--)
 		{
@@ -231,15 +244,13 @@ function generateAnimatedGifFromSvg(s,target,delay,background)
 			img.acjk.target=target;
 			img.acjk.delay=delay;
 			img.acjk.ghost=ghost;
-			img.acjk.background=background;
 			img.onload=function(){
-				var k,km,target,delay,background,allDone=true;
+				var k,km,target,delay,allDone=true;
 				this.done=1;
 				km=this.acjk.km;
 				target=this.acjk.target;
 				delay=this.acjk.delay;
 				ghost=this.acjk.ghost;
-				background=this.acjk.background;
 				for(k=0;k<=km;k++)
 					if (!document.getElementById("img"+k).done) {allDone=false;break;}
 				if (allDone) // ready to generate GIF image

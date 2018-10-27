@@ -81,7 +81,7 @@ function ok()
 			s=xhr.responseText;
 			if (s.match(/make-me-a-hanzi/)||s.match(/<svg[\s\S]+class="acjk"/))
 			{
-				generateAnimatedGifFromSvg(s,xhr.acjkTarget,1000);
+				generateAnimatedGifFromSvg(s,xhr.acjkTarget,1000,"white");
 			}
 			else status(msg[4]);
         }

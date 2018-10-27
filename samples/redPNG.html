@@ -43,6 +43,7 @@ function ok()
 	msg[3]="Svg not in simplified Chinese repository!";
 	msg[4]="Svg not in repository!";
 	msg[5]="Enter or click on another character to display it!";
+	msg[6]="All is OK!";
 	status(msg[5]);
 	target=document.getElementById("a");
 	target.innerHTML="";
@@ -69,29 +70,30 @@ function ok()
 		status(msg[1]);
 		return;
 	}
+    file="../svgs"+((lang=="ja")?"Ja/":"ZhHans/")+data.codePointAt(0)+".svg";
 	// use ajax to get the svg file from the server
 	xhr=new XMLHttpRequest();
 	xhr.acjkTarget=target;
+	xhr.acjkFile=file;
 	xhr.onreadystatechange=function()
 	{
 		var s;
 		if ((xhr.readyState==4)&&(xhr.status==200))
 		{
+			s=xhr.responseText;
 			if (s.match(/make-me-a-hanzi/)||s.match(/<svg[\s\S]+class="acjk"/))
 			{
-				s=xhr.responseText;
-				generateRedPngFromSvg(s,xhr.acjkTarget);
+				generateRedPngFromSvg(s,xhr.acjkTarget,"transparent");
 			}
 			else status(msg[4]);
         }
         else if ((xhr.readyState==4)&&(xhr.status==404))
         {
-        	if (file.match(/svgsJa/)) status(msg[2]);
-        	else if (file.match(/svgsZhHans/)) status(msg[3]);
+        	if (xhr.acjkFile.match(/svgsJa/)) status(msg[2]);
+        	else if (xhr.acjkFile.match(/svgsZhHans/)) status(msg[3]);
         	else status(msg[4]);
         }
     };
-    file="../svgs"+((lang=="ja")?"Ja/":"ZhHans/")+data.codePointAt(0)+".svg";
   	xhr.open("GET",file,true);
   	xhr.send();
 }

@@ -10,10 +10,12 @@ on the fly from AnimCJK or MakeMeAHanzi SVG files">
 <script src="_js/magicAcjk.js"></script>
 <script>
 function status(s) {document.getElementById('status').innerHTML=s;}
+var svgsDir="svgs";
+function changeDir(dir) {svgsDir=dir;}
 function ok()
 {
 	// do what is necessary when a user clicked on "create" input
-	var data,xhr,file,a,b,c;
+	var data,xhr,file,a,b,c,d;
 	// reset display
 	status(" ");
 	a=document.getElementById('a');
@@ -22,9 +24,12 @@ function ok()
 	b.innerHTML="";
 	c=document.getElementById('c');
 	c.innerHTML="";
+	d=document.getElementById('d');
+	d.innerHTML="";
 	document.getElementById('a2').innerHTML="";
 	document.getElementById('b2').innerHTML="";
 	document.getElementById('c2').innerHTML="";
+	document.getElementById('d2').innerHTML="";
     document.getElementById('data').focus();
     document.getElementById('showSource').value="Show sources";
     // get data from the input field
@@ -32,7 +37,7 @@ function ok()
 	if (!data) {status("No data!"); return;}
 	// use ajax to get the svg file from the server
 	xhr=new XMLHttpRequest();
-	xhr.acjk={a:a,b:b,c:c,data:data};
+	xhr.acjk={a:a,b:b,c:c,d:d,data:data};
 	xhr.onreadystatechange=function()
 	{
 		var s;
@@ -45,6 +50,7 @@ function ok()
 				generateRedPngFromSvg(s,xhr.acjk.a,"transparent");
 				generateRedPngFromSvg(s,xhr.acjk.b,"white");
 				generateAnimatedGifFromSvg(s,xhr.acjk.c,1000,"white");
+				generateAnimatedGifFromSvg(s,xhr.acjk.d,1000,"transparent");
 				status("Svg file name: "+xhr.acjk.data.codePointAt(0)+".svg");
 			}
 			else status("Svg not found in svgs repository!");
@@ -53,10 +59,22 @@ function ok()
         	status("Svg not found in svgs repository!");
     };
     // svgs folder of this demo contains MakeMeAHanzi svg files
-    // but the same code works if one puts animCJK svg files in this folder
-    file="../svgs/"+data.codePointAt(0)+".svg";
+    // but the same code works with animCJK svg files
+    file="../"+svgsDir+"/"+data.codePointAt(0)+".svg";
   	xhr.open("GET",file,true);
   	xhr.send();
+}
+function base64Show(id)
+{
+	e=document.getElementById(id);
+	e2=document.getElementById(id+'2');
+	imgs=e.getElementsByTagName("img");
+	if (imgs&&imgs[0]) e2.innerHTML=imgs[0].getAttribute("src");
+	else e2.innerHTML="no data!";
+}
+function base64Hide(id)
+{
+	document.getElementById(id+'2').innerHTML="";
 }
 function ok2(input)
 {
@@ -65,34 +83,24 @@ function ok2(input)
 	var e,e2,imgs;
 	if (input.value=="Show sources")
 	{
-		e=document.getElementById('a');
-		e2=document.getElementById('a2');
-		imgs=e.getElementsByTagName("img");
-		if (imgs&&imgs[0]) e2.innerHTML=imgs[0].getAttribute("src");
-		else e2.innerHTML="no data!";
-		e=document.getElementById('b');
-		e2=document.getElementById('b2');
-		imgs=e.getElementsByTagName("img");
-		if (imgs&&imgs[0]) e2.innerHTML=imgs[0].getAttribute("src");
-		else e2.innerHTML="no data!";
-		e=document.getElementById('c');
-		e2=document.getElementById('c2');
-		imgs=e.getElementsByTagName("img");
-		if (imgs&&imgs[0]) e2.innerHTML=imgs[0].getAttribute("src");
-		else e2.innerHTML="no data!";
+		base64Show('a');
+		base64Show('b');
+		base64Show('c');
+		base64Show('d');
 		input.value="Hide sources";
 	}
 	else
 	{
 		input.value="Show sources";
-		document.getElementById('a2').innerHTML="";
-		document.getElementById('b2').innerHTML="";
-		document.getElementById('c2').innerHTML="";
+		base64Hide('a');
+		base64Hide('b');
+		base64Hide('c');
+		base64Hide('d');
 	}
 }
 </script>
 <style>
-#a,#b,#c
+#a,#b,#c,#d
 {
 	position:relative;
 	display:inline-block;
@@ -100,44 +108,64 @@ function ok2(input)
 	height:300px;
 	border:1px solid #ccc;
 	background:#eee;
-	margin-bottom:2em;
+	margin-bottom:3em;
 }
 #a:after
 {
 	position:absolute;
-	bottom:-2em;
+	top:100%;
 	content:'Transparent PNG';
 }
 #b:after
 {
 	position:absolute;
-	bottom:-2em;
+	top:100%;
 	content:'Not transparent PNG';
 }
 #c:after
 {
 	position:absolute;
-	bottom:-2em;
-	content:'Not transparent animated GIF';
+	top:100%;
+	content:'Animated GIF with grey strokes';
+}
+#d:after
+{
+	position:absolute;
+	top:100%;
+	content:'Animated GIF without grey strokes';
 }
 #status {color:#c00;}
 input {font-size:1em;}
+.dirSelector {margin-bottom:1em;}
+.dirSelector label {display:block;}
 </style>
 </head>
 <body>
 <h1>Image factory</h1>
+<div class="dirSelector">
+<p>Select a repository:</p>
+<label><input checked type="radio" name="changeDir" value="1" onclick="changeDir('svgs')"> svgs (MakeMeAHanzi)</label>
+<label><input type="radio" name="changeDir" value="2" onclick="changeDir('svgsJa')"> svgsJa (AnimCJK)</label>
+<label><input type="radio" name="changeDir" value="3" onclick="changeDir('svgsZhHans')"> svgsZhHans (AnimCJK)</label>
+</div>
+<div>
 <input id="data" type="text" maxlength="1" value="馬" placeholder="Enter a character here">
 <input type="button" value="Create" onclick="ok()">
+</div>
 <p id="status">Push "Create" button to generate the images!</p>
 <p>Images generated on the fly</p>
 <div id="a"></div>
 <div id="b"></div>
 <div id="c"></div>
+<div id="d"></div>
+<p>Note: animated GIF images without grey strokes can be transformed in transparent image
+using a tool such as gifsicle</p>
 <p>Images encoded in base64:
 <input id="showSource" type="button" value="Show sources" onclick="ok2(this)"></p>
 <div>Source of transparent red PNG image: <span id="a2"></span></div>
 <div>Source of not transparent red PNG image: <span id="b2"></span></div>
-<div>Source of not transparent animated GIF image: <span id="c2"></span></div>
+<div>Source of animated GIF image with grey strokes: <span id="c2"></span></div>
+<div>Source of animated GIF image without grey strokes: <span id="d2"></span></div>
 <footer>
 <p>Copyright 2016-2018 - François Mizessyn</p>
 </footer>
