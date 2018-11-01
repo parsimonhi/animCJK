@@ -33,6 +33,10 @@ function switchSection()
 {
 	ok();
 }
+function showAnimatedGif(image,background)
+{
+	document.getElementById("a").innerHTML="<img src=\""+image+"\">";
+}
 function ok()
 {
 	// do what is necessary when a user does something
@@ -73,15 +77,16 @@ function ok()
 	// use ajax to get the svg file from the server
 	xhr=new XMLHttpRequest();
 	xhr.acjkTarget=target;
+	xhr.acjkDec=data.codePointAt(0);
 	xhr.onreadystatechange=function()
 	{
 		var s;
 		if ((xhr.readyState==4)&&(xhr.status==200))
 		{
 			s=xhr.responseText;
-			if (s.match(/make-me-a-hanzi/)||s.match(/<svg[\s\S]+class="acjk"/))
+			if (s.match(/make-me-a-hanzi/)||s.match(/<svg[\s\S]+class="acjk/))
 			{
-				generateAnimatedGifFromSvg(s,xhr.acjkTarget,1000,"white");
+				generateAnimatedGifFromSvg(s,300,"white",1000,xhr.acjkDec,showAnimatedGif,"");
 			}
 			else status(msg[4]);
         }

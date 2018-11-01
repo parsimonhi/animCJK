@@ -77,13 +77,14 @@ function ok()
 	xhr.acjkFile=file;
 	xhr.onreadystatechange=function()
 	{
-		var s;
+		var s,a;
 		if ((xhr.readyState==4)&&(xhr.status==200))
 		{
 			s=xhr.responseText;
-			if (s.match(/make-me-a-hanzi/)||s.match(/<svg[\s\S]+class="acjk"/))
+			if (s.match(/make-me-a-hanzi/)||s.match(/<svg[\s\S]+class="acjk/))
 			{
-				generateRedPngFromSvg(s,xhr.acjkTarget,"transparent");
+				a=generateRedPngFromSvg(s,300,"transparent");
+				xhr.acjkTarget.innerHTML="<img src=\""+a+"\">";
 			}
 			else status(msg[4]);
         }
