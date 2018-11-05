@@ -8,10 +8,15 @@ on the fly from AnimCJK or MakeMeAHanzi SVG files">
 <title>Image factory</title>
 <script src="_js/Animated_GIF.js"></script>
 <script src="_js/magicAcjk.js"></script>
+<script src="_js/brushingAcjk.js"></script>
 <script>
 var svgsDir="svgs";
 function status(s) {document.getElementById('status').innerHTML=s;}
-function changeDir(dir) {svgsDir=dir;}
+function changeDir(dir)
+{
+	svgsDir=dir;
+	document.getElementById("brush").disabled=(dir=="svgs")?true:false;
+}
 function showAnimatedGif(image,background)
 {
 	if (background=="transparent")
@@ -19,10 +24,37 @@ function showAnimatedGif(image,background)
 	else
 		document.getElementById("c").innerHTML="<img src=\""+image+"\">";
 }
+function setBrushing(s)
+{
+	var target,list,k,km,idBrush,eBrush,newD=[];
+	target=document.createElement("div");
+	target.innerHTML=s;
+	list=target.querySelectorAll("svg.acjk path[clip-path]");
+	km=list.length;
+	for (k=0;k<km;k++)
+	{
+		idBrush=getPathIdFromClipPathAttribute(list[k]);
+		eBrush=target.querySelector("#"+idBrush);
+		eBrush.setAttribute("d",cleanPathBeforeBrushing(eBrush.getAttribute("d")));
+	}
+	for (k=0;k<km;k++)
+	{
+		idBrush=getPathIdFromClipPathAttribute(list[k]);
+		eBrush=target.querySelector("#"+idBrush);
+		newD[k]=strokeBrushing(eBrush);
+	}
+	for (k=0;k<km;k++)
+	{
+		idBrush=getPathIdFromClipPathAttribute(list[k]);
+		eBrush=target.querySelector("#"+idBrush);
+		eBrush.setAttribute("d",newD[k]);
+	}
+	return target.innerHTML;
+}
 function ok()
 {
 	// do what is necessary when a user clicked on "create" input
-	var data,xhr,file,a,b,c,d,dec;
+	var data,xhr,file,a,b,c,d,dec,brush;
 	// reset display
 	status(" ");
 	a=document.getElementById('a');
@@ -39,6 +71,7 @@ function ok()
 	document.getElementById('d2').innerHTML="";
     document.getElementById('data').focus();
     document.getElementById('showSource').value="Show sources";
+    brush=document.getElementById('brush').checked?1:0;
     // get data from the input field
 	data=document.getElementById("data").value;
 	if (!data) {status("No data!"); return;}
@@ -49,7 +82,7 @@ function ok()
     file="../"+svgsDir+"/"+dec+".svg";
 	// use ajax to get the svg file from the server
 	xhr=new XMLHttpRequest();
-	xhr.acjk={a:a,b:b,c:c,d:d,data:data,file:file,dec:dec};
+	xhr.acjk={a:a,b:b,c:c,d:d,data:data,file:file,dec:dec,brush:brush};
 	xhr.onreadystatechange=function()
 	{
 		var s,a,b;
@@ -59,9 +92,15 @@ function ok()
 			// check the response (some servers may return an error page here)
 			if (s.match(/make-me-a-hanzi/)||s.match(/<svg[\s\S]+class="acjk/))
 			{
+				if (xhr.acjk.brush&&s.match(/<svg[\s\S]+class="acjk/))
+				{
+					s=s.replace(/z([0-9]{5})/g,"z1-$1");
+					s=setBrushing(s);
+					s=s.replace(/z[0-9]+-([0-9]{5})/g,"z$1");
+				}
 				a=generateRedPngFromSvg(s,300,"transparent");
 				xhr.acjk.a.innerHTML="<img src=\""+a+"\">";
-				b=generateRedPngFromSvg(s,300,"transparent");
+				b=generateRedPngFromSvg(s,300,"white");
 				xhr.acjk.b.innerHTML="<img src=\""+b+"\">";
 				generateAnimatedGifFromSvg(s,300,"white",1000,xhr.acjk.dec,showAnimatedGif,"");
 				generateAnimatedGifFromSvg(s,300,"transparent",1000,xhr.acjk.dec,showAnimatedGif,"");
@@ -160,7 +199,10 @@ input {font-size:1em;}
 <label><input type="radio" name="changeDir" value="2" onclick="changeDir('svgsJa')"> svgsJa (from AnimCJK, 2998 characters)</label>
 <label><input type="radio" name="changeDir" value="3" onclick="changeDir('svgsZhHans')"> svgsZhHans (from AnimCJK, 7000 characters)</label>
 </div>
-<div>
+<div class="dirSelector">
+<label><input id="brush" type="checkbox" disabled checked> Brush effect</label>
+</div>
+<div class="dirSelector">
 <input id="data" type="text" maxlength="1" value="馬" placeholder="Enter a character here">
 <input type="button" value="Create" onclick="ok()">
 </div>

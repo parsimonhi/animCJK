@@ -15,12 +15,13 @@
 
 function computeOne(a,k,km)
 {
+	if (km==1) return a>>1;
 	return Math.floor((k-1)*a/Math.max(km-1,1));
 }
 function colorize(k,km)
 {
 	// compute stroke color
-	var r=252,g=14,b=28;
+	var r=255,g=0,b=0;
 	return "rgb("+computeOne(r,k,km)+","+computeOne(g,k,km)+","+computeOne(b,k,km)+")";
 }
 function generatePngFromSvg(paths,background,mmah,size)
@@ -37,7 +38,7 @@ function generatePngFromSvg(paths,background,mmah,size)
 	cx=cn.getContext("2d");
 	if (size!=1024) cx.scale(size/1024,size/1024);
 	cx.fillStyle=background;
-	cx.fillRect(0,0,cn.width,cn.height);
+	cx.fillRect(0,0,1024,1024);
 	// draw strokes in the canvas 
 	km=paths.length;
 	r=/ ?([MLQC]) ?([0-9-]+) ([0-9-]+) ?([0-9-]+)? ?([0-9-]+)? ?([0-9-]+)? ?([0-9-]+)?/g;
