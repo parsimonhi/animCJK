@@ -10,14 +10,13 @@ on the fly from AnimCJK or MakeMeAHanzi SVG files">
 <script src="_js/magicAcjk.js"></script>
 <script src="_js/brushingAcjk.js"></script>
 <script>
-var svgsDir="svgs";
+var svgsDir="svgsJa";
 function status(s) {document.getElementById('status').innerHTML=s;}
 function changeDir(dir)
 {
 	svgsDir=dir;
-	document.getElementById("brush").disabled=(dir=="svgs")?true:false;
 }
-function showAnimatedGif(image,background)
+function showAnimatedGif(image,background,dec)
 {
 	if (background=="transparent")
 		document.getElementById("d").innerHTML="<img src=\""+image+"\">";
@@ -54,56 +53,59 @@ function setBrushing(s)
 function ok()
 {
 	// do what is necessary when a user clicked on "create" input
-	var data,xhr,file,a,b,c,d,dec,brush;
+	var data,xhr,file,a,b,c,d,e,a2,b2,c2,d2,e2,dec;
 	// reset display
 	status(" ");
-	a=document.getElementById('a');
-	a.innerHTML="";
-	b=document.getElementById('b');
-	b.innerHTML="";
-	c=document.getElementById('c');
-	c.innerHTML="";
-	d=document.getElementById('d');
-	d.innerHTML="";
-	document.getElementById('a2').innerHTML="";
-	document.getElementById('b2').innerHTML="";
-	document.getElementById('c2').innerHTML="";
-	document.getElementById('d2').innerHTML="";
+	if (a=document.getElementById('a')) a.innerHTML="";
+	if (b=document.getElementById('b')) b.innerHTML="";
+	if (c=document.getElementById('c')) c.innerHTML="";
+	if (d=document.getElementById('d')) d.innerHTML="";
+	if (e=document.getElementById('e')) e.innerHTML="";
+	if (a2=document.getElementById('a2')) a2.innerHTML="";
+	if (b2=document.getElementById('b2')) b2.innerHTML="";
+	if (c2=document.getElementById('c2')) c2.innerHTML="";
+	if (d2=document.getElementById('d2')) d2.innerHTML="";
+	if (e2=document.getElementById('e2')) e2.innerHTML="";
     document.getElementById('data').focus();
     document.getElementById('showSource').value="Show sources";
-    brush=document.getElementById('brush').checked?1:0;
     // get data from the input field
 	data=document.getElementById("data").value;
 	if (!data) {status("No data!"); return;}
 	dec=data.codePointAt(0);
     // svgs folder of this demo contains MakeMeAHanzi svg files
     // svgs folder contains only 鼠貓牛虎兔龍蛇馬羊猴雞狗 at the moment
-    // but the same code works with animCJK svg files
+    // but the same code works with any MakeMeAHanzi or animCJK svg files
     file="../"+svgsDir+"/"+dec+".svg";
 	// use ajax to get the svg file from the server
 	xhr=new XMLHttpRequest();
-	xhr.acjk={a:a,b:b,c:c,d:d,data:data,file:file,dec:dec,brush:brush};
+	xhr.acjk={a:a,b:b,c:c,d:d,e:e,data:data,file:file,dec:dec};
 	xhr.onreadystatechange=function()
 	{
-		var s,a,b;
+		var s,sa,sb,se;
 		if ((xhr.readyState==4)&&(xhr.status==200))
 		{
 			s=xhr.responseText;
 			// check the response (some servers may return an error page here)
-			if (s.match(/make-me-a-hanzi/)||s.match(/<svg[\s\S]+class="acjk/))
+			if (s.match(/make-me-a-hanzi/)||s.match(/<svg[^>]+class="acjk/))
 			{
-				if (xhr.acjk.brush&&s.match(/<svg[\s\S]+class="acjk/))
-				{
-					s=s.replace(/z([0-9]{5})/g,"z1-$1");
-					s=setBrushing(s);
-					s=s.replace(/z[0-9]+-([0-9]{5})/g,"z$1");
-				}
-				a=generateRedPngFromSvg(s,300,"transparent");
-				xhr.acjk.a.innerHTML="<img src=\""+a+"\">";
-				b=generateRedPngFromSvg(s,300,"white");
-				xhr.acjk.b.innerHTML="<img src=\""+b+"\">";
+				// add a brush effect on svg paths if they contain straight lines as clips
+				if ((s.match(/<svg[^>]+class="acjk/))
+					&&(s.match(/<path[^>]+id="[^>]+L/))) s=setBrushing(s);
+				sa=generateRedPngFromSvg(s,300,"transparent");
+				xhr.acjk.a.innerHTML="<img src=\""+sa+"\">";
+				// don't generate opaque png in this version
+				// sb=generateRedPngFromSvg(s,300,"white");
+				// xhr.acjk.b.innerHTML="<img src=\""+sb+"\">";
 				generateAnimatedGifFromSvg(s,300,"white",1000,xhr.acjk.dec,showAnimatedGif,"");
-				generateAnimatedGifFromSvg(s,300,"transparent",1000,xhr.acjk.dec,showAnimatedGif,"");
+				// don't generate animated gif without grey strokes in this version
+				// generateAnimatedGifFromSvg(s,300,"transparent",1000,xhr.acjk.dec,showAnimatedGif,"");
+				if (s.match(/<svg[^>]+class="acjk/))
+				{
+					xhr.acjk.e.style.display="inline-block";
+					se=generateSequencePngFromSvg(s,110,"white");
+					xhr.acjk.e.innerHTML="<img src=\""+se+"\">";
+				}
+				else xhr.acjk.e.style.display="none";
 				status("Svg file name: "+xhr.acjk.dec+".svg");
 			}
 			else status("Svg not found in svgs repository!");
@@ -134,28 +136,38 @@ function ok2(input)
 	if (input.value=="Show sources")
 	{
 		base64Show('a');
-		base64Show('b');
+		//base64Show('b');
 		base64Show('c');
-		base64Show('d');
+		//base64Show('d');
+		base64Show('e');
 		input.value="Hide sources";
 	}
 	else
 	{
 		input.value="Show sources";
 		base64Hide('a');
-		base64Hide('b');
+		//base64Hide('b');
 		base64Hide('c');
-		base64Hide('d');
+		//base64Hide('d');
+		base64Hide('e');
 	}
 }
 </script>
 <style>
 #a,#b,#c,#d
 {
-	position:relative;
-	display:inline-block;
 	width:300px;
 	height:300px;
+	position:relative;
+	display:inline-block;
+	border:1px solid #ccc;
+	background:#eee;
+	margin-bottom:3em;
+}
+#e
+{
+	position:relative;
+	display:none;
 	border:1px solid #ccc;
 	background:#eee;
 	margin-bottom:3em;
@@ -184,7 +196,13 @@ function ok2(input)
 	top:100%;
 	content:'Animated GIF without grey strokes';
 }
-#a img,#b img,#c img,#d img {display:block;}
+#e:after
+{
+	position:absolute;
+	top:100%;
+	content:'Sequence PNG';
+}
+#a img,#b img,#c img,#d img,#e img {display:block;}
 #status {color:#c00;}
 input {font-size:1em;}
 .dirSelector {margin-bottom:1em;}
@@ -195,12 +213,9 @@ input {font-size:1em;}
 <h1>Image factory</h1>
 <div class="dirSelector">
 <p>Select a repository:</p>
-<label><input checked type="radio" name="changeDir" value="1" onclick="changeDir('svgs')"> svgs (from MakeMeAHanzi, contains only 鼠貓牛虎兔龍蛇馬羊猴雞狗)</label>
-<label><input type="radio" name="changeDir" value="2" onclick="changeDir('svgsJa')"> svgsJa (from AnimCJK, 2998 characters)</label>
-<label><input type="radio" name="changeDir" value="3" onclick="changeDir('svgsZhHans')"> svgsZhHans (from AnimCJK, 7000 characters)</label>
-</div>
-<div class="dirSelector">
-<label><input id="brush" type="checkbox" disabled checked> Brush effect (for AnimCJK files only)</label>
+<label><input checked type="radio" name="changeDir" value="1" onclick="changeDir('svgsJa')"> svgsJa (from AnimCJK, 2998 characters)</label>
+<label><input type="radio" name="changeDir" value="2" onclick="changeDir('svgsZhHans')"> svgsZhHans (from AnimCJK, 7000 characters)</label>
+<label><input type="radio" name="changeDir" value="3" onclick="changeDir('svgs')"> svgs (from MakeMeAHanzi, just for testing, contains only 鼠貓牛虎兔龍蛇馬羊猴雞狗)</label>
 </div>
 <div class="dirSelector">
 <input id="data" type="text" maxlength="1" value="馬" placeholder="Enter a character here">
@@ -209,17 +224,19 @@ input {font-size:1em;}
 <p id="status">Push "Create" button to generate the images!</p>
 <p>Images generated on the fly</p>
 <div id="a"></div>
-<div id="b"></div>
+<!-- <div id="b"></div> -->
 <div id="c"></div>
-<div id="d"></div>
-<p>Note: animated GIF images without grey strokes can be transformed in transparent image
-using a tool such as gifsicle</p>
+<!-- <div id="d"></div> -->
+<div id="e"></div>
+<!-- <p>Note: animated GIF images without grey strokes can be transformed in transparent image
+using a tool such as gifsicle</p> -->
 <p>Images encoded in base64:
 <input id="showSource" type="button" value="Show sources" onclick="ok2(this)"></p>
 <div>Source of transparent red PNG image: <span id="a2"></span></div>
-<div>Source of not transparent red PNG image: <span id="b2"></span></div>
+<!-- <div>Source of not transparent red PNG image: <span id="b2"></span></div> -->
 <div>Source of animated GIF image with grey strokes: <span id="c2"></span></div>
-<div>Source of animated GIF image without grey strokes: <span id="d2"></span></div>
+<!-- <div>Source of animated GIF image without grey strokes: <span id="d2"></span></div> -->
+<div>Source of sequence PNG image: <span id="e2"></span></div>
 <footer>
 <p>Copyright 2016-2018 - François Mizessyn</p>
 </footer>

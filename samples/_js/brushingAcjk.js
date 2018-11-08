@@ -1,13 +1,22 @@
 if (typeof debug=='undefined') debug=0;
 
+SVGPathElement.prototype.getPointAtLengthForAcjk = function(k) {
+	if (!this.gpal) this.gpal=[];
+	if (!this.gpal[k]) this.gpal[k]=this.getPointAtLength(k);
+	return this.gpal[k];
+}
+SVGPathElement.prototype.getTotalLengthForAcjk = function(k) {
+	if (!this.gtl) this.gtl=Math.floor(this.getTotalLength());
+	return this.gtl;
+}
 function getPathIdFromClipPathAttribute(e)
 {
-	return e.getAttribute("clip-path").replace(/^.*(z[0-9]+-[0-9]+)c(.*)\)$/,"$1d$2");
+	return e.getAttribute("clip-path").replace(/^.*(z[0-9-]+)c(.*)\)$/,"$1d$2");
 }
 function getLengthAtNode(e,p,sign)
 {
 	var k,k2=0,len,p1,p2,x,y;
-	len=Math.floor(e.getTotalLength());
+	len=e.getTotalLengthForAcjk();
 	p1=p;
 	z=len>>2;
 	if (sign=="-")
@@ -17,7 +26,7 @@ function getLengthAtNode(e,p,sign)
 		{
 			for (k=k2;k<=len;k+=z)
 			{
-				p2=e.getPointAtLength(k);
+				p2=e.getPointAtLengthForAcjk(k);
 				if ((p1.x>(p2.x-z))&&(p1.x<(p2.x+z))&&(p1.y>(p2.y-z))&&(p1.y<(p2.y+z))) break;
 			}
 			k2=k;
@@ -31,30 +40,30 @@ function getLengthAtNode(e,p,sign)
 		{
 			for (k=k2;k>=0;k-=z)
 			{
-				p2=e.getPointAtLength(k);
+				p2=e.getPointAtLengthForAcjk(k);
 				if ((p1.x>(p2.x-z))&&(p1.x<(p2.x+z))&&(p1.y>(p2.y-z))&&(p1.y<(p2.y+z))) break;
 			}
 			k2=k;
 			z=z>>1;
 		}
 	}
-	if (debug) debug("in getLengthAtNode k="+k+"<br>",1);
+	if (debug) debug("in getLengthAtNode id="+e.id+" k="+k+"<br>",1);
 	return k;
 }
 function getAnotherPointOnPath(eBrush,p1,sign)
 {
 	var k,len,n=5,p2;
-	len=Math.floor(eBrush.getTotalLength());
+	len=eBrush.getTotalLengthForAcjk();
 	k=getLengthAtNode(eBrush,p1,sign);
 	if (sign=="-")
 	{
-		if (k>=n) p2=eBrush.getPointAtLength(k-n);
-		else p2=eBrush.getPointAtLength(k-n+len);
+		if (k>=n) p2=eBrush.getPointAtLengthForAcjk(k-n);
+		else p2=eBrush.getPointAtLengthForAcjk(k-n+len);
 	}
 	else
 	{
-		if ((len-k)>=n) p2=eBrush.getPointAtLength(k+n);
-		else p2=eBrush.getPointAtLength(k+n-len);
+		if ((len-k)>=n) p2=eBrush.getPointAtLengthForAcjk(k+n);
+		else p2=eBrush.getPointAtLengthForAcjk(k+n-len);
 	}
 	p2.x=Math.round(p2.x);
 	p2.y=Math.round(p2.y);
@@ -99,14 +108,15 @@ function isNodeInStroke(e,x,y)
 }
 function isPointInStroke(e,x,y)
 {
+	// rarely used
 	if (debug) debug("in isPointInStroke "+x+" "+y+" in "+e.getAttribute("id")+"<br>",1);
-	var len=Math.floor(e.getTotalLength());
+	var len=e.getTotalLengthForAcjk();
 	var k,p,z=3;
 	x=parseInt(x);
 	y=parseInt(y);
 	for (k=0;k<=len;k=k+z) // todo: dichotomia here? or accelerator?
 	{
-		p=e.getPointAtLength(k);
+		p=e.getPointAtLengthForAcjk(k);
 		if ((x>(p.x-z))&&(x<(p.x+z))&&(y>(p.y-z))&&(y<(p.y+z)))
 		{
 			if (debug) debug("in isPointInStroke, found "+x+" "+y+" at "+k+" in "+e.getAttribute("id")+"<br>",1);
@@ -120,14 +130,14 @@ function isNodeElsewhere(target,idBrush,x,y)
 	// check if a point is in another stroke
 	var list=target.querySelectorAll("svg.acjk path[id]");
 	var k,km,n1,m1,n2,m2,id;
-	n1=idBrush.replace(/^(z[0-9]+-[0-9]+)d([0-9abcd]+)$/,"$1");
-	m1=idBrush.replace(/^(z[0-9]+-[0-9]+)d([0-9abcd]+)$/,"$2");
+	n1=idBrush.replace(/^(z[0-9-]+)d[0-9abcd]+$/,"$1");
+	m1=idBrush.replace(/^z[0-9-]+d([0-9abcd]+)$/,"$1");
 	km=list.length;
 	for (k=0;k<km;k++)
 	{
 		id=list[k].getAttribute("id");
-		n2=id.replace(/^(z[0-9]+-[0-9]+)d([0-9abcd]+)$/,"$1");
-		m2=id.replace(/^(z[0-9]+-[0-9]+)d([0-9abcd]+)$/,"$2");
+		n2=id.replace(/^(z[0-9-]+)d[0-9abcd]+$/,"$1");
+		m2=id.replace(/^z[0-9-]+d([0-9abcd]+)$/,"$1");
 		if ((n1==n2)&&(m1!=m2)&&isNodeInStroke(list[k],x,y)) return 1;
 	}
 	return 0;
@@ -137,14 +147,14 @@ function isPointElsewhere(target,idBrush,x,y)
 	// check if a point is in another stroke
 	var list=target.querySelectorAll("svg.acjk path[id]");
 	var k,km,n1,m1,n2,m2,id;
-	n1=idBrush.replace(/^(z[0-9]+-[0-9]+)d([0-9abcd]+)$/,"$1");
-	m1=idBrush.replace(/^(z[0-9]+-[0-9]+)d([0-9abcd]+)$/,"$2");
+	n1=idBrush.replace(/^(z[0-9-]+)d[0-9abcd]+$/,"$1");
+	m1=idBrush.replace(/^z[0-9-]+d([0-9abcd]+)$/,"$1");
 	km=list.length;
 	for (k=0;k<km;k++)
 	{
 		id=list[k].getAttribute("id");
-		n2=id.replace(/^(z[0-9]+-[0-9]+)d([0-9abcd]+)$/,"$1");
-		m2=id.replace(/^(z[0-9]+-[0-9]+)d([0-9abcd]+)$/,"$2");
+		n2=id.replace(/^(z[0-9-]+)d[0-9abcd]+$/,"$1");
+		m2=id.replace(/^z[0-9-]+d([0-9abcd]+)$/,"$1");
 		if ((n1==n2)&&(m1!=m2)&&(isPointInStroke(list[k],x,y)>=0)) return 1;
 	}
 	return 0;
@@ -162,15 +172,15 @@ function isNodesElsewhere(target,id1,x1,y1,x2,y2)
 	// check if (x1,y1) and (x2,y2) are both nodes of another stroke
 	var list=target.querySelectorAll("svg.acjk path[id]");
 	var k,km,n1,m1,n2,m2,id2,d,q1,q2;
-	n1=id1.replace(/^(z[0-9]+-[0-9]+)d([0-9abcd]+)$/,"$1");
-	m1=id1.replace(/^(z[0-9]+-[0-9]+)d([0-9abcd]+)$/,"$2");
+	n1=id1.replace(/^(z[0-9-]+)d[0-9abcd]+$/,"$1");
+	m1=id1.replace(/^z[0-9-]+d([0-9abcd]+)$/,"$1");
 	km=list.length;
 	if (debug) debug(id1+" in isNodesElsewhere<br>",1);
 	for (k=0;k<km;k++)
 	{
 		id2=list[k].getAttribute("id");
-		n2=id2.replace(/^(z[0-9]+-[0-9]+)d([0-9abcd]+)$/,"$1");
-		m2=id2.replace(/^(z[0-9]+-[0-9]+)d([0-9abcd]+)$/,"$2");
+		n2=id2.replace(/^(z[0-9-]+)d[0-9abcd]+$/,"$1");
+		m2=id2.replace(/^z[0-9-]+d([0-9abcd]+)$/,"$1");
 		if ((n1==n2)&&(m1!=m2)) // same character, different stroke
 		{
 			d=list[k].getAttribute("d");
@@ -192,14 +202,14 @@ function isSegmentElsewhere(target,id1,x1,y1,x2,y2)
 	// could be "x1 y1 L x2 y2" or "x1 y1 Q ... x2 y2" or "x1 y1 C ... x2 y2"
 	var list=target.querySelectorAll("svg.acjk path[id]");
 	var k,km,n1,m1,n2,m2,id2,d,q;
-	n1=id1.replace(/^(z[0-9]+-[0-9]+)d([0-9abcd]+)$/,"$1");
-	m1=id1.replace(/^(z[0-9]+-[0-9]+)d([0-9abcd]+)$/,"$2");
+	n1=id1.replace(/^(z[0-9-]+)d[0-9abcd]+$/,"$1");
+	m1=id1.replace(/^z[0-9-]+d([0-9abcd]+)$/,"$1");
 	km=list.length;
 	for (k=0;k<km;k++)
 	{
 		id2=list[k].getAttribute("id");
-		n2=id2.replace(/^(z[0-9]+-[0-9]+)d([0-9abcd]+)$/,"$1");
-		m2=id2.replace(/^(z[0-9]+-[0-9]+)d([0-9abcd]+)$/,"$2");
+		n2=id2.replace(/^(z[0-9-]+)d[0-9abcd]+$/,"$1");
+		m2=id2.replace(/^z[0-9-]+d([0-9abcd]+)$/,"$1");
 		if ((n1==n2)&&(m1!=m2)) // same character, different stroke
 		{
 			d=list[k].getAttribute("d");
@@ -230,19 +240,19 @@ function whichSegmentElsewhere(target,id1,x1,y1,x2,y2)
 	// one of the two nodes not found, thus look for points
 	var list=target.querySelectorAll("svg.acjk path[id]");
 	var k,km,n1,m1,n2,m2,id2,d,q,k1,k2,k3,ktot,delta,ratio;
-	n1=id1.replace(/^(z[0-9]+-[0-9]+)d([0-9abcd]+)$/,"$1");
-	m1=id1.replace(/^(z[0-9]+-[0-9]+)d([0-9abcd]+)$/,"$2");
+	n1=id1.replace(/^(z[0-9-]+)d[0-9abcd]+$/,"$1");
+	m1=id1.replace(/^z[0-9-]+d([0-9abcd]+)$/,"$1");
 	km=list.length;
 	for (k=0;k<km;k++)
 	{
 		id2=list[k].getAttribute("id");
-		n2=id2.replace(/^(z[0-9]+-[0-9]+)d([0-9abcd]+)$/,"$1");
-		m2=id2.replace(/^(z[0-9]+-[0-9]+)d([0-9abcd]+)$/,"$2");
+		n2=id2.replace(/^(z[0-9-]+)d[0-9abcd]+$/,"$1");
+		m2=id2.replace(/^z[0-9-]+d([0-9abcd]+)$/,"$1");
 		if ((n1==n2)&&(m1!=m2)) // same character, different stroke
 		{
 			if (((k1=isPointInStroke(list[k],x1,y1))>=0)&&((k2=isPointInStroke(list[k],x2,y2))>=0))
 			{
-				ktot=list[k].getTotalLength();
+				ktot=list[k].getTotalLengthForAcjk();
 				if (k1>k2) {k3=k2;k2=k1;k1=k3;}
 				delta=Math.min(k2-k1,ktot-k2+k1);
 				ratio=delta/ktot;
