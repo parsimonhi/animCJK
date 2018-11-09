@@ -16,9 +16,9 @@ The svgsKana folder contains svg files corresponding to the Japanese "hiragana" 
 
 The svgsZhHans folder contains svg files corresponding to Chinese "commonly used hanzi" (7000 characters). This set includes the "HSK hanzi" (2663) and the "frequently used simplified hanzi" (3500 characters). 38 characters of the "HSK hanzi" are not in the "frequently used simplified hanzi".
 
-Note that some svg files are in both svgsJa and svgsZhHans. However, take care because characters are not always the same in Japanese and in Chinese even when they share the same unicode.
+Note that some svg files are in both svgsJa and svgsZhHans. However, take care because characters are not always the same in Japanese and in Chinese even when they share the same unicode. For instance 勉 (21193.svg) in Japanese has not the same shape as 勉 (21193.svg) in Chinese.
 
-Take care of compatibility characters such as 勉 that has in Japanese the same shape as 勉 in Chinese, but has not the same unicode.
+Take care of compatibility characters such as 勉 (64051.svg) that has in Japanese the same shape as 勉 (21193.svg) in Chinese, but has not the same unicode.
 
 Each svg can be inserted as is in a web page, or with some modifications using for instance javascript.
 
