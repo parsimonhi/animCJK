@@ -449,8 +449,8 @@ function generateSequencePngUsingCanvas(paths,medians,background,mmah,size)
 			while (m=r.exec(paths[k].d))
 			{
 				x1=parseInt(m[2])+xi;
-				y1=parseInt(m[3])+yi;
-				if (mmah) y1=-y1+900;
+				if (mmah) y1=-parseInt(m[3])+900+yi;
+				else y1=parseInt(m[3])+yi;
 				if (!x0) x0=x1;
 				if (!y0) y0=y1;
 				if (m[1]=="M") cx.moveTo(x1,y1);
@@ -458,14 +458,14 @@ function generateSequencePngUsingCanvas(paths,medians,background,mmah,size)
 				else
 				{
 					x2=parseInt(m[4])+xi;
-					y2=parseInt(m[5])+yi;
-					if (mmah) y2=-y2+900;
+					if (mmah) y2=-parseInt(m[5])+900+yi;
+					else y2=parseInt(m[5])+yi;
 					if (m[1]=="Q") cx.quadraticCurveTo(x1,y1,x2,y2);
 					else
 					{
 						x3=parseInt(m[6])+xi;
-						y3=parseInt(m[7])+yi;
-						if (mmah) y3=-y3+900;
+						if (mmah) y3=-parseInt(m[7])+900+yi;
+						else y3=parseInt(m[7])+yi;
 						cx.bezierCurveTo(x1,y1,x2,y2,x3,y3);
 					}
 				}
@@ -481,8 +481,10 @@ function generateSequencePngUsingCanvas(paths,medians,background,mmah,size)
 			color="#77f";
 			points=[];
 			while (m=r2.exec(medians[k2-1].d))
-				points.push({x:parseInt(m[1]),y:parseInt(m[2])});
-			if (debug) debug(k2+" num of pts="+points.length+"<br>",1);
+			{
+				if (mmah) points.push({x:parseInt(m[1]),y:-parseInt(m[2])+900});
+				else points.push({x:parseInt(m[1]),y:parseInt(m[2])});
+			}
 			points=reducePointsNum(points);
 			km3=points.length;
 			if (km3>0)
@@ -807,11 +809,17 @@ function generateSequencePngUsingCanvas(paths,medians,background,mmah,size)
 							}
 							else if ((sloopType0[2]=="B")&&(sloopTypeM[2]=="T")&&(xm0>x0))
 							{
-								// 寧5
+								// 寧5 狗2
 								a0=-delta*0.714;
 								b0=delta*0.714;
-								reducX=-delta*(0.714*2)-2*(mM.xMax+xi-xm0);
-								reducY=0;
+								if ((mM.xMax-mM.xMin)>(mM.yMax-mM.yMin)) // 寧5
+									reducX=-delta*(0.714*2)-2*(mM.xMax+xi-xm0);
+								else // 狗2
+									reducX=0;
+								if ((mM.xMax-mM.xMin)>(mM.yMax-mM.yMin)) // 寧5
+									reducY=0;
+								else // 狗2
+									reducY=delta*(0.714*2)+(mM.yMax+yi-ym0);
 							}
 							else
 							{
@@ -958,14 +966,12 @@ function generateSequencePngUsingCanvas(paths,medians,background,mmah,size)
 						color="#f7f";
 					}
 					
-					if (debug) debug(k2+" km3="+km3+" rx:"+Math.round(reducX)+" ry:"+Math.round(reducY)+" a0:"+Math.round(angle0)+" aM:"+Math.round(angleM)+" "+sloopType0[0]+" "+sloopType0[1]+" "+sloopTypeM[0]+" "+sloopTypeM[1]+"<br>",1);
+					if (debug) debug(k2+" km3="+km3+" rx:"+Math.round(reducX)+" ry:"+Math.round(reducY)+" a0:"+Math.round(angle0)+" aM:"+Math.round(angleM)+" "+sloopType0[0]+" "+sloopType0[1]+" "+sloopType0[2]+" "+sloopTypeM[0]+" "+sloopTypeM[1]+" "+sloopTypeM[2]+"<br>",1);
 					points=reducePointsSize(points,reducX,reducY,reducXT,reducYT,delta,mM);
 					for (k3=0;k3<km3;k3++)
 					{
 						points[k3].x=points[k3].x+xi+a0;
 						points[k3].y=points[k3].y+yi+b0;
-						//points[k3].x=points[k3].x+xi+a0+(am-a0)*(points[k3].x-x0)/(xm0-x0);
-						//points[k3].y=points[k3].y+yi+b0+(bm-b0)*(points[k3].y-y0)/(ym0-y0);
 					}
 					smooth(cx,points,color,lw);
 					arrow(cx,points[km3-2].x,points[km3-2].y,points[km3-1].x,points[km3-1].y,color,lw);
@@ -990,9 +996,10 @@ function generateSequencePngFromSvg(s,size,background)
 	if (mmah) reg=/<path d=\"([^\"]*)\" fill=\"lightgray\"/g;
 	else reg=/<path id=\"[^\"]*\" d=\"([^\"]*)\"/g;
 	while (m=reg.exec(s)) paths.push({d:m[1]});
-	reg=/<path[^>]+clip-path=[^>]+d=\"([^\"]*)\"/g;
+	reg=/<path[^>]+clip-path=[^>]+ d=\"([^\"]*)\"/g;
 	while (m=reg.exec(s)) medians.push({d:m[1]});
 	km=paths.length;
+	if (debug) debug("<br>generateSequencePngFromSvg pathNum="+km+" medianNum="+medians.length+" mmah="+mmah+"<br>",0);
 	// first image
 	for (k=0;k<km;k++) paths[k].fill="black";
 	// return base64 PNG image

@@ -11,6 +11,16 @@ on the fly from AnimCJK or MakeMeAHanzi SVG files">
 <script src="_js/brushingAcjk.js"></script>
 <script>
 var svgsDir="svgsJa";
+function debug(s,a)
+{
+	return;
+	var e;
+	if (e=document.getElementById("debug"))
+	{
+		if (a) e.innerHTML+=s;
+		else e.innerHTML=s;
+	}
+}
 function status(s) {document.getElementById('status').innerHTML=s;}
 function changeDir(dir)
 {
@@ -99,13 +109,8 @@ function ok()
 				generateAnimatedGifFromSvg(s,300,"white",1000,xhr.acjk.dec,showAnimatedGif,"");
 				// don't generate animated gif without grey strokes in this version
 				// generateAnimatedGifFromSvg(s,300,"transparent",1000,xhr.acjk.dec,showAnimatedGif,"");
-				if (s.match(/<svg[^>]+class="acjk/))
-				{
-					xhr.acjk.e.style.display="inline-block";
-					se=generateSequencePngFromSvg(s,110,"white");
-					xhr.acjk.e.innerHTML="<img src=\""+se+"\">";
-				}
-				else xhr.acjk.e.style.display="none";
+				se=generateSequencePngFromSvg(s,110,"white");
+				xhr.acjk.e.innerHTML="<img src=\""+se+"\">";
 				status("Svg file name: "+xhr.acjk.dec+".svg");
 			}
 			else status("Svg not found in svgs repository!");
@@ -167,10 +172,12 @@ function ok2(input)
 #e
 {
 	position:relative;
-	display:none;
+	display:inline-block;
 	border:1px solid #ccc;
 	background:#eee;
 	margin-bottom:3em;
+	min-height:110px;
+	min-width:110px;
 }
 #a:after
 {
@@ -237,6 +244,7 @@ using a tool such as gifsicle</p> -->
 <div>Source of animated GIF image with grey strokes: <span id="c2"></span></div>
 <!-- <div>Source of animated GIF image without grey strokes: <span id="d2"></span></div> -->
 <div>Source of sequence PNG image: <span id="e2"></span></div>
+<div id="debug"></div>
 <footer>
 <p>Copyright 2016-2018 - François Mizessyn</p>
 </footer>
