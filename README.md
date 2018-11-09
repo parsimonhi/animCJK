@@ -1,4 +1,4 @@
-# animCJK
+# AnimCJK
 
 ## Description
 
@@ -6,7 +6,7 @@ The purpose of this project is to display kanji and kana (Japanese characters) o
 
 For a demo, see http://gooo.free.fr/animCJK/official
 
-Each character has a corresponding svg file in animCJK repository that contains paths defining its shape and some css code to animate it. The name of the svg is the decimal unicode of the character followed by the "svg" extension.
+Each character has a corresponding svg file in AnimCJK repository that contains paths defining its shape and some css code to animate it. The name of the svg is the decimal unicode of the character followed by the "svg" extension.
 
 ## SVG files
 
@@ -24,13 +24,13 @@ Each svg can be inserted as is in a web page, or with some modifications using f
 
 ## Samples
 
-Several samples are provided to show how to use animCJK.
+Several samples are provided to show how to use AnimCJK.
 These samples are stored in the samples folder.
 See also http://gooo.free.fr/animCJK/official/samples
 
 ## Decomposition system
 
-Character decompositions using a specific system to animCJK are stored in dictionaryJa.txt and dictionaryZhHans.txt).
+Character decompositions using a specific system to AnimCJK are stored in dictionaryJa.txt and dictionaryZhHans.txt).
 
 A decomposition starts with a character, followed by its number of stroke (which indicates that the character is not decomposed), or followed by an ideographic description character (which indicates that the character is decomposed).
 The ideographic description character is followed by several component decompositions (3 for "⿲" and "⿳", 2 for ⿰","⿱","⿴","⿵","⿶","⿷","⿸","⿹","⿺" and "⿻).
@@ -50,7 +50,7 @@ The animkanji_wp_plugin.zip contains a Wordpress plugin to insert animated kanji
 
 ## Technical details
 
-To animate a character, animCJK uses the following method: the character shape is split in several paths (one per stroke). These paths are used as clip-path, and dashed lines are drawn over these paths. Initially, the space between two dashes is very large. Using a css animation, this space is reduced to zero. As a result, one has the impression that the strokes are drawn gradually.
+To animate a character, AnimCJK uses the following method: the character shape is split in several paths (one per stroke). These paths are used as clip-path, and dashed lines are drawn over these paths. Initially, the space between two dashes is very large. Using a css animation, this space is reduced to zero. As a result, one has the impression that the strokes are drawn gradually.
 
 If several characters are inserted in the same page, and if one need to animate them one after the other, one has to modify the animation-delay in the css of the svg. If a character is displayed several times in the same page, one also need to modify the id of its elements. This can be done using javascript. Alternately, one can encapsulate each svg in an iframe.
 
@@ -58,28 +58,28 @@ Note: some kana (those which have a stroke overlapping on itself as あ, ぬ etc
 
 ## Related works
 
-### makemeahanzi
+### Makemeahanzi
 
-This project is derived from the remarquable makemeahanzi project which is designed to display Chinese characters. See https://github.com/skishore/makemeahanzi for more details. Many characters were modified or added in animCJK (between two or three thousand at the moment):
-- many Japanese characters have a different stroke order, or have a different glyph, or have a different stroke direction or are not commonly used in chinese, and therefore have no entry in makemeahanzi.
+This project is derived from the remarquable Makemeahanzi project which is designed to display Chinese characters. See https://github.com/skishore/makemeahanzi for more details. Many characters were modified or added in AnimCJK (between two or three thousand at the moment) for various reasons:
+- many Japanese characters have a different stroke order, or have a different glyph, or have a different stroke direction or are not commonly used in Chinese, and therefore have no entry in Makemeahanzi.
 - many character shapes were just slightly modified to look prettier.
-- some commonly used (but not frequently used) Chinese characters have no entry in makemeahanzi. 
+- some commonly used (but not frequently used) Chinese characters have no entry in Makemeahanzi. 
 
-Even if character shapes have the same look in both makemeahanzi and animCJK project, the svg files are completely different. The css is different. The svg structure is different. The "median" paths are different. However, for people who would to reimport characters that were modified or added from animCJK to makemeahanzi, two files are provided (graphicsJa.txt and graphicsZhHans.txt) that have the same format as the graphics.txt of the makemeahanzi project.
+Even if character shapes have the same look in both Makemeahanzi and AnimCJK project, the svg files are completely different. The css is different. The svg structure is different. The "median" paths are different. However, for people who would to reimport characters that were modified or added from AnimCJK to Makemeahanzi, two files are provided (graphicsJa.txt and graphicsZhHans.txt) that have the same format as the graphics.txt of the Makemeahanzi project.
 
 ### Arphic PL KaitiM GB and Arphic PL UKai fonts
 
 Makemeahanzi itself makes an extensive use of the Arphic PL KaitiM GB and Arphic PL UKai fonts generously provided by Arphic Technology. See https://apps.ubuntu.com/cat/applications/precise/fonts-arphic-gkai00mp/ and https://apps.ubuntu.com/cat/applications/fonts-arphic-ukai/ for more details about these fonts.
 
-Many characters of animCJK are not present in these fonts (especially but not exclusively Japanese characters since these Arphic fonts are designed for Chinese). One used parts of other characters to design these missing characters and/or used various editors (mainly Inkscape and BBEdit) to modify their shape. One didn't use any other fonts.
+Many characters of AnimCJK are not present in these fonts (especially but not exclusively Japanese characters since these Arphic fonts are designed for Chinese). One used parts of other characters to design these missing characters and/or used various editors (mainly Inkscape and BBEdit) to modify their shape. One didn't use any other fonts.
 
 ### Animated_GIF
 
-Part of "animated GIF" sample of animCJK is derived from a sample of Animated_GIF project called "basic". See https://github.com/sole/Animated_GIF for more details.
+Part of "animated GIF" sample of AnimCJK is derived from a sample of Animated_GIF project called "basic". See https://github.com/sole/Animated_GIF for more details.
 
 ### Autocomplete
 
-The samples/index.php script uses two files, "autocomplete.js" and "autocomplete.css", derived from https://www.w3schools.com/howto/howto_js_autocomplete.asp, then adapted for animCJK project.
+The samples/index.php script uses two files, "autocomplete.js" and "autocomplete.css", derived from https://www.w3schools.com/howto/howto_js_autocomplete.asp, then adapted for AnimCJK project.
 
 ## Licences
 
