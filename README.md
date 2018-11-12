@@ -46,7 +46,9 @@ If a character has several possible decompositions, just concatenate them.
 
 ## Plugin for Wordpress
 
-The animkanji_wp_plugin.zip contains a Wordpress plugin to insert animated kanji in a webpage using BBCode.
+A plugin for Wordpress to insert animated kanji in a webpage using BBCode can be downloaded at:
+
+http://gooo.free.fr/animCJK/animkanji_wp_plugin_page.php
 
 ## Technical details
 
