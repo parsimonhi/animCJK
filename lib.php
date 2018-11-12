@@ -453,9 +453,7 @@ function transformPathFromGraphics($p)
 			$y=-(intval($m[3][$np])-900);
 			$q.=$m[1][$np].$x." ".$y;
 		}
-		if (preg_match("/Z/",$p)) $q.=" Z";
-		//print "<br>p=".$p."<br>";
-		//print "<br>q=".$q."<br>";
+		if (preg_match("/Z/",$p)) $q.="Z";
 		return $q;
 	}
 	return $p;
@@ -501,7 +499,6 @@ function buildSvg($a)
 	$s.="#".$id." path {fill:#ccc;}\n";
 	$s.="]]>\n</style>\n";
 
-	//$s.="<g transform=\"scale(1,-1) translate(0,-900)\">\n";
 	$k=0;
 	foreach($a->{'strokes'} as $p)
 	{
@@ -531,8 +528,6 @@ function buildSvg($a)
 		if (!isset($_GET["t"])||($_GET["t"]==1)) $z=transformPathFromGraphics($z);
 		$s.="<path pathLength=\"3333\" clip-path=\"url(#".$id."c".$k.")\" d=\"".$z."\"/>\n";
 	}
-	
-	//$s.="</g>\n";
 	$s.="</svg>";
 	return $s;
 }
