@@ -109,7 +109,7 @@ function animeChar()
 function isRadicalStroke(path,n,d)
 {
 	var c,d,e,list,nsi,nsj,pos;
-	// manage special decomposition when some strokes are split to show the radical
+	// manage special decomposition when some strokes are split to show the radical‡
 	if (!d) return false;
 	if (d.substr(0,3)=="凹⿱⿰") d="凹⿱⿰㇑.1⿲㇅1㇑1㇐1㇑.1一.1";
 	else if (d=="凸⿱⿰⿳㇑1㇐1㇑.1㇎.1㇐.1") d="凸⿱⿰⿳㇑1㇐1㇑.1⿱㇅1㇑.1㇐.1";
@@ -119,6 +119,7 @@ function isRadicalStroke(path,n,d)
 	else if (d=="甲.⿻曰4丨1") d="甲⿻曰.4丨.1丨1";
 	else if (d=="申.⿻曰4丨1") d="申⿻曰.4丨1丨.1丨1";
 	else if (d=="电.⿻曰4乚1") d="申⿻曰.4乚1乚.1乚1";
+	else if (d=="画⿱一1⿶由.5凵2") d="画⿱一1⿶由⿻曰.:2丨1丨.1曰.:2凵2";//Ja only
 	else if (d.substr(0,1)=="畅") d="畅⿰申⿻曰.4丨1丨.1丨1𠃓3";
 	else if (d.substr(0,1)=="氓") d="氓⿰亡3民⿻巳1氏.:1巳:1氏.:3";
 	else if (d=="既⿰艮5旡.4") d="既⿰艮5旡.:1旡:1旡.:3";
