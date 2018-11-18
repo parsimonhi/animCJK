@@ -10683,8 +10683,7 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <div id="bottom" class="link"><a href="#top">Top</a></div>
 <a href="licenses/COPYING.txt">Licences</a>
 - <a href="https://github.com/parsimonhi/animCJK">Download</a>
-- <a href="samples/index.php">Samples</a><br>
-Copyright 2016-2018 - François Mizessyn
+- <a href="samples/index.php">Samples</a>
 </footer>
 <script>
 document.getElementById("data").addEventListener("keyup",function(event) {

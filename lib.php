@@ -1,17 +1,54 @@
 <?php
-require_once 'JSON/JSON.php';
-if (!function_exists("json_decode"))
-	$json=new Services_JSON();
-else $json=null;
-function my_json_decode($s)
-{
-	global $json;
-	if ($json) return $json->decode($s);
-	return json_decode($s);
-}
-
 mb_internal_encoding("UTF-8");
 mb_regex_encoding("UTF-8");
+
+function my_json_decode($line)
+{
+	// decode a line from graphicsXxx.txt or dictionaryXxx.txt
+	$a=new StdClass();
+	if (preg_match("/^\\{\"character\":\"([^\"]+)\",\"strokes\":\\[\"([^\\]]+)\"\\],\"medians\":\\[(.+)\\]\\}$/",$line,$match))
+	{
+		$a->{'character'}=$match[1];
+		$a->{'strokes'}=explode("\",\"",$match[2]);
+		$x=explode("]],[[",$match[3]);
+		$kmx=count($x);
+		$x[0]=str_replace("[[","",$x[0]);
+		$x[$kmx-1]=str_replace("]]","",$x[$kmx-1]);
+		$y=array();
+		for($kx=0;$kx<$kmx;$kx++)
+		{
+			$y=explode("],[",$x[$kx]);
+			$kmy=count($y);
+			for($ky=0;$ky<$kmy;$ky++)
+			{
+				$y[$ky]=explode(",",$y[$ky]);
+			}
+			$x[$kx]=$y;
+		}
+		$a->{'medians'}=$x;
+	}
+	else if (preg_match("/\"character\":\"([^\"]+)\"/",$line,$match))
+	{
+		$a->{'character'}=$match[1];
+		if (preg_match("/\"set\":\\[\"([^\\]]+)\"\\]/",$line,$match))
+			$a->{'set'}=explode("\",\"",$match[1]);
+		if (preg_match("/\"definition\":\"([^\"]+)\"/",$line,$match))
+			$a->{'definition'}=$match[1];
+		if (preg_match("/\"pinyin\":\\[\"([^\\]]+)\"\\]/",$line,$match))
+			$a->{'pinyin'}=explode("\",\"",$match[1]);
+		if (preg_match("/\"on\":\\[\"([^\\]]+)\"\\]/",$line,$match))
+			$a->{'on'}=explode("\",\"",$match[1]);
+		if (preg_match("/\"kun\":\\[\"([^\\]]+)\"\\]/",$line,$match))
+			$a->{'kun'}=explode("\",\"",$match[1]);
+		if (preg_match("/\"radical\":\"([^\"]+)\"/",$line,$match))
+			$a->{'radical'}=$match[1];
+		if (preg_match("/\"decomposition\":\"([^\"]+)\"/",$line,$match))
+			$a->{'decomposition'}=$match[1];
+		if (preg_match("/\"acjk\":\"([^\"]+)\"/",$line,$match))
+			$a->{'acjk'}=$match[1];
+	}
+	return $a;
+}
 
 function decUnicode($u)
 {
