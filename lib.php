@@ -427,11 +427,11 @@ function getDictionaryData($char,$lang="zh-Hans")
 					foreach ($a->{'set'} as $b) {if (!$ini) $s.=", ";$s.=convertSet($b,$lang);$ini=false;}
 					$s.="</div>";
 				}
-				if (count($a->{'radical'}))
+				if (property_exists($a,'radical')&&$a->{'radical'})
 					$s.="<div class=\"radical\">Radical: <span class=\"cjkChar\" lang=\"".$lang."\">".$a->{'radical'}."</span></div>";
-				if (count($a->{'decomposition'}))
+				if (property_exists($a,'decomposition')&&$a->{'decomposition'})
 					$s.="<div class=\"radical\">Decomposition: <span class=\"cjkChar\" lang=\"".$lang."\">".$a->{'decomposition'}."</span></div>";
-				if (count($a->{'acjk'}))
+				if (property_exists($a,'acjk')&&$a->{'acjk'})
 					$s.="<div class=\"radical\">Acjk: <span class=\"cjkChar\" lang=\"".$lang."\">".$a->{'acjk'}."</span></div>";
 				if ($lang=="zh-Hans")
 				{
