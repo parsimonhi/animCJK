@@ -43,8 +43,7 @@ function displayFooter($sample)
 	if (isset($_POST["dec"])) echo "&dec=".$_POST["dec"];
 	if (isset($_POST["data"])) echo "&data=".$_POST["data"];
 	echo "\">Sample selector</a>\n";
-	echo "- <a href=\"../licenses/COPYING.txt\">Licences</a><br>\n";
-	echo "Copyright 2016-2018 - François Mizessyn\n";
+	echo "- <a href=\"../licenses/COPYING.txt\">Licences</a>\n";
 	echo "</footer>\n";
 }
 // Set some global variables

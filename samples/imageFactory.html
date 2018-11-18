@@ -58,7 +58,7 @@ function setBrushing(s)
 		eBrush=target.querySelector("#"+idBrush);
 		eBrush.setAttribute("d",newD[k]);
 	}
-	return target.innerHTML;
+	return target.innerHTML.replace(/><\/path>/g,"/>");
 }
 function ok()
 {
@@ -246,7 +246,8 @@ using a tool such as gifsicle</p> -->
 <div>Source of sequence PNG image: <span id="e2"></span></div>
 <div id="debug"></div>
 <footer>
-<p>Copyright 2016-2018 - François Mizessyn</p>
+<a href="../">Home</a>
+- <a href="../licenses/COPYING.txt">Licences</a>
 </footer>
 </body>
 </html>

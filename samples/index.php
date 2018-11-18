@@ -30,6 +30,7 @@ if (isset($_GET["sample"]))
 {
 	$sample=$_GET["sample"];
 	if (($sample!="animeSeveral")
+		&&($sample!="card")
 		&&($sample!="number")
 		&&($sample!="png")
 		&&($sample!="radical")
@@ -52,7 +53,7 @@ $char=unichr($dec);
 if (isset($_GET["data"])) $data=$_GET["data"];
 else $data="";
 ?>
-<html>
+<html lang="<?php echo $lang;?>">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="initial-scale=1.0,user-scalable=yes">
@@ -99,7 +100,7 @@ input.charInput {font-size:2em;width:5.25em;text-align:center;}
 </head>
 <body>
 <h1>AnimCJK - Sample selector</h1>
-<h2>Simple samples</h2>
+<h2>Basic samples</h2>
 <form id="sampleForm" action="animeOne.php" method="post">
 <div class="selectorDiv">
 <p>Select a language:</p>
@@ -110,6 +111,7 @@ input.charInput {font-size:2em;width:5.25em;text-align:center;}
 <p>Select a sample:</p>
 <label><input id="animeOneRadio" type="radio" name="sample" value="animeOne" onclick="setSample('animeOne',0);"> Anime one</label>
 <label><input id="animeSeveralRadio" type="radio" name="sample" value="animeSeveral" onclick="setSample('animeSeveral',0);"> Anime several</label>
+<label><input id="cardRadio" type="radio" name="sample" value="card" onclick="setSample('card',0);"> Card</label>
 <label><input id="numberRadio" type="radio" name="sample" value="number" onclick="setSample('number',0);"> Number</label>
 <label><input id="pngRadio" type="radio" name="sample" value="png" onclick="setSample('png',0);"> PNG</label>
 <label><input id="radicalRadio" type="radio" name="sample" value="radical" onclick="setSample('radical',0);"> Radical</label>
@@ -133,8 +135,7 @@ input.charInput {font-size:2em;width:5.25em;text-align:center;}
 </ul>
 <footer>
 <a href="../">Home</a>
-- <a href="../licenses/COPYING.txt">Licences</a><br>
-Copyright 2016-2018 - François Mizessyn
+- <a href="../licenses/COPYING.txt">Licences</a>
 </footer>
 <div id="debug"></div>
 <script src="_js/autocomplete.js"></script>
@@ -233,6 +234,7 @@ function setSample(sample,z)
 		switch(sample)
 		{
 			case 'animeSeveral': document.getElementById('animeSeveralRadio').checked=true;break;
+			case 'card': document.getElementById('cardRadio').checked=true;break;
 			case 'number': document.getElementById('numberRadio').checked=true;break;
 			case 'png': document.getElementById('pngRadio').checked=true;break;
 			case 'radical': document.getElementById('radicalRadio').checked=true;break;

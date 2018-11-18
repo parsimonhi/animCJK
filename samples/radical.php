@@ -47,11 +47,7 @@ a:visited {color:#666;}
 if ($lang=="ja") $f="dictionaryJa.txt";
 else $f="dictionaryZhHans.txt";
 $s=file_get_contents("../".$f);
-?>
-<p>Display the radical of the character in a different color</p>
-<button class="actionBtn" type="button" onclick="animeChar()">Animate</button>
-<?php
-// get radical, decomposition and acjk from dictionaryXxx.txt files
+// get data from dictionaryXxx.txt files
 $c=unichr($dec);
 if (preg_match("/\\{\"character\":\"".$c."[^}]+\\}/u",$s,$r))
 {
@@ -70,6 +66,8 @@ else
 	$acjk="";
 }
 ?>
+<p>Display the radical of the character in a different color</p>
+<button class="actionBtn" type="button" onclick="animeChar()">Animate</button>
 <div id="charDiv" class="charDiv" data-acjk="<?php echo $acjk;?>">
 <?php
 // some characters are special because some strokes are split to show the radical

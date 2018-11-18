@@ -22,8 +22,9 @@ function autocomplete(inp, arr) {
         if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
           /*create a DIV element for each matching element:*/
           b = document.createElement("DIV");
+          b.innerHTML = String.fromCodePoint(parseInt(arr[i])) + " ";
           /*make the matching letters bold:*/
-          b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+          b.innerHTML += "<strong>" + arr[i].substr(0, val.length) + "</strong>";
           b.innerHTML += arr[i].substr(val.length);
           /*insert a input field that will hold the current array item's value:*/
           b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
@@ -43,7 +44,7 @@ function autocomplete(inp, arr) {
   /*execute a function when someone writes in the text field:*/
   inp.addEventListener("input",magic);
   inp.addEventListener("focus",magic);
-  /*execute a function presses a key on the keyboard:*/
+  /*execute a function when someone presses a key on the keyboard:*/
   inp.addEventListener("keydown", function(e) {
       var x = document.getElementById(this.id + "autocomplete-list");
       if (x) x = x.getElementsByTagName("div");
