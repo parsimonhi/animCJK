@@ -55,12 +55,6 @@ nav a {display:inline-block;padding:0.25em;}
 
 label {display:inline-block;white-space:normal;margin:0 0.5em 1em 0.5em;}
 label input {vertical-align:text-bottom;}
-svg
-{
-	width:256px;
-	height:256px;
-}
-svg.error {font-size:256px;}
 #b
 {
 	width:256px;
@@ -178,6 +172,38 @@ span.missing
 }
 footer {padding-top:1em;}
 footer a {color:#000;}
+/* style for svg */
+svg
+{
+	width:256px;
+	height:256px;
+}
+svg.error {font-size:256px;}
+@keyframes zk {
+	from {
+		stroke-dashoffset:3339;
+		stroke:#c00;
+	}
+	75% {
+		stroke-dashoffset:0;
+		stroke:#c00;
+	}
+	to {
+		stroke-dashoffset:0;
+		stroke:#000;
+	}
+}
+svg.acjk path[clip-path] {
+	--t:0.8s;
+	animation:zk var(--t) linear forwards calc(var(--d) * 1.25 * var(--t));
+	stroke-dasharray:3337;
+	stroke-dashoffset:3339;
+	stroke-width:128;
+	stroke-linecap:round;
+	fill:none;
+	stroke:#c00;
+}
+svg.acjk path[id] {fill:#ccc;}
 </style>
 <title>AnimCJK Demo</title>
 <script>
@@ -358,9 +384,12 @@ function ok()
 	xhr=new XMLHttpRequest();
 	xhr.onreadystatechange=function()
 	{
+		var s;
 		if ((xhr.readyState==4)&&(xhr.status==200))
 		{
-			document.getElementById("a").innerHTML=xhr.responseText;
+			// remove style from svg
+			s=xhr.responseText.replace(/<style[\s\S]+\/style>\s/,"");
+			document.getElementById("a").innerHTML=s;
 			setNumber(document.getElementById("number").checked);
 			setGrid(document.getElementById("grid").checked);
 			setSection();
@@ -423,13 +452,11 @@ Japanese kana or kanji and simplified Chinese hanzi stroke by stroke.
 Enter a character in the data field above then click on "Animate" button,
 or click on any character in the lists below.
 </p>
-<p>The Japanese repository contains the "kana" (177 characters),
-the "jōyō kanji" (2136 characters) and
-the "jinmeyō Kanji" (862 characters), that is 3175 characters.</p>
-<p>The Chinese repository contains the "Commonly used hanzi", that is 7000 characters.
-The "HSK hanzi" (2663 characters)
-and the "frequently used simplified hanzi" (3500 characters) are subsets of the "Commonly used hanzi".
-2625 characters are in both "HSK hanzi" and "frequently used simplified hanzi".</p>
+<p>The Japanese repository contains 3175 characters: "kana" (177 characters),
+"jōyō kanji" (2136 characters) and "jinmeyō Kanji" (862 characters).</p>
+<p>The Chinese repository contains 7000 characters ("Commonly used hanzi").
+Note that "HSK hanzi" (2663 characters)
+and "Frequently used simplified hanzi" (3500 characters) are subsets of "Commonly used hanzi".</p>
 <h2>Legend</h2>
 <section id="joyoSection" lang="ja">
 <p><span class="sameInBoth">Black</span> Same in Japanese and simplified Chinese repositories</p>
@@ -899,7 +926,7 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <button class="notSameInBoth" onclick="doIt('取')">取</button>
 <button class="sameInBoth" onclick="doIt('受')">受</button>
 <button class="sameInBoth" onclick="doIt('号')">号</button>
-<button class="sameInBoth" onclick="doIt('向')">向</button>
+<button class="notSameInBoth" onclick="doIt('向')">向</button>
 <button class="sameInBoth" onclick="doIt('君')">君</button>
 <button class="sameInBoth" onclick="doIt('味')">味</button>
 <button class="sameInBoth" onclick="doIt('命')">命</button>
@@ -949,9 +976,9 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <button class="sameInBoth" onclick="doIt('持')">持</button>
 <button class="sameInBoth" onclick="doIt('指')">指</button>
 <button class="sameInBoth" onclick="doIt('放')">放</button>
-<button class="sameInBoth" onclick="doIt('整')">整</button>
+<button class="notSameInBoth" onclick="doIt('整')">整</button>
 <button class="notSameInBoth" onclick="doIt('旅')">旅</button>
-<button class="sameInBoth" onclick="doIt('族')">族</button>
+<button class="notSameInBoth" onclick="doIt('族')">族</button>
 <button class="sameInBoth" onclick="doIt('昔')">昔</button>
 <button class="sameInBoth" onclick="doIt('昭')">昭</button>
 <button class="sameInBoth" onclick="doIt('暑')">暑</button>
@@ -1098,7 +1125,7 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <button class="sameInBoth" onclick="doIt('兵')">兵</button>
 <button class="notSameInBoth" onclick="doIt('典')">典</button>
 <button class="sameInBoth" onclick="doIt('冷')">冷</button>
-<button class="sameInBoth" onclick="doIt('初')">初</button>
+<button class="notSameInBoth" onclick="doIt('初')">初</button>
 <button class="notInBoth" onclick="doIt('別')">別</button>
 <button class="sameInBoth" onclick="doIt('利')">利</button>
 <button class="sameInBoth" onclick="doIt('刷')">刷</button>
@@ -1252,7 +1279,7 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <button class="notInBoth" onclick="doIt('賞')">賞</button>
 <button class="notInBoth" onclick="doIt('軍')">軍</button>
 <button class="notInBoth" onclick="doIt('輪')">輪</button>
-<button class="sameInBoth" onclick="doIt('辞')">辞</button>
+<button class="notSameInBoth" onclick="doIt('辞')">辞</button>
 <button class="notInBoth" onclick="doIt('辺')">辺</button>
 <button class="notInBoth" onclick="doIt('連')">連</button>
 <button class="notInBoth" onclick="doIt('達')">達</button>
@@ -1466,7 +1493,7 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <div><button class="notInBoth" onclick="doIt('並')">並</button>
 <button class="sameInBoth" onclick="doIt('乱')">乱</button>
 <button class="sameInBoth" onclick="doIt('乳')">乳</button>
-<button class="sameInBoth" onclick="doIt('亡')">亡</button>
+<button class="notSameInBoth" onclick="doIt('亡')">亡</button>
 <button class="sameInBoth" onclick="doIt('仁')">仁</button>
 <button class="sameInBoth" onclick="doIt('供')">供</button>
 <button class="notSameInBoth" onclick="doIt('俳')">俳</button>
@@ -1526,7 +1553,7 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <button class="notSameInBoth" onclick="doIt('延')">延</button>
 <button class="sameInBoth" onclick="doIt('律')">律</button>
 <button class="notInBoth" onclick="doIt('従')">従</button>
-<button class="sameInBoth" onclick="doIt('忘')">忘</button>
+<button class="notSameInBoth" onclick="doIt('忘')">忘</button>
 <button class="sameInBoth" onclick="doIt('忠')">忠</button>
 <button class="notInBoth" onclick="doIt('憲')">憲</button>
 <button class="sameInBoth" onclick="doIt('我')">我</button>
@@ -1720,14 +1747,14 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <button class="sameInBoth" onclick="doIt('吐')">吐</button>
 <button class="sameInBoth" onclick="doIt('吏')">吏</button>
 <button class="notSameInBoth" onclick="doIt('壮')">壮</button>
-<button class="sameInBoth" onclick="doIt('如')">如</button>
+<button class="notSameInBoth" onclick="doIt('如')">如</button>
 <button class="sameInBoth" onclick="doIt('妃')">妃</button>
-<button class="sameInBoth" onclick="doIt('妄')">妄</button>
+<button class="notSameInBoth" onclick="doIt('妄')">妄</button>
 <button class="sameInBoth" onclick="doIt('尽')">尽</button>
 <button class="sameInBoth" onclick="doIt('巡')">巡</button>
 <button class="sameInBoth" onclick="doIt('帆')">帆</button>
 <button class="notInBoth" onclick="doIt('弐')">弐</button>
-<button class="sameInBoth" onclick="doIt('忙')">忙</button>
+<button class="notSameInBoth" onclick="doIt('忙')">忙</button>
 <button class="notInBoth" onclick="doIt('扱')">扱</button>
 <button class="notInBoth" onclick="doIt('汎')">汎</button>
 <button class="notInBoth" onclick="doIt('汚')">汚</button>
@@ -1835,7 +1862,7 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <button class="notSameInBoth" onclick="doIt('姓')">姓</button>
 <button class="sameInBoth" onclick="doIt('宛')">宛</button>
 <button class="sameInBoth" onclick="doIt('宜')">宜</button>
-<button class="sameInBoth" onclick="doIt('尚')">尚</button>
+<button class="notSameInBoth" onclick="doIt('尚')">尚</button>
 <button class="notSameInBoth" onclick="doIt('屈')">屈</button>
 <button class="notInBoth" onclick="doIt('岡')">岡</button>
 <button class="sameInBoth" onclick="doIt('岳')">岳</button>
@@ -1901,7 +1928,7 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <button class="notSameInBoth" onclick="doIt('玩')">玩</button>
 <button class="sameInBoth" onclick="doIt('祈')">祈</button>
 <button class="sameInBoth" onclick="doIt('祉')">祉</button>
-<button class="sameInBoth" onclick="doIt('盲')">盲</button>
+<button class="notSameInBoth" onclick="doIt('盲')">盲</button>
 <button class="notSameInBoth" onclick="doIt('突')">突</button>
 <button class="notSameInBoth" onclick="doIt('虎')">虎</button>
 <button class="sameInBoth" onclick="doIt('阜')">阜</button>
@@ -1964,13 +1991,13 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <button class="sameInBoth" onclick="doIt('昧')">昧</button>
 <button class="sameInBoth" onclick="doIt('是')">是</button>
 <button class="sameInBoth" onclick="doIt('胎')">胎</button>
-<button class="sameInBoth" onclick="doIt('胆')">胆</button>
+<button class="notSameInBoth" onclick="doIt('胆')">胆</button>
 <button class="notSameInBoth" onclick="doIt('胞')">胞</button>
 <button class="sameInBoth" onclick="doIt('柿')">柿</button>
 <button class="notInBoth" onclick="doIt('柵')">柵</button>
 <button class="notInBoth" onclick="doIt('栃')">栃</button>
 <button class="sameInBoth" onclick="doIt('架')">架</button>
-<button class="sameInBoth" onclick="doIt('枯')">枯</button>
+<button class="notSameInBoth" onclick="doIt('枯')">枯</button>
 <button class="sameInBoth" onclick="doIt('柔')">柔</button>
 <button class="sameInBoth" onclick="doIt('柄')">柄</button>
 <button class="sameInBoth" onclick="doIt('某')">某</button>
@@ -2091,7 +2118,7 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <button class="sameInBoth" onclick="doIt('疾')">疾</button>
 <button class="sameInBoth" onclick="doIt('症')">症</button>
 <button class="notSameInBoth" onclick="doIt('疲')">疲</button>
-<button class="sameInBoth" onclick="doIt('眠')">眠</button>
+<button class="notSameInBoth" onclick="doIt('眠')">眠</button>
 <button class="notInBoth" onclick="doIt('砲')">砲</button>
 <button class="sameInBoth" onclick="doIt('称')">称</button>
 <button class="sameInBoth" onclick="doIt('租')">租</button>
@@ -2311,7 +2338,7 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <button class="sameInBoth" onclick="doIt('椅')">椅</button>
 <button class="notSameInBoth" onclick="doIt('椎')">椎</button>
 <button class="sameInBoth" onclick="doIt('棺')">棺</button>
-<button class="sameInBoth" onclick="doIt('棋')">棋</button>
+<button class="notSameInBoth" onclick="doIt('棋')">棋</button>
 <button class="sameInBoth" onclick="doIt('棚')">棚</button>
 <button class="notInBoth" onclick="doIt('棟')">棟</button>
 <button class="sameInBoth" onclick="doIt('款')">款</button>
@@ -2768,7 +2795,7 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <button class="notInBoth" onclick="doIt('騰')">騰</button>
 <button class="notInBoth" onclick="doIt('艦')">艦</button>
 <button class="notInBoth" onclick="doIt('躍')">躍</button>
-<button class="sameInBoth" onclick="doIt('露')">露</button>
+<button class="notSameInBoth" onclick="doIt('露')">露</button>
 <button class="notInBoth" onclick="doIt('顧')">顧</button>
 <button class="notSameInBoth" onclick="doIt('魔')">魔</button>
 <button class="notInBoth" onclick="doIt('鶴')">鶴</button>
@@ -2800,7 +2827,7 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <button class="notSameInBoth" onclick="doIt('佃')">佃</button>
 <button class="notSameInBoth" onclick="doIt('佑')">佑</button>
 <button class="sameInBoth" onclick="doIt('伶')">伶</button>
-<button class="sameInBoth" onclick="doIt('侃')">侃</button>
+<button class="notSameInBoth" onclick="doIt('侃')">侃</button>
 <button class="notSameInBoth" onclick="doIt('侑')">侑</button>
 <button class="sameInBoth" onclick="doIt('俄')">俄</button>
 <button class="notInBoth" onclick="doIt('俠')">俠</button>
@@ -2906,7 +2933,7 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <button class="notSameInBoth" onclick="doIt('巽')">巽</button>
 <button class="sameInBoth" onclick="doIt('帖')">帖</button>
 <button class="sameInBoth" onclick="doIt('幌')">幌</button>
-<button class="sameInBoth" onclick="doIt('幡')">幡</button>
+<button class="notSameInBoth" onclick="doIt('幡')">幡</button>
 <button class="sameInBoth" onclick="doIt('庄')">庄</button>
 <button class="sameInBoth" onclick="doIt('庇')">庇</button>
 <button class="sameInBoth" onclick="doIt('庚')">庚</button>
@@ -2994,7 +3021,7 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <button class="sameInBoth" onclick="doIt('杷')">杷</button>
 <button class="sameInBoth" onclick="doIt('枇')">枇</button>
 <button class="sameInBoth" onclick="doIt('柑')">柑</button>
-<button class="sameInBoth" onclick="doIt('柴')">柴</button>
+<button class="notSameInBoth" onclick="doIt('柴')">柴</button>
 <button class="sameInBoth" onclick="doIt('柘')">柘</button>
 <button class="notInBoth" onclick="doIt('柊')">柊</button>
 <button class="sameInBoth" onclick="doIt('柏')">柏</button>
@@ -3011,7 +3038,7 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <button class="sameInBoth" onclick="doIt('梓')">梓</button>
 <button class="sameInBoth" onclick="doIt('梢')">梢</button>
 <button class="notInBoth" onclick="doIt('梛')">梛</button>
-<button class="sameInBoth" onclick="doIt('梯')">梯</button>
+<button class="notSameInBoth" onclick="doIt('梯')">梯</button>
 <button class="sameInBoth" onclick="doIt('桶')">桶</button>
 <button class="notInBoth" onclick="doIt('梶')">梶</button>
 <button class="notInBoth" onclick="doIt('椛')">椛</button>
@@ -3189,7 +3216,7 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <button class="notInBoth" onclick="doIt('籾')">籾</button>
 <button class="sameInBoth" onclick="doIt('粥')">粥</button>
 <button class="sameInBoth" onclick="doIt('粟')">粟</button>
-<button class="sameInBoth" onclick="doIt('糊')">糊</button>
+<button class="notSameInBoth" onclick="doIt('糊')">糊</button>
 <button class="notInBoth" onclick="doIt('紘')">紘</button>
 <button class="notInBoth" onclick="doIt('紗')">紗</button>
 <button class="notInBoth" onclick="doIt('紐')">紐</button>
@@ -3282,7 +3309,7 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <button class="notInBoth" onclick="doIt('薙')">薙</button>
 <button class="notSameInBoth" onclick="doIt('蕾')">蕾</button>
 <button class="notInBoth" onclick="doIt('蕗')">蕗</button>
-<button class="sameInBoth" onclick="doIt('藁')">藁</button>
+<button class="notSameInBoth" onclick="doIt('藁')">藁</button>
 <button class="notInBoth" onclick="doIt('薩')">薩</button>
 <button class="notInBoth" onclick="doIt('蘇')">蘇</button>
 <button class="notInBoth" onclick="doIt('蘭')">蘭</button>
@@ -3939,7 +3966,7 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <button class="sameInBoth" onclick="doIt('助')">助</button>
 <button class="sameInBoth" onclick="doIt('司')">司</button>
 <button class="notInBoth" onclick="doIt('跑')">跑</button>
-<button class="sameInBoth" onclick="doIt('忙')">忙</button>
+<button class="notSameInBoth" onclick="doIt('忙')">忙</button>
 <button class="notInBoth" onclick="doIt('站')">站</button>
 <button class="sameInBoth" onclick="doIt('跳')">跳</button>
 <button class="sameInBoth" onclick="doIt('便')">便</button>
@@ -4010,7 +4037,7 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <div><button class="notInBoth" onclick="doIt('啊')">啊</button>
 <button class="sameInBoth" onclick="doIt('把')">把</button>
 <button class="sameInBoth" onclick="doIt('只')">只</button>
-<button class="sameInBoth" onclick="doIt('如')">如</button>
+<button class="notSameInBoth" onclick="doIt('如')">如</button>
 <button class="sameInBoth" onclick="doIt('自')">自</button>
 <button class="notInBoth" onclick="doIt('发')">发</button>
 <button class="sameInBoth" onclick="doIt('心')">心</button>
@@ -4073,7 +4100,7 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <button class="notSameInBoth" onclick="doIt('害')">害</button>
 <button class="notInBoth" onclick="doIt('选')">选</button>
 <button class="sameInBoth" onclick="doIt('且')">且</button>
-<button class="sameInBoth" onclick="doIt('向')">向</button>
+<button class="notSameInBoth" onclick="doIt('向')">向</button>
 <button class="sameInBoth" onclick="doIt('照')">照</button>
 <button class="sameInBoth" onclick="doIt('提')">提</button>
 <button class="notInBoth" onclick="doIt('决')">决</button>
@@ -4122,7 +4149,7 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <button class="sameInBoth" onclick="doIt('参')">参</button>
 <button class="notInBoth" onclick="doIt('风')">风</button>
 <button class="notInBoth" onclick="doIt('复')">复</button>
-<button class="sameInBoth" onclick="doIt('忘')">忘</button>
+<button class="notSameInBoth" onclick="doIt('忘')">忘</button>
 <button class="notInBoth" onclick="doIt('假')">假</button>
 <button class="sameInBoth" onclick="doIt('据')">据</button>
 <button class="notInBoth" onclick="doIt('嘴')">嘴</button>
@@ -4246,7 +4273,7 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <button class="notInBoth" onclick="doIt('邮')">邮</button>
 <button class="notSameInBoth" onclick="doIt('帽')">帽</button>
 <button class="notInBoth" onclick="doIt('啤')">啤</button>
-<button class="sameInBoth" onclick="doIt('梯')">梯</button>
+<button class="notSameInBoth" onclick="doIt('梯')">梯</button>
 <button class="notSameInBoth" onclick="doIt('鼻')">鼻</button>
 <button class="notInBoth" onclick="doIt('绿')">绿</button>
 <button class="sameInBoth" onclick="doIt('熊')">熊</button>
@@ -4339,7 +4366,7 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <button class="sameInBoth" onclick="doIt('内')">内</button>
 <button class="sameInBoth" onclick="doIt('至')">至</button>
 <button class="sameInBoth" onclick="doIt('消')">消</button>
-<button class="sameInBoth" onclick="doIt('整')">整</button>
+<button class="notSameInBoth" onclick="doIt('整')">整</button>
 <button class="sameInBoth" onclick="doIt('度')">度</button>
 <button class="sameInBoth" onclick="doIt('持')">持</button>
 <button class="sameInBoth" onclick="doIt('光')">光</button>
@@ -4538,7 +4565,7 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <button class="sameInBoth" onclick="doIt('社')">社</button>
 <button class="notSameInBoth" onclick="doIt('秀')">秀</button>
 <button class="sameInBoth" onclick="doIt('刀')">刀</button>
-<button class="sameInBoth" onclick="doIt('族')">族</button>
+<button class="notSameInBoth" onclick="doIt('族')">族</button>
 <button class="notInBoth" onclick="doIt('广')">广</button>
 <button class="notInBoth" onclick="doIt('镜')">镜</button>
 <button class="notSameInBoth" onclick="doIt('播')">播</button>
@@ -4928,7 +4955,7 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <button class="notInBoth" onclick="doIt('挥')">挥</button>
 <button class="notSameInBoth" onclick="doIt('彼')">彼</button>
 <button class="notInBoth" onclick="doIt('废')">废</button>
-<button class="sameInBoth" onclick="doIt('初')">初</button>
+<button class="notSameInBoth" onclick="doIt('初')">初</button>
 <button class="notSameInBoth" onclick="doIt('素')">素</button>
 <button class="notInBoth" onclick="doIt('敌')">敌</button>
 <button class="sameInBoth" onclick="doIt('欧')">欧</button>
@@ -5008,7 +5035,7 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <button class="notSameInBoth" onclick="doIt('隔')">隔</button>
 <button class="notInBoth" onclick="doIt('彻')">彻</button>
 <button class="notInBoth" onclick="doIt('插')">插</button>
-<button class="sameInBoth" onclick="doIt('尚')">尚</button>
+<button class="notSameInBoth" onclick="doIt('尚')">尚</button>
 <button class="notInBoth" onclick="doIt('构')">构</button>
 <button class="notInBoth" onclick="doIt('绪')">绪</button>
 <button class="sameInBoth" onclick="doIt('吐')">吐</button>
@@ -5021,7 +5048,7 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <button class="sameInBoth" onclick="doIt('征')">征</button>
 <button class="sameInBoth" onclick="doIt('括')">括</button>
 <button class="notInBoth" onclick="doIt('稳')">稳</button>
-<button class="sameInBoth" onclick="doIt('胆')">胆</button>
+<button class="notSameInBoth" onclick="doIt('胆')">胆</button>
 <button class="sameInBoth" onclick="doIt('甲')">甲</button>
 <button class="notInBoth" onclick="doIt('佩')">佩</button>
 <button class="notInBoth" onclick="doIt('启')">启</button>
@@ -5039,7 +5066,7 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <button class="notInBoth" onclick="doIt('违')">违</button>
 <button class="notInBoth" onclick="doIt('诊')">诊</button>
 <button class="notInBoth" onclick="doIt('络')">络</button>
-<button class="sameInBoth" onclick="doIt('辞')">辞</button>
+<button class="notSameInBoth" onclick="doIt('辞')">辞</button>
 <button class="sameInBoth" onclick="doIt('献')">献</button>
 <button class="notInBoth" onclick="doIt('农')">农</button>
 <button class="sameInBoth" onclick="doIt('姻')">姻</button>
@@ -5061,7 +5088,7 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <button class="notInBoth" onclick="doIt('剪')">剪</button>
 <button class="sameInBoth" onclick="doIt('豆')">豆</button>
 <button class="notInBoth" onclick="doIt('挡')">挡</button>
-<button class="sameInBoth" onclick="doIt('糊')">糊</button>
+<button class="notSameInBoth" onclick="doIt('糊')">糊</button>
 <button class="notInBoth" onclick="doIt('卧')">卧</button>
 <button class="sameInBoth" onclick="doIt('域')">域</button>
 <button class="notInBoth" onclick="doIt('闲')">闲</button>
@@ -5131,7 +5158,7 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <button class="notInBoth" onclick="doIt('歇')">歇</button>
 <button class="notInBoth" onclick="doIt('亿')">亿</button>
 <button class="notInBoth" onclick="doIt('胶')">胶</button>
-<button class="sameInBoth" onclick="doIt('眠')">眠</button>
+<button class="notSameInBoth" onclick="doIt('眠')">眠</button>
 <button class="notInBoth" onclick="doIt('仿')">仿</button>
 <button class="sameInBoth" onclick="doIt('潮')">潮</button>
 <button class="notInBoth" onclick="doIt('舍')">舍</button>
@@ -5262,7 +5289,7 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <button class="sameInBoth" onclick="doIt('促')">促</button>
 <button class="notInBoth" onclick="doIt('辅')">辅</button>
 <button class="notInBoth" onclick="doIt('览')">览</button>
-<button class="sameInBoth" onclick="doIt('棋')">棋</button>
+<button class="notSameInBoth" onclick="doIt('棋')">棋</button>
 <button class="notInBoth" onclick="doIt('贡')">贡</button>
 <button class="notInBoth" onclick="doIt('艳')">艳</button>
 <button class="notInBoth" onclick="doIt('嗓')">嗓</button>
@@ -5270,7 +5297,7 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <button class="sameInBoth" onclick="doIt('劣')">劣</button>
 <button class="notInBoth" onclick="doIt('豫')">豫</button>
 <button class="notInBoth" onclick="doIt('痒')">痒</button>
-<button class="sameInBoth" onclick="doIt('柴')">柴</button>
+<button class="notSameInBoth" onclick="doIt('柴')">柴</button>
 <button class="notInBoth" onclick="doIt('盼')">盼</button>
 <button class="notInBoth" onclick="doIt('翅')">翅</button>
 <button class="sameInBoth" onclick="doIt('迅')">迅</button>
@@ -5392,10 +5419,10 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <button class="notInBoth" onclick="doIt('审')">审</button>
 <button class="notInBoth" onclick="doIt('蠢')">蠢</button>
 <button class="sameInBoth" onclick="doIt('塔')">塔</button>
-<button class="sameInBoth" onclick="doIt('亡')">亡</button>
+<button class="notSameInBoth" onclick="doIt('亡')">亡</button>
 <button class="notInBoth" onclick="doIt('鲁')">鲁</button>
 <button class="sameInBoth" onclick="doIt('堂')">堂</button>
-<button class="sameInBoth" onclick="doIt('露')">露</button>
+<button class="notSameInBoth" onclick="doIt('露')">露</button>
 <button class="sameInBoth" onclick="doIt('爆')">爆</button>
 <button class="notInBoth" onclick="doIt('镇')">镇</button>
 <button class="sameInBoth" onclick="doIt('暴')">暴</button>
@@ -5797,7 +5824,7 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <button class="notInBoth" onclick="doIt('庞')">庞</button>
 <button class="notInBoth" onclick="doIt('丛')">丛</button>
 <button class="sameInBoth" onclick="doIt('剥')">剥</button>
-<button class="sameInBoth" onclick="doIt('妄')">妄</button>
+<button class="notSameInBoth" onclick="doIt('妄')">妄</button>
 <button class="sameInBoth" onclick="doIt('漆')">漆</button>
 <button class="sameInBoth" onclick="doIt('筋')">筋</button>
 <button class="notInBoth" onclick="doIt('贪')">贪</button>
@@ -5835,7 +5862,7 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <button class="notInBoth" onclick="doIt('颠')">颠</button>
 <button class="notSameInBoth" onclick="doIt('券')">券</button>
 <button class="notSameInBoth" onclick="doIt('衷')">衷</button>
-<button class="sameInBoth" onclick="doIt('盲')">盲</button>
+<button class="notSameInBoth" onclick="doIt('盲')">盲</button>
 <button class="sameInBoth" onclick="doIt('膜')">膜</button>
 <button class="notSameInBoth" onclick="doIt('斑')">斑</button>
 <button class="notInBoth" onclick="doIt('氓')">氓</button>
@@ -6038,7 +6065,7 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <button class="notInBoth" onclick="doIt('剔')">剔</button>
 <button class="notSameInBoth" onclick="doIt('茎')">茎</button>
 <button class="notInBoth" onclick="doIt('竖')">竖</button>
-<button class="sameInBoth" onclick="doIt('枯')">枯</button>
+<button class="notSameInBoth" onclick="doIt('枯')">枯</button>
 <button class="notSameInBoth" onclick="doIt('椎')">椎</button>
 <button class="notSameInBoth" onclick="doIt('勉')">勉</button>
 <button class="notInBoth" onclick="doIt('缚')">缚</button>
@@ -6272,7 +6299,7 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <button class="notInBoth" onclick="doIt('舆')">舆</button>
 <button class="notInBoth" onclick="doIt('酝')">酝</button>
 <button class="notInBoth" onclick="doIt('灶')">灶</button>
-<button class="sameInBoth" onclick="doIt('侃')">侃</button>
+<button class="notSameInBoth" onclick="doIt('侃')">侃</button>
 <button class="notInBoth" onclick="doIt('赁')">赁</button>
 <button class="notInBoth" onclick="doIt('巩')">巩</button>
 <button class="notInBoth" onclick="doIt('奠')">奠</button>
@@ -10010,7 +10037,7 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <button class="notInBoth" onclick="doIt('噔')">噔</button>
 <button class="notInBoth" onclick="doIt('颛')">颛</button>
 <button class="notInBoth" onclick="doIt('幞')">幞</button>
-<button class="sameInBoth" onclick="doIt('幡')">幡</button>
+<button class="notSameInBoth" onclick="doIt('幡')">幡</button>
 <button class="notInBoth" onclick="doIt('嶓')">嶓</button>
 <button class="notInBoth" onclick="doIt('嶙')">嶙</button>
 <button class="notInBoth" onclick="doIt('嶝')">嶝</button>
@@ -10326,7 +10353,7 @@ the number of stroke (as in 部) or the glyph itself (as for 直).</p>
 <button class="notInBoth" onclick="doIt('薷')">薷</button>
 <button class="sameInBoth" onclick="doIt('薰')">薰</button>
 <button class="notInBoth" onclick="doIt('藓')">藓</button>
-<button class="sameInBoth" onclick="doIt('藁')">藁</button>
+<button class="notSameInBoth" onclick="doIt('藁')">藁</button>
 <button class="notInBoth" onclick="doIt('檑')">檑</button>
 <button class="notInBoth" onclick="doIt('檄')">檄</button>
 <button class="notInBoth" onclick="doIt('懋')">懋</button>
