@@ -2,55 +2,32 @@
 AnimCJK 2016-2018 Copyright Francois Mizessyn - https://github.com/parsimonhi/animCJK
 Derived from:
     MakeMeAHanzi project - https://github.com/skishore/makemeahanzi
-    Arphic PL KaitiM GB - https://apps.ubuntu.com/cat/applications/precise/fonts-arphic-gkai00mp/
-    Arphic PL UKai - https://apps.ubuntu.com/cat/applications/fonts-arphic-ukai/
+    Arphic PL KaitiM GB font
+    Arphic PL UKai font
 You can redistribute and/or modify this file under the terms of the Arphic Public License
 as published by Arphic Technology Co., Ltd.
-You should have received a copy of this license (the directory "APL") along with this file;
-if not, see http://ftp.gnu.org/non-gnu/chinese-fonts-truetype/LICENSE.
+You should have received a copy of this license along with this file.
+If not, see http://ftp.gnu.org/non-gnu/chinese-fonts-truetype/LICENSE.
 -->
 <svg id="z27010" class="acjk" version="1.1" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <style>
 <![CDATA[
-@keyframes z27010k {
-	from {
-		stroke:#ccc;
-		stroke-dashoffset:3334;
-	}
-	1% {
-		stroke:#c00;
-		stroke-dashoffset:3334;
-	}
-	75% {
-		stroke:#c00;
+@keyframes zk {
+	to {
 		stroke-dashoffset:0;
 	}
-	to {
-		stroke:#000;
-	}
 }
-#z27010 path[clip-path] {
-	animation:z27010k 1s linear both;
-	stroke-dasharray:3334;
+svg.acjk path[clip-path] {
+	--t:0.8s;
+	animation:zk var(--t) linear forwards calc(var(--d) * 1.25 * var(--t));
+	stroke-dasharray:3337;
+	stroke-dashoffset:3339;
 	stroke-width:128;
 	stroke-linecap:round;
 	fill:none;
+	stroke:#000;
 }
-#z27010 path[clip-path="url(#z27010c1)"] {animation-delay:1s;}
-#z27010 path[clip-path="url(#z27010c2)"] {animation-delay:2s;}
-#z27010 path[clip-path="url(#z27010c3)"] {animation-delay:3s;}
-#z27010 path[clip-path="url(#z27010c4)"] {animation-delay:4s;}
-#z27010 path[clip-path="url(#z27010c5)"] {animation-delay:5s;}
-#z27010 path[clip-path="url(#z27010c6)"] {animation-delay:6s;}
-#z27010 path[clip-path="url(#z27010c7)"] {animation-delay:7s;}
-#z27010 path[clip-path="url(#z27010c8)"] {animation-delay:8s;}
-#z27010 path[clip-path="url(#z27010c9)"] {animation-delay:9s;}
-#z27010 path[clip-path="url(#z27010c10)"] {animation-delay:10s;}
-#z27010 path[clip-path="url(#z27010c11)"] {animation-delay:11s;}
-#z27010 path[clip-path="url(#z27010c12)"] {animation-delay:12s;}
-#z27010 path[clip-path="url(#z27010c13)"] {animation-delay:13s;}
-#z27010 path[clip-path="url(#z27010c14)"] {animation-delay:14s;}
-#z27010 path {fill:#ccc;}
+svg.acjk path[id] {fill:#ccc;}
 ]]>
 </style>
 <path id="z27010d1" d="M266 371C276 367 287 364 299 361C319 355 330 349 333 346C337 341 339 335 336 330C331 322 319 318 301 316C289 314 277 314 268 319C239 332 239 332 224 338C195 350 95 373 85 377C63 383 61 389 78 399C116 420 146 410 208 390C247 377 247 377 266 371Z"/>
@@ -83,18 +60,18 @@ if not, see http://ftp.gnu.org/non-gnu/chinese-fonts-truetype/LICENSE.
 	<clipPath id="z27010c13"><use xlink:href="#z27010d13"></use></clipPath>
 	<clipPath id="z27010c14"><use xlink:href="#z27010d14"></use></clipPath>
 </defs>
-<path pathLength="3333" clip-path="url(#z27010c1)" d="M74 387L330 332"/>
-<path pathLength="3333" clip-path="url(#z27010c2)" d="M196 89L256 145L218 916"/>
-<path pathLength="3333" clip-path="url(#z27010c3)" d="M218 397L187 518L47 723"/>
-<path pathLength="3333" clip-path="url(#z27010c4)" d="M268 450L321 528"/>
-<path pathLength="3333" clip-path="url(#z27010c5)" d="M398 263L498 235L536 263L493 499"/>
-<path pathLength="3333" clip-path="url(#z27010c6)" d="M404 375L476 350"/>
-<path pathLength="3333" clip-path="url(#z27010c7)" d="M405 492L479 464"/>
-<path pathLength="3333" clip-path="url(#z27010c8)" d="M333 245L372 291L378 377L353 695L369 718L494 608"/>
-<path pathLength="3333" clip-path="url(#z27010c9)" d="M471 543L537 654"/>
-<path pathLength="3333" clip-path="url(#z27010c10)" d="M612 240L856 201"/>
-<path pathLength="3333" clip-path="url(#z27010c11)" d="M574 308L603 335L597 461"/>
-<path pathLength="3333" clip-path="url(#z27010c12)" d="M542 482L801 443L891 449"/>
-<path pathLength="3333" clip-path="url(#z27010c13)" d="M685 266L732 298L667 613L572 760L424 864"/>
-<path pathLength="3333" clip-path="url(#z27010c14)" d="M732 564L759 604L747 785L775 849L858 869L933 846L951 708"/>
+<path style="--d:1;" pathLength="3333" clip-path="url(#z27010c1)" d="M74 387L330 332"/>
+<path style="--d:2;" pathLength="3333" clip-path="url(#z27010c2)" d="M196 89L256 145L218 916"/>
+<path style="--d:3;" pathLength="3333" clip-path="url(#z27010c3)" d="M218 397L187 518L47 723"/>
+<path style="--d:4;" pathLength="3333" clip-path="url(#z27010c4)" d="M268 450L321 528"/>
+<path style="--d:5;" pathLength="3333" clip-path="url(#z27010c5)" d="M398 263L498 235L536 263L493 499"/>
+<path style="--d:6;" pathLength="3333" clip-path="url(#z27010c6)" d="M404 375L476 350"/>
+<path style="--d:7;" pathLength="3333" clip-path="url(#z27010c7)" d="M405 492L479 464"/>
+<path style="--d:8;" pathLength="3333" clip-path="url(#z27010c8)" d="M333 245L372 291L378 377L353 695L369 718L494 608"/>
+<path style="--d:9;" pathLength="3333" clip-path="url(#z27010c9)" d="M471 543L537 654"/>
+<path style="--d:10;" pathLength="3333" clip-path="url(#z27010c10)" d="M612 240L856 201"/>
+<path style="--d:11;" pathLength="3333" clip-path="url(#z27010c11)" d="M574 308L603 335L597 461"/>
+<path style="--d:12;" pathLength="3333" clip-path="url(#z27010c12)" d="M542 482L801 443L891 449"/>
+<path style="--d:13;" pathLength="3333" clip-path="url(#z27010c13)" d="M685 266L732 298L667 613L572 760L424 864"/>
+<path style="--d:14;" pathLength="3333" clip-path="url(#z27010c14)" d="M732 564L759 604L747 785L775 849L858 869L933 846L951 708"/>
 </svg>

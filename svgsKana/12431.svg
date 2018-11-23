@@ -9,33 +9,22 @@ these files; if not, see <http://www.gnu.org/licenses/>.
 <svg id="z12431" class="acjk" version="1.1" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <style>
 <![CDATA[
-@keyframes z12431k {
-	from {
-		stroke:#ccc;
-		stroke-dashoffset:3334;
-	}
-	1% {
-		stroke:#c00;
-		stroke-dashoffset:3334;
-	}
-	75% {
-		stroke:#c00;
+@keyframes zk {
+	to {
 		stroke-dashoffset:0;
 	}
-	to {
-		stroke:#000;
-	}
 }
-#z12431 path[clip-path] {
-	animation:z12431k 1s linear both;
-	stroke-dasharray:3334;
+svg.acjk path[clip-path] {
+	--t:0.8s;
+	animation:zk var(--t) linear forwards calc(var(--d) * 1.25 * var(--t));
+	stroke-dasharray:3337;
+	stroke-dashoffset:3339;
 	stroke-width:128;
 	stroke-linecap:round;
 	fill:none;
+	stroke:#000;
 }
-#z12431 path[clip-path="url(#z12431c1)"] {animation-delay:1s;}
-#z12431 path[clip-path="url(#z12431c2)"] {animation-delay:2s;}
-#z12431 path {fill:#ccc;}
+svg.acjk path[id] {fill:#ccc;}
 ]]>
 </style>
 <path id="z12431d1" d="M297 101C287 101 283 114 287 122C293 136 303 148 302 164C308 231 301 299 299 367C297 434 294 500 290 567C284 646 280 725 271 804C267 829 269 855 277 880C283 900 296 920 317 926C330 929 341 916 341 904C344 880 341 855 342 831C342 726 344 621 346 517C351 420 357 323 368 227C370 210 375 195 379 178C382 167 381 155 374 146C365 133 352 124 339 115C327 107 314 102 299 102C299 101 298 101 297 101Z"/>
@@ -44,6 +33,6 @@ these files; if not, see <http://www.gnu.org/licenses/>.
 	<clipPath id="z12431c1"><use xlink:href="#z12431d1"></use></clipPath>
 	<clipPath id="z12431c2"><use xlink:href="#z12431d2"></use></clipPath>
 </defs>
-<path pathLength="3333" clip-path="url(#z12431c1)" d="M 296,112 331,153 313,913"/>
-<path pathLength="3333" clip-path="url(#z12431c2)" d="M 105,441 168,440 403,336 425,354 137,714 160,742 463,534 681,454 828,479 884,649 785,784 656,856"/>
+<path style="--d:1;" pathLength="3333" clip-path="url(#z12431c1)" d="M 296,112 331,153 313,913"/>
+<path style="--d:2;" pathLength="3333" clip-path="url(#z12431c2)" d="M 105,441 168,440 403,336 425,354 137,714 160,742 463,534 681,454 828,479 884,649 785,784 656,856"/>
 </svg>

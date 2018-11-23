@@ -9,35 +9,22 @@ these files; if not, see <http://www.gnu.org/licenses/>.
 <svg id="z12436" class="acjk" version="1.1" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <style>
 <![CDATA[
-@keyframes z12436k {
-	from {
-		stroke:#ccc;
-		stroke-dashoffset:3334;
-	}
-	1% {
-		stroke:#c00;
-		stroke-dashoffset:3334;
-	}
-	75% {
-		stroke:#c00;
+@keyframes zk {
+	to {
 		stroke-dashoffset:0;
 	}
-	to {
-		stroke:#000;
-	}
 }
-#z12436 path[clip-path] {
-	animation:z12436k 1s linear both;
-	stroke-dasharray:3334;
+svg.acjk path[clip-path] {
+	--t:0.8s;
+	animation:zk var(--t) linear forwards calc(var(--d) * 1.25 * var(--t));
+	stroke-dasharray:3337;
+	stroke-dashoffset:3339;
 	stroke-width:128;
 	stroke-linecap:round;
 	fill:none;
+	stroke:#000;
 }
-#z12436 path[clip-path="url(#z12436c1)"] {animation-delay:1s;}
-#z12436 path[clip-path="url(#z12436c2)"] {animation-delay:2s;}
-#z12436 path[clip-path="url(#z12436c3)"] {animation-delay:3s;}
-#z12436 path[clip-path="url(#z12436c4)"] {animation-delay:4s;}
-#z12436 path {fill:#ccc;}
+svg.acjk path[id] {fill:#ccc;}
 ]]>
 </style>
 <path id="z12436d1" d="M406 101C399 101 389 103 388 111C390 121 400 124 406 130C444 155 485 176 527 193C562 207 598 219 635 228C650 229 668 224 674 209C680 192 669 174 656 164C640 150 619 142 597 142C544 136 491 125 439 108C429 104 418 101 406 101Z"/>
@@ -50,8 +37,8 @@ these files; if not, see <http://www.gnu.org/licenses/>.
 	<clipPath id="z12436c3"><use xlink:href="#z12436d3"></use></clipPath>
 	<clipPath id="z12436c4"><use xlink:href="#z12436d4"></use></clipPath>
 </defs>
-<path pathLength="3333" clip-path="url(#z12436c1)" d="M 400,113 654,205"/>
-<path pathLength="3333" clip-path="url(#z12436c2)" d="M 213,423 286,450 494,372 610,360 684,394 718,462 672,690 492,911"/>
-<path pathLength="3333" clip-path="url(#z12436c3)" d="M 741,269 836,297 863,357.7"/>
-<path pathLength="3333" clip-path="url(#z12436c4)" d="M 797,188 888,219 920,276.7"/>
+<path style="--d:1;" pathLength="3333" clip-path="url(#z12436c1)" d="M 400,113 654,205"/>
+<path style="--d:2;" pathLength="3333" clip-path="url(#z12436c2)" d="M 213,423 286,450 494,372 610,360 684,394 718,462 672,690 492,911"/>
+<path style="--d:3;" pathLength="3333" clip-path="url(#z12436c3)" d="M 741,269 836,297 863,357.7"/>
+<path style="--d:4;" pathLength="3333" clip-path="url(#z12436c4)" d="M 797,188 888,219 920,276.7"/>
 </svg>

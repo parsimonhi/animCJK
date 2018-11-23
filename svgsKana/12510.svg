@@ -9,33 +9,22 @@ these files; if not, see <http://www.gnu.org/licenses/>.
 <svg id="z12510" class="acjk" version="1.1" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <style>
 <![CDATA[
-@keyframes z12510k {
-	from {
-		stroke:#ccc;
-		stroke-dashoffset:3334;
-	}
-	1% {
-		stroke:#c00;
-		stroke-dashoffset:3334;
-	}
-	75% {
-		stroke:#c00;
+@keyframes zk {
+	to {
 		stroke-dashoffset:0;
 	}
-	to {
-		stroke:#000;
-	}
 }
-#z12510 path[clip-path] {
-	animation:z12510k 1s linear both;
-	stroke-dasharray:3334;
+svg.acjk path[clip-path] {
+	--t:0.8s;
+	animation:zk var(--t) linear forwards calc(var(--d) * 1.25 * var(--t));
+	stroke-dasharray:3337;
+	stroke-dashoffset:3339;
 	stroke-width:128;
 	stroke-linecap:round;
 	fill:none;
+	stroke:#000;
 }
-#z12510 path[clip-path="url(#z12510c1)"] {animation-delay:1s;}
-#z12510 path[clip-path="url(#z12510c2)"] {animation-delay:2s;}
-#z12510 path {fill:#ccc;}
+svg.acjk path[id] {fill:#ccc;}
 ]]>
 </style>
 <path id="z12510d1" d="M793 192C740 192 698 212 445 266C341 287 263 305 151 305C128 305 87 305 118 332C164 370 214 373 272 357C414 315 594 278 729 272C755 270 753 300 742 317C677 414 576 509 485 584C471 595 509 637 522 624C547 599 782 375 894 307C916 292 907 273 892 258C837 201 844 192 793 192Z"/>
@@ -44,6 +33,6 @@ these files; if not, see <http://www.gnu.org/licenses/>.
 	<clipPath id="z12510c1"><use xlink:href="#z12510d1"></use></clipPath>
 	<clipPath id="z12510c2"><use xlink:href="#z12510d2"></use></clipPath>
 </defs>
-<path pathLength="3333" clip-path="url(#z12510c1)" d="M 126,320 208,341 773,226 849,286 515,587"/>
-<path pathLength="3333" clip-path="url(#z12510c2)" d="M 331,476 438,582 578,816"/>
+<path style="--d:1;" pathLength="3333" clip-path="url(#z12510c1)" d="M 126,320 208,341 773,226 849,286 515,587"/>
+<path style="--d:2;" pathLength="3333" clip-path="url(#z12510c2)" d="M 331,476 438,582 578,816"/>
 </svg>

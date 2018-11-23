@@ -456,14 +456,24 @@ function getDictionaryData($char,$lang="zh-Hans")
 					{
 						$s.="<div class=\"yomi\">Onyomi: ";
 						$ini=true;
-						foreach ($a->{'on'} as $b) {if (!$ini) $s.=", ";$s.=convertJapaneseOn($b);$ini=false;}
+						foreach ($a->{'on'} as $b)
+						{
+							if (!$ini) $s.=", ";
+							$s.=convertJapaneseOn($b);
+							$ini=false;
+						}
 						$s.="</div>";
 					}
 					if (count($a->{'kun'}))
 					{
 						$s.="<div class=\"yomi\">Kunyomi: ";
 						$ini=true;
-						foreach ($a->{'kun'} as $b) {if (!$ini) $s.=", ";$s.=convertJapaneseKun($b);$ini=false;}
+						foreach ($a->{'kun'} as $b)
+						{
+							if (!$ini) $s.=", ";
+							$s.=convertJapaneseKun($b);
+							$ini=false;
+						}
 						$s.="</div>";
 					}
 				}
@@ -502,40 +512,28 @@ function buildSvg($a)
 	$id="z".$u;
 	$x="xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"";
 	$s="<svg id=\"".$id."\" class=\"acjk\" version=\"1.1\" viewBox=\"0 0 1024 1024\" ".$x.">\n";
+	
+	// style
 	$s.="<style>\n<![CDATA[\n";
-	$s.="@keyframes ".$id."k {\n";
-	$s.="\tfrom {\n";
-	$s.="\t\tstroke:#ccc;\n";
-	$s.="\t\tstroke-dashoffset:3334;\n";
-	$s.="\t}\n";
-	$s.="\t1% {\n";
-	$s.="\t\tstroke:#c00;\n";
-	$s.="\t\tstroke-dashoffset:3334;\n";
-	$s.="\t}\n";
-	$s.="\t75% {\n";
-	$s.="\t\tstroke:#c00;\n";
-	$s.="\t\tstroke-dashoffset:0;\n";
-	$s.="\t}\n";
+	$s.="@keyframes zk {\n";
 	$s.="\tto {\n";
-	$s.="\t\tstroke:#000;\n";
+	$s.="\t\stroke-dashoffset:0;\n";
 	$s.="\t}\n";
 	$s.="}\n";
-	$s.="#".$id." path[clip-path] {\n";
-	$s.="\tanimation:".$id."k 1s linear both;\n";
-	$s.="\tstroke-dasharray:3334;\n";
-	$s.="\tstroke-width:128;\n";// acjk.strokeWidthMax + 8 or 16?
+	$s.="svgs.acjk path[clip-path] {\n";
+	$s.="\t--t:0.8s\n";
+	$s.="\tanimation:zk var(--t) linear forwards calc(var(--d) * 1.25 * var(--t));\n";
+	$s.="\tstroke-dasharray:3337;\n"; // more than pathLength + 1
+	$s.="\tstroke-dashoffset:3339;\n"; // less than 2 * strokeDasharray - pathLength
+	$s.="\tstroke-width:128;\n"; // acjk.strokeWidthMax + 8 or 16?
 	$s.="\tstroke-linecap:round;\n";
 	$s.="\tfill:none;\n";
+	$s.="\tstroke:#000;\n";
 	$s.="}\n";
-	$k=0;
-	foreach($a->{'strokes'} as $p)
-	{
-		$k++;
-		$s.="#".$id." path[clip-path=\"url(#".$id."c".$k.")\"] {animation-delay:".$k."s;}\n";
-	}
-	$s.="#".$id." path {fill:#ccc;}\n";
+	$s.="svgs.acjk path[id] {fill:#ccc;}\n";
 	$s.="]]>\n</style>\n";
 
+	// stroke shapes
 	$k=0;
 	foreach($a->{'strokes'} as $p)
 	{
@@ -543,9 +541,13 @@ function buildSvg($a)
 		$p=str_replace(","," ",$p);
 		$p=preg_replace("#\s?([MQCLZ])\s?#","$1",$p);
 		$p=preg_replace("#([^ ])-#","$1 -",$p);
+		// transform coordinates of path nodes (x2 = x1, y2 = 900-y1)
+		// don't do this transformation if $_GET["t"] exists and is not 1
 		if (!isset($_GET["t"])||($_GET["t"]==1)) $p=transformPathFromGraphics($p);
 		$s.="<path id=\"".$id."d".$k."\" d=\"".$p."\"/>\n";
 	}
+	
+	// clip paths
 	$s.="<defs>\n";
 	$k=0;
 	foreach($a->{'strokes'} as $p)
@@ -556,6 +558,8 @@ function buildSvg($a)
 		$s.="</clipPath>\n";
 	}
 	$s.="</defs>\n";
+	
+	// medians
 	$k=0;
 	foreach($a->{'medians'} as $m)
 	{
@@ -563,15 +567,17 @@ function buildSvg($a)
 		$z="";
 		foreach($m as $point) $z.=($z?"L":"M").$point[0]." ".$point[1];
 		if (!isset($_GET["t"])||($_GET["t"]==1)) $z=transformPathFromGraphics($z);
-		$s.="<path pathLength=\"3333\" clip-path=\"url(#".$id."c".$k.")\" d=\"".$z."\"/>\n";
+		$s.="<path style=\"--d:".$k.";\" pathLength=\"3333\" clip-path=\"url(#".$id."c".$k.")\" d=\"".$z."\"/>\n";
 	}
+	
 	$s.="</svg>";
 	return $s;
 }
 
 function checkOfficialChar($a,$currentSet)
 {
-	// designed to check ja, kana and zhHans
+	// display a list of button to select a character
+	// designed to check if characters are in svgsKana, svgsJa or svgsZhHans
 	$s="";
 	$sameInBoth=0;
 	$notSameInBoth=0;
@@ -588,8 +594,8 @@ function checkOfficialChar($a,$currentSet)
 		}
 		else
 		{
-			if (file_exists("svgsJa/".$dec.".svg")) $inJa=1; else $inJa=0;
-			if (file_exists("svgsZhHans/".$dec.".svg")) $inZhHans=1; else $inZhHans=0;
+			$inJa=file_exists("svgsJa/".$dec.".svg");
+			$inZhHans=file_exists("svgsZhHans/".$dec.".svg");
 			if ($inJa&&$inZhHans)
 			{
 				$f1=file_get_contents("svgsJa/".$dec.".svg");

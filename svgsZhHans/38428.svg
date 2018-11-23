@@ -2,49 +2,32 @@
 AnimCJK 2016-2018 Copyright Francois Mizessyn - https://github.com/parsimonhi/animCJK
 Derived from:
     MakeMeAHanzi project - https://github.com/skishore/makemeahanzi
-    Arphic PL KaitiM GB - https://apps.ubuntu.com/cat/applications/precise/fonts-arphic-gkai00mp/
-    Arphic PL UKai - https://apps.ubuntu.com/cat/applications/fonts-arphic-ukai/
+    Arphic PL KaitiM GB font
+    Arphic PL UKai font
 You can redistribute and/or modify this file under the terms of the Arphic Public License
 as published by Arphic Technology Co., Ltd.
-You should have received a copy of this license (the directory "APL") along with this file;
-if not, see http://ftp.gnu.org/non-gnu/chinese-fonts-truetype/LICENSE.
+You should have received a copy of this license along with this file.
+If not, see http://ftp.gnu.org/non-gnu/chinese-fonts-truetype/LICENSE.
 -->
 <svg id="z38428" class="acjk" version="1.1" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <style>
 <![CDATA[
-@keyframes z38428k {
-	from {
-		stroke:#ccc;
-		stroke-dashoffset:3334;
-	}
-	1% {
-		stroke:#c00;
-		stroke-dashoffset:3334;
-	}
-	75% {
-		stroke:#c00;
+@keyframes zk {
+	to {
 		stroke-dashoffset:0;
 	}
-	to {
-		stroke:#000;
-	}
 }
-#z38428 path[clip-path] {
-	animation:z38428k 1s linear both;
-	stroke-dasharray:3334;
+svg.acjk path[clip-path] {
+	--t:0.8s;
+	animation:zk var(--t) linear forwards calc(var(--d) * 1.25 * var(--t));
+	stroke-dasharray:3337;
+	stroke-dashoffset:3339;
 	stroke-width:128;
 	stroke-linecap:round;
 	fill:none;
+	stroke:#000;
 }
-#z38428 path[clip-path="url(#z38428c1)"] {animation-delay:1s;}
-#z38428 path[clip-path="url(#z38428c2)"] {animation-delay:2s;}
-#z38428 path[clip-path="url(#z38428c3)"] {animation-delay:3s;}
-#z38428 path[clip-path="url(#z38428c4)"] {animation-delay:4s;}
-#z38428 path[clip-path="url(#z38428c5)"] {animation-delay:5s;}
-#z38428 path[clip-path="url(#z38428c6)"] {animation-delay:6s;}
-#z38428 path[clip-path="url(#z38428c7)"] {animation-delay:7s;}
-#z38428 path[clip-path="url(#z38428c8)"] {animation-delay:8s;}
-#z38428 path {fill:#ccc;}
+svg.acjk path[id] {fill:#ccc;}
 ]]>
 </style>
 <path id="z38428d1" d="M425 184Q447 165 465 151Q532 94 543 88Q562 76 551 60Q536 45 510 33Q485 23 473 26Q460 29 466 41Q472 68 429 130Q408 158 387 191C380 202 415 192 425 184Z"/>
@@ -65,12 +48,12 @@ if not, see http://ftp.gnu.org/non-gnu/chinese-fonts-truetype/LICENSE.
 	<clipPath id="z38428c7"><use xlink:href="#z38428d7"></use></clipPath>
 	<clipPath id="z38428c8"><use xlink:href="#z38428d8"></use></clipPath>
 </defs>
-<path pathLength="3333" clip-path="url(#z38428c1)" d="M472 34L506 77L395 184"/>
-<path pathLength="3333" clip-path="url(#z38428c2)" d="M316 179L356 230L344 573"/>
-<path pathLength="3333" clip-path="url(#z38428c3)" d="M380 199L609 159L652 203L605 261"/>
-<path pathLength="3333" clip-path="url(#z38428c4)" d="M389 327L655 285"/>
-<path pathLength="3333" clip-path="url(#z38428c5)" d="M386 429L637 372L674 410L631 474"/>
-<path pathLength="3333" clip-path="url(#z38428c6)" d="M379 539L605 497L690 503"/>
-<path pathLength="3333" clip-path="url(#z38428c7)" d="M87 667L169 686L823 609L937 634"/>
-<path pathLength="3333" clip-path="url(#z38428c8)" d="M467 538L513 570L503 972"/>
+<path style="--d:1;" pathLength="3333" clip-path="url(#z38428c1)" d="M472 34L506 77L395 184"/>
+<path style="--d:2;" pathLength="3333" clip-path="url(#z38428c2)" d="M316 179L356 230L344 573"/>
+<path style="--d:3;" pathLength="3333" clip-path="url(#z38428c3)" d="M380 199L609 159L652 203L605 261"/>
+<path style="--d:4;" pathLength="3333" clip-path="url(#z38428c4)" d="M389 327L655 285"/>
+<path style="--d:5;" pathLength="3333" clip-path="url(#z38428c5)" d="M386 429L637 372L674 410L631 474"/>
+<path style="--d:6;" pathLength="3333" clip-path="url(#z38428c6)" d="M379 539L605 497L690 503"/>
+<path style="--d:7;" pathLength="3333" clip-path="url(#z38428c7)" d="M87 667L169 686L823 609L937 634"/>
+<path style="--d:8;" pathLength="3333" clip-path="url(#z38428c8)" d="M467 538L513 570L503 972"/>
 </svg>

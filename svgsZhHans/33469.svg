@@ -2,48 +2,32 @@
 AnimCJK 2016-2018 Copyright Francois Mizessyn - https://github.com/parsimonhi/animCJK
 Derived from:
     MakeMeAHanzi project - https://github.com/skishore/makemeahanzi
-    Arphic PL KaitiM GB - https://apps.ubuntu.com/cat/applications/precise/fonts-arphic-gkai00mp/
-    Arphic PL UKai - https://apps.ubuntu.com/cat/applications/fonts-arphic-ukai/
+    Arphic PL KaitiM GB font
+    Arphic PL UKai font
 You can redistribute and/or modify this file under the terms of the Arphic Public License
 as published by Arphic Technology Co., Ltd.
-You should have received a copy of this license (the directory "APL") along with this file;
-if not, see http://ftp.gnu.org/non-gnu/chinese-fonts-truetype/LICENSE.
+You should have received a copy of this license along with this file.
+If not, see http://ftp.gnu.org/non-gnu/chinese-fonts-truetype/LICENSE.
 -->
 <svg id="z33469" class="acjk" version="1.1" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <style>
 <![CDATA[
-@keyframes z33469k {
-	from {
-		stroke:#ccc;
-		stroke-dashoffset:3334;
-	}
-	1% {
-		stroke:#c00;
-		stroke-dashoffset:3334;
-	}
-	75% {
-		stroke:#c00;
+@keyframes zk {
+	to {
 		stroke-dashoffset:0;
 	}
-	to {
-		stroke:#000;
-	}
 }
-#z33469 path[clip-path] {
-	animation:z33469k 1s linear both;
-	stroke-dasharray:3334;
+svg.acjk path[clip-path] {
+	--t:0.8s;
+	animation:zk var(--t) linear forwards calc(var(--d) * 1.25 * var(--t));
+	stroke-dasharray:3337;
+	stroke-dashoffset:3339;
 	stroke-width:128;
 	stroke-linecap:round;
 	fill:none;
+	stroke:#000;
 }
-#z33469 path[clip-path="url(#z33469c1)"] {animation-delay:1s;}
-#z33469 path[clip-path="url(#z33469c2)"] {animation-delay:2s;}
-#z33469 path[clip-path="url(#z33469c3)"] {animation-delay:3s;}
-#z33469 path[clip-path="url(#z33469c4)"] {animation-delay:4s;}
-#z33469 path[clip-path="url(#z33469c5)"] {animation-delay:5s;}
-#z33469 path[clip-path="url(#z33469c6)"] {animation-delay:6s;}
-#z33469 path[clip-path="url(#z33469c7)"] {animation-delay:7s;}
-#z33469 path {fill:#ccc;}
+svg.acjk path[id] {fill:#ccc;}
 ]]>
 </style>
 <path id="z33469d1" d="M634 206C669 204 770 198 829 205C839 206 846 203 850 197C854 189 851 179 842 170C809 139 765 134 709 148C691 152 673 154 657 157C618 163 618 163 599 166C543 174 484 182 422 189C390 192 390 192 374 194C320 199 264 204 208 210C188 212 184 219 199 229C232 250 270 254 310 245C334 239 357 233 382 230C410 226 410 226 424 224C445 220 565 208 587 208C618 207 618 207 634 206Z"/>
@@ -62,11 +46,11 @@ if not, see http://ftp.gnu.org/non-gnu/chinese-fonts-truetype/LICENSE.
 	<clipPath id="z33469c6"><use xlink:href="#z33469d6"></use></clipPath>
 	<clipPath id="z33469c7"><use xlink:href="#z33469d7"></use></clipPath>
 </defs>
-<path pathLength="3333" clip-path="url(#z33469c1)" d="M197 217L293 225L745 171L847 188"/>
-<path pathLength="3333" clip-path="url(#z33469c2)" d="M333 104L388 138L413 290"/>
-<path pathLength="3333" clip-path="url(#z33469c3)" d="M615 49L653 96L578 287"/>
-<path pathLength="3333" clip-path="url(#z33469c4)" d="M371 368L722 334"/>
-<path pathLength="3333" clip-path="url(#z33469c5)" d="M288 384L326 434L292 549L308 577L627 506L757 498L834 517"/>
-<path pathLength="3333" clip-path="url(#z33469c6)" d="M531 393L561 415L552 891L528 934L409 884"/>
-<path pathLength="3333" clip-path="url(#z33469c7)" d="M517 551L373 730L164 860"/>
+<path style="--d:1;" pathLength="3333" clip-path="url(#z33469c1)" d="M197 217L293 225L745 171L847 188"/>
+<path style="--d:2;" pathLength="3333" clip-path="url(#z33469c2)" d="M333 104L388 138L413 290"/>
+<path style="--d:3;" pathLength="3333" clip-path="url(#z33469c3)" d="M615 49L653 96L578 287"/>
+<path style="--d:4;" pathLength="3333" clip-path="url(#z33469c4)" d="M371 368L722 334"/>
+<path style="--d:5;" pathLength="3333" clip-path="url(#z33469c5)" d="M288 384L326 434L292 549L308 577L627 506L757 498L834 517"/>
+<path style="--d:6;" pathLength="3333" clip-path="url(#z33469c6)" d="M531 393L561 415L552 891L528 934L409 884"/>
+<path style="--d:7;" pathLength="3333" clip-path="url(#z33469c7)" d="M517 551L373 730L164 860"/>
 </svg>

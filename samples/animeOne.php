@@ -37,17 +37,18 @@ a:visited {color:#666;}
 </head>
 <body>
 <?php displayHeader("AnimCJK - Anime one");?>
-<button class="actionBtn" type="button" onclick="animeChar()">Animate</button>
+<p>Basic display of one character</p>
+<button class="actionBtn" type="button" onclick="startAnim()">Animate</button>
 <div id="charDiv">
 <?php include "../".$dir."/".$dec.".svg";?>
 </div>
 <?php echo displayFooter("animeOne");?>
 <script>
-function animeChar()
+function startAnim()
 {
 	// (re)start animation when clicking on "Animate" button
 	var e,s;
-	e=document.getElementById("charDiv");
+	e=document.querySelector("svg.acjk");
 	s=e.innerHTML;
 	e.innerHTML="";
 	e.innerHTML=s;

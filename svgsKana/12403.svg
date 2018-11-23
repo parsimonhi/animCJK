@@ -9,34 +9,22 @@ these files; if not, see <http://www.gnu.org/licenses/>.
 <svg id="z12403" class="acjk" version="1.1" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <style>
 <![CDATA[
-@keyframes z12403k {
-	from {
-		stroke:#ccc;
-		stroke-dashoffset:3334;
-	}
-	1% {
-		stroke:#c00;
-		stroke-dashoffset:3334;
-	}
-	75% {
-		stroke:#c00;
+@keyframes zk {
+	to {
 		stroke-dashoffset:0;
 	}
-	to {
-		stroke:#000;
-	}
 }
-#z12403 path[clip-path] {
-	animation:z12403k 1s linear both;
-	stroke-dasharray:3334;
+svg.acjk path[clip-path] {
+	--t:0.8s;
+	animation:zk var(--t) linear forwards calc(var(--d) * 1.25 * var(--t));
+	stroke-dasharray:3337;
+	stroke-dashoffset:3339;
 	stroke-width:128;
 	stroke-linecap:round;
 	fill:none;
+	stroke:#000;
 }
-#z12403 path[clip-path="url(#z12403c1)"] {animation-delay:1s;}
-#z12403 path[clip-path="url(#z12403c2)"] {animation-delay:2s;}
-#z12403 path[clip-path="url(#z12403c3)"] {animation-delay:3s;}
-#z12403 path {fill:#ccc;}
+svg.acjk path[id] {fill:#ccc;}
 ]]>
 </style>
 <path id="z12403d1" d="M393 148C380 149 371 160 359 165C317 194 268 218 216 219C196 220 175 218 154 219C147 220 142 228 145 234C149 245 162 249 171 253C206 267 245 271 281 261C304 255 326 246 347 236C288 344 231 454 194 573C175 637 166 706 184 772C200 828 248 873 304 889C339 900 377 898 413 893C479 882 541 847 581 793C625 735 648 665 663 595C683 504 695 411 704 319C706 298 707 276 709 255C740 366 781 475 849 569C862 586 875 604 891 619C902 626 917 621 923 610C931 596 936 579 935 563C934 540 918 522 904 506C875 475 852 440 830 404C789 336 759 262 736 187C731 174 721 163 709 157C698 151 684 145 672 151C661 159 664 175 664 186C662 277 654 368 636 457C622 531 602 605 573 675C549 725 516 773 468 803C434 823 394 830 355 827C322 826 286 819 262 794C240 771 228 738 226 705C222 651 240 597 260 547C287 479 320 413 358 349C378 316 398 283 421 252C433 237 447 225 461 213C467 208 467 199 463 193C456 181 445 173 434 164C422 155 408 148 393 148Z"/>
@@ -47,7 +35,7 @@ these files; if not, see <http://www.gnu.org/licenses/>.
 	<clipPath id="z12403c2"><use xlink:href="#z12403d2"></use></clipPath>
 	<clipPath id="z12403c3"><use xlink:href="#z12403d3"></use></clipPath>
 </defs>
-<path pathLength="3333" clip-path="url(#z12403c1)" d="M 160,236 269,239 386,182 417,200 225,544 203,758 312,875 553,805 653,536 689,176 907,614"/>
-<path pathLength="3333" clip-path="url(#z12403c2)" d="M 784,174 873,218 889,282"/>
-<path pathLength="3333" clip-path="url(#z12403c3)" d="M 853,104 937,150 959,212"/>
+<path style="--d:1;" pathLength="3333" clip-path="url(#z12403c1)" d="M 160,236 269,239 386,182 417,200 225,544 203,758 312,875 553,805 653,536 689,176 907,614"/>
+<path style="--d:2;" pathLength="3333" clip-path="url(#z12403c2)" d="M 784,174 873,218 889,282"/>
+<path style="--d:3;" pathLength="3333" clip-path="url(#z12403c3)" d="M 853,104 937,150 959,212"/>
 </svg>

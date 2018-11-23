@@ -15,7 +15,7 @@ a:visited {color:#666;}
 	max-height:256px;
 	border:1px solid #ccc;
 }
-.charCartoucheDiv
+.cartoucheDiv
 {
 	margin:0 auto 1em auto;
 	max-width:256px;
@@ -43,11 +43,13 @@ a:visited {color:#666;}
 </head>
 <body>
 <?php displayHeader("AnimCJK - Radical");?>
+<p>Display the radical of the character in a different color</p>
+<button class="actionBtn" type="button" onclick="startAnim()">Animate</button>
 <?php
+// get data from dictionaryXyz.txt files
 if ($lang=="ja") $f="dictionaryJa.txt";
 else $f="dictionaryZhHans.txt";
 $s=file_get_contents("../".$f);
-// get data from dictionaryXxx.txt files
 $c=unichr($dec);
 if (preg_match("/\\{\"character\":\"".$c."[^}]+\\}/u",$s,$r))
 {
@@ -66,17 +68,16 @@ else
 	$acjk="";
 }
 ?>
-<p>Display the radical of the character in a different color</p>
-<button class="actionBtn" type="button" onclick="animeChar()">Animate</button>
-<div id="charDiv" class="charDiv" data-acjk="<?php echo $acjk;?>">
+<div class="charDiv" data-acjk="<?php echo $acjk;?>">
 <?php
+// get svg file
 // some characters are special because some strokes are split to show the radical
 $special="../".$dir."Special/".$dec.".svg";
 if (file_exists($special)) include $special;
 else include "../".$dir."/".$dec.".svg";
 ?>
 </div>
-<div class="charCartoucheDiv">
+<div class="cartoucheDiv">
 <?php
 echo "Radical: ".$radical;
 echo "<br>";
@@ -86,28 +87,11 @@ echo "Acjk: ".$acjk;
 ?>
 </div>
 <?php echo displayFooter("radical");?>
-<div id="debug"></div>
 <script>
-function debug(s,a)
-{
-	var e;
-	if (e=document.getElementById("debug"));
-		if (a) e.innerHTML+=s;
-		else e.innerHTML=s;
-}
-function animeChar()
-{
-	// (re)start animation when clicking on "Animate" button
-	var e,s;
-	e=document.getElementById("charDiv");
-	s=e.innerHTML;
-	e.innerHTML="";
-	e.innerHTML=s;
-}
 function isRadicalStroke(path,n,d)
 {
 	var c,d,e,list,nsi,nsj,pos;
-	// manage special decomposition when some strokes are split to show the radical‡
+	// manage special decomposition when some strokes are split to show the radical
 	if (!d) return false;
 	if (d.substr(0,3)=="凹⿱⿰") d="凹⿱⿰㇑.1⿲㇅1㇑1㇐1㇑.1一.1";
 	else if (d=="凸⿱⿰⿳㇑1㇐1㇑.1㇎.1㇐.1") d="凸⿱⿰⿳㇑1㇐1㇑.1⿱㇅1㇑.1㇐.1";
@@ -145,26 +129,10 @@ function isRadicalStroke(path,n,d)
 	}
 	return false;
 }
-function setKeyframe(head,name,d,color)
-{
-	var a,e=document.createElement("style");
-	a="@";
-	a+="keyframes "+name+" {";
-	a+="from {stroke:#ccc;stroke-dashoffset:"+d+";}";
-	a+="1% {stroke:#c00;stroke-dashoffset:"+d+";}";
-	a+="75% {stroke:#c00;stroke-dashoffset:0;}";
-	a+="to {stroke:"+color+";}";
-	a+="}";
-	e.type='text/css';
-	if (e.styleSheet) e.styleSheet.cssText=a;
-	else e.appendChild(document.createTextNode(a));
-	head.appendChild(e);
-}
 function colorizeRadical()
 {
 	// work as is even if several characters are displayed in the page
-	var head,list,k,km,name,d,k2,cp,p,ko,go,g;
-	head=document.getElementsByTagName('head')[0];
+	var list,k,km,k2,k3,ko,go,g,p,d,cp;
 	list=document.querySelectorAll("svg.acjk path[clip-path]");
 	km=list.length;
 	k2=0;
@@ -172,29 +140,36 @@ function colorizeRadical()
 	ko=0;
 	for (k=0;k<km;k++)
 	{
-		// assume acjk is the value of the data-acjk attribute of the svg parent node
+		// assume acjk was stored in data-acjk attribute of svg parent node
 		p=list[k].parentNode;
 		g=p;
 		if (g!=go) {go=g;ko=k;}
 		while(p&&!p.hasAttribute("data-acjk")) p=p.parentNode;
 		if (p) d=p.getAttribute("data-acjk");else d="";
-		name="zk"+k;
-		if (isRadicalStroke(list[k],k-ko,d))
-		{
-			name+="R";
-			setKeyframe(head,name,3334,"orange");
-		}
-		else
-		{
-			name+="C";
-			setKeyframe(head,name,3334,"blue");
-		}
+		if (isRadicalStroke(list[k],k-ko,d)) list[k].style.stroke="orange";
+		else list[k].style.stroke="blue";
 		cp=list[k].getAttribute("clip-path");
 		if (!cp.match(/[b-z]\)/)) k2++;
-		list[k].style.animation=name+" 1s linear both "+k2+"s";
+		k3=k2*1.25;
+		list[k].style.animation="zk var(--t) linear forwards calc("+k3+" * var(--t)";
 	}
 }
-window.addEventListener("load",colorizeRadical,false);
+function startAnim()
+{
+	// (re)start animation when clicking on "Animate" button
+	// work as is even if several characters are displayed in the page
+	var list,k,km,s;
+	list=document.querySelectorAll("svg.acjk");
+	km=list.length;
+	for (k=0;k<km;k++)
+	{
+		s=list[k].innerHTML;
+		list[k].innerHTML="";
+		list[k].innerHTML=s;
+	}
+	colorizeRadical();
+}
+window.addEventListener("load",startAnim,false);
 </script>
 </body>
 </html>

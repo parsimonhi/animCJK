@@ -2,48 +2,32 @@
 AnimCJK 2016-2018 Copyright Francois Mizessyn - https://github.com/parsimonhi/animCJK
 Derived from:
     MakeMeAHanzi project - https://github.com/skishore/makemeahanzi
-    Arphic PL KaitiM GB - https://apps.ubuntu.com/cat/applications/precise/fonts-arphic-gkai00mp/
-    Arphic PL UKai - https://apps.ubuntu.com/cat/applications/fonts-arphic-ukai/
+    Arphic PL KaitiM GB font
+    Arphic PL UKai font
 You can redistribute and/or modify this file under the terms of the Arphic Public License
 as published by Arphic Technology Co., Ltd.
-You should have received a copy of this license (the directory "APL") along with this file;
-if not, see http://ftp.gnu.org/non-gnu/chinese-fonts-truetype/LICENSE.
+You should have received a copy of this license along with this file.
+If not, see http://ftp.gnu.org/non-gnu/chinese-fonts-truetype/LICENSE.
 -->
 <svg id="z33456" class="acjk" version="1.1" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <style>
 <![CDATA[
-@keyframes z33456k {
-	from {
-		stroke:#ccc;
-		stroke-dashoffset:3334;
-	}
-	1% {
-		stroke:#c00;
-		stroke-dashoffset:3334;
-	}
-	75% {
-		stroke:#c00;
+@keyframes zk {
+	to {
 		stroke-dashoffset:0;
 	}
-	to {
-		stroke:#000;
-	}
 }
-#z33456 path[clip-path] {
-	animation:z33456k 1s linear both;
-	stroke-dasharray:3334;
+svg.acjk path[clip-path] {
+	--t:0.8s;
+	animation:zk var(--t) linear forwards calc(var(--d) * 1.25 * var(--t));
+	stroke-dasharray:3337;
+	stroke-dashoffset:3339;
 	stroke-width:128;
 	stroke-linecap:round;
 	fill:none;
+	stroke:#000;
 }
-#z33456 path[clip-path="url(#z33456c1)"] {animation-delay:1s;}
-#z33456 path[clip-path="url(#z33456c2)"] {animation-delay:2s;}
-#z33456 path[clip-path="url(#z33456c3)"] {animation-delay:3s;}
-#z33456 path[clip-path="url(#z33456c4)"] {animation-delay:4s;}
-#z33456 path[clip-path="url(#z33456c5)"] {animation-delay:5s;}
-#z33456 path[clip-path="url(#z33456c6)"] {animation-delay:6s;}
-#z33456 path[clip-path="url(#z33456c7)"] {animation-delay:7s;}
-#z33456 path {fill:#ccc;}
+svg.acjk path[id] {fill:#ccc;}
 ]]>
 </style>
 <path id="z33456d1" d="M633 212C681 210 738 204 806 209C816 209 824 207 827 201C830 193 828 182 818 174C771 133 726 147 656 159C615 166 615 166 595 169C538 178 478 187 416 195C384 199 384 199 368 201C317 207 264 211 208 218C187 220 183 227 198 237C225 254 256 258 306 250C326 246 355 240 376 237C404 233 404 233 418 231C443 227 497 217 584 214C617 213 617 213 633 212Z"/>
@@ -62,11 +46,11 @@ if not, see http://ftp.gnu.org/non-gnu/chinese-fonts-truetype/LICENSE.
 	<clipPath id="z33456c6"><use xlink:href="#z33456d6"></use></clipPath>
 	<clipPath id="z33456c7"><use xlink:href="#z33456d7"></use></clipPath>
 </defs>
-<path pathLength="3333" clip-path="url(#z33456c1)" d="M202 229L700 177L824 196"/>
-<path pathLength="3333" clip-path="url(#z33456c2)" d="M332 106L382 142L407 297"/>
-<path pathLength="3333" clip-path="url(#z33456c3)" d="M603 52L647 101L575 300"/>
-<path pathLength="3333" clip-path="url(#z33456c4)" d="M242 413L311 424L755 367"/>
-<path pathLength="3333" clip-path="url(#z33456c5)" d="M460 275L509 316L488 528"/>
-<path pathLength="3333" clip-path="url(#z33456c6)" d="M306 565L575 524L639 554L539 720L465 794L339 859L210 882"/>
-<path pathLength="3333" clip-path="url(#z33456c7)" d="M318 616L685 882L775 903L932 901"/>
+<path style="--d:1;" pathLength="3333" clip-path="url(#z33456c1)" d="M202 229L700 177L824 196"/>
+<path style="--d:2;" pathLength="3333" clip-path="url(#z33456c2)" d="M332 106L382 142L407 297"/>
+<path style="--d:3;" pathLength="3333" clip-path="url(#z33456c3)" d="M603 52L647 101L575 300"/>
+<path style="--d:4;" pathLength="3333" clip-path="url(#z33456c4)" d="M242 413L311 424L755 367"/>
+<path style="--d:5;" pathLength="3333" clip-path="url(#z33456c5)" d="M460 275L509 316L488 528"/>
+<path style="--d:6;" pathLength="3333" clip-path="url(#z33456c6)" d="M306 565L575 524L639 554L539 720L465 794L339 859L210 882"/>
+<path style="--d:7;" pathLength="3333" clip-path="url(#z33456c7)" d="M318 616L685 882L775 903L932 901"/>
 </svg>

@@ -9,37 +9,27 @@ these files; if not, see <http://www.gnu.org/licenses/>.
 <svg id="z12367" class="acjk" version="1.1" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <style>
 <![CDATA[
-@keyframes z12367k {
-	from {
-		stroke:#ccc;
-		stroke-dashoffset:3334;
-	}
-	1% {
-		stroke:#c00;
-		stroke-dashoffset:3334;
-	}
-	75% {
-		stroke:#c00;
+@keyframes zk {
+	to {
 		stroke-dashoffset:0;
 	}
-	to {
-		stroke:#000;
-	}
 }
-#z12367 path[clip-path] {
-	animation:z12367k 1s linear both;
-	stroke-dasharray:3334;
+svg.acjk path[clip-path] {
+	--t:0.8s;
+	animation:zk var(--t) linear forwards calc(var(--d) * 1.25 * var(--t));
+	stroke-dasharray:3337;
+	stroke-dashoffset:3339;
 	stroke-width:128;
 	stroke-linecap:round;
 	fill:none;
+	stroke:#000;
 }
-#z12367 path[clip-path="url(#z12367c1)"] {animation-delay:1s;}
-#z12367 path {fill:#ccc;}
+svg.acjk path[id] {fill:#ccc;}
 ]]>
 </style>
 <path id="z12367d1" d="M554 99C543 100 538 115 545 122C555 140 556 163 543 180C509 237 469 290 427 341C392 385 355 426 321 470C311 485 308 505 316 522C326 549 350 569 366 592C442 691 512 794 578 900C586 912 598 924 613 923C634 920 650 900 649 880C650 861 642 843 631 828C577 744 507 673 441 600C414 571 384 544 363 511C358 498 368 485 376 476C444 400 511 324 581 250C598 234 616 219 636 207C645 198 642 183 636 173C621 147 602 122 576 106C569 102 562 100 554 99Z"/>
 <defs>
 	<clipPath id="z12367c1"><use xlink:href="#z12367d1"></use></clipPath>
 </defs>
-<path pathLength="3333" clip-path="url(#z12367c1)" d="M 561,111 605,180 337,479 346,523 625,884.9"/>
+<path style="--d:1;" pathLength="3333" clip-path="url(#z12367c1)" d="M 561,111 605,180 337,479 346,523 625,884.9"/>
 </svg>

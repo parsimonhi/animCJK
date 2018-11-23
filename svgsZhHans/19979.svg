@@ -2,55 +2,43 @@
 AnimCJK 2016-2018 Copyright Francois Mizessyn - https://github.com/parsimonhi/animCJK
 Derived from:
     MakeMeAHanzi project - https://github.com/skishore/makemeahanzi
-    Arphic PL KaitiM GB - https://apps.ubuntu.com/cat/applications/precise/fonts-arphic-gkai00mp/
-    Arphic PL UKai - https://apps.ubuntu.com/cat/applications/fonts-arphic-ukai/
+    Arphic PL KaitiM GB font
+    Arphic PL UKai font
 You can redistribute and/or modify this file under the terms of the Arphic Public License
 as published by Arphic Technology Co., Ltd.
-You should have received a copy of this license (the directory "APL") along with this file;
-if not, see http://ftp.gnu.org/non-gnu/chinese-fonts-truetype/LICENSE.
+You should have received a copy of this license along with this file.
+If not, see http://ftp.gnu.org/non-gnu/chinese-fonts-truetype/LICENSE.
 -->
 <svg id="z19979" class="acjk" version="1.1" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <style>
 <![CDATA[
-@keyframes z19979k {
-	from {
-		stroke:#ccc;
-		stroke-dashoffset:3334;
-	}
-	1% {
-		stroke:#c00;
-		stroke-dashoffset:3334;
-	}
-	75% {
-		stroke:#c00;
+@keyframes zk {
+	to {
 		stroke-dashoffset:0;
 	}
-	to {
-		stroke:#000;
-	}
 }
-#z19979 path[clip-path] {
-	animation:z19979k 1s linear both;
-	stroke-dasharray:3334;
+svg.acjk path[clip-path] {
+	--t:0.8s;
+	animation:zk var(--t) linear forwards calc(var(--d) * 1.25 * var(--t));
+	stroke-dasharray:3337;
+	stroke-dashoffset:3339;
 	stroke-width:128;
 	stroke-linecap:round;
 	fill:none;
+	stroke:#000;
 }
-#z19979 path[clip-path="url(#z19979c1)"] {animation-delay:1s;}
-#z19979 path[clip-path="url(#z19979c2)"] {animation-delay:2s;}
-#z19979 path[clip-path="url(#z19979c3)"] {animation-delay:3s;}
-#z19979 path {fill:#ccc;}
+svg.acjk path[id] {fill:#ccc;}
 ]]>
 </style>
-<path id="z19979d1" d="M520 212Q758 190 827 195Q920 198 927 195Q927 194 929 193Q936 178 923 165Q848 99 781 122Q673 143 477 167Q173 203 130 205Q123 204 116 205Q101 205 100 217Q99 230 120 246Q138 259 172 271Q184 275 203 267Q219 260 294 247Q376 226 478 216C506 213 506 213 520 212Z"/>
-<path id="z19979d2" d="M544 376Q544 258 547 246Q551 233 541 225Q534 218 520 212C507 207 473 203 478 216Q499 252 485 632Q473 861 480 878Q486 894 498 908Q511 924 523 905Q553 847 546 796Q540 739 544 408C544 387 544 387 544 376Z"/>
-<path id="z19979d3" d="M544 408Q620 454 712 522Q733 540 749 541Q759 541 765 529Q775 513 753 470Q723 407 544 376C533 374 535 402 544 408Z"/>
+<path id="z19979d1" d="M520 212C678 196 780 193 827 195C904 197 923 199 929 193C936 184 932 173 923 165C873 120 826 110 781 122C709 139 607 151 477 167C274 191 156 206 116 205C106 204 100 209 100 217C99 225 105 235 120 246C131 254 149 263 172 271C180 273 190 271 203 267C230 257 381 225 478 216C506 213 506 213 520 212Z"/>
+<path id="z19979d2" d="M544 376C544 297 544 253 547 246C549 237 547 230 541 225C536 220 529 216 520 212C507 207 473 203 478 216C492 240 495 378 485 632C480 744 475 808 471 840C469 861 486 896 498 908C508 917 515 918 523 905C543 866 547 830 546 796C544 767 544 552 544 408C544 387 544 387 544 376Z"/>
+<path id="z19979d3" d="M544 408C594 438 651 475 712 522C726 533 738 540 749 541C755 541 760 536 765 529C771 518 767 498 753 470C732 428 663 396 544 376C534 374 535 402 544 408Z"/>
 <defs>
 	<clipPath id="z19979c1"><use xlink:href="#z19979d1"></use></clipPath>
 	<clipPath id="z19979c2"><use xlink:href="#z19979d2"></use></clipPath>
 	<clipPath id="z19979c3"><use xlink:href="#z19979d3"></use></clipPath>
 </defs>
-<path pathLength="3333" clip-path="url(#z19979c1)" d="M105 218L187 235L806 155L927 176"/>
-<path pathLength="3333" clip-path="url(#z19979c2)" d="M487 220L517 248L508 910"/>
-<path pathLength="3333" clip-path="url(#z19979c3)" d="M549 385L700 466L760 532"/>
+<path style="--d:1;" pathLength="3333" clip-path="url(#z19979c1)" d="M105 218L187 235L806 155L927 176"/>
+<path style="--d:2;" pathLength="3333" clip-path="url(#z19979c2)" d="M487 220L517 248L508 910"/>
+<path style="--d:3;" pathLength="3333" clip-path="url(#z19979c3)" d="M549 385L700 466L760 532"/>
 </svg>

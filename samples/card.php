@@ -5,83 +5,115 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="initial-scale=1.0,user-scalable=yes">
 <style>
+<?php $size=256;?>
 body {text-align:center;}
 a {color:#000;}
 a:visited {color:#666;}
 #charDiv
 {
 	margin:0 auto 0.5em auto;
-	max-width:256px;
-	max-height:256px;
+	max-width:<?php echo $size;?>px;
+	max-height:<?php echo $size;?>px;
 	border:1px solid #ccc;
 }
-.actionBtn
-{
-	-webkit-appearance:none;
-	margin-top:0.25em;
-	font-size:2em;
-	border:0;
-	background:#999;
-	color:#fff;
-	border-radius:0.5em;
-	margin:0.5em;
-}
-.actionBtn:hover,
-.actionBtn:active,
-.actionBtn:focus {background:#c00;outline:0;}
-.actionBtn:hover {cursor:pointer;}
-.actionBtn:disabled {background:#ccc;cursor:default;}
-.actionBtn::-moz-focus-inner {border:0;}
-.charCartoucheDiv
+.cartoucheDiv
 {
 	margin:0 auto 1em auto;
 	text-align:left;
-	width:256px;
+	width:<?php echo $size;?>px;
 	border:1px solid transparent;
 }
 .navigationDiv
 {
+	display:flex;
 	margin:0 auto 1em auto;
 	text-align:center;
-	width:256px;
-	border:1px solid transparent;
+	width:<?php echo $size+2;?>px;
 }
 .navigationDiv button
 {
-	width:0; 
-	height:0;
-	border:0;
-	border-top:11px solid transparent;
-	border-bottom:11px solid transparent;
-	margin:0 11px;
-	padding:0;
+	-webkit-appearance:none;
+	flex:1;
+	box-sizing:border-box;
+	border:1px solid #ccc;
+	background:transparent;
+	margin:0 4px;
+	padding:2px;
 	position:relative;
 	cursor:pointer;
 }
+
+.navigationDiv button:first-of-type
+{
+	margin:0 4px 0 0;
+}
+.navigationDiv button:last-of-type
+{
+	margin:0 0 0 4px;
+}
+.navigationDiv button div
+{
+	box-sizing:border-box;
+	position:relative;
+	width:0;
+	height:22px;
+	border-top:11px solid transparent;
+	border-bottom:11px solid transparent;
+	margin:0 auto;
+	color:transparent;
+}
+.navigationDiv button:hover,
+.navigationDiv button:active,
 .navigationDiv button:focus {outline:none;}
-.navigationDiv button:disabled {opacity:0.3;cursor:default;}
-#first
+.navigationDiv button::-moz-focus-inner {padding:0;border:0;}
+.navigationDiv button:disabled {cursor:default;}
+.navigationDiv button:disabled div {opacity:0.3;}
+#first div
 {
+	width:16px;
 	border-right:11px solid black;
 }
-#pred
+#first:not([disabled]):active div,
+#first:not([disabled]):focus div {border-right:11px solid #09c;}
+#first:not([disabled]):hover div {border-right:11px solid #c00;}
+#first div:before
 {
-	border-right:11px solid black;
-}
-#run
-{
+	content:"";
 	width:5px;
-	margin:0 25px;
+	height:22px;
+	background:black;
+	position:absolute;
+	top:-11px;
+	left:0;
 }
-#next
+#first:active:not([disabled]) div:before,
+#first:focus:not([disabled]) div:before {background:#09c;}
+#first:hover:not([disabled]) div:before {background:#c00;}
+#pred div
 {
+	width:11px;
+	border-right:11px solid black;
+}
+#pred:not([disabled]):active div,
+#pred:not([disabled]):focus div {border-right:11px solid #09c;}
+#pred:not([disabled]):hover div {border-right:11px solid #c00;}
+#next div
+{
+	width:11px;
 	border-left:11px solid black;
 }
-#last
+#next:not([disabled]):active div,
+#next:not([disabled]):focus div {border-left:11px solid #09c;}
+#next:not([disabled]):hover div {border-left:11px solid #c00;}
+#last div
 {
+	width:16px;
 	border-left:11px solid black;
 }
-#first:before
+#last:not([disabled]):active div,
+#last:not([disabled]):focus div {border-left:11px solid #09c;}
+#last:not([disabled]):hover div {border-left:11px solid #c00;}
+#last div:after
 {
 	content:"";
 	width:5px; 
@@ -89,9 +121,16 @@ a:visited {color:#666;}
 	background:black;
 	position:absolute;
 	top:-11px;
-	left:-5px
+	right:0;
 }
-#last:after
+#last:active:not([disabled]) div:after,
+#last:focus:not([disabled]) div:after {background:#09c;}
+#last:hover:not([disabled]) div:after {background:#c00;}
+#stop div
+{
+	width:15px;
+}
+#stop div:before
 {
 	content:"";
 	width:5px; 
@@ -99,33 +138,67 @@ a:visited {color:#666;}
 	background:black;
 	position:absolute;
 	top:-11px;
-	right:-5px
+	left:0;
 }
-#run:before
+#stop:active:not([disabled]) div:before,
+#stop:focus:not([disabled]) div:before {background:#09c;}
+#stop:hover:not([disabled]) div:before {background:#c00;}
+#stop div:after
+{
+	content:"";
+	width:5px; 
+	height:22px; 
+	background:black;
+	position:absolute;
+	top:-11px;
+	right:0;
+}
+#stop:active:not([disabled]) div:after,
+#stop:focus:not([disabled]) div:after {background:#09c;}
+#stop:hover:not([disabled]) div:after {background:#c00;}
+#run div
+{
+	width:27px;
+}
+#run div:before
 {
 	content:"";
 	position:absolute;
 	top:-11px;
-	left:5px;
-	width:0; 
-	height:0;
-	border:0;
-	border-top:11px solid transparent;
-	border-bottom:11px solid transparent;
-	border-left:11px solid black;
-}
-#run:after
-{
-	content:"";
-	position:absolute;
-	top:-11px;
-	right:5px;
+	left:0;
 	width:0; 
 	height:0;
 	border:0;
 	border-top:11px solid transparent;
 	border-bottom:11px solid transparent;
 	border-right:11px solid black;
+}
+#run:active:not([disabled]) div:before,
+#run:focus:not([disabled]) div:before {border-right:11px solid #09c;}
+#run:hover:not([disabled]) div:before {border-right:11px solid #c00;}
+#run div:after
+{
+	content:"";
+	position:absolute;
+	top:-11px;
+	right:0;
+	width:0; 
+	height:0;
+	border:0;
+	border-top:11px solid transparent;
+	border-bottom:11px solid transparent;
+	border-left:11px solid black;
+}
+#run:active:not([disabled]) div:after,
+#run:focus:not([disabled]) div:after {border-left:11px solid #09c;}
+#run:hover:not([disabled]) div:after {border-left:11px solid #c00;}
+div.navigationDiv
+{
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: -moz-none;
+	-ms-user-select: none;
+	user-select: none;
 }
 .navigationDiv button span
 {
@@ -488,13 +561,14 @@ else
 <?php include "../".$dir."/".$dec.".svg";?>
 </div>
 <div class="navigationDiv">
-<button id="first" onclick="doFirst()"><span>First</span></button>
-<button id="pred" onclick="doPred()"><span>Pred</span></button>
-<button id="run" onclick="doRun()"><span>Run</span></button>
-<button id="next" onclick="doNext()"><span>Next</span></button>
-<button id="last" onclick="doLast()"><span>Last</span></button>
+<button id="first" onclick="doFirst()"><div>First</div></button>
+<button id="pred" onclick="doPred()"><div>Pred</div></button>
+<button id="next" onclick="doNext()"><div>Next</div></button>
+<button id="last" onclick="doLast()"><div>Last</div></button>
+<button id="stop" onclick="doStop()"><div>Stop</div></button>
+<button id="run" onclick="doRun()"><div>Run</div></button>
 </div>
-<div class="charCartoucheDiv">
+<div class="cartoucheDiv">
 <?php
 echo "Radical: ".$radical;
 echo "<br>";
@@ -542,6 +616,7 @@ var currentStroke=0;
 var currentRun=[];
 var currentDec="<?php echo $dec;?>";
 var currentTime=1;
+var inRun=0;
 function doDisabling()
 {
 	var e,km=0;
@@ -551,44 +626,55 @@ function doDisabling()
 	document.getElementById("pred").disabled=(currentStroke==0);
 	document.getElementById("next").disabled=(currentStroke==km);
 	document.getElementById("last").disabled=(currentStroke==km);
+	document.getElementById("stop").disabled=(inRun==0);
+	document.getElementById("run").disabled=(inRun==1);
 }
 function resetRun()
 {
 	var k,km;
+	inRun=0;
 	km=currentRun.length;
 	for(k=0;k<km;k++) clearTimeout(currentRun[k]);
 }
-function startAnimation()
+function startAnim()
 {
 	// (re)start animation (just force a reflow)
-	document.getElementById("charDiv").offsetHeight;
+	void(document.querySelector("svg.acjk").offsetHeight);
 }
 function doOne(n)
 {
-	var e,list,k,km;
-	e=document.getElementById("charDiv");
-	list=e.querySelectorAll("path[clip-path]");
+	var list,k,km;
+	list=document.getElementById("charDiv").querySelectorAll("path[clip-path]");
 	km=list.length;
 	for(k=0;k<km;k++)
 	{
-		if (k<n) list[k].style.stroke="black";
-		else list[k].style.stroke="transparent";
-		if (k==n) list[k].style.animation="z"+currentDec+"k 1s linear both";
+		if (k<n) list[k].style.strokeDashoffset="0";
+		else list[k].style.strokeDashoffset="3339";
+		if (k==n) list[k].style.animation="zk var(--t) linear forwards 0s";
 		else list[k].style.animation="none";
 	}
 	currentStroke=n+1;
+	if (currentStroke==km) inRun=0;
 	doDisabling();
-	startAnimation();
+	startAnim();
+}
+function doStop()
+{
+	resetRun();
+	doDisabling();
 }
 function doRun()
 {
 	var e,s,list,k,km;
 	resetRun();
+	inRun=1;
 	e=document.getElementById("charDiv");
 	list=e.querySelectorAll("path[clip-path]");
 	km=list.length;
-	for(k=0;k<km;k++) currentRun[k]=setTimeout("doOne("+k+")",currentTime*1000*k);
-	currentRun[k]=setTimeout(doLast,currentTime*1000*k);
+	if (currentStroke==km) currentStroke=0;
+	for(k=currentStroke;k<km;k++)
+		currentRun[k]=setTimeout("doOne("+k+")",currentTime*1000*(k-currentStroke));
+	doDisabling();
 }
 function doFirst()
 {
@@ -600,7 +686,7 @@ function doFirst()
 	for(k=0;k<km;k++)
 	{
 		list[k].style.animation="none";
-		list[k].style.stroke="transparent";
+		list[k].style.strokeDashoffset="3339";
 	}
 	currentStroke=0;
 	doDisabling();
@@ -618,19 +704,15 @@ function doPred()
 		for(k=0;k<km;k++)
 		{
 			list[k].style.animation="none";
-			if ((k+1)>currentStroke) list[k].style.stroke="transparent";
-			else list[k].style.stroke="black";
+			if ((k+1)>currentStroke) list[k].style.strokeDashoffset="3339";
+			else list[k].style.strokeDashoffset="0";
 		}
 	}
 	doDisabling();
 }
 function doNext()
 {
-	var e,list,k,km;
 	resetRun();
-	e=document.getElementById("charDiv");
-	list=e.querySelectorAll("path[clip-path]");
-	km=list.length;
 	doOne(currentStroke);
 }
 function doLast()
@@ -643,13 +725,14 @@ function doLast()
 	for(k=0;k<km;k++)
 	{
 		list[k].style.animation="none";
-		list[k].style.stroke="black";
+		list[k].style.strokeDashoffset="0";
 	}
 	currentStroke=km;
 	doDisabling();
 }
 function whenLoad()
 {
+	inRun=0;
 	doFirst();
 	doRun();
 }

@@ -43,7 +43,7 @@ function removeAnimationAndSetColorToBlack()
 	for (k=0;k<km;k++)
 	{
 		list[k].style.animation="none";
-		list[k].style.stroke="#000";
+		list[k].style.strokeDasharray="0";
 	}
 }
 function setNumber(x)

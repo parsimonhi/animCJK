@@ -38,7 +38,8 @@ a:visited {color:#666;}
 </head>
 <body>
 <?php displayHeader("AnimCJK - Anime several");?>
-<button class="actionBtn" type="button" onclick="animeSeveralChar()">Animate</button>
+<p>Animate several characters one after the other</p>
+<button class="actionBtn" type="button" onclick="startAnim()">Animate</button>
 <div class="stringDiv">
 <?php
 $km=mb_strlen($data,'UTF-8');
@@ -48,7 +49,7 @@ function changeDelay($m)
 {
 	global $k2;
 	$k2++;
-	return "delay:".$k2."s";
+	return "style=\"--d:".$k2.";\"";
 }
 for($k=0;$k<$km;$k++)
 {
@@ -56,29 +57,31 @@ for($k=0;$k<$km;$k++)
 	// get svg file contents
 	$s2=file_get_contents("../".$dir."/".decUnicode(mb_substr($data,$k,1,'UTF-8')).".svg");
 	// rename id to avoid duplicate in case of a character is displayed several times
-	$s2=preg_replace("/(z\d{5})/","$1-".($k+1),$s2);
+	$s2=preg_replace("/(z\d{5,})/","$1-".($k+1),$s2);
 	// change animation-delay to display characters one after another 
-	$s2=preg_replace_callback("/delay:\d+s/","changeDelay",$s2);
+	$s2=preg_replace_callback("/style=\"--d:(\d+);\"/","changeDelay",$s2);
 	$s.=$s2;
 	$s.="</div>";
 }
 echo $s;
 ?>
 </div>
+<div id="debug">
+</div>
 <?php echo displayFooter("animeSeveral");?>
 <script>
-function animeSeveralChar()
+function startAnim()
 {
 	// (re)start animation when clicking on "Animate" button
-	var e,s,list,k,km;
-	list=document.querySelectorAll(".charDiv");
+	// work as is even if several characters are displayed in the page
+	var list,k,km,s;
+	list=document.querySelectorAll("svg.acjk");
 	km=list.length;
 	for (k=0;k<km;k++)
 	{
-		e=list[k];
-		s=e.innerHTML;
-		e.innerHTML="";
-		e.innerHTML=s;
+		s=list[k].innerHTML;
+		list[k].innerHTML="";
+		list[k].innerHTML=s;
 	}
 }
 </script>

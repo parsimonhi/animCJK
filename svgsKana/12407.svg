@@ -9,36 +9,22 @@ these files; if not, see <http://www.gnu.org/licenses/>.
 <svg id="z12407" class="acjk" version="1.1" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <style>
 <![CDATA[
-@keyframes z12407k {
-	from {
-		stroke:#ccc;
-		stroke-dashoffset:3334;
-	}
-	1% {
-		stroke:#c00;
-		stroke-dashoffset:3334;
-	}
-	75% {
-		stroke:#c00;
+@keyframes zk {
+	to {
 		stroke-dashoffset:0;
 	}
-	to {
-		stroke:#000;
-	}
 }
-#z12407 path[clip-path] {
-	animation:z12407k 1s linear both;
-	stroke-dasharray:3334;
+svg.acjk path[clip-path] {
+	--t:0.8s;
+	animation:zk var(--t) linear forwards calc(var(--d) * 1.25 * var(--t));
+	stroke-dasharray:3337;
+	stroke-dashoffset:3339;
 	stroke-width:128;
 	stroke-linecap:round;
 	fill:none;
+	stroke:#000;
 }
-#z12407 path[clip-path="url(#z12407c1)"] {animation-delay:1s;}
-#z12407 path[clip-path="url(#z12407c2)"] {animation-delay:2s;}
-#z12407 path[clip-path="url(#z12407c3)"] {animation-delay:3s;}
-#z12407 path[clip-path="url(#z12407c4)"] {animation-delay:4s;}
-#z12407 path[clip-path="url(#z12407c5)"] {animation-delay:5s;}
-#z12407 path {fill:#ccc;}
+svg.acjk path[id] {fill:#ccc;}
 ]]>
 </style>
 <path id="z12407d1" d="M433 131C419 131 416 154 429 159C464 176 497 202 515 237C518 243 514 251 508 253C487 265 467 277 449 293C440 300 430 307 428 319C427 324 433 329 438 326C455 319 469 307 486 303C514 295 543 293 572 295C582 296 596 295 600 285C608 270 601 252 595 238C579 199 548 166 510 149C486 138 459 131 433 131Z"/>
@@ -53,9 +39,9 @@ these files; if not, see <http://www.gnu.org/licenses/>.
 	<clipPath id="z12407c4"><use xlink:href="#z12407d4"></use></clipPath>
 	<clipPath id="z12407c5"><use xlink:href="#z12407d5"></use></clipPath>
 </defs>
-<path pathLength="3333" clip-path="url(#z12407c1)" d="M 440,147 558,213 573,259 451,306"/>
-<path pathLength="3333" clip-path="url(#z12407c2)" d="M 403,387 403,466 506,564 571,746 525,831 412,840 342,785"/>
-<path pathLength="3333" clip-path="url(#z12407c3)" d="M 106,684 110,742 181,847 224,767"/>
-<path pathLength="3333" clip-path="url(#z12407c4)" d="M 750,565 865,673 905,781"/>
-<path pathLength="3333" clip-path="url(#z12407c5)" d="M 858,163 786,201 790,281 858,324 936,280 933,202 858,163"/>
+<path style="--d:1;" pathLength="3333" clip-path="url(#z12407c1)" d="M 440,147 558,213 573,259 451,306"/>
+<path style="--d:2;" pathLength="3333" clip-path="url(#z12407c2)" d="M 403,387 403,466 506,564 571,746 525,831 412,840 342,785"/>
+<path style="--d:3;" pathLength="3333" clip-path="url(#z12407c3)" d="M 106,684 110,742 181,847 224,767"/>
+<path style="--d:4;" pathLength="3333" clip-path="url(#z12407c4)" d="M 750,565 865,673 905,781"/>
+<path style="--d:5;" pathLength="3333" clip-path="url(#z12407c5)" d="M 858,163 786,201 790,281 858,324 936,280 933,202 858,163"/>
 </svg>

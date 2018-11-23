@@ -9,33 +9,22 @@ these files; if not, see <http://www.gnu.org/licenses/>.
 <svg id="z12467" class="acjk" version="1.1" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <style>
 <![CDATA[
-@keyframes z12467k {
-	from {
-		stroke:#ccc;
-		stroke-dashoffset:3334;
-	}
-	1% {
-		stroke:#c00;
-		stroke-dashoffset:3334;
-	}
-	75% {
-		stroke:#c00;
+@keyframes zk {
+	to {
 		stroke-dashoffset:0;
 	}
-	to {
-		stroke:#000;
-	}
 }
-#z12467 path[clip-path] {
-	animation:z12467k 1s linear both;
-	stroke-dasharray:3334;
+svg.acjk path[clip-path] {
+	--t:0.8s;
+	animation:zk var(--t) linear forwards calc(var(--d) * 1.25 * var(--t));
+	stroke-dasharray:3337;
+	stroke-dashoffset:3339;
 	stroke-width:128;
 	stroke-linecap:round;
 	fill:none;
+	stroke:#000;
 }
-#z12467 path[clip-path="url(#z12467c1)"] {animation-delay:1s;}
-#z12467 path[clip-path="url(#z12467c2)"] {animation-delay:2s;}
-#z12467 path {fill:#ccc;}
+svg.acjk path[id] {fill:#ccc;}
 ]]>
 </style>
 <path id="z12467d1" d="M721 248C720 248 720 248 719 248C675 251 635 268 592 276C482 299 368 301 255 306C163 311 206 337 241 361C260 374 283 381 305 379C336 377 367 372 398 366C477 352 555 330 635 327C652 327 671 326 684 338C695 347 693 362 691 374C688 409 680 443 674 477C665 522 640 620 626 672C618 696 698 704 702 679C712 630 744 526 759 481C775 436 795 391 827 354C833 347 829 337 824 330C811 310 793 294 775 279C759 266 742 253 722 248C721 248 721 248 721 248Z"/>
@@ -44,6 +33,6 @@ these files; if not, see <http://www.gnu.org/licenses/>.
 	<clipPath id="z12467c1"><use xlink:href="#z12467d1"></use></clipPath>
 	<clipPath id="z12467c2"><use xlink:href="#z12467d2"></use></clipPath>
 </defs>
-<path pathLength="3333" clip-path="url(#z12467c1)" d="M 212,320 689,298 762,343 673,664"/>
-<path pathLength="3333" clip-path="url(#z12467c2)" d="M 211,725 722,708.4"/>
+<path style="--d:1;" pathLength="3333" clip-path="url(#z12467c1)" d="M 212,320 689,298 762,343 673,664"/>
+<path style="--d:2;" pathLength="3333" clip-path="url(#z12467c2)" d="M 211,725 722,708.4"/>
 </svg>

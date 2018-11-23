@@ -8,34 +8,22 @@ if not, see http://ftp.gnu.org/non-gnu/chinese-fonts-truetype/LICENSE.
 <svg id="z12525" class="acjk" version="1.1" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <style>
 <![CDATA[
-@keyframes z12525k {
-	from {
-		stroke:#ccc;
-		stroke-dashoffset:3334;
-	}
-	1% {
-		stroke:#c00;
-		stroke-dashoffset:3334;
-	}
-	75% {
-		stroke:#c00;
+@keyframes zk {
+	to {
 		stroke-dashoffset:0;
 	}
-	to {
-		stroke:#000;
-	}
 }
-#z12525 path[clip-path] {
-	animation:z12525k 1s linear both;
-	stroke-dasharray:3334;
+svg.acjk path[clip-path] {
+	--t:0.8s;
+	animation:zk var(--t) linear forwards calc(var(--d) * 1.25 * var(--t));
+	stroke-dasharray:3337;
+	stroke-dashoffset:3339;
 	stroke-width:128;
 	stroke-linecap:round;
 	fill:none;
+	stroke:#000;
 }
-#z12525 path[clip-path="url(#z12525c1)"] {animation-delay:1s;}
-#z12525 path[clip-path="url(#z12525c2)"] {animation-delay:2s;}
-#z12525 path[clip-path="url(#z12525c3)"] {animation-delay:3s;}
-#z12525 path {fill:#ccc;}
+svg.acjk path[id] {fill:#ccc;}
 ]]>
 </style>
 <path id="z12525d1" d="M272 296C251 282 229 271 207 265C183 263 184 282 192 293C235 367 260 493 268 669C269 700 273 725 282 747C290 765 302 780 319 793C335 795 344 769 349 753C353 736 339 700 339 700C315 558 302 444 297 347C297 328 287 307 272 296Z"/>
@@ -46,7 +34,7 @@ if not, see http://ftp.gnu.org/non-gnu/chinese-fonts-truetype/LICENSE.
 	<clipPath id="z12525c2"><use xlink:href="#z12525d2"></use></clipPath>
 	<clipPath id="z12525c3"><use xlink:href="#z12525d3"></use></clipPath>
 </defs>
-<path pathLength="3333" clip-path="url(#z12525c1)" d="M 193,275 264,364 321,759.8"/>
-<path pathLength="3333" clip-path="url(#z12525c2)" d="M 283,302 324,318 711,256 797,315 695,656.9"/>
-<path pathLength="3333" clip-path="url(#z12525c3)" d="M 354,745 372,723 638,691 771,701"/>
+<path style="--d:1;" pathLength="3333" clip-path="url(#z12525c1)" d="M 193,275 264,364 321,759.8"/>
+<path style="--d:2;" pathLength="3333" clip-path="url(#z12525c2)" d="M 283,302 324,318 711,256 797,315 695,656.9"/>
+<path style="--d:3;" pathLength="3333" clip-path="url(#z12525c3)" d="M 354,745 372,723 638,691 771,701"/>
 </svg>

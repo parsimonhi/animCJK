@@ -9,35 +9,22 @@ these files; if not, see <http://www.gnu.org/licenses/>.
 <svg id="z12354" class="acjk" version="1.1" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <style>
 <![CDATA[
-@keyframes z12354k {
-	from {
-		stroke:#ccc;
-		stroke-dashoffset:3334;
-	}
-	1% {
-		stroke:#c00;
-		stroke-dashoffset:3334;
-	}
-	75% {
-		stroke:#c00;
+@keyframes zk {
+	to {
 		stroke-dashoffset:0;
 	}
-	to {
-		stroke:#000;
-	}
 }
-#z12354 path[clip-path] {
-	animation:z12354k 1s linear both;
-	stroke-dasharray:3334;
+svg.acjk path[clip-path] {
+	--t:0.8s;
+	animation:zk var(--t) linear forwards calc(var(--d) * 1.25 * var(--t));
+	stroke-dasharray:3337;
+	stroke-dashoffset:3339;
 	stroke-width:128;
 	stroke-linecap:round;
 	fill:none;
+	stroke:#000;
 }
-#z12354 path[clip-path="url(#z12354c1)"] {animation-delay:1s;}
-#z12354 path[clip-path="url(#z12354c2)"] {animation-delay:2s;}
-#z12354 path[clip-path="url(#z12354c3a)"] {animation-delay:3s;}
-#z12354 path[clip-path="url(#z12354c3b)"] {animation-delay:3s;}
-#z12354 path {fill:#ccc;}
+svg.acjk path[id] {fill:#ccc;}
 ]]>
 </style>
 <path id="z12354d1" d="M660 211C637 211 616 221 597 232C570 245 542 252 514 261C464 274 414 285 363 291C319 294 273 293 231 278C211 270 195 254 174 248C167 248 162 257 167 263C181 293 209 313 239 325C284 343 335 344 384 340C462 332 538 307 615 290C639 284 665 281 686 267C695 261 705 254 709 244C712 234 706 224 697 221C685 215 672 211 660 211Z"/>
@@ -50,8 +37,8 @@ these files; if not, see <http://www.gnu.org/licenses/>.
 	<clipPath id="z12354c3a"><use xlink:href="#z12354d3a"></use></clipPath>
 	<clipPath id="z12354c3b"><use xlink:href="#z12354d3b"></use></clipPath>
 </defs>
-<path pathLength="3333" clip-path="url(#z12354c1)" d="M 174,258 251,308 440,306 697,241"/>
-<path pathLength="3333" clip-path="url(#z12354c2)" d="M 331,137 420,185 373,388 367,632 409,728 431,777"/>
-<path pathLength="3333" clip-path="url(#z12354c3a)" d="M 570,440 610,484 460,727 200,836 181,682 342,556 466,514 641,499 754,520 838,606 845,763 703,869 508,922"/>
-<path pathLength="3333" clip-path="url(#z12354c3b)" d="M -170,442 -210,484 -60,727 200,836 181,682 342,556 466,514 641,499 754,520 838,606 845,763 703,869 508,922"/>
+<path style="--d:1;" pathLength="3333" clip-path="url(#z12354c1)" d="M 174,258 251,308 440,306 697,241"/>
+<path style="--d:2;" pathLength="3333" clip-path="url(#z12354c2)" d="M 331,137 420,185 373,388 367,632 409,728 431,777"/>
+<path style="--d:3;" pathLength="3333" clip-path="url(#z12354c3a)" d="M 570,440 610,484 460,727 200,836 181,682 342,556 466,514 641,499 754,520 838,606 845,763 703,869 508,922"/>
+<path style="--d:3;" pathLength="3333" clip-path="url(#z12354c3b)" d="M -170,442 -210,484 -60,727 200,836 181,682 342,556 466,514 641,499 754,520 838,606 845,763 703,869 508,922"/>
 </svg>

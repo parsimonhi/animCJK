@@ -9,34 +9,22 @@ these files; if not, see <http://www.gnu.org/licenses/>.
 <svg id="z12453" class="acjk" version="1.1" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <style>
 <![CDATA[
-@keyframes z12453k {
-	from {
-		stroke:#ccc;
-		stroke-dashoffset:3334;
-	}
-	1% {
-		stroke:#c00;
-		stroke-dashoffset:3334;
-	}
-	75% {
-		stroke:#c00;
+@keyframes zk {
+	to {
 		stroke-dashoffset:0;
 	}
-	to {
-		stroke:#000;
-	}
 }
-#z12453 path[clip-path] {
-	animation:z12453k 1s linear both;
-	stroke-dasharray:3334;
+svg.acjk path[clip-path] {
+	--t:0.8s;
+	animation:zk var(--t) linear forwards calc(var(--d) * 1.25 * var(--t));
+	stroke-dasharray:3337;
+	stroke-dashoffset:3339;
 	stroke-width:128;
 	stroke-linecap:round;
 	fill:none;
+	stroke:#000;
 }
-#z12453 path[clip-path="url(#z12453c1)"] {animation-delay:1s;}
-#z12453 path[clip-path="url(#z12453c2)"] {animation-delay:2s;}
-#z12453 path[clip-path="url(#z12453c3)"] {animation-delay:3s;}
-#z12453 path {fill:#ccc;}
+svg.acjk path[id] {fill:#ccc;}
 ]]>
 </style>
 <path id="z12453d1" d="M458 261C455 279 467 296 471 314C478 345 480 387 481 418C481 432 522 424 522 410C520 388 522 358 528 338C531 323 542 307 539 291C537 281 525 273 516 269C492 255 459 245 458 261Z"/>
@@ -47,7 +35,7 @@ these files; if not, see <http://www.gnu.org/licenses/>.
 	<clipPath id="z12453c2"><use xlink:href="#z12453d2"></use></clipPath>
 	<clipPath id="z12453c3"><use xlink:href="#z12453d3"></use></clipPath>
 </defs>
-<path pathLength="3333" clip-path="url(#z12453c1)" d="M 469,264 505,305 489,409"/>
-<path pathLength="3333" clip-path="url(#z12453c2)" d="M 248,431 309,632"/>
-<path pathLength="3333" clip-path="url(#z12453c3)" d="M 297,451 363,453 709,385 758,439 526,805 401,916"/>
+<path style="--d:1;" pathLength="3333" clip-path="url(#z12453c1)" d="M 469,264 505,305 489,409"/>
+<path style="--d:2;" pathLength="3333" clip-path="url(#z12453c2)" d="M 248,431 309,632"/>
+<path style="--d:3;" pathLength="3333" clip-path="url(#z12453c3)" d="M 297,451 363,453 709,385 758,439 526,805 401,916"/>
 </svg>
