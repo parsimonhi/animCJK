@@ -517,11 +517,11 @@ function buildSvg($a)
 	$s.="<style>\n<![CDATA[\n";
 	$s.="@keyframes zk {\n";
 	$s.="\tto {\n";
-	$s.="\t\stroke-dashoffset:0;\n";
+	$s.="\t\tstroke-dashoffset:0;\n";
 	$s.="\t}\n";
 	$s.="}\n";
-	$s.="svgs.acjk path[clip-path] {\n";
-	$s.="\t--t:0.8s\n";
+	$s.="svg.acjk path[clip-path] {\n";
+	$s.="\t--t:0.8s;\n";
 	$s.="\tanimation:zk var(--t) linear forwards calc(var(--d) * 1.25 * var(--t));\n";
 	$s.="\tstroke-dasharray:3337;\n"; // more than pathLength + 1
 	$s.="\tstroke-dashoffset:3339;\n"; // less than 2 * strokeDasharray - pathLength
@@ -530,7 +530,7 @@ function buildSvg($a)
 	$s.="\tfill:none;\n";
 	$s.="\tstroke:#000;\n";
 	$s.="}\n";
-	$s.="svgs.acjk path[id] {fill:#ccc;}\n";
+	$s.="svg.acjk path[id] {fill:#ccc;}\n";
 	$s.="]]>\n</style>\n";
 
 	// stroke shapes
