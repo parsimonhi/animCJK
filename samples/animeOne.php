@@ -4,55 +4,41 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="initial-scale=1.0,user-scalable=yes">
-<style>
-body {text-align:center;}
-a {color:#000;}
-a:visited {color:#666;}
-#charDiv
-{
-	margin:0 auto 0.5em auto;
-	max-width:256px;
-	max-height:256px;
-	border:1px solid #ccc;
-}
-.actionBtn
-{
-	-webkit-appearance:none;
-	margin-top:0.25em;
-	font-size:2em;
-	border:0;
-	background:#999;
-	color:#fff;
-	border-radius:0.5em;
-	margin:0.5em;
-}
-.actionBtn:hover,
-.actionBtn:active,
-.actionBtn:focus {background:#c00;outline:0;}
-.actionBtn:hover {cursor:pointer;}
-.actionBtn:disabled {background:#ccc;cursor:default;}
-.actionBtn::-moz-focus-inner {border:0;}
-</style>
+<meta name="description" content="Demo to animate one AnimCJK SVG
+representing Japanese or Chinese characters">
+<link rel="stylesheet" href="_css/minimal.css" type="text/css">
 <title>AnimCJK - Anime one</title>
 </head>
 <body>
 <?php displayHeader("AnimCJK - Anime one");?>
 <p>Basic display of one character</p>
-<button class="actionBtn" type="button" onclick="startAnim()">Animate</button>
+<button class="actionBtn" type="button" onclick="restartAnime()">Animate</button>
 <div id="charDiv">
-<?php include "../".$dir."/".$dec.".svg";?>
+<?php
+// just include the svg as is and that's all what normal browsers need
+include "../".$dir."/".$dec.".svg";
+?>
 </div>
 <?php echo displayFooter("animeOne");?>
+<!-- add asvg.js to support some pitiful browsers that cannot animate Svg properly -->
+<script src="_js/asvg.js"></script>
 <script>
-function startAnim()
+function forceReflow()
 {
-	// (re)start animation when clicking on "Animate" button
+	// for all browsers
+	// force a reflow to restart animation
 	var e,s;
 	e=document.querySelector("svg.acjk");
 	s=e.innerHTML;
 	e.innerHTML="";
 	e.innerHTML=s;
 }
+function restartAnime()
+{
+	if (asvg.activated>0) asvg.run('one'); // pitiful browser
+	else forceReflow(); // normal browser
+}
+window.addEventListener("load",function(){asvg.run('one');},false); // pitiful browser
 </script>
 </body>
 </html>

@@ -2,7 +2,7 @@
 
 ## Description
 
-The purpose of this project is to display kanji and kana (Japanese characters) or hanzi (Chinese characters) stroke by stroke.
+The purpose of this project is to display kanji and kana (Japanese characters) or hanzi (simplified and traditional Chinese characters) stroke by stroke.
 
 For a demo, see http://gooo.free.fr/animCJK/official
 
@@ -14,9 +14,11 @@ The svgsJa folder contains svg files corresponding to the union of the Japanese 
 
 The svgsKana folder contains svg files corresponding to the Japanese "hiragana" (86 characters) and Japanese "katakana" (91 characters). As a result, svgsKana folder contains 177 characters.
 
-The svgsZhHans folder contains svg files corresponding to Chinese "commonly used hanzi" (7000 characters). This set includes the "HSK hanzi" (2663) and the "frequently used simplified hanzi" (3500 characters). 38 characters of the "HSK hanzi" are not in the "frequently used simplified hanzi".
+The svgsZhHans folder contains svg files corresponding to Chinese "commonly used simplified hanzi" (7000 characters). This set includes the "HSK hanzi" (2663) and the "frequently used simplified hanzi" (3500 characters). 38 characters of the "HSK hanzi" are not in the "frequently used simplified hanzi".
 
-Note that some svg files are in both svgsJa and svgsZhHans. However, take care because characters are not always the same in Japanese and in Chinese even when they share the same unicode. For instance 勉 (21193.svg) in Japanese has not the same shape as 勉 (21193.svg) in Chinese.
+The svgsZhHant folder contains svg files corresponding to Chinese "HSK 1 traditional hanzi" (197 characters).
+
+Note that some svg files are in several repositories. However, take care because characters are not always the same in Japanese and in Chinese even when they share the same unicode. For instance 勉 (21193.svg) in Japanese has not the same shape as 勉 (21193.svg) in Chinese.
 
 Take care of compatibility characters such as 勉 (64051.svg) that has in Japanese the same shape as 勉 (21193.svg) in Chinese, but has not the same unicode.
 
@@ -30,9 +32,9 @@ See also http://gooo.free.fr/animCJK/official/samples
 
 ## Decomposition system
 
-Character decompositions using a specific system to AnimCJK are stored in dictionaryJa.txt and dictionaryZhHans.txt).
+Character decompositions using a specific system to AnimCJK called "acjk" are stored in dictionaryJa.txt and dictionaryZhHans.txt.
 
-A decomposition starts with a character, followed by its number of stroke (which indicates that the character is not decomposed), or followed by an ideographic description character (which indicates that the character is decomposed).
+An "acjk" decomposition starts with a character, followed by its number of stroke (which indicates that the character is not decomposed), or followed by an ideographic description character (which indicates that the character is decomposed).
 The ideographic description character is followed by several component decompositions (3 for "⿲" and "⿳", 2 for ⿰","⿱","⿴","⿵","⿶","⿷","⿸","⿹","⿺" and "⿻).
 If a component has no corresponding character to represent it, its decomposition just starts with the ideographic description character.
 If a component has no corresponding character to represent it and no decomposition, its decomposition starts by a "?" followed by its number of stroke.
@@ -79,9 +81,13 @@ Many characters of AnimCJK are not present in these fonts (especially but not ex
 
 Part of "animated GIF" sample of AnimCJK is derived from a sample of Animated_GIF project called "basic". See https://github.com/sole/Animated_GIF for more details.
 
-### Autocomplete
+## What is new?
 
-The samples/index.php script uses two files, "autocomplete.js" and "autocomplete.css", derived from https://www.w3schools.com/howto/howto_js_autocomplete.asp, then adapted for AnimCJK project.
+### 2018/12/07:
+- add traditional hanzi for HSK 1 (197 characters),
+- rewrite all the samples,
+- support of browsers that cannot animate SVG properly in samples,
+- various minor shape or stroke order updates.
 
 ## Licences
 

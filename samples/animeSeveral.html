@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="initial-scale=1.0,user-scalable=yes">
+<meta name="description" content="Demo to animate several AnimCJK SVG
+representing Japanese or Chinese characters">
+<link rel="stylesheet" href="_css/withLangSelector.css" type="text/css">
+<title>AnimCJK - Anime several</title>
+<script src="_js/codePoint.js"></script>
+<script>
+var msg=[];
+msg[0]="Add some characters (up to 4) in the input field above or click on a character in the bottom list!";
+msg[1]="Error!";
+msg[2]="No data!";
+msg[3]="Svg not in selected repository!";
+msg[4]="Too many characters in the data field (4 is the limit)!";
+function debug(s,a)
+{
+	var e
+	if (e=document.getElementById("debug"));
+		if (a) e.innerHTML+=s;
+		else e.innerHTML=s;
+}
+function status(s,a)
+{
+	var e;
+	if (e=document.getElementById("status"));
+		if (a) e.innerHTML+=s;
+		else e.innerHTML=s;
+}
+function magicStringToArray(s)
+{
+	var s2,reg,k,a;
+	s2=s;
+	k=0;
+	a=[];
+	while (s2.length)
+	{
+		a[k]=String.fromCodePoint(s2.codePointAt(0));
+		reg=new RegExp('^'+a[k]);
+		s2=s2.replace(reg,'');
+		k++;
+	}
+	return a;
+}
+function magicStringLength(s)
+{
+	return magicStringToArray(s).length;
+}
+function magicSubstring(s,k1,k2)
+{
+	var a,k,ko,km,r;
+	if (!k1) ko=0; else ko=k1;
+	if (!k2) km=4; else km=k2;
+	a=magicStringToArray(s);
+	km=Math.min(km,a.length);
+	r='';
+	for (k=ko;k<km;k++) r+=a[k];
+	return r;
+}
+function cleanData(e)
+{
+	// keep no more than 4 characters
+	var data;
+	data=e.value;
+	// \u200B-\u200D\uFEFF are the zero-length characters
+	data=data.replace(/[\u0000-\u2e7f]/g,"");
+	data=magicSubstring(data,0,4);
+	e.value=data;
+}
+function setSection()
+{
+	var e,lang;
+	e=document.getElementById("jaSection");
+	if (document.getElementById("jaRadio").checked) e.style.display="block";
+	else e.style.display="none";
+	e=document.getElementById("zhHansSection");
+	if (document.getElementById("zhHansRadio").checked) e.style.display="block";
+	else e.style.display="none";
+	e=document.getElementById("zhHantSection");
+	if (document.getElementById("zhHantRadio").checked) e.style.display="block";
+	else e.style.display="none";
+	if (document.getElementById("zhHantRadio").checked) lang="zh-hant";
+	else if (document.getElementById("zhHansRadio").checked) lang="zh-hans";
+	else lang="ja";
+	document.getElementsByTagName('html')[0].setAttribute('lang',lang);
+}
+function switchSection()
+{
+	setSection();
+	ok();
+}
+function getLang()
+{
+	return document.getElementsByTagName('html')[0].getAttribute('lang');
+}
+function isCharInRepository(c,lang)
+{
+	// look at the corresponding section
+	var id,s,e;
+	if (lang=="zh-hant") id="zhHantSection";
+	else if (lang=="zh-hans") id="zhHansSection";
+	else id="jaSection";
+	e=document.getElementById(id);
+	if (e) s=document.getElementById(id).innerHTML;
+	else s="";
+	return (s.indexOf(c)>=0);
+}
+
+var pitiful=-1;
+var currentRun=[];
+var currentStrokes=[];
+var currentPitiful=0;
+function forceReflow()
+{
+	// for all browsers
+	// force a reflow to restart animation
+	void(document.getElementById('a').offsetHeight);
+}
+function getDelay(e)
+{
+	var a,m;
+	// if the delay is already stored in the "data-d" attribute, just return it
+	a=e.getAttributeNS(null,"data-d");
+	if (a) return parseFloat(a);
+	// otherwise return the "--d" css variable value
+	a=e.getAttributeNS(null,"style");
+	if (a&&(m=a.match(/--d:([^;]+);/))) return parseFloat(m[1]);
+	// some browsers may remove "--d" from the "style" attribute (pitifulest browsers)
+	// then get the stroke number from the id of the clip-path element as a workaround
+	a=e.getAttributeNS(null,"clip-path");
+	if (a&&(m=a.match(/c([0-9]+)[^0-9]/))) return parseInt(m[1]);
+	return -1; // error
+}
+function pitifulOne(n)
+{
+	var k,km;
+	km=currentStrokes.length;
+	for (k=0;k<km;k++)
+	{
+		if (k>n) currentStrokes[k].style.fill="none";
+		else currentStrokes[k].style.fill="#000";
+	}
+}
+function pitifulSeveral(dt)
+{
+	var iframes,ki,kim,list,k,km,list1,list2,ks,idocument;
+	iframes=document.getElementById('a').getElementsByTagName("iframe");
+	if (!iframes||!iframes.length) return;
+	kim=iframes.length;
+	ks=0;
+	for (ki=0;ki<kim;ki++)
+	{
+		idocument=iframes[ki].contentDocument;
+		list1=idocument.querySelectorAll("svg.acjk path[id]");
+		// use "clip-path" because it exists only the 1st time one comes here
+		list2=idocument.querySelectorAll("svg.acjk path[clip-path]");
+		if (list1&&list1.length&&list2&&list2.length&&(list1.length==list2.length))
+		{
+			// come here only once
+			km=list2.length;
+			for (k=0;k<km;k++)
+			{
+				list2[k].style.animation="none";
+				list2[k].style.stroke="none";
+				list2[k].style.fill="none";
+				// data-d attribute is already set in theory
+				list2[k].removeAttribute("clip-path");
+				list2[k].removeAttribute("pathLength");
+				list2[k].setAttributeNS(null,"d",list1[k].getAttribute("d"));
+			}
+			//forceReflow(); // necessary?
+		}
+		list=idocument.querySelectorAll("svg.acjk path:not([id])");
+		if (list&&(km=list.length))
+		{
+			for (k=0;k<km;k++)
+			{
+				list[k].style.fill="none";
+				delay=parseInt(list[k].getAttributeNS(null,"data-d"));
+				currentStrokes[ks]=list[k];
+				currentRun[ks]=setTimeout("pitifulOne("+ks+")",(delay+dt)*1000);
+				ks++;
+			}
+		}
+	}
+}
+function clearPitiful()
+{
+	var k,km;
+	km=currentRun.length;
+	for (k=0;k<km;k++) clearTimeout(currentRun[k]);
+	currentRun=[];
+	km=currentStrokes.length;
+	for (k=0;k<km;k++) currentStrokes[k].style.fill="none";
+	currentStrokes=[];
+}
+function pitifulTrick()
+{
+	// detect if the browser started the animation
+	var s,d,list,k,km,iframe;
+	iframe=document.getElementById('a').querySelector("iframe");
+	if (!iframe) return;
+	// clip-path attribute still exists here
+	list=iframe.contentDocument.querySelectorAll("svg.acjk path[clip-path]");
+	if (list&&(km=list.length))
+	{
+		s=window.getComputedStyle(list[0],null);
+		d=parseInt(s.getPropertyValue("stroke-dashoffset"));
+		if (d==3339)
+		{
+			// stroke-dashoffset is still 3339 => animation not done or poorly done
+			pitiful=1;
+		}
+		else pitiful=0;
+	}
+	// pitiful=1; // for testing only
+	if (pitiful>0) pitifulSeveral(-1);
+}
+function setAnimation(iframe)
+{
+	var iframe,iframes,ki,kim,delay,idocument,svg,list,k,km,style;
+	iframe.setAttribute("data-ready","1"); // iframe is ready
+	iframes=document.getElementById('a').getElementsByTagName("iframe");
+	if (!iframes||!iframes.length) return;
+	// assume iframes contains only error-free iframes
+	kim=iframes.length;
+	// check if all other iframes are ready too
+	for (ki=0;ki<kim;ki++)
+		if (iframes[ki].getAttribute("data-ready")=="0") return;
+	// all iframes are ready, thus set delays
+	// look inside all iframes and sum up the delays
+	delay=0;
+	if (iframes[0].getAttribute("data-done")=="1") return; // 1st done => all done
+	for (ki=0;ki<kim;ki++)
+	{
+		iframes[ki].setAttribute("data-done","1");
+		idocument=iframes[ki].contentDocument;
+		svg=idocument.querySelector("svg.acjk");
+		if (svg) // always in theory
+		{
+			list=svg.querySelectorAll("path:not([id])");
+			if (list&&(km=list.length))
+			{
+				delayK=0;
+				for (k=0;k<km;k++)
+				{
+					delayK=getDelay(list[k]);
+					style=list[k].getAttributeNS(null,'style');
+					style=style.replace(/--d:[0-9.]+;/,"--d:"+(delay+delayK)+";");
+					list[k].setAttributeNS(null,'style',style);
+					list[k].setAttributeNS(null,"data-d",(delay+delayK)+'');
+				}
+				delay+=delayK;
+			}
+		}
+	}
+	// forceReflow(); // necessary?
+	// come here only once soon after all iframes are ready and done
+	// hack for pitiful browser that cannot animate svg
+	if (pitiful<0)
+	{
+		// previous iframes were destroyed
+		// clear previous setTimeout
+		if (currentPitiful) clearTimeout(currentPitiful); 
+		currentPitiful=setTimeout(pitifulTrick,1100);
+	}
+	else if (pitiful>0) pitifulSeveral(0);
+}
+function doSvgError(c,lang)
+{
+	var e,p,s;
+	p=document.getElementById("a"); // parent container
+	// use iframe to store the svg
+	e=document.createElement("div");
+	e.className="svgDivError";
+	if (lang=="zh-hant") s=c+" is not in our traditional Chinese repository";
+	else if (lang=="zh-hans") s=c+" is not in our simplified Chinese repository";
+	else s=c+" is not in our Jananese repository";
+	e.innerHTML=s;
+	p.appendChild(e);
+}
+function doSvg(f)
+{
+	var e,p;
+	p=document.getElementById("a"); // parent container
+	// use iframe to store the svg
+	e=document.createElement("iframe");
+	e.setAttribute("data-ready","0"); // not ready
+	e.setAttribute("data-done","0"); // not done
+	e.onload=function(){setAnimation(this);}
+	e.src=f;
+	p.appendChild(e);
+}
+function ok()
+{
+	// do what is necessary when a user does something
+	var data,lang,langSuffix,a,k,km;
+	lang=getLang();
+	// reset display
+	if (pitiful>0) clearPitiful();
+	status(msg[0]);
+	document.getElementById('a').innerHTML=""; // destroy previous iframes
+    // get data from the input field
+	data=document.getElementById("data").value;
+	if (!data)
+	{
+		status(msg[2]);
+		return;
+	}
+	if (lang=="zh-hant") langSuffix="ZhHant";
+	else if (lang=="zh-hans") langSuffix="ZhHans";
+	else langSuffix="Ja";
+	k=0;
+	a=magicStringToArray(data);
+	km=a.length;
+	for (k=0;k<km;k++)
+		if (isCharInRepository(a[k],lang))
+			doSvg("../svgs"+langSuffix+"/"+a[k].codePointAt(0)+".svg");
+		else doSvgError(a[k],lang);
+}
+function scrollToOk()
+{
+	var top,height,okTop;
+	top=document.getElementById('a').offsetTop;
+	okTop=document.getElementById('ok').offsetTop;
+	height=document.getElementById('a').getBoundingClientRect().height;
+	if (window.innerHeight>(top+height)) window.scrollTo(0,0);
+    else window.scrollTo(0,okTop-8);
+}
+function doIt(e)
+{
+	// the user clicked on a character on the bottom list of the page
+	// add the character in the input field
+	var data;
+	data=document.getElementById("data").value;
+	if (magicStringLength(data)>=4) data=magicSubstring(data,1,4);
+	document.getElementById("data").value=data+e.innerHTML;
+	document.getElementById("ok").focus(); // otherwise mobiles may show keyboard
+	scrollToOk();
+	e.className="visited";
+	// process as if the user clicked on the "Display" button
+	ok();
+}
+</script>
+</head>
+<body>
+<h1 id="top">AnimCJK - Anime several</h1>
+<div class="link">
+<a href="https://github.com/parsimonhi/animCJK">Download</a>
+- <a href="./">Sample selector</a>
+</div>
+<div class="input">
+<div class="sectionSwitch">
+<label><input id="jaRadio" type="radio" checked name="sectionSwitch" onclick="switchSection()"> Japanese (jōyō kanji)</label>
+<label><input id="zhHansRadio" type="radio" name="sectionSwitch" onclick="switchSection()"> Simplifed Chinese (HSK hanzi)</label>
+<label><input id="zhHantRadio" type="radio" name="sectionSwitch" onclick="switchSection()"> Traditional Chinese (HSK hanzi)</label>
+</div>
+<input id="data" type="text" value="" placeholder="Enter data here" oninput="cleanData(this)">
+<input id="ok" type="button" value="Run" onclick="ok()">
+</div>
+<p id="status"><script>document.write(msg[0]);</script></p>
+<div id="a" class="several"></div>
+<div id="debug"></div>
+<section id="jaSection" class="c" lang="ja">
+<h2>Jōyō kanji</h2>
+<h3>Jōyō kanji grade 1</h3>
+<p>一​七​三​上​下​中​九​二​五​人​休​先​入​八​六​円​出​力​十​千​口​右​名​四​土​夕​大​天​女​子​字​学​小​山​川​左​年​手​文​日​早​月​木​本​村​林​校​森​正​気​水​火​犬​玉​王​生​田​男​町​白​百​目​石​空​立​竹​糸​耳​花​草​虫​見​貝​赤​足​車​金​雨​青​音</p>
+<h3>Jōyō kanji grade 2</h3>
+<p>万​丸​交​京​今​会​体​何​作​元​兄​光​公​内​冬​刀​分​切​前​北​午​半​南​原​友​古​台​合​同​回​図​国​園​地​場​声​売​夏​外​多​夜​太​妹​姉​室​家​寺​少​岩​工​市​帰​広​店​弓​引​弟​弱​強​当​形​後​心​思​戸​才​教​数​新​方​明​星​春​昼​時​晴​曜​書​朝​来​東​楽​歌​止​歩​母​毎​毛​池​汽​活​海​点​父​牛​理​用​画​番​直​矢​知​社​秋​科​答​算​米​紙​細​組​絵​線​羽​考​聞​肉​自​船​色​茶​行​西​親​角​言​計​記​話​語​読​谷​買​走​近​通​週​道​遠​里​野​長​門​間​雪​雲​電​頭​顔​風​食​首​馬​高​魚​鳥​鳴​麦​黄​黒</p>
+<h3>Jōyō kanji grade 3</h3>
+<p>丁​世​両​主​乗​予​事​仕​他​代​住​使​係​倍​全​具​写​列​助​勉​動​勝​化​区​医​去​反​取​受​号​向​君​味​命​和​品​員​商​問​坂​夫​始​委​守​安​定​実​客​宮​宿​寒​対​局​屋​岸​島​州​帳​平​幸​度​庫​庭​式​役​待​急​息​悪​悲​想​意​感​所​打​投​拾​持​指​放​整​旅​族​昔​昭​暑​暗​曲​有​服​期​板​柱​根​植​業​様​横​橋​次​歯​死​氷​決​油​波​注​泳​洋​流​消​深​温​港​湖​湯​漢​炭​物​球​由​申​界​畑​病​発​登​皮​皿​相​県​真​着​短​研​礼​神​祭​福​秒​究​章​童​笛​第​筆​等​箱​級​終​緑​練​羊​美​習​者​育​苦​荷​落​葉​薬​血​表​詩​調​談​豆​負​起​路​身​転​軽​農​返​追​送​速​進​遊​運​部​都​配​酒​重​鉄​銀​開​院​陽​階​集​面​題​飲​館​駅​鼻</p>
+<h3>Jōyō kanji grade 4</h3>
+<p>不​争​付​令​以​仲​伝​位​低​例​便​信​倉​候​借​停​健​側​働​億​兆​児​共​兵​典​冷​初​別​利​刷​副​功​加​努​労​勇​包​卒​協​単​博​印​参​史​司​各​告​周​唱​喜​器​囲​固​型​堂​塩​士​変​央​失​好​季​孫​完​官​害​察​巣​差​希​席​帯​底​府​康​建​径​徒​得​必​念​愛​成​戦​折​挙​改​救​敗​散​料​旗​昨​景​最​望​未​末​札​材​束​松​果​栄​案​梅​械​極​標​機​欠​歴​残​殺​毒​氏​民​求​治​法​泣​浅​浴​清​満​漁​灯​無​然​焼​照​熱​牧​特​産​的​省​祝​票​種​積​競​笑​管​節​粉​紀​約​結​給​続​置​老​胃​脈​腸​臣​航​良​芸​芽​英​菜​街​衣​要​覚​観​訓​試​説​課​議​象​貨​貯​費​賞​軍​輪​辞​辺​連​達​選​郡​量​録​鏡​関​陸​隊​静​順​願​類​飛​飯​養​験</p>
+<h3>Jōyō kanji grade 5</h3>
+<p>久​仏​仮​件​任​似​余​価​保​修​俵​個​備​像​再​刊​判​制​券​則​効​務​勢​厚​句​可​営​因​団​圧​在​均​基​報​境​墓​増​夢​妻​婦​容​寄​富​導​居​属​布​師​常​幹​序​弁​張​往​復​徳​志​応​快​性​恩​情​態​慣​承​技​招​授​採​接​提​損​支​政​故​敵​断​旧​易​暴​条​枝​査​格​桜​検​構​武​比​永​河​液​混​減​測​準​演​潔​災​燃​版​犯​状​独​率​現​留​略​益​眼​破​確​示​祖​禁​移​程​税​築​精​素​経​統​絶​綿​総​編​績​織​罪​群​義​耕​職​肥​能​興​舌​舎​術​衛​製​複​規​解​設​許​証​評​講​謝​識​護​豊​財​貧​責​貸​貿​賀​資​賛​質​輸​述​迷​退​逆​造​過​適​酸​鉱​銅​銭​防​限​険​際​雑​非​預​領​額​飼</p>
+<h3>Jōyō kanji grade 6</h3>
+<p>並​乱​乳​亡​仁​供​俳​値​傷​優​党​冊​処​刻​割​創​劇​勤​危​卵​厳​収​后​否​吸​呼​善​困​垂​城​域​奏​奮​姿​存​孝​宅​宇​宗​宙​宝​宣​密​寸​専​射​将​尊​就​尺​届​展​層​己​巻​幕​干​幼​庁​座​延​律​従​忘​忠​憲​我​批​担​拝​拡​捨​探​推​揮​操​敬​映​晩​暖​暮​朗​机​枚​染​株​棒​模​権​樹​欲​段​沿​泉​洗​派​済​源​潮​激​灰​熟​片​班​異​疑​痛​皇​盛​盟​看​砂​磁​私​秘​穀​穴​窓​筋​策​簡​糖​系​紅​納​純​絹​縦​縮​署​翌​聖​肺​背​胸​脳​腹​臓​臨​至​若​著​蒸​蔵​蚕​衆​裁​装​裏​補​視​覧​討​訪​訳​詞​誌​認​誕​誠​誤​論​諸​警​貴​賃​遺​郵​郷​針​鋼​閉​閣​降​陛​除​障​難​革​頂​骨</p>
+<h3>Other jōyō kanji</h3>
+<p>乙​了​又​丈​与​及​乞​凡​刃​巾​互​丹​乏​井​冗​凶​刈​勾​匂​匹​升​厄​双​介​孔​屯​幻​弔​斗​斤​爪​牙​且​丘​丙​丼​巨​仙​凹​凸​占​叱​召​囚​奴​尻​尼​巧​払​氾​汁​込​斥​旦​玄​瓦​甘​甲​矛​伎​仰​伐​伏​充​刑​劣​匠​企​吉​叫​吐​吏​壮​如​妃​妄​尽​巡​帆​弐​忙​扱​汎​汚​汗​江​芋​芝​迅​旨​旬​肌​朽​朱​朴​缶​臼​舟​串​亜​佐​伺​伸​但​伯​伴​克​冶​励​却​即​呂​含​吟​呉​吹​呈​坑​坊​壱​妖​妥​妊​妨​妙​寿​尿​尾​岐​床​廷​弄​抗​抄​択​把​抜​扶​抑​沙​汰​沃​沖​沢​沈​没​狂​芯​芳​迎​那​邦​阪​忌​忍​戒​戻​攻​更​肘​肝​肖​杉​秀​辛​享​依​佳​侍​侮​併​免​刹​刺​到​劾​卓​叔​呪​坪​奈​奇​奉​奔​妬​姓​宛​宜​尚​屈​岡​岳​岬​弥​弦​征​彼​怪​怖​拉​押​拐​拒​拠​拘​拙​拓​抽​抵​拍​披​抱​抹​況​沼​泥​泊​泌​沸​泡​狙​苛​茎​苗​茂​迭​迫​邪​邸​阻​附​房​旺​昆​昇​股​肩​肯​肢​肪​枕​枢​析​杯​枠​欧​殴​炎​炊​炉​采​玩​祈​祉​盲​突​虎​阜​斉​亭​侶​侯​俊​侵​促​俗​冠​削​勃​勅​卑​卸​厘​叙​咽​哀​咲​垣​契​威​姻​孤​封​峡​峠​帥​帝​幽​弧​悔​恒​恨​拶​拭​括​挟​拷​挑​洪​浄​津​洞​狭​狩​茨​荒​荘​逃​郊​郎​怨​怠​怒​施​昧​是​胎​胆​胞​柿​柵​栃​架​枯​柔​柄​某​柳​為​牲​珍​甚​畏​疫​皆​盆​眉​盾​冒​砕​窃​糾​耐​臭​虐​虹​衷​訃​訂​貞​赴​軌​香​俺​倹​倒​倣​俸​倫​兼​冥​凄​准​凍​剥​剣​剛​剤​剖​匿​唄​哺​唆​唇​哲​唐​埋​娯​娠​姫​娘​宴​宰​宵​峰​徐​悦​悟​悩​挨​捉​挫​振​捜​挿​捕​浦​浸​浜​浮​涙​浪​華​逝​逐​逓​途​透​陥​陣​恣​恐​恵​恥​恋​恭​扇​拳​敏​脇​脊​脅​脂​朕​胴​桁​核​桑​栽​桟​栓​桃​殊​殉​烈​珠​祥​泰​畝​畜​畔​疾​症​疲​眠​砲​称​租​秩​袖​被​既​粋​索​紛​紡​紋​翁​耗​致​般​蚊​衰​託​貢​軒​辱​酎​酌​釜​隻​飢​鬼​竜​曹​乾​偽​偶​偵​偏​剰​勘​唾​喝​啓​唯​埼​堆​執​培​婚​婆​寂​尉​崖​崎​崇​崩​庶​庸​彩​彫​惧​惨​惜​悼​捻​捗​掛​掘​掲​控​据​措​掃​排​描​堀​淫​涯​渇​渓​渋​淑​渉​淡​添​涼​猫​猛​猟​葛​萎​菓​菊​菌​逸​逮​郭​陰​陳​陶​陪​隆​陵​患​悠​戚​斜​斬​旋​曽​脚​脱​梗​梨​殻​爽​瓶​痕​盗​眺​窒​符​粗​粘​粒​紺​紹​紳​累​羞​粛​舷​舶​虚​蛍​蛇​袋​訟​豚​貪​貫​販​赦​軟​酔​釈​釣​頃​鹿​麻​斎​亀​僅​偉​傍​募​傘​喉​喩​喚​喫​喪​圏​堪​堅​堕​塚​堤​塔​塀​塁​奥​媛​媒​婿​尋​嵐​項​幅​帽​幾​廃​廊​弾​御​循​慌​惰​愉​握​援​換​搭​揚​揺​湧​渦​滋​湿​渡​湾​猶​葬​遇​遂​遅​遍​隅​随​惑​扉​掌​敢​斑​暁​晶​替​普​腕​椅​椎​棺​棋​棚​棟​款​欺​殖​煮​焦​琴​畳​疎​痩​痘​痢​硬​硝​硫​裕​筒​粧​絞​紫​絡​蛮​裂​詠​詐​詔​診​訴​貼​越​超​距​軸​酢​鈍​閑​雇​雄​雰​須​傲​傾​傑​債​催​僧​勧​嗅​嗣​嘆​塞​填​毀​塊​塑​塗​奨​嫉​嫁​嫌​寛​寝​廉​彙​微​慄​慨​慎​携​搾​摂​搬​溺​滑​溝​滞​滝​漠​滅​溶​猿​蓋​蓄​遡​遜​違​遣​隙​隔​愚​慈​愁​暇​腎​腫​腺​腰​楷​棄​楼​歳​殿​煙​煩​煎​献​禍​禅​痴​睦​睡​督​碁​稚​窟​裾​褐​裸​継​羨​艇​虞​虜​蜂​触​詣​詮​該​詰​誇​詳​誉​賂​賊​賄​跡​践​跳​較​載​酬​酪​鉛​鉢​鈴​雅​雷​零​飾​飽​靴​頓​頑​頒​鼓​僕​僚​塾​墨​奪​嫡​寡​寧​彰​徴​憎​慢​摘​漆​漸​漬​滴​漂​漫​漏​蔑​遮​遭​隠​慕​暦​膜​概​熊​獄​瑠​瘍​罰​碑​稲​端​箸​箋​箇​綻​維​綱​緒​網​腐​蜜​誓​誘​豪​貌​踊​辣​酵​酷​銃​銘​閥​雌​需​餅​駆​駄​髪​魂​儀​勲​舗​嘲​嘱​噴​墜​墳​審​寮​履​幣​慶​弊​影​徹​憧​憬​憤​撮​撤​撲​潰​潟​潤​澄​潜​蔽​遵​遷​慰​憂​慮​戯​摯​撃​摩​敷​暫​膝​膚​槽​歓​璃​畿​監​盤​罵​罷​稽​稼​稿​穂​窮​窯​範​縁​緩​緊​締​縄​衝​褒​誰​謁​請​諾​賭​賜​賠​賓​賦​趣​踪​踏​輝​輩​舞​鋭​鋳​閲​震​霊​餓​餌​頬​駒​駐​魅​黙​儒​凝​壊​墾​壌​壇​壁​嬢​憶​懐​憾​擁​濁​濃​獲​薫​薪​薦​薄​還​避​隣​憩​曇​膳​膨​獣​磨​穏​篤​緻​緯​縛​繁​縫​融​衡​諦​謎​諧​諮​謀​諭​謡​賢​醒​麺​錦​錮​錯​錠​錬​隷​頼​骸​償​嚇​擬​擦​濯​懇​戴​曖​臆​燥​爵​犠​環​療​瞳​瞭​矯​礁​繊​翼​聴​謹​謙​謄​購​轄​醜​鍵​鍋​鍛​闇​霜​韓​頻​鮮​齢​濫​藤​藍​藩​懲​璧​癖​癒​瞬​礎​穫​襟​糧​繕​繭​翻​覆​贈​鎌​鎖​鎮​闘​顎​顕​騎​騒​瀬​藻​爆​璽​羅​簿​繰​艶​覇​譜​蹴​離​霧​韻​髄​鯨​鶏​麓​麗​懸​欄​籍​譲​醸​鐘​響​騰​艦​躍​露​顧​魔​鶴​籠​襲​驚​鑑​鬱</p>
+</section>
+<section id="zhHansSection" class="c" lang="zh-hans">
+<h2>HSK hanzi</h2>
+<h3>HSK 1</h3>
+<p>我​的​你​是​了​不​们​这​一​他​么​在​有​个​好​来​人​那​会​什​没​说​吗​想​能​上​去​她​很​看​对​里​都​子​生​时​样​和​下​现​做​大​怎​出​点​起​天​开​谢​些​家​后​儿​多​话​小​回​果​见​听​觉​太​妈​打​再​呢​女​前​先​明​中​作​面​爱​电​哪​西​候​欢​关​车​年​喜​认​爸​谁​老​机​分​今​工​东​名​同​学​叫​本​国​友​高​请​住​钱​吃​朋​系​几​气​少​医​三​兴​服​字​水​号​师​星​识​坐​期​买​影​二​喝​月​写​姐​飞​视​衣​钟​十​睡​亮​狗​脑​院​书​四​米​校​客​岁​五​漂​喂​块​店​语​热​杯​昨​饭​冷​午​习​六​读​商​八​汉​租​猫​七​菜​北​桌​雨​九​椅​茶​京​苹</p>
+<h3>HSK 2</h3>
+<p>要​就​到​为​道​可​知​得​过​吧​还​以​事​也​真​让​给​但​着​意​别​所​然​走​经​因​告​最​手​找​快​等​从​情​诉​已​问​错​孩​它​间​次​正​进​比​帮​晚​动​常​长​白​第​两​非​公​身​题​完​望​离​新​思​场​始​外​件​表​希​边​男​准​员​玩​每​备​试​体​乐​早​门​房​球​夫​路​日​舞​笑​报​教​色​远​眼​蛋​息​室​运​哥​火​条​病​弟​您​送​近​穿​助​司​跑​忙​站​跳​便​歌​务​黑​票​游​唱​考​往​步​班​药​卖​百​妹​足​慢​妻​床​休​洗​奶​千​共​懂​介​红​鱼​牛​馆​肉​旅​鸡​丈​睛​笔​虽​啡​课​咖​纸​左​右​旁​雪​贵​汽​瓜​阴​累​绍​踢​宾​泳​零​羊​颜​姓​篮​宜​铅​晴</p>
+<h3>HSK 3</h3>
+<p>啊​把​只​如​自​发​心​定​该​当​用​地​行​而​像​被​跟​成​感​干​法​己​信​实​方​应​头​特​相​需​放​直​才​于​带​力​种​者​安​理​重​记​加​接​拿​解​其​又​更​马​结​难​位​刚​查​或​变​物​总​办​主​算​必​害​选​且​向​照​提​决​求​目​留​清​世​片​口​酒​周​赛​须​卡​婚​根​单​张​万​声​音​奇​怕​护​花​节​怪​愿​除​界​担​空​阿​注​坏​久​议​礼​数​平​调​文​业​包​参​风​复​忘​假​据​嘴​越​简​易​答​乎​超​轻​满​静​故​极​讲​趣​戏​容​化​束​终​差​图​半​楚​市​城​换​船​级​刻​迎​段​检​脸​择​楼​皮​练​历​山​元​角​街​料​板​顾​遇​史​画​闻​急​糕​脚​聊​居​词​突​努​辆​句​季​双​牙​南​冰​响​网​箱​园​冒​甜​香​叔​搬​迟​烧​借​聪​腿​鞋​树​银​短​环​哭​康​般​境​爷​灯​裤​盘​附​阳​健​较​耳​草​层​末​铁​黄​夏​舒​旧​蓝​疼​河​鸟​骑​饿​瓶​典​育​净​李​鲜​扫​惯​邮​帽​啤​梯​鼻​绿​熊​胖​爬​邻​春​朵​饮​裙​澡​渴​衫​刷​衬​姨​秋​碗​绩​冬​刮​瘦​矮​炼​伞​饱​锻​蕉​斤​筷</p>
+<h3>HSK 4</h3>
+<p>死​之​克​无​全​美​许​亲​尔​保​受​活​何​伙​谈​部​计​任​确​利​警​士​拉​将​证​管​处​切​失​性​此​合​队​抱​通​并​歉​命​入​掉​演​够​案​约​肯​伤​父​指​原​底​棒​收​交​停​格​金​内​至​消​整​度​持​光​与​象​使​察​海​绝​反​由​论​亚​续​母​尽​弄​密​线​继​份​止​拜​紧​联​精​转​却​基​台​另​况​否​险​言​幸​传​量​首​改​术​局​永​烦​取​随​式​律​费​科​麻​流​倒​划​味​区​支​连​弹​吸​呀​醒​梦​赢​丽​付​排​敢​油​餐​破​激​程​讨​责​落​林​及​争​猜​建​惊​标​各​民​功​示​释​引​疑​赶​俩​存​断​松​博​观​码​恐​普​价​怀​验​呼​祝​剧​乱​展​则​深​迷​具​福​职​即​挺​负​脱​仅​资​弃​修​危​专​甚​苦​适​骗​厌​值​众​预​际​咱​卫​养​导​虑​戴​志​杂​误​规​陪​森​纪​浪​顺​举​按​坚​免​印​严​推​毛​压​败​究​评​速​获​细​丢​态​判​货​围​签​牌​户​质​供​奖​袋​脏​效​座​沙​扰​困​概​登​竟​彩​招​巧​剩​烟​封​低​技​输​仍​扔​社​秀​刀​族​广​镜​播​温​遍​尝​列​毕​聚​尊​汤​优​偶​熟​微​抽​艺​研​散​饼​糖​富​降​怜​既​笨​航​匙​秒​挂​勇​钥​奋​忆​折​景​默​禁​诚​谅​厅​稍​窗​章​仔​款​拒​童​翻​洲​互​例​垃​染​漫​圾​缺​针​扮​邀​闹​辛​竞​厉​厨​允​授​估​帅​键​傲​减​著​鼓​盒​寄​赚​材​尤​愉​序​烤​悔​暂​惜​拾​申​批​乘​辣​躺​肥​址​占​省​增​擦​洋​符​骄​羞​贺​敲​购​售​耐​琴​貌​倍​桥​肤​厕​植​距​虎​济​粗​肚​暖​励​积​云​幽​龄​汁​钢​篇​汗​酸​叶​趟​抬​悉​页​桶​巾​穷​扬​污​填​塑​丰​孙​恼​详​葡​萄​脾​凉​厚​矿​逛​堵​胳​谊​泉​袜​膊​懒​盐​江​鸭​膏​慕​阅​寒​棵​橡​泼​础​戚​暑​咳​聘​郊​傅​羽​籍​勺​羡​硕​咸​译​乓​嗽​乒​柿​饺</p>
+<h3>HSK 5</h3>
+<p>杀​嗯​德​神​枪​官​救​宝​搞​战​布​装​贝​击​器​制​哈​达​待​托​强​军​代​血​疯​鬼​巴​兄​品​英​抓​统​维​派​恶​糟​令​毒​治​控​录​拍​组​造​集​类​曾​投​未​威​显​偷​权​某​立​闭​庭​雷​团​王​义​唯​夜​靠​独​娘​顿​设​置​逃​痛​狂​模​索​灵​承​产​政​领​纳​退​秘​架​背​追​炸​射​傻​藏​瞧​呆​碰​念​华​冲​型​麦​似​套​私​滚​食​形​石​测​丝​防​恋​武​胜​屋​斗​守​致​称​吓​古​状​疗​操​遗​寻​胡​替​拥​股​挑​姑​项​摩​享​配​迹​阻​属​婆​骨​摄​委​暗​训​善​轮​顶​兵​锁​木​抢​档​群​坦​土​伴​恨​移​编​刺​毫​库​荣​充​创​劳​忍​势​吻​营​盖​府​透​掌​升​临​智​归​撞​搜​摆​岛​避​织​执​戒​佛​妙​宣​烂​悲​妇​圈​敬​劲​醉​吵​龙​挥​彼​废​初​素​敌​欧​旦​依​雄​朝​恭​补​摇​躲​源​滑​碎​弱​臭​幻​闪​沉​卷​财​墙​拳​触​胁​施​胸​孕​硬​销​虫​握​迫​采​辈​限​巨​尾​青​席​犹​赞​访​良​驾​范​猪​淘​洞​冠​伟​珍​朗​欠​丑​烈​村​堆​庆​率​寓​谓​余​核​损​辩​摸​途​敏​版​订​俱​尺​鼠​幕​憾​隔​彻​插​尚​构​绪​吐​吹​颗​宁​罚​乡​豪​征​括​稳​胆​甲​佩​启​赏​震​述​阵​乖​咬​蜜​拼​池​虚​频​违​诊​络​辞​献​农​姻​恢​描​匹​软​纯​贴​略​陆​载​嫁​喊​灰​摔​厂​怨​剪​豆​挡​糊​卧​域​闲​涂​碍​柜​裁​账​固​漏​夹​辑​喷​饰​灾​欣​滩​闯​圆​延​凭​捐​挣​宽​驶​伸​析​媒​矩​绕​益​壁​汇​缩​诗​殊​含​甩​燃​炒​晕​偿​岸​绳​蛇​链​薄​瞎​齐​哎​逐​肩​筑​艰​冻​遵​酱​齿​忽​肠​押​玻​姿​召​柔​阶​歇​亿​胶​眠​仿​潮​舍​宴​兔​奈​胃​挤​脆​询​蜂​夸​企​递​铃​振​册​璃​慰​宿​睁​脖​陌​返​扇​肌​猴​慌​凌​税​湿​膀​幅​泪​拆​玉​币​魅​炮​桃​培​腐​砍​宠​腰​俗​弯​渐​措​毯​霉​缓​逗​撕​娶​勤​滴​钓​踩​革​惠​淡​拦​逻​赔​熬​漠​衡​趁​盾​尘​骂​跃​粘​疲​肃​幼​嘉​映​俊​沟​愧​娱​催​捡​叉​狮​亏​蹲​乏​哲​披​拐​讽​劝​裹​慧​雾​浓​唉​扩​煮​烫​繁​悄​妨​扶​谨​抖​屈​荐​均​飘​矛​摘​润​贷​紫​氛​慎​浅​眉​悠​寂​兼​锅​寿​促​辅​览​棋​贡​艳​嗓​综​劣​豫​痒​柴​盼​翅​迅​晒​椒​舅​咨​歪​盆​洒​耽​昆​删​届​涨​厢​匆​苗​蝶​狡​夕​寞​纷​煤​裔​蝴​皂​梳​愁​厦​抄​醋​斜​谦​泛​屉​县​恳​猾​兑​贸​壶​帘​竹​叙​蔬​浇​秩​嫩​虹​粮​鞭​髦​勿​燥​践​梨​炭​乙​吨​孝​厘​姥​趋​塘​骤​绸​惭​糙​窄​桔​浏​嚏​傍​纲​倡​屿​匀​旬​馒</p>
+<h3>HSK 6</h3>
+<p>哦​斯​嘿​嗨​犯​嘛​帝​啦​罪​混​恩​杰​圣​探​监​哇​姆​吉​奥​狱​谎​伦​踪​屁​尸​蒂​魔​谋​波​毁​诺​撒​州​凶​伯​审​蠢​塔​亡​鲁​堂​露​爆​镇​暴​纽​诞​捕​赌​塞​酷​曲​莫​异​誓​雇​野​搭​症​攻​蒙​苏​魂​啥​隐​协​泰​抗​迈​绑​沃​副​瓦​丁​粉​徒​灭​孤​伍​纹​残​砸​拖​牢​惹​逮​劫​袭​嫌​怖​墨​陷​蹈​雅​逼​叛​扯​剂​怒​液​磨​娃​刑​泡​堡​愚​盛​皇​夺​盗​汰​猎​潜​霍​爽​扎​讯​侦​欲​杜​盯​赖​胎​帐​抛​遭​若​仪​宫​祖​耍​忠​策​钻​桑​尖​惧​痕​佳​掩​荒​督​撤​援​郎​埋​惨​浴​侵​挖​兽​洁​晨​奏​欺​端​障​慈​仇​逊​黎​额​罢​裂​偏​丧​乌​宇​葬​党​壮​珠​勃​唐​荡​扣​仰​君​晓​牧​巡​牲​昏​凡​谷​愤​盟​窃​辜​伪​田​蕾​倾​辱​缝​惑​狼​脉​宗​祸​趴​泽​诱​溜​隆​狠​抵​揭​涉​牵​婴​胞​湖​讶​瞒​呵​缘​予​泄​拨​癌​乳​罐​骚​恰​擅​患​剑​牺​割​拔​扭​融​臂​舌​焦​赋​径​撑​泥​贩​哼​艘​寸​誉​陈​惩​墓​伏​缠​妒​妆​旋​廉​遥​侧​舰​筹​纵​猛​耀​耻​殿​瘾​唤​棍​疾​磅​谍​忌​堪​奉​廊​仓​鉴​仁​孔​杆​嫉​箭​揍​捉​恕​吊​踏​罩​尴​郁​尬​崩​港​淋​勾​署​奴​弥​抚​甘​唇​截​宙​搅​舱​轨​蛮​侠​滋​闷​债​吞​肿​仙​奔​庄​袖​愈​磁​肺​储​番​肖​嘲​氧​井​艇​炉​旗​昂​垫​栋​渡​薪​腾​驱​钉​横​贼​溃​拘​犬​佣​忧​宰​坠​霸​瘤​膝​役​菌​崇​哀​浮​卑​谬​抑​壳​铺​腔​摧​晃​僵​妥​窝​岩​诈​虐​诸​挨​喉​扑​董​搏​倦​械​纠​挽​晋​棕​栏​氏​央​灌​谱​侣​屏​疫​轰​挪​沿​悬​贫​腹​抹​朴​稿​雕​蜡​粹​添​兜​喘​锋​隶​仗​沮​浑​竭​炎​疏​呈​鄙​煎​耗​晶​衰​掘​谜​捷​馅​瞄​沾​覆​侄​跪​逝​赠​笼​川​湾​翼​筒​丸​塌​吼​枚​辨​擎​绅​侮​峰​庞​丛​剥​妄​漆​筋​贪​兆​畏​枕​陶​讼​穴​遮​瞬​捣​串​赤​脂​歧​饶​疤​篷​谣​摊​钩​苍​凑​缉​酬​舔​畜​垂​悦​畅​循​烛​堕​颠​券​衷​盲​膜​斑​氓​稀​嚷​跨​扁​携​粒​呕​跌​坟​御​恒​罕​钞​敞​啰​肢​咙​饥​宅​岗​刊​渣​阱​贿​棉​贤​淹​榜​喻​拟​躁​蓄​慨​坑​颈​焰​鸽​泣​熏​遣​津​翘​逆​柱​滥​皆​鸣​嘱​弊​蒸​赴​宪​刹​凝​哨​炫​慷​殖​叨​睹​绘​蚁​顽​隧​颁​橙​捏​坡​剖​锤​丘​膛​枝​旺​酗​芒​噪​辉​叮​巷​贯​嚼​叹​卸​茫​陋​掏​纤​臣​蔽​俘​颤​砖​驳​迁​宵​袍​洪​撼​卓​翔​秃​驻​眨​幢​削​乞​聋​锦​沼​赂​辐​鸦​拽​阔​皱​哄​谐​蹦​碳​咋​锐​帆​斥​峡​捞​铜​悼​巢​庇​禽​履​浸​衔​绒​雀​熄​杖​悟​寺​霜​殴​钝​逢​奢​挫​撇​弦​掐​昧​庸​搁​梁​涌​挚​坛​窍​腥​晰​祥​旨​叠​框​碑​蓬​咐​酿​唠​墅​亦​伐​咽​婪​惕​稚​曝​捆​泊​嗅​瓷​渔​哑​驰​屑​烘​栽​铭​冤​溪​舟​绎​胀​肆​溅​拌​吩​剔​茎​竖​枯​椎​勉​缚​挠​崖​瘫​俯​沫​亭​烹​磕​庙​颇​腻​掠​辖​肪​渗​攀​叭​蚂​歹​憋​喇​缴​郑​吟​溶​碌​娇​蔓​滤​岔​崭​蚀​儒​捧​昔​掷​馈​帖​谴​颂​唾​宏​痪​敷​渺​僻​榨​澄​扒​裕​芽​瞪​狭​涕​拙​躬​饪​灿​昌​锈​瘸​琢​掀​朽​渠​拧​辙​惫​帜​雌​拣​斩​岳​拓​劈​虏​稻​滞​滨​蔑​钦​伺​盈​辫​沸​柬​丙​贬​鞠​壤​杠​窜​洽​啃​颖​坝​铸​煌​衅​怯​苟​侈​迄​谤​觅​绣​魄​堤​墟​泌​粥​濒​寝​旷​伶​岂​隙​韧​痹​衍​瀑​拢​诽​萎​瓣​搂​捍​枉​袱​扛​徘​诫​徊​膨​诵​掰​揉​嵌​瘩​涵​滔​疙​唆​烁​凹​桨​吁​沛​熨​捎​晤​筛​攒​毅​泻​勘​耸​紊​呻​镶​沐​蔼​哗​丐​藐​诬​纬​陵​侥​涩​嗦​惦​凄​淆​睬​茂​饲​睦​瞩​峻​耕​吝​殃​旱​钙​辰​株​惰​喧​凸​辟​廓​甭​稼​涛​媳​彰​嫂​蹋​愣​搓​蹬​梢​阐​晾​叼​恍​啬​筐​屡​哺​潇​讳​萌​抒​咀​簸​汹​暧​缀​兢​畔​纺​倔​澈​啸​涮​舆​酝​灶​侃​赁​巩​奠​斟​蕴​缔​遏​惋​昼​陡​譬​搀​迸​徙​眶​狈​讥​秤​蔚​酌​隘​俐​怠​阂​嘈​眯​裳​畴​淀​峭​垄​瞻​肴​惮​椭​俭​稠​倘​诧​沧​霞​疆​馋​浊​雹​哆​溉​暄​拄​磋​辽​荤​炊​挎​侨​舶​锲​辕​踊</p>
+</section>
+<section id="zhHantSection" class="c" lang="zh-hant">
+<h2>HSK traditional hanzi</h2>
+<h3>HSK traditional 1</h3>
+<p>我​的​你​是​了​瞭​不​們​這​一​他​么​麼​在​有​個​箇​好​來​人​那​會​什​沒​說​説​嗎​想​能​上​去​她​很​看​對​裏​裡​里​都​子​生​時​樣​和​下​現​做​大​怎​出​齣​點​起​天​開​謝​些​傢​家​后​後​兒​多​話​小​回​迴​果​見​聽​覺​太​媽​打​再​呢​女​前​先​明​中​作​面​麪​麵​愛​電​哪​西​候​歡​關​車​年​喜​認​爸​誰​老​機​分​今​工​東​名​同​衕​學​叫​本​國​友​高​請​住​錢​喫​朋​係​系​繫​几​幾​氣​少​醫​三​興​服​字​水​號​師​星​識​坐​期​買​影​二​喝​月​寫​姐​飛​視​衣​鈡​鍾​鐘​十​睡​亮​狗​腦​院​書​四​米​校​客​嵗​歲​𡻕​五​漂​喂​餵​塊​店​語​熱​杯​盃​昨​飯​冷​午​習​六​讀​商​八​漢​租​貓​七​菜​北​桌​雨​九​椅​茶​京​苹​蘋</p>
+</section>
+<footer>
+<div id="bottom" class="link"><a href="#top">Top</a></div>
+<a href="../licenses/COPYING.txt">Licences</a>
+- <a href="https://github.com/parsimonhi/animCJK">Download</a>
+- <a href="./">Sample selector</a>
+<br>
+Copyright 2016-2018 - François Mizessyn
+</footer>
+<script>
+function makeCharButton()
+{
+	var k,km,list,s,a,ka,kam,b;
+	list=document.querySelectorAll("section.c p");
+	km=list.length;
+	for (k=0;k<km;k++)
+	{
+		s=list[k].innerHTML;
+		a=s.split('​');
+		kam=a.length;
+		b="";
+		for (ka=0;ka<kam;ka++) b+="<button onclick=\"doIt(this);\">"+a[ka]+"</button>";
+		list[k].innerHTML=b;
+	}
+}
+document.getElementById("data").addEventListener("keyup",function(event) {
+	event.preventDefault();
+	if (event.keyCode==13) ok();
+},false);
+window.addEventListener("load",makeCharButton,false);
+</script>
+</body>
+</html>

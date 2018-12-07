@@ -4,42 +4,35 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="initial-scale=1.0,user-scalable=yes">
-<style>
-body {text-align:center;}
-a {color:#000;}
-a:visited {color:#666;}
-#charDiv
-{
-	margin:0 auto 0.5em auto;
-	max-width:256px;
-	max-height:256px;
-	border:1px solid #ccc;
-}
-</style>
+<meta name="description" content="Demo to show AnimCJK SVG
+representing Japanese or Chinese characters,
+display each stroke in a different color between black and red">
+<link rel="stylesheet" href="_css/minimal.css" type="text/css">
 <title>AnimCJK - Red</title>
 </head>
 <body>
 <?php displayHeader("AnimCJK - Red");?>
 <p>
-<label>Colored/uncolored strokes on the fly:
+<label>Colored/uncolored strokes with colors between black and red on the fly:
 <input id="colorize" checked type="checkbox" onclick="switchColorize()">
 </label>
 </p>
 <div id="charDiv">
-<?php include "../".$dir."/".$dec.".svg";?>
+<?php
+$s=file_get_contents("../".$dir."/".$dec.".svg");
+// replace native css from svg file (since in this sample, there will be no animation)
+$a="<style>\n";
+$a.="svg.acjk path[clip-path] {\n";
+$a.="fill:none;\n";
+$a.="}\n";
+$a.="</style>";
+$s=preg_replace("/<style>[\s\S]*<.style>/",$a,$s);
+echo $s;
+?>
 </div>
 <?php echo displayFooter("red");?>
 <script>
 // "colorize" script
-function removeAnimation()
-{
-	// by default, a character is animated
-	// for this sample one doesn't need animation, so remove it
-	var k,km,list;
-	list=document.querySelectorAll("svg.acjk path[clip-path]");
-	km=list.length;
-	for (k=0;k<km;k++) list[k].style.animation="none";
-}
 function computeOne(z,k,km)
 {
 	return Math.floor(k*z/(km?km:1));
@@ -47,7 +40,7 @@ function computeOne(z,k,km)
 function computeFinalColor(c,k,km)
 {
 	var r,g,b,a;
-	if (!km) // case of a character with an unique stroke
+	if (!km) // case of a character that has only one stroke
 		return "rgba("+c.r*0.8+","+c.g*0.8+","+c.b*0.8+","+c.a+")";
 	r=computeOne(c.r,k,km);
 	g=computeOne(c.g,k,km);
@@ -62,7 +55,9 @@ function colorizeStrokes(x)
 	km=list.length;
 	if (x)
 	{
-		c={r:255,g:0,b:0,a:1}; // can be replaced by another color
+		// c is the color of the last stroke
+		// can be replaced by any other color, including color with transparency
+		c={r:255,g:0,b:0,a:1};
 		for (k=0;k<km;k++) list[k].style.fill=computeFinalColor(c,k,km-1);
 	}
 	else for (k=0;k<km;k++) list[k].style.fill="#000";
@@ -71,7 +66,7 @@ function switchColorize()
 {
 	colorizeStrokes(document.getElementById("colorize").checked);
 }
-window.addEventListener("load",function(){removeAnimation();colorizeStrokes(1);},false);
+window.addEventListener("load",function(){colorizeStrokes(1);},false);
 </script>
 </body>
 </html>

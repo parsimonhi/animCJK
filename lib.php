@@ -397,19 +397,27 @@ function convertSet($s,$lang)
 	{
 		if (preg_match("/^hsk([1-6])$/",$s)) $r=preg_replace("/^hsk([1-6])$/","HSK $1",$s);
 		else if ($s=="hsk7") $r="Frequent hanzi";
-		else if ($s=="hsk8") $r="Common hanji";
-		else $r="Uncommon hanji";
+		else if ($s=="hsk8") $r="Common hanzi";
+		else $r="Uncommon hanzi";
+	}
+	else if ($lang=="zh-Hant")
+	{
+		if (preg_match("/^traditional([1-6])$/",$s)) $r=preg_replace("/^traditional([1-6])$/","HSK $1 traditional",$s);
+		else if ($s=="traditional7") $r="Frequent traditional hanzi";
+		else if ($s=="traditional8") $r="Common traditional hanzi";
+		else $r="Uncommon hanzi";
 	}
 	else $r="";
 	return $r;
 }
 
-function getDictionaryData($char,$lang="zh-Hans")
+function getDictionaryData($char,$lang="zh-hans")
 {
 	$s="<div class=\"dico\">";
 	$s.="<div class=\"unicode\"><span class=\"cjkChar\" lang=\"".$lang."\">".$char."</span> ";
 	$s.="U+".hexUnicode($char)." "."&amp;#".decUnicode($char).";"."</div>\n";
-	if ($lang=="ja") $handle=fopen("dictionaryJa.txt","r");
+	if (strtolower($lang)=="ja") $handle=fopen("dictionaryJa.txt","r");
+	else if (strtolower($lang)=="zh-hant") $handle=fopen("dictionaryZhHant.txt","r");
 	else $handle=fopen("dictionaryZhHans.txt","r");
 	if ($handle)
 	{
@@ -433,9 +441,9 @@ function getDictionaryData($char,$lang="zh-Hans")
 					$s.="<div class=\"radical\">Decomposition: <span class=\"cjkChar\" lang=\"".$lang."\">".$a->{'decomposition'}."</span></div>";
 				if (property_exists($a,'acjk')&&$a->{'acjk'})
 					$s.="<div class=\"radical\">Acjk: <span class=\"cjkChar\" lang=\"".$lang."\">".$a->{'acjk'}."</span></div>";
-				if ($lang=="zh-Hans")
+				if (($lang=="zh-hans")||($lang=="zh-hant"))
 				{
-					if (count($a->{'pinyin'}))
+					if (property_exists($a,'pinyin')&&count($a->{'pinyin'}))
 					{
 						$s.="<div class=\"pinyin\">Pinyin: ";
 						$ini=true;
@@ -452,7 +460,7 @@ function getDictionaryData($char,$lang="zh-Hans")
 				}
 				else if ($lang=="ja")
 				{
-					if (count($a->{'on'}))
+					if (property_exists($a,'on')&&count($a->{'on'}))
 					{
 						$s.="<div class=\"yomi\">Onyomi: ";
 						$ini=true;
@@ -464,7 +472,7 @@ function getDictionaryData($char,$lang="zh-Hans")
 						}
 						$s.="</div>";
 					}
-					if (count($a->{'kun'}))
+					if (property_exists($a,'kun')&&count($a->{'kun'}))
 					{
 						$s.="<div class=\"yomi\">Kunyomi: ";
 						$ini=true;
@@ -573,41 +581,4 @@ function buildSvg($a)
 	$s.="</svg>";
 	return $s;
 }
-
-function checkOfficialChar($a,$currentSet)
-{
-	// display a list of button to select a character
-	// designed to check if characters are in svgsKana, svgsJa or svgsZhHans
-	$s="";
-	$sameInBoth=0;
-	$notSameInBoth=0;
-	$notInBoth=0;
-	$km=mb_strlen($a,'UTF-8');
-	for($k=0;$k<$km;$k++)
-	{
-		$u=mb_substr($a,$k,1,'UTF-8');
-		$dec=decUnicode($u);
-		if (($currentSet=="hiragana")||($currentSet=="katakana"))
-		{
-			$class="notInBoth";
-			$notInBoth++;
-		}
-		else
-		{
-			$inJa=file_exists("svgsJa/".$dec.".svg");
-			$inZhHans=file_exists("svgsZhHans/".$dec.".svg");
-			if ($inJa&&$inZhHans)
-			{
-				$f1=file_get_contents("svgsJa/".$dec.".svg");
-				$f2=file_get_contents("svgsZhHans/".$dec.".svg");
-				if ($f1==$f2) {$class="sameInBoth";$sameInBoth++;}
-				else {$class="notSameInBoth";$notSameInBoth++;}
-			}
-			else {$class="notInBoth";$notInBoth++;}
-		}
-		echo "<button class=\"".$class."\" onclick=\"doIt('".$u."')\">".$u."</button>\n";
-	}
-	echo "<br>Same in both:".$sameInBoth.", not same in both:".$notSameInBoth.", not in both: ".$notInBoth;
-}
-
 ?>

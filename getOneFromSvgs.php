@@ -53,18 +53,23 @@ function errorSvg($n,$lang,$char1,$char2="",$char3="",$char4="")
 	return $s;
 }
 
-function getSvgChar($char,$lang="zh-Hans")
+function getSvgChar($char,$lang="zh-hans")
 {
 	// char: character to display
 	// lang: used to select convenient svg folders
 	$dec=decUnicode($char);
-	if ($lang=="ja")
+	if (strtolower($lang)=="ja")
 	{
 		if (file_exists("svgsKana/".$dec.".svg")) $f="svgsKana/".$dec.".svg";
 		else if (file_exists("svgsJa/".$dec.".svg")) $f="svgsJa/".$dec.".svg";
 		else $f=null;
 	}
-	else // default (zh-Hans)
+	else if (strtolower($lang)=="zh-hant")
+	{
+		if (file_exists("svgsZhHant/".$dec.".svg")) $f="svgsZhHant/".$dec.".svg";
+		else $f=null;
+	}
+	else // default (zh-hans)
 	{
 		if (file_exists("svgsZhHans/".$dec.".svg")) $f="svgsZhHans/".$dec.".svg";
 		else $f=null;
@@ -74,8 +79,9 @@ function getSvgChar($char,$lang="zh-Hans")
 	if ($s) return $s;
 	else
 	{
-		if ($lang=="ja") return errorSvg(3,$lang,$char." is not in","Japanese","repository");
-		else return errorSvg(3,$lang,$char." is not in","Chinese","repository");
+		if (strtolower($lang)=="ja") return errorSvg(3,$lang,$char." is not in","our Japanese","repository");
+		if (strtolower($lang)=="zh-hant") return errorSvg(4,$lang,$char." is not in","our traditional","Chinese","repository");
+		return errorSvg(4,$lang,$char." is not in","our simplified","Chinese","repository");
 	}
 }
 

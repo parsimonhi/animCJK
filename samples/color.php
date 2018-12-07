@@ -4,63 +4,48 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="initial-scale=1.0,user-scalable=yes">
-<style>
-body {text-align:center;}
-a {color:#000;}
-a:visited {color:#666;}
-#charDiv
-{
-	margin:0 auto 0.5em auto;
-	max-width:256px;
-	max-height:256px;
-	border:1px solid #ccc;
-}
-.actionBtn
-{
-	-webkit-appearance:none;
-	margin-top:0.25em;
-	font-size:2em;
-	border:0;
-	background:#999;
-	color:#fff;
-	border-radius:0.5em;
-	margin:0.5em;
-}
-.actionBtn:hover,
-.actionBtn:active,
-.actionBtn:focus {background:#c00;outline:0;}
-.actionBtn:hover {cursor:pointer;}
-.actionBtn:disabled {background:#ccc;cursor:default;}
-.actionBtn::-moz-focus-inner {border:0;}
-</style>
+<meta name="description" content="Demo to animate one AnimCJK SVG
+representing Japanese or Chinese characters,
+display the stroke that is being drawn in a different color">
+<link rel="stylesheet" href="_css/minimal.css" type="text/css">
 <title>AnimCJK - Color</title>
 </head>
 <body>
 <?php displayHeader("AnimCJK - Color");?>
-<p>Displays the stroke that is being drawn in a different color</p>
-<button class="actionBtn" type="button" onclick="startAnim()">Animate</button>
+<p>Display the stroke that is being drawn in a different color</p>
+<button class="actionBtn" type="button" onclick="restartAnime()">Animate</button>
 <div id="charDiv">
 <?php
 $s=file_get_contents("../".$dir."/".$dec.".svg");
+// modify @keyframes zk to colorize the stroke that is being drawn
 $a="\tto {\n\t\tstroke-dashoffset:0;\n\t}\n";
 $b="\tfrom {\n\t\tstroke-dashoffset:3339;\n\t\tstroke:#c00;\n\t}\n";
 $b.="\t75% {\n\t\tstroke-dashoffset:0;\n\t\tstroke:#c00;\n\t}\n";
 $b.="\tto {\n\t\tstroke-dashoffset:0;\n\t\tstroke:#000;\n\t}\n";
-$s=str_replace($a,$b, $s);
+$s=str_replace($a,$b,$s);
 echo $s;
 ?>
 </div>
 <?php echo displayFooter("color");?>
+<!-- add asvg.js to support some pitiful browsers that cannot animate Svg properly -->
+<script src="_js/asvg.js"></script>
 <script>
-function startAnim()
+function forceReflow()
 {
-	// (re)start animation when clicking on "Animate" button
+	// for all browsers
+	// force a reflow to restart animation
 	var e,s;
 	e=document.querySelector("svg.acjk");
 	s=e.innerHTML;
 	e.innerHTML="";
 	e.innerHTML=s;
 }
+function restartAnime()
+{
+	if (asvg.activated>0) asvg.run('color'); // pitiful browser
+	else forceReflow(); // normal browser
+}
+window.addEventListener("load",function(){asvg.run('color');},false); // pitiful browser
 </script>
 </body>
 </html>
