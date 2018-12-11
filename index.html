@@ -56,8 +56,8 @@ div.link a {color:#000;}
 nav a {color:#000;}
 div.input {padding-top:1em;}
 nav a {display:inline-block;padding:0.25em 0.25rem;}
-.important {color:#c00;}
-.very-important {text-decoration:underline;}
+.important {color:#000;}
+.very-important {color:#c00;}
 p.instruction {padding-left:1rem;padding-right:1rem;}
 
 #joyoSection {display:block;}
@@ -226,12 +226,13 @@ svg.acjk path[id] {fill:#ccc;}
 <script>
 function cleanData(e)
 {
-	// keep only the 1st character
 	var data;
 	data=e.value;
 	// \u200B-\u200D\uFEFF are the zero-length characters
-	data=data.replace(/[0-9a-zA-Z\s\u200B-\u200D\uFEFF]/g,'');
-	if (data.length) data=String.fromCodePoint(data.codePointAt(0));
+	data=data.replace(/[0-9+*.:?!\s\u200B-\u200D\uFEFF]/g,'');
+	// keep only the 1st character
+	// disable this feature because it disturbs asian language IME
+	// if (data.length) data=String.fromCodePoint(data.codePointAt(0));
 	e.value=data;
 }
 function setNumber(x)
@@ -486,9 +487,9 @@ function switchSize(fs)
 <label><input id="fs512" type="radio"  name="sectionSize" onclick="switchSize(512)"> 512 px</label>
 <label><input id="fs1024" type="radio"  name="sectionSize" onclick="switchSize(1024)"> 1024 px</label>
 </div>
-<input id="data" lang="ja" type="text" value="" placeholder="Enter data here" oninput="cleanData(this)">
-<p class="important instruction">Enter a character in the data field above or
-<span class="very-important">click</span> on a character of the lists
+<input id="data" lang="ja" type="text" value="" maxlength="6" placeholder="Enter data here" oninput="cleanData(this)">
+<p class="important instruction"><span class="very-important">Enter only one character</span> in the data field above or
+<span class="very-important">click on a character</span> in the lists
 at the bottom of the page.</p>
 <input id="ok" type="button" value="Animate" onclick="ok()">
 </div>
