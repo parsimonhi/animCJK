@@ -145,15 +145,15 @@ We used various sources to cross-check our data. In particular:
 - Commons Chinese characters decomposition, https://commons.wikimedia.org/wiki/Commons:Chinese_characters_decomposition (Chinese characters decomposition)
 - CJK Decomposition Data, https://archive.codeplex.com/?p=cjkdecomp (Chinese characters decomposition)
 - Hanzi Yuan, http://hanziyuan.net/ (Chinese characters etymology)
-- Shufa Ai, http://www.shufaai.com/a/zidian/zi/ (Library of images of Chinese charcaters)
+- Shufa Ai, http://www.shufaai.com/a/zidian/zi/ (various images of Chinese characters)
 
 ## What is new?
 
-### 2018/12/14:
+2018/12/14:
 - add Infinite sample,
 - various minor updates.
 
-### 2018/12/07:
+2018/12/07:
 - add traditional hanzi for HSK 1 (197 characters),
 - rewrite all the samples,
 - support of browsers that cannot animate SVG properly in samples,
