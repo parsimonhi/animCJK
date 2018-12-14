@@ -45,7 +45,7 @@ function getDelay(e)
 function getDuration(e)
 {
 	// normal browsers
-	return window.getComputedStyle(e,null).getPropertyValue('--t');
+	return parseFloat(window.getComputedStyle(e,null).getPropertyValue('--t'));
 }
 function restartAnime()
 {
@@ -55,7 +55,7 @@ function restartAnime()
 function infiniteAnime()
 {
 	// all browsers
-	if (asvg.activated<0) {setTimeout(infiniteAnime,100);return;}
+	if (asvg.activated<0) {setTimeout(infiniteAnime,50);return;}
 	var List,k,km,d,t;
 	if (asvg.activated>0) // pitiful browser
 	{

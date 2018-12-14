@@ -249,7 +249,7 @@ asvg.start=function()
 };
 
 asvg.run=function(a)
-{alert(a);
+{
 	if (a) asvg.action=a;
 	if (asvg.activated<0)
 	{

@@ -52,11 +52,6 @@ function forceReflow()
 	e.innerHTML="";
 	e.innerHTML=s;
 }
-function getDuration(e)
-{
-	// normal browsers
-	return window.getComputedStyle(e,null).getPropertyValue('--t');
-}
 function setDuration(e,t)
 {
 	// normal browsers
@@ -70,14 +65,10 @@ function setDuration(e,t)
 function speed(new_t)
 {
 	// normal browsers
-	var old_t,list,k,km;
+	var list,k,km;
 	list=document.querySelectorAll("svg.acjk path:not([id])");
 	if (list&&(km=list.length))
-	{
-		old_t=getDuration(list[0]);
-		if (old_t<0.00001) old_t=0.00001;
 		for(k=0;k<km;k++) setDuration(list[k],new_t);
-	}
 }
 function restartAnime()
 {
