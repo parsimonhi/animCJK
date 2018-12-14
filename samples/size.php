@@ -46,7 +46,7 @@ include "../".$dir."/".$dec.".svg";
 <script>
 function forceReflow()
 {
-	// for all browsers
+	// normal browsers
 	// force a reflow to restart animation
 	var e,s;
 	e=document.querySelector("svg.acjk");

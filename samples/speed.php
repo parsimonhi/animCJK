@@ -44,7 +44,7 @@ include "../".$dir."/".$dec.".svg";
 <script>
 function forceReflow()
 {
-	// for all browsers
+	// normal browsers
 	// force a reflow to restart animation
 	var e,s;
 	e=document.querySelector("svg.acjk");
@@ -54,10 +54,12 @@ function forceReflow()
 }
 function getDuration(e)
 {
+	// normal browsers
 	return window.getComputedStyle(e,null).getPropertyValue('--t');
 }
 function setDuration(e,t)
 {
+	// normal browsers
 	var a;
 	a=e.getAttributeNS(null,"style");
 	// remember the 1st time, there is no --t in style attribute
@@ -67,6 +69,7 @@ function setDuration(e,t)
 }
 function speed(new_t)
 {
+	// normal browsers
 	var old_t,list,k,km;
 	list=document.querySelectorAll("svg.acjk path:not([id])");
 	if (list&&(km=list.length))
@@ -78,6 +81,7 @@ function speed(new_t)
 }
 function restartAnime()
 {
+	// all browsers
 	var new_t;
 	new_t=parseFloat(document.getElementById("speedInput").value)*0.8;
 	if (!new_t||(new_t<0.00001)) new_t=0.00001;

@@ -32,7 +32,7 @@ See also http://gooo.free.fr/animCJK/official/samples
 
 ## Decomposition system
 
-Character decompositions using a specific system to AnimCJK called "acjk" are stored in dictionaryJa.txt and dictionaryZhHans.txt.
+Character decompositions using a specific system to AnimCJK called "acjk" are stored in dictionaryJa.txt, dictionaryZhHans.txt and dictionaryZhHant.txt.
 
 An "acjk" decomposition starts with a character, followed by its number of stroke (which indicates that the character is not decomposed), or followed by an ideographic description character (which indicates that the character is decomposed).
 The ideographic description character is followed by several component decompositions (3 for "⿲" and "⿳", 2 for ⿰","⿱","⿴","⿵","⿶","⿷","⿸","⿹","⿺" and "⿻).
@@ -58,7 +58,48 @@ To animate a character, AnimCJK uses the following method: the character shape i
 
 If several characters are inserted in the same page, and if one need to animate them one after the other, one has to modify the animation-delay in the css of the svg. If a character is displayed several times in the same page, one also need to modify the id of its elements. This can be done using javascript. Alternately, one can encapsulate each svg in an iframe.
 
-Note: some kana (those which have a stroke overlapping on itself as あ, ぬ etc.) are special. The stroke which overlaps is split in several parts. So automatic procedures on these characters require some specific codes.
+Note: some kanas (those which have a stroke overlapping on itself as あ, ぬ etc.) are special. The stroke which overlaps is split in several parts. So automatic procedures on these characters require some specific codes.
+
+Note: some characters have special versions stored in folders that have the "Special" suffix. These versions have some strokes split in several parts in order to be able to show the radical of characters like 由, 甲, etc. See "Radical" sample to see how it works.
+
+## Usage
+
+### Basic usage
+
+Just insert a svg file representing a character as is in a HTML page.
+
+For instance, write the code below in a file called simple.php and store it in the samples folder of AnimCJK. Then run simple.php in a browser.
+```
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="initial-scale=1.0,user-scalable=yes">
+<title>Simple usage of AnimCJK</title>
+</head>
+<body>
+<h1>Simple usage of AnimCJK</h1>
+<?php
+include "../svgsJa/20013.svg";
+?>
+</body>
+</html>
+```
+### Other usages
+
+Using php, javascript or any other languages, you can easily modify svg files in order to change size of characters, colors, animation duration, etc.
+- to insert several characters in the same page, see animeSeveral.html.
+- to change colors of a character, see color.php and red.php.
+- to change the size of a character, see size.php.
+- to change the speed of drawing a character, see speed.php.
+
+See other samples for more usages.
+
+### Support of browsers than cannot animate svg properly
+
+Some browsers (notably Microsoft browsers) cannot animate svg properly. A workaround for these browsers is provided with the samples.
+
+However, the market share of these browsers is constantly decreasing. So it is conceivable (in 2018) to remove this workaround to simplify your code. 
 
 ## Related works
 
@@ -66,20 +107,45 @@ Note: some kana (those which have a stroke overlapping on itself as あ, ぬ etc
 
 This project is derived from the remarquable Makemeahanzi project which is designed to display Chinese characters. See https://github.com/skishore/makemeahanzi for more details. Many characters were modified or added in AnimCJK (between two or three thousand at the moment) for various reasons:
 - many Japanese characters have a different stroke order, or have a different glyph, or have a different stroke direction or are not commonly used in Chinese, and therefore have no entry in Makemeahanzi.
+- many Chinese traditional characters have a different stroke order, or have a different glyph, or have a different stroke direction or have no entry in Makemeahanzi.
 - many character shapes were just slightly modified to look prettier.
 - some commonly used (but not frequently used) Chinese characters have no entry in Makemeahanzi. 
 
-Even if character shapes have the same look in both Makemeahanzi and AnimCJK project, the svg files are completely different. The css is different. The svg structure is different. The "median" paths are different. However, for people who would to reimport characters that were modified or added from AnimCJK to Makemeahanzi, two files are provided (graphicsJa.txt and graphicsZhHans.txt) that have the same format as the graphics.txt of the Makemeahanzi project.
+Even if character shapes have the same look in both Makemeahanzi and AnimCJK project, the svg files are different: the css is different, the svg structure is different, the stroke shape paths are different, the median paths are different. However, for people who would like to re-import characters from AnimCJK to Makemeahanzi, text files are provided (graphicsJa.txt, graphicsZhHans.txt, etc.) that have the same format as the graphics.txt file of Makemeahanzi. So from these files, it is easy to generate SVG files in the format used by Makemeahanzi.
 
 ### Arphic PL KaitiM GB and Arphic PL UKai fonts
 
 Makemeahanzi itself makes an extensive use of the Arphic PL KaitiM GB and Arphic PL UKai fonts generously provided by Arphic Technology. See https://apps.ubuntu.com/cat/applications/precise/fonts-arphic-gkai00mp/ and https://apps.ubuntu.com/cat/applications/fonts-arphic-ukai/ for more details about these fonts.
 
-Many characters of AnimCJK are not present in these fonts (especially but not exclusively Japanese characters since these Arphic fonts are designed for Chinese). One used parts of other characters to design these missing characters and/or used various editors (mainly Inkscape and BBEdit) to modify their shape. One didn't use any other fonts.
+Many characters of AnimCJK are not present in these fonts (especially but not exclusively Japanese characters since these Arphic fonts are designed for Chinese). One used parts of other characters to design these missing characters and/or used various editors (mainly Inkscape and BBEdit) to modify their shape. One didn't extract these characters from other fonts.
 
 ### Animated_GIF
 
-Part of "animated GIF" sample of AnimCJK is derived from a sample of Animated_GIF project called "basic". See https://github.com/sole/Animated_GIF for more details.
+Animated_GIF.js script comes from Animated_GIF project.
+
+Part of magicAcjk.js script is derived from Animated_GIF sample called "basic".
+
+See https://github.com/sole/Animated_GIF for more details.
+
+### string.codePointAt and string.fromCodePoint polyfills
+
+We use polyfills for string.codePointAt and string.fromCodePoint functions that are stored in codePoint.js script.
+
+These polyfills come from https://github.com/mathiasbynens/String.codePointAt and https://github.com/mathiasbynens/String.fromCodePoint projects.
+
+### Other works
+
+We used various sources to cross-check our data. In particular:
+- Wiktionary, https://en.wiktionary.org/ (all characters)
+- Kakijun, https://kakijun.jp/ (Japanese characters)
+- KanjiVG, http://kanjivg.tagaini.net/viewer.html (Japanese characters)
+- ArchChinese, https://www.archchinese.com/chinese_english_dictionary.html (Chinese characters)
+- Taiwanese Minister Of Education, http://stroke-order.learningweb.moe.edu.tw/character.do (Taiwanese characters)
+- OpenCC, https://github.com/BYVoid/OpenCC (correspondence between simplified and traditional Chinese characters)
+- Commons Chinese characters decomposition, https://commons.wikimedia.org/wiki/Commons:Chinese_characters_decomposition (Chinese characters decomposition)
+- CJK Decomposition Data, https://archive.codeplex.com/?p=cjkdecomp (Chinese characters decomposition)
+- Hanzi Yuan, http://hanziyuan.net/ (Chinese characters etymology)
+- Shufa Ai, http://www.shufaai.com/a/zidian/zi/ (Library of images of Chinese charcaters)
 
 ## What is new?
 
@@ -87,8 +153,15 @@ Part of "animated GIF" sample of AnimCJK is derived from a sample of Animated_GI
 - add traditional hanzi for HSK 1 (197 characters),
 - rewrite all the samples,
 - support of browsers that cannot animate SVG properly in samples,
-- various minor shape or stroke order updates.
+- various minor shape or stroke order updates,
+- various other minor updates.
+
+### 2018/12/14:
+- add Infinite sample,
+- various minor updates.
 
 ## Licences
+
+In summary, you can freely redistribute and/or modify the files of this project under the terms of 3 licenses: the Arphic Public License (files prefixed by "graphics" and SVG files excepting those representing Kana), the MIT license (Animated_GIF.js and codePoint.js scripts) and the GNU Lesser General Public License (all other files).
 
 See https://github.com/parsimonhi/animCJK/blob/master/licenses/COPYING.txt for more details about licences concerning this project.

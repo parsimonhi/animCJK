@@ -113,7 +113,7 @@ asvg.acjk="<?php echo $acjk;?>";
 asvg.acjks="<?php echo $acjks;?>";
 function forceReflow()
 {
-	// for all browsers
+	// normal browsers
 	// force a reflow to restart animation
 	var e,s;
 	e=document.querySelector("svg.acjk");

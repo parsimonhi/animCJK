@@ -1,7 +1,8 @@
-// part of this script (makeAnimatedGifFromPngs function) is an adaptation of
-// Animated_GIF project sample
-// see https://github.com/sole/Animated_GIF/blob/master/tests/basic.js
-// other parts were written from scratch
+// Part of this script (makeAnimatedGifFromPngs function) is an adaptation
+// of Animated_GIF project sample called "basic".
+// See https://github.com/sole/Animated_GIF/blob/master/tests/basic.js
+// Other parts were written from scratch.
+
 if (typeof debug=='undefined') debug=0;
 
 function computeOne(a,k,km)

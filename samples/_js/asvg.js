@@ -81,6 +81,16 @@ asvg.getDelay=function(e)
 	return -1; // error
 };
 
+asvg.getDuration=function(e)
+{
+	return asvg.time*0.8/1000;
+}
+
+asvg.setDuration=function(t)
+{
+	asvg.time=t*1000*1.25;
+}
+
 asvg.animeStroke=function(n)
 {
 	var list,k,km;
@@ -226,7 +236,7 @@ asvg.anime=function()
 
 asvg.speed=function(t)
 {
-	asvg.time=t*1000*1.25;
+	asvg.setDuration(t);
 };
 
 asvg.start=function()
@@ -239,7 +249,7 @@ asvg.start=function()
 };
 
 asvg.run=function(a)
-{
+{alert(a);
 	if (a) asvg.action=a;
 	if (asvg.activated<0)
 	{
