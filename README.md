@@ -162,6 +162,9 @@ We used various sources to cross-check our data. In particular:
 
 ## Licences
 
-In summary, you can freely redistribute and/or modify the files of this project under the terms of 3 licenses: the Arphic Public License (files prefixed by "graphics" and SVG files excepting those representing Kana), the MIT license (Animated_GIF.js and codePoint.js scripts) and the GNU Lesser General Public License (all other files).
+In summary, you can freely redistribute and/or modify the files of this project under the terms of 3 licenses:
+- Arphic Public License (files prefixed by "graphics" and SVG files excepting those representing Kana),
+- MIT license (Animated_GIF.js and codePoint.js scripts),
+- GNU Lesser General Public License (all other files).
 
 See https://github.com/parsimonhi/animCJK/blob/master/licenses/COPYING.txt for more details about licences concerning this project.
