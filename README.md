@@ -127,9 +127,9 @@ Part of magicAcjk.js script is derived from Animated_GIF sample called "basic".
 
 See https://github.com/sole/Animated_GIF for more details.
 
-### string.codePointAt and string.fromCodePoint polyfills
+### String.codePointAt and String.fromCodePoint polyfills
 
-We use polyfills for string.codePointAt and string.fromCodePoint functions that are stored in codePoint.js script.
+We use polyfills for String.codePointAt and String.fromCodePoint functions that are stored in codePoint.js script.
 
 These polyfills come from https://github.com/mathiasbynens/String.codePointAt and https://github.com/mathiasbynens/String.fromCodePoint projects.
 
@@ -149,16 +149,16 @@ We used various sources to cross-check our data. In particular:
 
 ## What is new?
 
+### 2018/12/14:
+- add Infinite sample,
+- various minor updates.
+
 ### 2018/12/07:
 - add traditional hanzi for HSK 1 (197 characters),
 - rewrite all the samples,
 - support of browsers that cannot animate SVG properly in samples,
 - various minor shape or stroke order updates,
 - various other minor updates.
-
-### 2018/12/14:
-- add Infinite sample,
-- various minor updates.
 
 ## Licences
 
