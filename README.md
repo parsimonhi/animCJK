@@ -66,9 +66,33 @@ Note: some characters have special versions stored in folders that have the "Spe
 
 ### Basic usage
 
-Just insert a svg file representing a character as is in a HTML page.
+Just insert a svg file representing a character as is in a web page.
 
-For instance, write the code below in a file called simple.php and store it in the samples folder of AnimCJK. Then run simple.php in a browser.
+For instance, you can use php. Write the code below in a file called simple.php and store it in the samples folder of AnimCJK. Then run simple.php in a browser.
+```
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="initial-scale=1.0,user-scalable=yes">
+<style>
+svg.acjk
+{
+	width:256px;
+	height:256px;
+}
+</style>
+<title>Simple usage of AnimCJK</title>
+</head>
+<body>
+<h1>Simple usage of AnimCJK</h1>
+<?php
+include "../svgsJa/20013.svg"; // include 中
+?>
+</body>
+</html>
+```
+Alternately, you can use HTML and Javascript. Write the code below in a file called simple.html and store it in the samples folder of AnimCJK. Then run simple.html in a browser.
 ```
 <!doctype html>
 <html>
@@ -76,12 +100,31 @@ For instance, write the code below in a file called simple.php and store it in t
 <meta charset="UTF-8">
 <meta name="viewport" content="initial-scale=1.0,user-scalable=yes">
 <title>Simple usage of AnimCJK</title>
+<style>
+svg.acjk
+{
+	width:256px;
+	height:256px;
+}
+</style>
 </head>
 <body>
 <h1>Simple usage of AnimCJK</h1>
-<?php
-include "../svgsJa/20013.svg";
-?>
+<div id="svgBox"></div>
+<script>
+function loadSvg()
+{
+	var xhr=new XMLHttpRequest();
+	xhr.onreadystatechange=function()
+	{
+		if ((xhr.readyState==4)&&(xhr.status==200))
+			document.getElementById("svgBox").innerHTML=xhr.responseText;
+    };
+    xhr.open("GET","../svgsJa/20013.svg",true); // get 中
+	xhr.send(null);
+}
+window.addEventListener("load",loadSvg,false);
+</script>
 </body>
 </html>
 ```
