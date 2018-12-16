@@ -87,7 +87,7 @@ svg.acjk
 <body>
 <h1>Simple usage of AnimCJK</h1>
 <?php
-include "../svgsJa/20013.svg"; // include 中
+include "../svgsJa/20013.svg"; // include Japanese 中
 ?>
 </body>
 </html>
@@ -120,7 +120,7 @@ function loadSvg()
 		if ((xhr.readyState==4)&&(xhr.status==200))
 			document.getElementById("svgBox").innerHTML=xhr.responseText;
 	};
-	xhr.open("GET","../svgsJa/20013.svg",true); // get 中
+	xhr.open("GET","../svgsJa/20013.svg",true); // get Japanese 中
 	xhr.send(null);
 }
 window.addEventListener("load",loadSvg,false);
@@ -158,7 +158,7 @@ Even if character shapes have the same look in both Makemeahanzi and AnimCJK pro
 
 ### Arphic PL KaitiM GB and Arphic PL UKai fonts
 
-Makemeahanzi itself makes an extensive use of the Arphic PL KaitiM GB and Arphic PL UKai fonts generously provided by Arphic Technology. See https://apps.ubuntu.com/cat/applications/precise/fonts-arphic-gkai00mp/ and https://apps.ubuntu.com/cat/applications/fonts-arphic-ukai/ for more details about these fonts.
+Makemeahanzi itself makes an extensive use of the Arphic PL KaitiM GB and Arphic PL UKai fonts generously provided by Arphic Technology.
 
 Many characters of AnimCJK are not present in these fonts (especially but not exclusively Japanese characters since these Arphic fonts are designed for Chinese). One used parts of other characters to design these missing characters and/or used various editors (mainly Inkscape and BBEdit) to modify their shape. One didn't extract these characters from other fonts.
 
