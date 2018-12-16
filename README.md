@@ -24,12 +24,6 @@ Take care of compatibility characters such as 勉 (64051.svg) that has in Japane
 
 Each svg can be inserted as is in a web page, or with some modifications using for instance javascript.
 
-## Samples
-
-Several samples are provided to show how to use AnimCJK.
-These samples are stored in the samples folder.
-See also http://gooo.free.fr/animCJK/official/samples
-
 ## Decomposition system
 
 Character decompositions using a specific system to AnimCJK called "acjk" are stored in dictionaryJa.txt, dictionaryZhHans.txt and dictionaryZhHant.txt.
@@ -58,9 +52,9 @@ To animate a character, AnimCJK uses the following method: the character shape i
 
 If several characters are inserted in the same page, and if one need to animate them one after the other, one has to modify the animation-delay in the css of the svg. If a character is displayed several times in the same page, one also need to modify the id of its elements. This can be done using javascript. Alternately, one can encapsulate each svg in an iframe.
 
-Note: some kanas (those which have a stroke overlapping on itself as あ, ぬ etc.) are special. The stroke which overlaps is split in several parts. So automatic procedures on these characters require some specific codes.
+Note: some kana (those which have a stroke overlapping on itself as あ, ぬ etc.) are special. The stroke which overlaps is split in several parts. So automatic procedures on these characters require some specific codes.
 
-Note: some characters have special versions stored in folders that have the "Special" suffix. These versions have some strokes split in several parts in order to be able to show the radical of characters like 由, 甲, etc. See "Radical" sample to see how it works.
+Note: some characters have special versions stored in folders that have the "Special" suffix. These versions have some strokes split in several parts in order to be able to show the radical of characters like 由, 甲, etc. See "Radical" sample to see how it works. If you don't intend to show the radical of characters in a different color when drawing a character, you don't need to use these special versions.
 
 ## Usage
 
@@ -130,6 +124,10 @@ window.addEventListener("load",loadSvg,false);
 ```
 ### Other usages
 
+Several samples are provided to show how to use AnimCJK.
+These samples are stored in the samples folder.
+See also http://gooo.free.fr/animCJK/official/samples
+
 Using php, javascript or any other languages, you can easily modify svg files in order to change size of characters, colors, animation duration, etc.
 - to insert several characters in the same page, see animeSeveral.html.
 - to change colors of a character, see color.php and red.php.
@@ -154,13 +152,13 @@ This project is derived from the remarquable Makemeahanzi project which is desig
 - many character shapes were just slightly modified to look prettier.
 - some commonly used (but not frequently used) Chinese characters have no entry in Makemeahanzi. 
 
-Even if character shapes have the same look in both Makemeahanzi and AnimCJK project, the svg files are different: the css is different, the svg structure is different, the stroke shape paths are different, the median paths are different. However, for people who would like to re-import characters from AnimCJK to Makemeahanzi, text files are provided (graphicsJa.txt, graphicsZhHans.txt, etc.) that have the same format as the graphics.txt file of Makemeahanzi. So from these files, it is easy to generate SVG files in the format used by Makemeahanzi.
+Even if character shapes have the same look in both Makemeahanzi and AnimCJK project, the svg files are different: the css is different, the svg structure is different, the coordinate system is different, the stroke paths are different, the median paths are different. However, for people who would like to re-import characters from AnimCJK to Makemeahanzi, text files are provided (graphicsJa.txt, graphicsZhHans.txt, etc.) that have the same format as the graphics.txt file of Makemeahanzi. So it is easy to generate SVG files in the format used by Makemeahanzi using AnimCJK data.
 
 ### Arphic PL KaitiM GB and Arphic PL UKai fonts
 
 Makemeahanzi itself makes an extensive use of the Arphic PL KaitiM GB and Arphic PL UKai fonts generously provided by Arphic Technology.
 
-Many characters of AnimCJK are not present in these fonts (especially but not exclusively Japanese characters since these Arphic fonts are designed for Chinese). One used parts of other characters to design these missing characters and/or used various editors (mainly Inkscape and BBEdit) to modify their shape. One didn't extract these characters from other fonts.
+Many characters of AnimCJK are not present in these fonts (especially but not exclusively Japanese characters since these Arphic fonts are designed for Chinese). One used parts of other characters to design these missing characters and/or used various editors (mainly Inkscape and BBEdit) to modify their shape. One didn't use any other fonts to make these characters.
 
 ### Animated_GIF
 
@@ -168,17 +166,17 @@ Animated_GIF.js script comes from Animated_GIF project.
 
 Part of magicAcjk.js script is derived from Animated_GIF sample called "basic".
 
-See https://github.com/sole/Animated_GIF for more details.
+See https://github.com/sole/Animated_GIF for more details about Animated_GIF project.
 
 ### String.codePointAt and String.fromCodePoint polyfills
 
-Some scripts use polyfills for String.codePointAt and String.fromCodePoint functions that are stored in codePoint.js script.
+Some scripts use polyfills for String.codePointAt and String.fromCodePoint functions. These polyfills are stored in codePoint.js script.
 
 These polyfills come from https://github.com/mathiasbynens/String.codePointAt and https://github.com/mathiasbynens/String.fromCodePoint projects.
 
-### Other works
+### References
 
-We used various sources as references or to cross-check our data. In particular:
+We used various sources as references to cross-check our data. In particular:
 - Wiktionary, https://en.wiktionary.org/ (all characters)
 - Kakijun, https://kakijun.jp/ (Japanese characters)
 - KanjiVG, http://kanjivg.tagaini.net/viewer.html (Japanese characters)
@@ -192,7 +190,13 @@ We used various sources as references or to cross-check our data. In particular:
 - Hanzi Yuan, http://hanziyuan.net/ (Chinese characters etymology)
 - Shufa Ai, http://www.shufaai.com/a/zidian/zi/ (various images of Chinese characters)
 
+### Other works
+- How SVG Line Animation Works, https://css-tricks.com/svg-line-animation-works/
+
 ## What is new?
+
+2018/12/16:
+- various shape and stroke order updates
 
 2018/12/14:
 - add Infinite sample,
