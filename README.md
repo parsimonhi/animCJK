@@ -24,38 +24,6 @@ Take care of compatibility characters such as 勉 (64051.svg) that has in Japane
 
 Each svg can be inserted as is in a web page, or with some modifications using for instance javascript.
 
-## Decomposition system
-
-Character decompositions using a specific system to AnimCJK called "acjk" are stored in dictionaryJa.txt, dictionaryZhHans.txt and dictionaryZhHant.txt.
-
-An "acjk" decomposition starts with a character, followed by its number of stroke (which indicates that the character is not decomposed), or followed by an ideographic description character (which indicates that the character is decomposed).
-The ideographic description character is followed by several component decompositions (3 for "⿲" and "⿳", 2 for ⿰","⿱","⿴","⿵","⿶","⿷","⿸","⿹","⿺" and "⿻).
-If a component has no corresponding character to represent it, its decomposition just starts with the ideographic description character.
-If a component has no corresponding character to represent it and no decomposition, its decomposition starts by a "?" followed by its number of stroke.
-A component may be represented by a character that has more strokes than it, followed by the decomposition of the component instead of the representing character.
-A component may be represented by a character that has a different glyph, but is semantically the same as the component.
-Special case 1: when a component is also the radical of the main character, a special mark is inserted just after the component character (actually a ".").
-Special case 2: sometimes, a component is split in several parts (when some strokes of other components are drawn "between" its parts). In such a case, each part is represented by a specific decomposition starting with the component character which is split, followed by a special mark (actually a ":"), followed by the decomposition of this part.
-When there is more than one special mark, the radical special mark is inserted first.
-It is mandatory to decompose a component which contains the radical of the main character. It is optional to decompose other components.
-If a character has several possible decompositions, just concatenate them.
-
-## Plugin for Wordpress
-
-A plugin for Wordpress to insert animated kanji in a webpage using BBCode can be downloaded at:
-
-http://gooo.free.fr/animCJK/animkanji_wp_plugin_page.php
-
-## Technical details
-
-To animate a character, AnimCJK uses the following method: the character shape is split in several paths (one per stroke). These paths are used as clip-path, and dashed lines are drawn over these paths. The space between two dashes is large enough to cover the whole path. Initially, the path is covered by a space of the dashed line. Using a css animation, one moves the position of the dashed line. As a result, one has the impression that the strokes are drawn gradually.
-
-If several characters are inserted in the same page, and if one need to animate them one after the other, one has to modify the animation-delay in the css of the svg. If a character is displayed several times in the same page, one also need to modify the id of its elements. This can be done using javascript. Alternately, one can encapsulate each svg in an iframe.
-
-Note: some kana (those which have a stroke overlapping on itself as あ, ぬ etc.) are special. The stroke which overlaps is split in several parts. So automatic procedures on these characters require some specific codes.
-
-Note: some characters have special versions stored in folders that have the "Special" suffix. These versions have some strokes split in several parts in order to be able to show the radical of characters like 由, 甲, etc. See "Radical" sample to see how it works. If you don't intend to show the radical of characters in a different color when drawing a character, you don't need to use these special versions.
-
 ## Usage
 
 ### Basic usage
@@ -141,6 +109,38 @@ See other samples for more usages.
 Some browsers (notably Microsoft browsers) cannot animate svg properly. A workaround for these browsers is provided with the samples.
 
 However, the market share of these browsers is constantly decreasing. So it is conceivable (in 2018) to remove this workaround to simplify your code. 
+
+## Technical details
+
+To animate a character, AnimCJK uses the following method: the character shape is split in several paths (one per stroke). These paths are used as clip-path, and dashed lines are drawn over these paths. The space between two dashes is large enough to cover the whole path. Initially, the path is covered by a space of the dashed line. Using a css animation, one moves the position of the dashed line. As a result, one has the impression that the strokes are drawn gradually.
+
+If several characters are inserted in the same page, and if one need to animate them one after the other, one has to modify the animation-delay in the css of the svg. If a character is displayed several times in the same page, one also need to modify the id of its elements. This can be done using javascript. Alternately, one can encapsulate each svg in an iframe.
+
+Note: some kana (those which have a stroke overlapping on itself as あ, ぬ etc.) are special. The stroke which overlaps is split in several parts. So automatic procedures on these characters require some specific codes.
+
+Note: some characters have special versions stored in folders that have the "Special" suffix. These versions have some strokes split in several parts in order to be able to show the radical of characters like 由, 甲, etc. See "Radical" sample to see how it works. If you don't intend to show the radical of characters in a different color when drawing a character, you don't need to use these special versions.
+
+## Decomposition system
+
+Character decompositions using a specific system to AnimCJK called "acjk" are stored in dictionaryJa.txt, dictionaryZhHans.txt and dictionaryZhHant.txt.
+
+An "acjk" decomposition starts with a character, followed by its number of stroke (which indicates that the character is not decomposed), or followed by an ideographic description character (which indicates that the character is decomposed).
+The ideographic description character is followed by several component decompositions (3 for "⿲" and "⿳", 2 for ⿰","⿱","⿴","⿵","⿶","⿷","⿸","⿹","⿺" and "⿻).
+If a component has no corresponding character to represent it, its decomposition just starts with the ideographic description character.
+If a component has no corresponding character to represent it and no decomposition, its decomposition starts by a "?" followed by its number of stroke.
+A component may be represented by a character that has more strokes than it, followed by the decomposition of the component instead of the representing character.
+A component may be represented by a character that has a different glyph, but is semantically the same as the component.
+Special case 1: when a component is also the radical of the main character, a special mark is inserted just after the component character (actually a ".").
+Special case 2: sometimes, a component is split in several parts (when some strokes of other components are drawn "between" its parts). In such a case, each part is represented by a specific decomposition starting with the component character which is split, followed by a special mark (actually a ":"), followed by the decomposition of this part.
+When there is more than one special mark, the radical special mark is inserted first.
+It is mandatory to decompose a component which contains the radical of the main character. It is optional to decompose other components.
+If a character has several possible decompositions, just concatenate them.
+
+## Plugin for Wordpress
+
+A plugin for Wordpress to insert animated kanji in a webpage using BBCode can be downloaded at:
+
+http://gooo.free.fr/animCJK/animkanji_wp_plugin_page.php
 
 ## Related works
 
