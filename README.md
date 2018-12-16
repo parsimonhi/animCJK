@@ -105,7 +105,7 @@ However, the market share of these browsers is constantly decreasing. So it is c
 
 ### Makemeahanzi
 
-This project is derived from the remarquable Makemeahanzi project which is designed to display Chinese characters. See https://github.com/skishore/makemeahanzi for more details. Many characters were modified or added in AnimCJK (between two or three thousand at the moment) for various reasons:
+This project is derived from the remarquable Makemeahanzi project which is designed to display Chinese characters. See https://github.com/skishore/makemeahanzi for more details. Many characters were modified or added in AnimCJK (between three or four thousand at the moment) for various reasons:
 - many Japanese characters have a different stroke order, or have a different glyph, or have a different stroke direction or are not commonly used in Chinese, and therefore have no entry in Makemeahanzi.
 - many Chinese traditional characters have a different stroke order, or have a different glyph, or have a different stroke direction or have no entry in Makemeahanzi.
 - many character shapes were just slightly modified to look prettier.
@@ -129,18 +129,20 @@ See https://github.com/sole/Animated_GIF for more details.
 
 ### String.codePointAt and String.fromCodePoint polyfills
 
-We use polyfills for String.codePointAt and String.fromCodePoint functions that are stored in codePoint.js script.
+Some scripts use polyfills for String.codePointAt and String.fromCodePoint functions that are stored in codePoint.js script.
 
 These polyfills come from https://github.com/mathiasbynens/String.codePointAt and https://github.com/mathiasbynens/String.fromCodePoint projects.
 
 ### Other works
 
-We used various sources to cross-check our data. In particular:
+We used various sources as references or to cross-check our data. In particular:
 - Wiktionary, https://en.wiktionary.org/ (all characters)
 - Kakijun, https://kakijun.jp/ (Japanese characters)
 - KanjiVG, http://kanjivg.tagaini.net/viewer.html (Japanese characters)
 - ArchChinese, https://www.archchinese.com/chinese_english_dictionary.html (Chinese characters)
-- Taiwanese Minister Of Education, http://stroke-order.learningweb.moe.edu.tw/character.do (Taiwanese characters)
+- Taiwanese Minister Of Education, http://stroke-order.learningweb.moe.edu.tw/character.do (Chinese characters used in Taiwan)
+- Hong-Kong Education Bureau, https://www.edbchinese.hk/lexlist_en/ (Chinese characters used in Hong-Kong)
+- Naver Hanja Dictionary, https://hanja.dict.naver.com/ (Korean characters)
 - OpenCC, https://github.com/BYVoid/OpenCC (correspondence between simplified and traditional Chinese characters)
 - Commons Chinese characters decomposition, https://commons.wikimedia.org/wiki/Commons:Chinese_characters_decomposition (Chinese characters decomposition)
 - CJK Decomposition Data, https://archive.codeplex.com/?p=cjkdecomp (Chinese characters decomposition)
