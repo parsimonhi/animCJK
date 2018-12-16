@@ -119,8 +119,8 @@ function loadSvg()
 	{
 		if ((xhr.readyState==4)&&(xhr.status==200))
 			document.getElementById("svgBox").innerHTML=xhr.responseText;
-    };
-    xhr.open("GET","../svgsJa/20013.svg",true); // get 中
+	};
+	xhr.open("GET","../svgsJa/20013.svg",true); // get 中
 	xhr.send(null);
 }
 window.addEventListener("load",loadSvg,false);
