@@ -52,30 +52,50 @@ function forceReflow()
 	e.innerHTML="";
 	e.innerHTML=s;
 }
-function setDuration(e,t)
+function getDelay(e)
 {
 	// normal browsers
-	var a;
+	var a,m;
 	a=e.getAttributeNS(null,"style");
-	// remember the 1st time, there is no --t in style attribute
-	a=a.replace(/--t:[^;]+;/,""); // work even if no --t in style attribute
-	a=a.replace(/--d:([^;]+);/,"--d:$1;--t:"+t+"s;");
-	e.setAttributeNS(null,"style",a);
+	if (a&&(m=a.match(/--d:([^;]+);/))) return Math.max(parseFloat(m[1]),0.01);
+	return 0.01;
+}
+function setDuration(e,t,r)
+{
+	// normal browsers
+	var a,m,d;
+	a=e.getAttributeNS(null,"style");
+	if (a&&(m=a.match(/--d:([^;]+);/)))
+	{
+		d=Math.max(parseFloat(m[1]),0.01);
+		// remember the 1st time, there is no --t in style attribute
+		a=a.replace(/--t:[^;]+;/,""); // work even if no --t in style attribute
+		a=a.replace(/--d:[^;]+;/,"--d:"+(d*r)+"s;--t:"+t+"s;");
+		e.setAttributeNS(null,"style",a);
+	}
 }
 function speed(new_t)
 {
 	// normal browsers
-	var list,k,km;
+	var list,k,km,t,r,ex_t;
 	list=document.querySelectorAll("svg.acjk path:not([id])");
 	if (list&&(km=list.length))
-		for(k=0;k<km;k++) setDuration(list[k],new_t);
+	{
+		ex_t=getDelay(list[0]);
+		t=new_t*0.8;
+		r=new_t/ex_t;
+		for(k=0;k<km;k++) setDuration(list[k],t,r);
+	}
 }
 function restartAnime()
 {
 	// all browsers
-	var new_t;
-	new_t=parseFloat(document.getElementById("speedInput").value)*0.8;
-	if (!new_t||(new_t<0.00001)) new_t=0.00001;
+	var new_t,ex_t;
+	// new_t will be the delay for the first stroke
+	// other delays will be changed accordingly
+	// force new_t to be at least 0.01s
+	new_t=parseFloat(document.getElementById("speedInput").value);
+	if (!new_t||(new_t<0.01)) new_t=0.01;
 	if (asvg.activated>0) asvg.speed(new_t); // pitiful browser
 	else speed(new_t); // normal browser
 	if (asvg.activated>0) asvg.run('one'); // pitiful browser

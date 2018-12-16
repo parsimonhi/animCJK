@@ -52,11 +52,18 @@ function restartAnime()
 	if (asvg.activated>0) asvg.run('one'); // pitiful browser
 	else forceReflow(); // normal browser
 }
+function infiniteAnime1(d,t)
+{
+	// all browsers
+	restartAnime();
+	setInterval(restartAnime,(d+2*t*1.25)*1000);
+}
 function infiniteAnime()
 {
 	// all browsers
-	if (asvg.activated<0) {setTimeout(infiniteAnime,50);return;}
 	var List,k,km,d,t;
+	if (asvg.activated<0) {setTimeout(infiniteAnime,50);return;}
+	km=0;
 	if (asvg.activated>0) // pitiful browser
 	{
 		List=document.querySelectorAll("svg.acjk path[class='median']");
@@ -65,7 +72,6 @@ function infiniteAnime()
 		{
 			d=asvg.getDelay(List[km-1]);
 			t=asvg.getDuration(List[km-1]);
-			setInterval(restartAnime,(d+2*t*1.25)*1000);
 		}
 	}
 	else // normal browser
@@ -76,9 +82,10 @@ function infiniteAnime()
 		{
 			d=getDelay(List[km-1]);
 			t=getDuration(List[km-1]);
-			setInterval(restartAnime,(d+2*t*1.25)*1000);
 		}
 	}
+	// delay of 1st loop shorter than the following 
+	if (km) setTimeout("infiniteAnime1("+d+","+t+")",(d+t*1.25)*1000);
 }
 window.addEventListener("load",function(){asvg.run('one');},false); // pitiful browser
 window.addEventListener("load",function(){infiniteAnime();},false); // all browser

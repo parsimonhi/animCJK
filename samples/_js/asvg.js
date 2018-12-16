@@ -28,7 +28,7 @@ asvg.init=function()
 {
 	// detect if the browser started the animation
 	// two cases: browser cannot animate svg (many?) or can animate poorly svg (edge?)
-	var s,d,list,k,km;
+	var s,d,list,k,km,c;
 	// clip-path attribute still exists here
 	list=document.querySelectorAll("svg.acjk path[clip-path]");
 	if (list&&(km=list.length))
@@ -37,10 +37,15 @@ asvg.init=function()
 		d=parseInt(s.getPropertyValue("stroke-dashoffset"));
 		if (d==3339)
 		{
-			// stroke-dashoffset is still 3339 => animation not done or poorly done
-			asvg.activated=1;	
+			// stroke-dashoffset is still 3339 => animation not started
+			asvg.activated=1; // pitiful browser
 		}
-		else asvg.activated=0;
+		else if (window.navigator.userAgent.indexOf("Edge")>-1)
+		{
+			// edge starts the animation, but displays nothing
+			asvg.activated=1; // pitiful browser
+		}
+		else asvg.activated=0; // normal browser
 	}
 	// asvg.activated=1; // for testing only
 };
@@ -236,7 +241,7 @@ asvg.anime=function()
 
 asvg.speed=function(t)
 {
-	asvg.setDuration(t);
+	asvg.setDuration(t*0.8);
 };
 
 asvg.start=function()

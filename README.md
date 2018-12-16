@@ -198,7 +198,8 @@ We used various sources to cross-check our data. In particular:
 ## What is new?
 
 2018/12/16:
-- various shape and stroke order updates
+- remove css calc() from svg files (poorly supported),
+- various shape and stroke order updates.
 
 2018/12/14:
 - add Infinite sample,

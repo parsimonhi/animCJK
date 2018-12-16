@@ -210,7 +210,7 @@ svg.error {font-size:256px;}
 svg.acjk path[clip-path]
 {
 	--t:0.8s;
-	animation:zk var(--t) linear forwards calc(var(--d) * 1.25 * var(--t));
+	animation:zk var(--t) linear forwards var(--d);
 	stroke-dasharray:3337;
 	stroke-dashoffset:3339;
 	stroke-width:128;
@@ -400,7 +400,9 @@ function ok()
 	// remove zero length characters if any
 	// happen frequently after a copy-paste from bottom char lists
 	a.value=a.value.replace(/​/g,"");
-	// todo: reduce a.value to one char (take care that characters may be not in the BMP)
+	// todo: reduce a.value to one char
+	// remember that chars may be not in the BMP
+	// remember that the user can use an IME and enter several latin chars
 	data=a.value;
 	xhr=new XMLHttpRequest();
 	xhr.onreadystatechange=function()

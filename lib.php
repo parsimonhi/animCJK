@@ -530,7 +530,7 @@ function buildSvg($a)
 	$s.="}\n";
 	$s.="svg.acjk path[clip-path] {\n";
 	$s.="\t--t:0.8s;\n";
-	$s.="\tanimation:zk var(--t) linear forwards calc(var(--d) * 1.25 * var(--t));\n";
+	$s.="\tanimation:zk var(--t) linear forwards var(--d);\n";
 	$s.="\tstroke-dasharray:3337;\n"; // more than pathLength + 1
 	$s.="\tstroke-dashoffset:3339;\n"; // less than 2 * strokeDasharray - pathLength
 	$s.="\tstroke-width:128;\n"; // acjk.strokeWidthMax + 8 or 16?
@@ -575,7 +575,7 @@ function buildSvg($a)
 		$z="";
 		foreach($m as $point) $z.=($z?"L":"M").$point[0]." ".$point[1];
 		if (!isset($_GET["t"])||($_GET["t"]==1)) $z=transformPathFromGraphics($z);
-		$s.="<path style=\"--d:".$k.";\" pathLength=\"3333\" clip-path=\"url(#".$id."c".$k.")\" d=\"".$z."\"/>\n";
+		$s.="<path style=\"--d:".$k."s;\" pathLength=\"3333\" clip-path=\"url(#".$id."c".$k.")\" d=\"".$z."\"/>\n";
 	}
 	
 	$s.="</svg>";

@@ -248,7 +248,7 @@ function setAnimation(iframe)
 				{
 					delayK=getDelay(list[k]);
 					style=list[k].getAttributeNS(null,'style');
-					style=style.replace(/--d:[0-9.]+;/,"--d:"+(delay+delayK)+";");
+					style=style.replace(/--d:[^;]+;/,"--d:"+(delay+delayK)+"s;");
 					list[k].setAttributeNS(null,'style',style);
 					list[k].setAttributeNS(null,"data-d",(delay+delayK)+'');
 				}

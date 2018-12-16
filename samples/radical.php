@@ -82,7 +82,7 @@ function isRadicalStroke($n,$d)
 $km=getNumOfStroke($s);
 for ($k=0;$k<$km;$k++)
 {
-	$p="/<path style=\"--d:([0-9]+);\"/u";
+	$p="/<path style=\"--d:([^;]+);\"/u";
 	// manage special decomposition when some strokes are split to show the radical
 	// normal decomposition is in $acjk, special decomposition is in $acjks
 	// special characters are for instance 由, 甲, 申 ...

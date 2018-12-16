@@ -16,7 +16,7 @@ these files; if not, see <http://www.gnu.org/licenses/>.
 }
 svg.acjk path[clip-path] {
 	--t:0.8s;
-	animation:zk var(--t) linear forwards calc(var(--d) * 1.25 * var(--t));
+	animation:zk var(--t) linear forwards var(--d);
 	stroke-dasharray:3337;
 	stroke-dashoffset:3339;
 	stroke-width:128;
@@ -31,5 +31,5 @@ svg.acjk path[id] {fill:#ccc;}
 <defs>
 	<clipPath id="z12402c1"><use xlink:href="#z12402d1"/></clipPath>
 </defs>
-<path style="--d:1;" pathLength="3333" clip-path="url(#z12402c1)" d="M 160,236 269,239 386,182 417,200 225,544 203,758 312,875 553,805 653,536 689,176 907,614"/>
+<path style="--d:1s;" pathLength="3333" clip-path="url(#z12402c1)" d="M 160,236 269,239 386,182 417,200 225,544 203,758 312,875 553,805 653,536 689,176 907,614"/>
 </svg>
