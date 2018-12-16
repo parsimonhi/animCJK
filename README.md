@@ -112,9 +112,9 @@ However, the market share of these browsers is constantly decreasing. So it is c
 
 ## Technical details
 
-To animate a character, AnimCJK uses the following method: the character shape is split in several paths (one per stroke). These paths are used as clip-path, and dashed lines are drawn over these paths. The space between two dashes is large enough to cover the whole path. Initially, the path is covered by a space of the dashed line. Using a css animation, one moves the position of the dashed line. As a result, one has the impression that the strokes are drawn gradually.
+To animate a character, AnimCJK uses the following method: the character shape is split in several paths (one per stroke). These paths (called "stroke" paths) are used as clip-path, and dashed lines (called "median" paths) are drawn over these paths. The space between two dashes is large enough to cover the whole path. Initially, the path is covered by a space of the dashed line. Using a css animation, one moves the position of the dashed line. As a result, one has the impression that the strokes are drawn gradually. See https://css-tricks.com/svg-line-animation-works/ for more details.
 
-If several characters are inserted in the same page, and if one need to animate them one after the other, one has to modify the animation-delay in the css of the svg. If a character is displayed several times in the same page, one also need to modify the id of its elements. This can be done using javascript. Alternately, one can encapsulate each svg in an iframe.
+If several characters are inserted in the same page (for instance if one want to display "一二三"), and if one need to animate them one after the other, one has to modify the animation-delay in the css of the svg. If a character is displayed several times in the same page (for instance if one want to display "谢谢"), one also need to modify the id of its elements. This can be done using javascript. Alternately, one can encapsulate each svg in an iframe.
 
 Note: some kana (those which have a stroke overlapping on itself as あ, ぬ etc.) are special. The stroke which overlaps is split in several parts. So automatic procedures on these characters require some specific codes.
 
@@ -122,7 +122,7 @@ Note: some characters have special versions stored in folders that have the "Spe
 
 ## Decomposition system
 
-Character decompositions using a specific system to AnimCJK called "acjk" are stored in dictionaryJa.txt, dictionaryZhHans.txt and dictionaryZhHant.txt.
+To display components of a character in different colors, a specific decomposition system to AnimCJK called "acjk" can be used. "acjk" decompositions are stored in dictionaryJa.txt, dictionaryZhHans.txt, etc.
 
 An "acjk" decomposition starts with a character, followed by its number of stroke (which indicates that the character is not decomposed), or followed by an ideographic description character (which indicates that the character is decomposed).
 The ideographic description character is followed by several component decompositions (3 for "⿲" and "⿳", 2 for ⿰","⿱","⿴","⿵","⿶","⿷","⿸","⿹","⿺" and "⿻).
@@ -176,7 +176,7 @@ These polyfills come from https://github.com/mathiasbynens/String.codePointAt an
 
 ### References
 
-We used various sources as references to cross-check our data. In particular:
+We used various sources to cross-check our data. In particular:
 - Wiktionary, https://en.wiktionary.org/ (all characters)
 - Kakijun, https://kakijun.jp/ (Japanese characters)
 - KanjiVG, http://kanjivg.tagaini.net/viewer.html (Japanese characters)
@@ -190,7 +190,7 @@ We used various sources as references to cross-check our data. In particular:
 - Hanzi Yuan, http://hanziyuan.net/ (Chinese characters etymology)
 - Shufa Ai, http://www.shufaai.com/a/zidian/zi/ (various images of Chinese characters)
 
-### Other works
+### Miscellaneous
 - How SVG Line Animation Works, https://css-tricks.com/svg-line-animation-works/
 
 ## What is new?
