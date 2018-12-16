@@ -152,7 +152,7 @@ This project is derived from the remarquable Makemeahanzi project which is desig
 - many character shapes were just slightly modified to look prettier.
 - some commonly used (but not frequently used) Chinese characters have no entry in Makemeahanzi. 
 
-Even if character shapes have the same look in both Makemeahanzi and AnimCJK project, the svg files are different: the css is different, the svg structure is different, the coordinate system is different, the stroke paths are different, the median paths are different. However, for people who would like to re-import characters from AnimCJK to Makemeahanzi, text files are provided (graphicsJa.txt, graphicsZhHans.txt, etc.) that have the same format as the graphics.txt file of Makemeahanzi. So it is easy to generate SVG files in the format used by Makemeahanzi using AnimCJK data.
+Even if character shapes have the same look in both Makemeahanzi and AnimCJK, the svg files are different: the css is different, the svg structure is different, the coordinate system is different, the stroke paths are different, the median paths are different. However, for people who would like to re-import characters from AnimCJK to Makemeahanzi, text files are provided (graphicsJa.txt, graphicsZhHans.txt, etc.) that have the same format as the graphics.txt file of Makemeahanzi. So it is easy to generate SVG files in the format used by Makemeahanzi using AnimCJK data.
 
 ### Arphic PL KaitiM GB and Arphic PL UKai fonts
 
@@ -162,6 +162,8 @@ Many characters of AnimCJK are not present in these fonts (especially but not ex
 
 ### Animated_GIF
 
+Some samples use Animated_GIF.js script.
+
 Animated_GIF.js script comes from Animated_GIF project.
 
 Part of magicAcjk.js script is derived from Animated_GIF sample called "basic".
@@ -170,7 +172,7 @@ See https://github.com/sole/Animated_GIF for more details about Animated_GIF pro
 
 ### String.codePointAt and String.fromCodePoint polyfills
 
-Some scripts use polyfills for String.codePointAt and String.fromCodePoint functions. These polyfills are stored in codePoint.js script.
+Some javascript scripts use polyfills for String.codePointAt and String.fromCodePoint functions. These polyfills are stored in codePoint.js script.
 
 These polyfills come from https://github.com/mathiasbynens/String.codePointAt and https://github.com/mathiasbynens/String.fromCodePoint projects.
 
