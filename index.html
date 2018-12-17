@@ -400,10 +400,10 @@ function ok()
 	// remove zero length characters if any
 	// happen frequently after a copy-paste from bottom char lists
 	a.value=a.value.replace(/​/g,"");
-	// todo: reduce a.value to one char
+	// reduce a.value to one char
 	// remember that chars may be not in the BMP
 	// remember that the user can use an IME and enter several latin chars
-	data=a.value;
+	data=String.fromCodePoint(a.value.codePointAt(0));
 	xhr=new XMLHttpRequest();
 	xhr.onreadystatechange=function()
 	{
