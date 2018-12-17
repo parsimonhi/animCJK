@@ -231,8 +231,9 @@ function cleanData(e)
 	// \u200B-\u200D\uFEFF are the zero-length characters
 	data=data.replace(/[0-9+*.:?!\s\u200B-\u200D\uFEFF]/g,'');
 	// keep only the 1st character
-	// disable this feature because it disturbs asian language IME
-	// if (data.length) data=String.fromCodePoint(data.codePointAt(0));
+	// don't put this function as oninput function of input element
+	// because it disturbs asian language IME
+	if (data.length) data=String.fromCodePoint(data.codePointAt(0));
 	e.value=data;
 }
 function setNumber(x)
@@ -392,18 +393,10 @@ function scrollToOk()
 }
 function ok()
 {
-	var a,data,xhr,xhr2,lang;
+	var data,xhr,xhr2,lang;
 	scrollToOk();
-    a=document.getElementById("data");
-    // remove space
-	a.value=a.value.replace(/\s/g,"");
-	// remove zero length characters if any
-	// happen frequently after a copy-paste from bottom char lists
-	a.value=a.value.replace(/​/g,"");
-	// reduce a.value to one char
-	// remember that chars may be not in the BMP
-	// remember that the user can use an IME and enter several latin chars
-	data=String.fromCodePoint(a.value.codePointAt(0));
+	cleanData(document.getElementById("data"));
+	data=document.getElementById("data").value;
 	xhr=new XMLHttpRequest();
 	xhr.onreadystatechange=function()
 	{
@@ -489,7 +482,7 @@ function switchSize(fs)
 <label><input id="fs512" type="radio"  name="sectionSize" onclick="switchSize(512)"> 512 px</label>
 <label><input id="fs1024" type="radio"  name="sectionSize" onclick="switchSize(1024)"> 1024 px</label>
 </div>
-<input id="data" lang="ja" type="text" value="" maxlength="6" placeholder="Enter data here" oninput="cleanData(this)">
+<input id="data" lang="ja" type="text" value="" maxlength="23" placeholder="Enter data here">
 <p class="important instruction"><span class="very-important">Enter only one character</span> in the data field above or
 <span class="very-important">click on a character</span> in the lists
 at the bottom of the page.</p>

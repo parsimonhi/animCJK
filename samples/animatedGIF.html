@@ -94,6 +94,7 @@ function ok()
 	else {status(msg[0]);return;}
 	setSection();
     // get data from the input field
+    cleanData(document.getElementById("data"));
 	data=document.getElementById("data").value;
 	if (!data)
 	{
@@ -165,7 +166,7 @@ function doIt(e)
 <label><input id="zhHansRadio" type="radio" name="sectionSwitch" onclick="switchSection()"> Simplifed Chinese (HSK hanzi)</label>
 <label><input id="zhHantRadio" type="radio" name="sectionSwitch" onclick="switchSection()"> Traditional Chinese (HSK hanzi)</label>
 </div>
-<input id="data" type="text" value="" placeholder="Enter data here" oninput="cleanData(this)">
+<input id="data" type="text" value="" maxlength="23" placeholder="Enter data here">
 <input id="ok" type="button" value="Run" onclick="ok()">
 </div>
 <p id="status">Enter a character in the text input above or click on it in the list below!</p>
