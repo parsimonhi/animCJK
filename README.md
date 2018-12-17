@@ -1,5 +1,7 @@
 # AnimCJK
 
+![nichi](samples/_img/日-jred.png)![zhong](samples/_img/中-red.png)
+
 ## Description
 
 The purpose of this project is to display kanji and kana (Japanese characters) or hanzi (simplified and traditional Chinese characters) stroke by stroke.
