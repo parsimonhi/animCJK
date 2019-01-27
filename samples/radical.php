@@ -123,8 +123,8 @@ function forceReflow()
 }
 function restartAnime()
 {
-	if (asvg.activated>0) asvg.run('radical'); // pitiful browser
-	else forceReflow(); // normal browser
+	if (asvg.activated>0) {asvg.run('radical');return;} // pitiful browser
+	forceReflow(); // normal browser
 }
 window.addEventListener("load",function(){asvg.run('radical');},false); // pitiful browser
 </script>

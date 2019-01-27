@@ -42,8 +42,8 @@ function forceReflow()
 }
 function restartAnime()
 {
-	if (asvg.activated>0) asvg.run('color'); // pitiful browser
-	else forceReflow(); // normal browser
+	if (asvg.activated>0) {asvg.run('color');return;} // pitiful browser
+	forceReflow(); // normal browser
 }
 window.addEventListener("load",function(){asvg.run('color');},false); // pitiful browser
 </script>

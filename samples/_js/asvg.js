@@ -1,4 +1,4 @@
-// AnimCJK 2016-2018 Copyright Francois Mizessyn - https://github.com/parsimonhi/animCJK
+// AnimCJK 2016-2019 Copyright Francois Mizessyn - https://github.com/parsimonhi/animCJK
 // LGPL license
 // ----
 // pitiful hack for pitiful browser that cannot animate svg properly using css

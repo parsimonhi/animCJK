@@ -78,13 +78,25 @@ function cleanPathBeforeBrushing(d)
 	d=d.replace(/([0-9])-/g,"$1 -");
 	d=d.replace(/\.[0-9]+/g,"");
 	d=d.replace(/z/,"Z");
-	d=d.replace(/\s?([MQCLZ])\s?/g,"$1");
+	d=d.replace(/\s?([MQCLVHZ])\s?/g,"$1");
 	// add C if omitted
 	q=/(C([0-9-]+\s){5}[0-9-]+)\s/;
 	while (d.match(q)) d=d.replace(q,"$1C");
 	// add Q if omitted
 	q=/(Q([0-9-]+\s){3}[0-9-]+)\s/;
 	while (d.match(q)) d=d.replace(q,"$1Q");
+	// add V if omitted
+	q=/(V[0-9-]+)\s/;
+	while (d.match(q)) d=d.replace(q,"$1V");
+	// add H if omitted
+	q=/(H[0-9-]+)\s/;
+	while (d.match(q)) d=d.replace(q,"$1H");
+	// transform V in L
+	q=/([0-9-]+)(\s[0-9-]+)V([0-9-]+)/;
+	while (d.match(q)) d=d.replace(q,"$1$2L$1 $3");
+	// transform H in L
+	q=/([0-9-]+\s)([0-9-]+)H([0-9-]+)/;
+	while (d.match(q)) d=d.replace(q,"$1$2L$3 $2");
 	// add L if omitted
 	q=/([ML][0-9-]+\s[0-9-]+)\s/;
 	while (d.match(q)) d=d.replace(q,"$1L");
@@ -194,7 +206,7 @@ function isNodesElsewhere(target,id1,x1,y1,x2,y2)
 		}
 	}
 	if (debug) debug(id1+" Nodes elsewhere not found<br>",1);
-	return false;
+	return 0;
 }
 function isSegmentElsewhere(target,id1,x1,y1,x2,y2)
 {

@@ -199,6 +199,10 @@ We used various sources to cross-check our data. In particular:
 
 ## What is new?
 
+2019/01/27:
+- various minor updates,
+- various shape and stroke order updates.
+
 2018/12/16:
 - remove css calc() from svg files (poorly supported),
 - various shape and stroke order updates.
