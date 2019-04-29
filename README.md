@@ -199,6 +199,9 @@ We used various sources to cross-check our data. In particular:
 
 ## What is new?
 
+2019/04/29:
+- replace 卜 by ⺊ in decomposition of 上, 占, etc.
+
 2019/03/28:
 - fix bug in 12388.svg (つ kana).
 
