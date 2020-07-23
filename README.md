@@ -8,19 +8,21 @@ The purpose of this project is to display kanji and kana (Japanese characters) o
 
 For a demo, see http://gooo.free.fr/animCJK/official
 
-Each character has a corresponding svg file in AnimCJK repository that contains paths defining its shape and some css code to animate it. The name of the svg is the decimal unicode of the character followed by the "svg" extension.
+For each character, there is one or several svg files in AnimCJK repository that contains paths defining its shape and some css code to animate it. The name of the svg is the decimal unicode of the character followed by the "svg" extension.
 
 ## SVG files
+
+SVG files are stored in several folders.
 
 The svgsJa folder contains svg files corresponding to the union of the Japanese "jōyō kanji" (2136 characters) and the Japanese "jinmeyō Kanji" (862 characters). As a result, svgsJa folder contains 2998 characters.
 
 The svgsKana folder contains svg files corresponding to the Japanese "hiragana" (86 characters) and Japanese "katakana" (91 characters). As a result, svgsKana folder contains 177 characters.
 
-The svgsZhHans folder contains svg files corresponding to Chinese "commonly used simplified hanzi" (7000 characters). This set includes the "HSK hanzi" (2663) and the "frequently used simplified hanzi" (3500 characters). 38 characters of the "HSK hanzi" are not in the "frequently used simplified hanzi".
+The svgsZhHans folder contains svg files corresponding to Chinese "commonly used simplified hanzi" (7000 characters). This set includes the "HSK hanzi" (2663 characters) and the "frequently used simplified hanzi" (3500 characters). 38 characters of the "HSK hanzi" are not in the "frequently used simplified hanzi".
 
-The svgsZhHant folder contains svg files corresponding to Chinese "HSK 1 traditional hanzi" (197 characters).
+The svgsZhHant folder contains svg files corresponding to Chinese "HSK 1 traditional hanzi" (197 characters). Note that some simplified characters have more than one corresponding traditional character.
 
-Note that some svg files are in several repositories. However, take care because characters are not always the same in Japanese and in Chinese even when they share the same unicode. For instance 勉 (21193.svg) in Japanese has not the same shape as 勉 (21193.svg) in Chinese.
+Take care because characters are not always the same in Japanese and in Chinese even when they share the same unicode. For instance 勉 (21193.svg) in Japanese has not the same shape as 勉 (21193.svg) in Chinese.
 
 Take care of compatibility characters such as 勉 (64051.svg) that has in Japanese the same shape as 勉 (21193.svg) in Chinese, but has not the same unicode.
 
@@ -28,11 +30,15 @@ Each svg can be inserted as is in a web page, or with some modifications using f
 
 ## Usage
 
+First, you have to download animCJK somewhere on your computer (then evenly upload it on a webserver).
+
+For instance, click on the "Clone or download" button in the github page of animCJK project. Then click on "Download Zip". Then evenly move the zip file elsewhere on your hard disk. Then unzip it.
+
 ### Basic usage
 
 Just insert a svg file representing a character as is in a web page.
 
-For instance, you can use php. Write the code below in a file called simple.php and store it in the samples folder of AnimCJK. Then run simple.php in a browser.
+For instance, you can use php (assume that you moved or uploaded animCJK repository on a php server). Write the code below in a file called simple.php and store it in the samples folder of AnimCJK. Then run simple.php in a browser.
 ```
 <!doctype html>
 <html>
@@ -92,6 +98,12 @@ window.addEventListener("load",loadSvg,false);
 </body>
 </html>
 ```
+### Anki cards
+
+You can insert svg files as HTML code in Anki card's note fields. 
+
+For instance, using Anki card editor, select "Recto" field of a card's note, then click on the "hamburger" icon, select the menu that allows to modify the HTML and paste the content of any AnimCJK svg file representing a character anywhere in the HTML code.
+
 ### Other usages
 
 Several samples are provided to show how to use AnimCJK.
@@ -198,6 +210,9 @@ We used various sources to cross-check our data. In particular:
 - How SVG Line Animation Works, https://css-tricks.com/svg-line-animation-works/
 
 ## What is new?
+
+2020/07/23:
+- improve "の"
 
 2019/04/29:
 - replace 卜 by ⺊ in decomposition of 上, 占, etc.
