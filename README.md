@@ -32,8 +32,6 @@ Each svg can be inserted as is in a web page, or with some modifications using f
 
 First, you have to download animCJK somewhere on your computer (then evenly upload it on a webserver).
 
-For instance, click on the "Clone or download" button in the github page of animCJK project. Then click on "Download Zip". Then evenly move the zip file elsewhere on your hard disk. Then unzip it.
-
 ### Basic usage
 
 Just insert a svg file representing a character as is in a web page.
@@ -128,7 +126,7 @@ However, the market share of these browsers is constantly decreasing. So it is c
 
 To animate a character, AnimCJK uses the following method: the character shape is split in several paths (one per stroke). These paths (called "stroke" paths) are used as clip-path, and dashed lines (called "median" paths) are drawn over these paths. The space between two dashes is large enough to cover the whole path. Initially, the path is covered by a space of the dashed line. Using a css animation, one moves the position of the dashed line. As a result, one has the impression that the strokes are drawn gradually. See https://css-tricks.com/svg-line-animation-works/ for more details.
 
-If several characters are inserted in the same page (for instance if one want to display "一二三"), and if one need to animate them one after the other, one has to modify the animation-delay in the css of the svg. If a character is displayed several times in the same page (for instance if one want to display "谢谢"), one also need to modify the id of its elements. This can be done using javascript. Alternately, one can encapsulate each svg in an iframe.
+If several characters are inserted in the same page (for instance if one want to display "一二三"), and if one need to animate them one after the other, one has to modify the animation-delay of each stroke in the css of the svg. If a character is displayed several times in the same page (for instance if one want to display "谢谢"), one also need to modify the id of its elements. This can be done using javascript. Alternately, one can encapsulate each svg in an iframe.
 
 Note: some kana (those which have a stroke overlapping on itself as あ, ぬ etc.) are special. The stroke which overlaps is split in several parts. So automatic procedures on these characters require some specific codes.
 
@@ -197,7 +195,7 @@ We used various sources to cross-check our data. In particular:
 - Kakijun, https://kakijun.jp/ (Japanese characters)
 - KanjiVG, http://kanjivg.tagaini.net/viewer.html (Japanese characters)
 - ArchChinese, https://www.archchinese.com/chinese_english_dictionary.html (Chinese characters)
-- Taiwanese Minister Of Education, http://stroke-order.learningweb.moe.edu.tw/character.do (Chinese characters used in Taiwan)
+- Taiwanese Minister Of Education, https://stroke-order.learningweb.moe.edu.tw/characters.do?lang=en (Chinese characters used in Taiwan)
 - Hong-Kong Education Bureau, https://www.edbchinese.hk/lexlist_en/ (Chinese characters used in Hong-Kong)
 - Naver Hanja Dictionary, https://hanja.dict.naver.com/ (Korean characters)
 - OpenCC, https://github.com/BYVoid/OpenCC (correspondence between simplified and traditional Chinese characters)
