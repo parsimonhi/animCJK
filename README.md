@@ -209,6 +209,9 @@ We used various sources to cross-check our data. In particular:
 
 ## What is new?
 
+2021/11/23:
+- add graphicsKana.txt
+
 2021/06/20:
 - fix a error in the median of the 5th stroke of 抽
 
