@@ -37,6 +37,7 @@ if (isset($_GET["sample"]))
 		||($_GET["sample"]=="infinite")
 		||($_GET["sample"]=="number")
 		||($_GET["sample"]=="radical")
+		||($_GET["sample"]=="rainbow")
 		||($_GET["sample"]=="red")
 		||($_GET["sample"]=="size")
 		||($_GET["sample"]=="speed")) $sample=$_GET["sample"];
@@ -146,6 +147,7 @@ input.charInput
 <label><input id="infiniteRadio" type="radio" name="sample" value="infinite" onclick="setSample('infinite',0);"> Infinite</label>
 <label><input id="numberRadio" type="radio" name="sample" value="number" onclick="setSample('number',0);"> Number</label>
 <label><input id="radicalRadio" type="radio" name="sample" value="radical" onclick="setSample('radical',0);"> Radical</label>
+<label><input id="rainbowRadio" type="radio" name="sample" value="rainbow" onclick="setSample('rainbow',0);"> Rainbow</label>
 <label><input id="redRadio" type="radio" name="sample" value="red" onclick="setSample('red',0);"> Red</label>
 <label><input id="sizeRadio" type="radio" name="sample" value="size" onclick="setSample('size',0);"> Size</label>
 <label><input id="speedRadio" type="radio" name="sample" value="speed" onclick="setSample('speed',0);"> Speed</label>
@@ -258,6 +260,7 @@ function setSample(sample,z)
 			case 'infinite': document.getElementById('infiniteRadio').checked=true;break;
 			case 'number': document.getElementById('numberRadio').checked=true;break;
 			case 'radical': document.getElementById('radicalRadio').checked=true;break;
+			case 'rainbow': document.getElementById('rainbowRadio').checked=true;break;
 			case 'red': document.getElementById('redRadio').checked=true;break;
 			case 'size': document.getElementById('sizeRadio').checked=true;break;
 			case 'speed': document.getElementById('speedRadio').checked=true;break;

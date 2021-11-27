@@ -14,7 +14,7 @@ For each character, there is one or several svg files in AnimCJK repository that
 
 SVG files are stored in several folders.
 
-The svgsJa folder contains svg files corresponding to the union of the Japanese "jōyō kanji" (2136 characters) and the Japanese "jinmeyō Kanji" (862 characters). As a result, svgsJa folder contains 2998 characters.
+The svgsJa folder contains svg files corresponding to the union of the Japanese "jōyō kanji" (2136 characters), the Japanese "jinmeyō Kanji" (862 characters) and 12 Japanese "hyōgai Kanji". As a result, svgsJa folder contains 3010 characters.
 
 The svgsKana folder contains svg files corresponding to the Japanese "hiragana" (86 characters) and Japanese "katakana" (91 characters). As a result, svgsKana folder contains 177 characters.
 
@@ -208,6 +208,11 @@ We used various sources to cross-check our data. In particular:
 - How SVG Line Animation Works, https://css-tricks.com/svg-line-animation-works/
 
 ## What is new?
+
+2021/11/27:
+- add 篭, 罠, 囁, 呟, 醤, 噛, 梱, 塡, 繍, 繋, 壷, 覗
+- replace 填 by 塡 in the jōyō kanji list
+- move 填 in the hyōgai kanji list
 
 2021/11/23:
 - add graphicsKana.txt
