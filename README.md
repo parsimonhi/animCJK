@@ -14,11 +14,11 @@ For each character, there is one or several svg files in AnimCJK repository that
 
 SVG files are stored in several folders.
 
-The svgsJa folder contains svg files corresponding to the union of the Japanese "jōyō kanji" (2136 characters), the Japanese "jinmeyō Kanji" (862 characters) and 12 Japanese "hyōgai Kanji". As a result, svgsJa folder contains 3010 characters.
+The svgsJa folder contains svg files corresponding to the union of the Japanese "jōyō kanji" (2136 characters), the Japanese "jinmeyō Kanji" (862 characters) and 90 Japanese "hyōgai Kanji". As a result, svgsJa folder contains 3088 characters.
 
 The svgsKana folder contains svg files corresponding to the Japanese "hiragana" (86 characters) and Japanese "katakana" (91 characters). As a result, svgsKana folder contains 177 characters.
 
-The svgsZhHans folder contains svg files corresponding to Chinese "commonly used simplified hanzi" (7000 characters). This set includes the "HSK hanzi" (2663 characters) and the "frequently used simplified hanzi" (3500 characters).
+The svgsZhHans folder contains svg files corresponding to Chinese "commonly used simplified hanzi" (7000 characters) and 61 "uncommon hanzi in a text written in simplified hanzi". This set includes the "HSK hanzi" (2663 characters) and the "frequently used simplified hanzi" (3500 characters).
 
 The svgsZhHant folder contains svg files corresponding to Chinese "HSK 1 traditional hanzi" (197 characters). Note that some simplified characters have more than one corresponding traditional character.
 
@@ -209,8 +209,13 @@ We used various sources to cross-check our data. In particular:
 
 ## What is new?
 
+2021/11/29:
+- add Kangxi radicals not already in svgsJa or svgsZhHans (because they are not jōyō or jinmeyō kanji or not commonly used simplified hanzi)
+- in svgsJa: 丨丶丿亅亠儿冂冖冫几 凵勹匕匚匸卩厂厶囗夂 夊宀尢尸屮巛幺广廴廾 弋彐彡彳戈戶攴无曰歹 殳毋气爻爿疒癶禸网耒 聿舛艮艸虍襾豕豸辵釆 隶隹靑韋韭髟鬥鬯鬲鹵 麥黍黹黽鼠齒龜龠
+- in svgsZhHans: 丨丶丿亅亠冂冖冫凵勹 匚匸卩厶囗夂夊宀尢屮 巛廴廾彐彡戶攴疋疒癶 禸糸艸虍襾見貝車辵釆 長門隹靑韋頁風飛馬髟 鬥魚鳥鹵麥黃黽齊齒龍 龜
+
 2021/11/27:
-- add 篭, 罠, 囁, 呟, 醤, 噛, 梱, 塡, 繍, 繋, 壷, 覗
+- add 篭罠囁呟醤噛梱塡繍繋壷覗 in svgsJa
 - replace 填 by 塡 in the jōyō kanji list
 - move 填 in the hyōgai kanji list
 

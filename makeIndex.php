@@ -499,8 +499,9 @@ AnimCJK contains SVG files to draw
 Japanese kana or kanji, and simplified or traditional Chinese hanzi stroke by stroke.
 </p>
 <p>The Japanese repository contains 3175 characters: "kana" (177 characters),
-"jōyō kanji" (2136 characters) and "jinmeyō Kanji" (862 characters).</p>
-<p>The simplified Chinese repository contains 7000 characters ("Commonly used hanzi").
+"jōyō kanji" (2136 characters), "jinmeyō Kanji" (862 characters) and some "hyōgai kanji".</p>
+<p>The simplified Chinese repository contains 7000 characters ("Commonly used hanzi")
+and some other characters ("Uncommon hanzi").
 Note that "HSK hanzi" (2663 characters)
 and "Frequently used hanzi" (3500 characters) are subsets of "Commonly used hanzi".</p>
 <p>The traditional Chinese repository contains 197 characters ("HSK 1 hanzi").</p>
@@ -520,6 +521,7 @@ function navigation($lang)
 		}
 		echo "<a href=\"#g7\">Junior high school</a>";
 		echo "<a href=\"#g8\">Jinmeiyō</a>";
+		echo "<a href=\"#g9\">Hyōgai</a>";
 	}
 	else if ($lang=="ZhHans")
 	{
@@ -529,6 +531,7 @@ function navigation($lang)
 		}
 		echo "<a href=\"#frequentNotHsk\">Frequent</a>";
 		echo "<a href=\"#commonNotHskNorFrequent\">Common</a>";
+		echo "<a href=\"#others\">Others</a>";
 	}
 	else // $lang=="ZhHant"
 	{
@@ -623,15 +626,20 @@ $a[$lm]=getCharList("frequentNotHsk");
 $kmFrequentNotHsk=mb_strlen($a[$lm],'UTF-8');
 $a[$lm+1]=getCharList("commonNotHskNorFrequent");
 $kmCommonNotHskNorFrequent=mb_strlen($a[$lm+1],'UTF-8');
+$a[$lm+2]=getCharList("uncommon");
+$kmUncommon=mb_strlen($a[$lm+2],'UTF-8');
+$b.=$a[$lm];
 $b.=$a[$lm+1];
+$b.=$a[$lm+2];
 $km=mb_strlen($b,'UTF-8');
 echo "<h2>HSK hanzi (".$kmHsk." characters)</h2>\n";
-for ($l=0;$l<=($lm+1);$l++)
+for ($l=0;$l<=($lm+2);$l++)
 {
 	$km=mb_strlen($a[$l],'UTF-8');
 	if ($l<6) echo "<h3 id='hsk".($l+1)."'>HSK ".($l+1)." (".$km." characters)</h3>\n";
 	else if ($l==$lm) echo "<h2 id='frequentNotHsk'>Frequently used hanzi not in HSK (".$kmFrequentNotHsk." characters)</h2>\n";
-	else echo "<h2 id='commonNotHskNorFrequent'>Commonly used hanzi not in HSK nor frequently used (".$kmCommonNotHskNorFrequent." characters)</h2>\n";
+	else if ($l==($lm+1)) echo "<h2 id='commonNotHskNorFrequent'>Commonly used hanzi not in HSK nor frequently used (".$kmCommonNotHskNorFrequent." characters)</h2>\n";
+	else echo "<h2 id='others'>Other hanzi (".$kmUncommon." characters)</h2>\n";
 	echo "<div class=\"charList\" onclick=\"magic(this)\">".preg_replace("/(.)/u","$1\xE2\x80\x8B",$a[$l])."</div>\n";
 	navigation("ZhHans");
 }
