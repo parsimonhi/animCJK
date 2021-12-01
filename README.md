@@ -211,6 +211,7 @@ We used various sources to cross-check our data. In particular:
 
 2021/12/01:
 - improve "ゐ"
+- fix bug in 40860.svg in zhHans (龜)
 
 2021/11/29:
 - add Kangxi radicals not already in svgsJa or svgsZhHans (because they are not jōyō or jinmeyō kanji or not commonly used simplified hanzi)
