@@ -211,7 +211,10 @@ We used various sources to cross-check our data. In particular:
 
 2021/12/01:
 - improve "ゐ"
-- fix bug in 40860.svg in zhHans (龜)
+- fix svg tag bug in 40860.svg in svgsZhHans (龜)
+- 骨: modify stroke order in svgsJa
+- 韋: modify stroke number in svgsJa and improve in svgsZhHans
+- improve 鳥 in svgsJa and in svgsZhHans
 
 2021/11/29:
 - add Kangxi radicals not already in svgsJa or svgsZhHans (because they are not jōyō or jinmeyō kanji or not commonly used simplified hanzi)
