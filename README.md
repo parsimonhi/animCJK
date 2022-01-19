@@ -209,6 +209,10 @@ We used various sources to cross-check our data. In particular:
 
 ## What is new?
 
+2022/01/19:
+- fix a bug in graphicsKana.txt
+- add makeGraphicsFromSvgs4Kana.php script to build graphicsKana.txt
+
 2021/12/01:
 - improve "ゐ"
 - fix svg tag bug in 40860.svg in svgsZhHans (龜)
