@@ -209,6 +209,15 @@ We used various sources to cross-check our data. In particular:
 
 ## What is new?
 
+2022/06/30:
+- fix a bug in function setNumber() in index.html and samples/number.php (see issue #22)
+- 黹: modify glyph of the 6th and 7th strokes in svgsJa
+- 雌: modify 5th stroke (glyph in svgsJa, stroke direction in svgsZhHans)
+- 笑: modify 7th stroke (glyph and stroke direction in svgsJa and svgsZhHans)
+- 円靑: improve glyph of 円 in svgsJa and 靑 in svgsJa and svgsZhHans
+- 谢耋徘薯: improve glyph in svgsZhHans
+- 勧観: update decomposition (𮥶 component was missing)
+
 2022/01/19:
 - fix a bug in graphicsKana.txt
 - add makeGraphicsFromSvgs4Kana.php script to build graphicsKana.txt

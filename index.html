@@ -260,7 +260,7 @@ function setNumber(x)
 			// safer to test id of list0 than clip-path url of list for normal browsers
 			// clip-path attributes were removed for pitiful browsers
 			// so use list0 id to get the number of the path
-			if (list0[k].getAttributeNS(null,'id').match(/d[0-9a]+/))
+			if (list0[k].getAttributeNS(null,'id').match(/d[0-9]+a?$/))
 			{
 				l++;
 				if (list[k].hasAttributeNS(null,"data-median"))
