@@ -209,6 +209,9 @@ We used various sources to cross-check our data. In particular:
 
 ## What is new?
 
+2022/10/23:
+- fix some minor errors in dictionaryJa.txt and dictionaryZhHans.txt
+
 2022/06/30:
 - fix a bug in function setNumber() in index.html and samples/number.php (see issue #22)
 - 黹: modify glyph of the 6th and 7th strokes in svgsJa
