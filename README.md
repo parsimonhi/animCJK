@@ -210,7 +210,9 @@ We used various sources to cross-check our data. In particular:
 ## What is new?
 
 2022/10/27:
-- 覗似剣労: fix bug in medians
+- fixed a bug in a median of 覗 that caused graphicsJa.txt to be a wrong json file
+- fixed a bug in a median of 延 and 抽 that caused graphicsZhHans.txt to be a wrong json file
+- 似剣労: fix (tiny) bugs in medians
 
 2022/10/23:
 - fix some minor errors in dictionaryJa.txt and dictionaryZhHans.txt
