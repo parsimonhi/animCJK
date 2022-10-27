@@ -209,6 +209,9 @@ We used various sources to cross-check our data. In particular:
 
 ## What is new?
 
+2022/10/27:
+- 覗似剣労: fix bug in medians
+
 2022/10/23:
 - fix some minor errors in dictionaryJa.txt and dictionaryZhHans.txt
 
