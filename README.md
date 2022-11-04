@@ -209,6 +209,13 @@ We used various sources to cross-check our data. In particular:
 
 ## What is new?
 
+2022/11/04:
+- 積: modify Japanese stroke order
+
+2022/10/31:
+- 周: replace 吉 by 𠮷 in decomposition (first stroke is shorter now)
+- 捨: replace 舍 by 舎 in ja decomposition (⿰扌舍 in zh, ⿰扌舎 in ja)
+
 2022/10/27:
 - fixed a bug in a median of 覗 that caused graphicsJa.txt to be a wrong json file
 - fixed a bug in a median of 延 and 抽 that caused graphicsZhHans.txt to be a wrong json file
