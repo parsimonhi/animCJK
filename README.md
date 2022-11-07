@@ -209,6 +209,9 @@ We used various sources to cross-check our data. In particular:
 
 ## What is new?
 
+2022/11/07
+- svgsJa/27595.svg (毋), svgsJa/32786.svg (耒), svgsZhHans/34381.svg (虍): put the &lt;def&gt; tag at the right place 
+
 2022/11/04:
 - 積: modify Japanese stroke order
 
