@@ -485,7 +485,8 @@ function getDictionaryData($char,$lang="zh-hans")
 						$s.="</div>";
 					}
 				}
-				$s.="<div class=\"english\">Definition: ".$a->{'definition'}."</div>";
+				if (property_exists($a,'definition'))
+					$s.="<div class=\"english\">Definition: ".$a->{'definition'}."</div>";
 				break;
 			}
 		}

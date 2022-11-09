@@ -209,6 +209,11 @@ We used various sources to cross-check our data. In particular:
 
 ## What is new?
 
+2022/11/09
+- modify Japanese glyph of 曜濯燿耀躍拐考条督微称弥祢顧与写判酸新薪親述術垂唾睡錘鬱
+- modify Japanese stroke order of 堕謹僅謹勤
+- various minor updates
+
 2022/11/07
 - svgsJa/27595.svg (毋), svgsJa/32786.svg (耒), svgsZhHans/34381.svg (虍): put the &lt;def&gt; tag at the right place 
 
