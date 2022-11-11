@@ -209,6 +209,10 @@ We used various sources to cross-check our data. In particular:
 
 ## What is new?
 
+2022/11/11
+- improve glyphs and/or medians of 田白汐
+- modify Japanese 拷 8th stroke direction
+
 2022/11/09
 - modify Japanese glyph of 曜濯燿耀躍拐考条督微称弥祢顧与写判酸新薪親述術垂唾睡錘鬱
 - modify Japanese stroke order of 堕謹僅謹勤
