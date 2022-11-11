@@ -210,7 +210,7 @@ We used various sources to cross-check our data. In particular:
 ## What is new?
 
 2022/11/11
-- improve glyphs and/or medians of 田白汐
+- improve glyphs and/or medians of 田白汐国番間
 - modify Japanese 拷 8th stroke direction
 
 2022/11/09
