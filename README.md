@@ -209,6 +209,10 @@ We used various sources to cross-check our data. In particular:
 
 ## What is new?
 
+2022/11/15
+- minor improvement of glyphs and/or medians of 章羊趣進泊欲復皇聖難署宀囗
+- various minor updates
+
 2022/11/14
 - add mediansAcjk.js that can recompute medians automatically
 - minor improvement of glyphs and/or medians of 待囲匸教幸息研階竣靴徒固芽確価績層磁債圈昌

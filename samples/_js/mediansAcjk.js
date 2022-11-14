@@ -1019,7 +1019,7 @@ acjkm.setNewSvgAsSvg=function(data)
 	let svgId=svgCode.replace(/^[^£]*<svg id="([^"]+)"[^£]*$/,"$1");
 	let dec=svgId.replace(/^.*[^0-9]([0-9]+)$/,"$1");
 	let a=JSON.parse(data).medians;
-	acjkm.target.innerHTML=svgCode.replaceAll(svgId,"z2-"+dec);
+	acjkm.target.innerHTML=svgCode.replaceAll(svgId,"z"+dec);
 	// replace old medians by new ones
 	let list=acjkm.target.querySelectorAll("path[clip-path]");
 	let k,km;

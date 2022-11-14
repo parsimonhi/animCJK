@@ -412,7 +412,7 @@ function strokeBrushing(eBrush)
 				// replace L by a C
 				dSeg=Math.sqrt((x1-x4)*(x1-x4)+(y1-y4)*(y1-y4));
 				if (doubleClipEffect) dSeg=0.8*dSeg*(180-getAngle(x1,y1,x4ex,y4ex,x4,y4))/90;
-				else dSeg=dSeg/3;
+				else dSeg=dSeg/3
 				// compute first handle of the cubic Bezier curve
 				if (x0==x1) // vertical line
 				{
