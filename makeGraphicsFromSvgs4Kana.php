@@ -74,6 +74,26 @@ function transformPathFromSvgs($p)
 	return $p;
 }
 
+function replaceVHbyL($p)
+{
+	// assume "-" never follows a number
+	// assume no ,
+	// assume no space near a letter
+	// add V or H if omitted
+	$q="/([VH])([0-9-]+)[\s]([0-9-]+)/";
+	while (preg_match($q,$p)) $p=preg_replace($q,"$1$2$1$3",$p);
+	while (preg_match("/[VH]/",$p))
+	{
+		// replace V by L
+		$q="/([0-9-]+)\s([0-9-]+)V([0-9-]+)/";
+		if (preg_match($q,$p)) $p=preg_replace($q,"$1 $2L$1 $3",$p);
+		// replace H by L
+		$q="/([0-9-]+)\s([0-9-]+)H([0-9-]+)/";
+		if (preg_match($q,$p)) $p=preg_replace($q,"$1 $2L$3 $2",$p);
+	}
+	return $p;
+}
+
 function makeGraphics($dir,$target,$version)
 {
 	if (file_exists($target)) unlink($target);
@@ -105,12 +125,14 @@ function makeGraphics($dir,$target,$version)
 						$m2=preg_replace("/,/"," ",$m2);
 						// add space before -
 						$m2=preg_replace("/([0-9])-/","$1 -",$m2);
+						// remove extra space
+						$m2=preg_replace("/\s+/"," ",$m2);
 						// remove decimal
 						$m2=preg_replace("/\.[0-9]+/","",$m2);
 						// replace z by Z
 						$m2=preg_replace("/z/","Z",$m2);
-						// remove space before and after M, Q, C, L et Z
-						$m2=preg_replace("/\s?([MQCLZ])\s?/","$1",$m2);
+						// remove space before and after M, Q, C, L, H, V et Z
+						$m2=preg_replace("/\s?([MQCLVHZ])\s?/","$1",$m2);
 						// add C if omitted
 						$q="/(C([0-9-]+\s){5}[0-9-]+)\s/";
 						while (preg_match($q,$m2)) $m2=preg_replace($q,"$1C",$m2);
@@ -120,8 +142,9 @@ function makeGraphics($dir,$target,$version)
 						// add L if omitted
 						$q="/([ML][0-9-]+\s[0-9-]+)\s/";
 						while (preg_match($q,$m2)) $m2=preg_replace($q,"$1L",$m2);
-						$s.='"'.transformPathFromSvgs($m2).'"';
-						//echo $m2."\n";
+						$m2=replaceVHbyL($m2);
+						if (!isset($_GET["t"])||($_GET["t"]==1)) $s.='"'.transformPathFromSvgs($m2).'"';
+						//echo $m2."<br>\n";
 						$n++;
 					}
 				}
@@ -135,11 +158,23 @@ function makeGraphics($dir,$target,$version)
 					{
 						if ($n) $s.=",";
 						$m2=$m[1];
+						// replace , by space
+						$m2=preg_replace("/,/"," ",$m2);
+						// add space before -
+						$m2=preg_replace("/([0-9])-/","$1 -",$m2);
+						// remove extra space
+						$m2=preg_replace("/\s+/"," ",$m2);
+						// remove decimal
 						$m2=preg_replace("/\.[0-9]+/","",$m2);
-						$m2=preg_replace("/([ML])\s+/","$1",$m2);
-						$m2=preg_replace("/\s+([ML])/","$1",$m2);
-						$m2=preg_replace("/([0-9])-/","$1,-",$m2);
-						$m2=transformPathFromSvgs($m2);
+						// remove space before and after M, L, H, and V
+						$m2=preg_replace("/\s?([MLVH])\s?/","$1",$m2);
+						// add L if omitted
+						$q="/([ML][0-9-]+\s[0-9-]+)\s/";
+						while (preg_match($q,$m2)) $m2=preg_replace($q,"$1L",$m2);
+						// replace V and H by L
+						$m2=replaceVHbyL($m2);
+						//echo $m2."<br>\n";
+						if (!isset($_GET["t"])||($_GET["t"]==1)) $m2=transformPathFromSvgs($m2);
 						$m2=preg_replace("/\s+/",",",$m2);
 						$m2=preg_replace("/L/",",",$m2);
 						$m2=preg_replace("/M/","[[",$m2);

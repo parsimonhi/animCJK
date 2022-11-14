@@ -91,12 +91,15 @@ function cleanPathBeforeBrushing(d)
 	// add H if omitted
 	q=/(H[0-9-]+)\s/;
 	while (d.match(q)) d=d.replace(q,"$1H");
-	// transform V in L
-	q=/([0-9-]+)(\s[0-9-]+)V([0-9-]+)/;
-	while (d.match(q)) d=d.replace(q,"$1$2L$1 $3");
-	// transform H in L
-	q=/([0-9-]+\s)([0-9-]+)H([0-9-]+)/;
-	while (d.match(q)) d=d.replace(q,"$1$2L$3 $2");
+	while (d.match(/[VH]/))
+	{
+		// transform V in L
+		q=/([0-9-]+)\s([0-9-]+)V([0-9-]+)/;
+		if (d.match(q)) d=d.replace(q,"$1 $2L$1 $3");
+		// transform H in L
+		q=/([0-9-]+)\s([0-9-]+)H([0-9-]+)/;
+		if (d.match(q)) d=d.replace(q,"$1 $2L$3 $2");
+	}
 	// add L if omitted
 	q=/([ML][0-9-]+\s[0-9-]+)\s/;
 	while (d.match(q)) d=d.replace(q,"$1L");
