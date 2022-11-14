@@ -1,0 +1,234 @@
+<!doctype html>
+<html>
+<!--
+Compute medians of a svg that draws a Japanese or Chinese character
+-->
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="initial-scale=1.0,user-scalable=yes">
+<style>
+body
+{
+	--L1:400px;
+	--L2:256px;
+}
+h1,h2
+{
+	text-align:center;
+}
+.inputContainer
+{
+	margin:0 auto;
+	max-width:max-content;
+	border:1px solid #ccc;
+	padding:0.5em;
+}
+.svgContainer
+{
+	display:flex;
+	justify-content:center;
+}
+.svgContainer section
+{
+	margin:1px;
+}
+section.trace
+{
+	display:block;
+}
+section:not(.trace)>div
+{
+	width:calc(var(--L1));
+	height:calc(var(--L1));
+	border:1px solid #ccc;
+}
+label
+{
+	display:block;
+}
+svg
+{
+	display:block;
+}
+svg.error
+{
+	border:1px solid #f00;
+	stroke:#f00;
+	font-size:960px;
+}
+.initial svg.acjk path[clip-path]
+{
+	stroke:#000;
+	stroke-width:16px;
+}
+.medians svg.acjk path[clip-path]
+{
+	stroke:#f00;
+	stroke-width:12px;
+}
+.medians svg.acjk path[id]
+{
+	fill:#0006;
+}
+.strokeContainer
+{
+	display:inline-block;
+	width:calc(var(--L2) + 2px);
+	border:1px solid #ccc;
+	margin:1px;
+}
+.strokeContainer canvas
+{
+	width:var(--L2);
+	height:var(--L2);
+}
+</style>
+<title>animCJK - Compute medians</title>
+</head>
+<body>
+<h1>Compute medians</h1>
+<div class="inputContainer">
+<label>Char: <input name="char"> <span>(only one char)</label>
+<label>Lang : <input name="lang"> (ja or zh-Hans)</label>
+<button type="button" onclick="doIt()">OK</button>
+</div>
+<div class="svgContainer">
+<section class="initial">
+<h2>Initial</h2>
+<div></div>
+</section>
+<section class="medians">
+<h2>Medians</h2>
+<div></div>
+</section>
+</div>
+<section class="trace">
+<h2>Trace</h2>
+<div id="errorOutput"></div>
+<div id="strangeStrokesOutput"></div>
+<div id="debugOutput"></div>
+<div id="canvasContainer"></div>
+<div id="finalResultOutput"></div>
+</section>
+<script src="_js/mediansAcjk.js"></script>
+<script>
+function replaceVHbyL(d)
+{
+	// assume "-" never follows a number
+	// assume no ,
+	// assume no space near a letter
+	// add V or H if omitted
+	q=/([VH])([0-9-]+)[\s]([0-9-]+)/;
+	while(d.match(q)) d=d.replace(q,"$1$2$1$3");
+	while(d.match(/[VH]/))
+	{
+		// replace V by L
+		q=/([0-9-]+)\s([0-9-]+)V([0-9-]+)/;
+		if(d.match(q)) d=d.replace(q,"$1 $2L$1 $3");
+		// replace H by L
+		q=/([0-9-]+)\s([0-9-]+)H([0-9-]+)/;
+		if(d.match(q)) d=d.replace(q,"$1 $2L$3 $2");
+	}
+	return d;
+}
+function cleanStrokePath(d)
+{
+	let q;
+	// replace , by space
+	d=d.replace(/,/g," ");
+	// add space before -
+	d=d.replace(/([0-9])-/g,"$1 -");
+	// remove extra space
+	d=d.replace(/\s+/g," ");
+	// remove decimal
+	d=d.replace(/\.[0-9]+/g,"");
+	// replace z by Z
+	d=d.replace(/z/g,"Z");
+	// remove space before and after M, Q, C, L, H, V et Z
+	d=d.replace(/\s?([MQCLVHZ])\s?/g,"$1");
+	// add C if omitted
+	q=/(C([0-9-]+\s){5}[0-9-]+)\s/;
+	while(d.match(q)) d=d.replace(q,"$1C");
+	// add Q if omitted
+	q=/(Q([0-9-]+\s){3}[0-9-]+)\s/;
+	while(d.match(q)) d=d.replace(q,"$1Q");
+	// add L if omitted
+	q=/([ML][0-9-]+\s[0-9-]+)\s/;
+	while(d.match(q)) d=d.replace(q,"$1L");
+	// replace V and H by L
+	d=replaceVHbyL(d);
+	return d;
+}
+function cleanMedianPath(d)
+{
+	// keep only the starting point
+	d=d.replace(/^M[^0-9-]*([0-9-]+)[^0-9-]+([0-9-]+).*$/,"M$1 $2L$1 $2");
+	return d;
+}
+function afterInitial(r)
+{
+	let c=document.querySelector('input[name="char"]').value;
+	let initial=document.querySelector(".initial div");
+	let medians=document.querySelector(".medians div");
+	let svgId=r.replace(/^[^£]*<svg id="([^"]+)"[^£]*$/,"$1");
+	let dec;
+	// initial
+	if(svgId.match(/z[0-9]+/))
+	{
+		dec=svgId.substring(1);
+		initial.innerHTML=r.replaceAll(svgId,"z1-"+dec);
+	}
+	else
+	{
+		initial.innerHTML=r;
+		return;
+	}
+	let list,k,km;
+	// clean strokes
+	list=initial.querySelectorAll('path[id]');
+	km=list.length;
+	for(k=0;k<km;k++)
+	{
+		let d=list[k].getAttribute("d");
+		d=cleanStrokePath(d);
+		list[k].setAttribute("d",d);
+	}
+	// clean medians
+	list=initial.querySelectorAll('path[clip-path]');
+	km=list.length;
+	for(k=0;k<km;k++)
+	{
+		let d=list[k].getAttribute("d");
+		d=cleanMedianPath(d);
+		list[k].setAttribute("d",d);
+	}
+	// start to compute medians
+	let p={};
+	p.data=c;
+	p.source=initial;
+	p.target=medians;
+	p.recordType="svg";
+	p.errorOutput=document.getElementById("errorOutput");
+	p.strangeStrokesOutput=document.getElementById("strangeStrokesOutput");
+	p.debugOutput=document.getElementById("debugOutput");
+	p.canvasContainer=document.getElementById("canvasContainer");
+	p.finalResultOutput=document.getElementById('finalResultOutput');
+	p.saveOn=true;
+	p.strokeOn=true;
+	p.edge2edgeLeftOn=true;
+	p.edge2edgeRightOn=true;
+	p.mediansOn=true;
+	// run all
+	acjkm.run(p);
+}
+function doIt()
+{
+	let c=document.querySelector('input[name="char"]').value;
+	let lang=document.querySelector('input[name="lang"]').value;
+	let data={c:c,lang:lang};
+	fetch("_php/getOneSvg.php",{method:'POST',body:JSON.stringify(data)})
+	.then(r=>r.text())
+	.then(r=>afterInitial(r));
+}
+</script>
+</body>

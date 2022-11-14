@@ -168,6 +168,7 @@ input.charInput
 <li><a href="animeSeveral.html">Animation of several characters</a>
 <li><a href="animatedGIF.html">Animated GIF image generator</a>
 <li><a href="redPNG.html">Red PNG image generator</a>
+<li><a href="computeMedians.html">Compute medians</a>
 </ul>
 <footer>
 <a href="../">Home</a>
