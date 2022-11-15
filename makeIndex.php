@@ -221,6 +221,8 @@ svg.acjk path[clip-path]
 	stroke:#000;
 }
 svg.acjk path[id] {fill:#ccc;}
+.xrays svg.acjk path[clip-path] {stroke-width:6.4;}
+.xrays svg.acjk path[id] {fill:#6666;}
 </style>
 <title>AnimCJK Demo</title>
 <script src="samples/_js/codePoint.js"></script>
@@ -261,7 +263,7 @@ function setNumber(x)
 			// safer to test id of list0 than clip-path url of list for normal browsers
 			// clip-path attributes were removed for pitiful browsers
 			// so use list0 id to get the number of the path
-			if (list0[k].getAttributeNS(null,'id').match(/d[0-9a]+/))
+			if (list0[k].getAttributeNS(null,'id').match(/d[0-9]+a?$/))
 			{
 				l++;
 				if (list[k].hasAttributeNS(null,"data-median"))
@@ -349,6 +351,12 @@ function setGrid(x)
 		a.className="";
 		for (k=0;k<km;k++) a.removeChild(list[k]);
 	}
+}
+function setXrays(x)
+{
+	a=document.getElementById("a");
+	if(x) a.classList.add("xrays");
+	else a.classList.remove("xrays");
 }
 function setSection()
 {
@@ -443,6 +451,10 @@ function switchGrid()
 {
 	setGrid(document.getElementById("grid").checked);
 }
+function switchXrays()
+{
+	setXrays(document.getElementById("xrays").checked);
+}
 function switchSection()
 {
 	setSection();
@@ -477,6 +489,7 @@ function switchSize(fs)
 <div class="sectionCheckBox">
 <label for="number"><input id="number" type="checkbox" onclick="switchNumber()"> Stroke numbering</label>
 <label for="grid"><input id="grid" type="checkbox" onclick="switchGrid()"> Grid</label>
+<label for="xrays"><input id="xrays" type="checkbox" onclick="switchXrays()"> X-rays</label>
 </div>
 <div class="sectionSize">
 <label><input id="fs128" type="radio"  name="sectionSize" onclick="switchSize(128)"> 128 px</label>

@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html>
 <head>
@@ -220,6 +219,8 @@ svg.acjk path[clip-path]
 	stroke:#000;
 }
 svg.acjk path[id] {fill:#ccc;}
+.xrays svg.acjk path[clip-path] {stroke-width:6.4;}
+.xrays svg.acjk path[id] {fill:#6666;}
 </style>
 <title>AnimCJK Demo</title>
 <script src="samples/_js/codePoint.js"></script>
@@ -349,6 +350,12 @@ function setGrid(x)
 		for (k=0;k<km;k++) a.removeChild(list[k]);
 	}
 }
+function setXrays(x)
+{
+	a=document.getElementById("a");
+	if(x) a.classList.add("xrays");
+	else a.classList.remove("xrays");
+}
 function setSection()
 {
 	var lang;
@@ -442,6 +449,10 @@ function switchGrid()
 {
 	setGrid(document.getElementById("grid").checked);
 }
+function switchXrays()
+{
+	setXrays(document.getElementById("xrays").checked);
+}
 function switchSection()
 {
 	setSection();
@@ -476,6 +487,7 @@ function switchSize(fs)
 <div class="sectionCheckBox">
 <label for="number"><input id="number" type="checkbox" onclick="switchNumber()"> Stroke numbering</label>
 <label for="grid"><input id="grid" type="checkbox" onclick="switchGrid()"> Grid</label>
+<label for="xrays"><input id="xrays" type="checkbox" onclick="switchXrays()"> X-rays</label>
 </div>
 <div class="sectionSize">
 <label><input id="fs128" type="radio"  name="sectionSize" onclick="switchSize(128)"> 128 px</label>
