@@ -337,7 +337,7 @@ function setGrid(x)
 	{
 		if (!km)
 		{
-			a.className="noBorder";
+			a.classList.add("noBorder");
 			for (k=0;k<6;k++)
 			{
 				e=document.createElement('div');
@@ -348,7 +348,7 @@ function setGrid(x)
 	}
 	else
 	{
-		a.className="";
+		a.classList.remove("noBorder");
 		for (k=0;k<km;k++) a.removeChild(list[k]);
 	}
 }
