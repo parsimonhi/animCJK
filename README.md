@@ -210,7 +210,8 @@ We used various sources to cross-check our data. In particular:
 ## What is new?
 
 2022/11/15
-- minor improvement of glyphs and/or medians of 章羊趣進泊欲復皇聖難署宀囗
+- 韋: modify simplified Chinese stroke order
+- minor improvement of glyphs and/or medians of 章羊趣進泊欲復皇聖難署宀囗陥尋冫
 - various minor updates
 
 2022/11/14
