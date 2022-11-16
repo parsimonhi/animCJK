@@ -16,6 +16,10 @@ h1,h2
 {
 	text-align:center;
 }
+span.error
+{
+	color:#f00;
+}
 .inputContainer
 {
 	margin:0 auto;
@@ -50,12 +54,6 @@ svg
 {
 	display:block;
 }
-svg.error
-{
-	border:1px solid #f00;
-	stroke:#f00;
-	font-size:960px;
-}
 .initial svg.acjk path[clip-path]
 {
 	stroke:#000;
@@ -88,8 +86,12 @@ svg.error
 <body>
 <h1>Compute medians</h1>
 <div class="inputContainer">
-<label>Char: <input name="char"> <span>(only one char)</label>
-<label>Lang : <input name="lang"> (ja or zh-Hans)</label>
+<label>Char: <input name="char" maxlength="1" lang="ja"> <span>(only one char)</label>
+<label>Lang :
+	<input type="radio" name="lang" value="Ja" checked> Japanese
+	<input type="radio" name="lang" value="ZhHans"> simplified Chinese
+	<input type="radio" name="lang" value="ZhHant"> traditional Chinese
+</label>
 <button type="button" onclick="doIt()">OK</button>
 </div>
 <div class="svgContainer">
@@ -112,6 +114,14 @@ svg.error
 </section>
 <script src="_js/mediansAcjk.js"></script>
 <script>
+function getLangFromInput()
+{
+	let k,km,list=document.querySelectorAll('input[type="radio"]');
+	km=list.length;
+	for(k=0;k<km;k++)
+		if(list[k].checked) return list[k].value;
+	return "ZhHans";
+}
 function replaceVHbyL(d)
 {
 	// assume "-" never follows a number
@@ -170,6 +180,11 @@ function afterInitial(r)
 	let c=document.querySelector('input[name="char"]').value;
 	let initial=document.querySelector(".initial div");
 	let medians=document.querySelector(".medians div");
+	if(r.match(/^Error:/))
+	{
+		initial.innerHTML='<span class="error">'+r+"</span>";
+		return false;
+	}
 	let svgId=r.replace(/^[^£]*<svg id="([^"]+)"[^£]*$/,"$1");
 	let dec;
 	// initial
@@ -224,11 +239,31 @@ function afterInitial(r)
 function doIt()
 {
 	let c=document.querySelector('input[name="char"]').value;
-	let lang=document.querySelector('input[name="lang"]').value;
+	let lang=getLangFromInput();
 	let data={c:c,lang:lang};
-	fetch("_php/getOneSvg.php",{method:'POST',body:JSON.stringify(data)})
+	fetch("_php/getOneSvg4ComputeMedians.php",{method:'POST',body:JSON.stringify(data)})
 	.then(r=>r.text())
 	.then(r=>afterInitial(r));
 }
+function updateDataLang(lang)
+{
+	let lang2;
+	if(lang=="Ja") lang2="ja";
+	else if(lang=="ZhHant") lang2="zh-hant";
+	else lang2="zh-hans";
+	document.querySelector('input[name="char"]').setAttribute("lang",lang2);
+}
+function addLangRadioHandler()
+{
+	let list,k,km;
+	list=document.querySelectorAll('input[name="lang"]');
+	km=list.length;
+	for(k=0;k<km;k++) list[k].addEventListener("click",function(event)
+		{
+			let e=event.target;
+			updateDataLang(e.value);
+		});
+}
+window.addEventListener("load",addLangRadioHandler);
 </script>
 </body>

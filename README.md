@@ -209,18 +209,25 @@ We used various sources to cross-check our data. In particular:
 
 ## What is new?
 
+Minor enhancements and minor updates can be skipped.
+
+2022/11/16
+- modify Japanese stroke order of 韭
+- minor enhancement of glyphs and/or medians of 音目貼律只沌墓徴田傾艶西溜蛐曲回看豕豸澪濡瀕四白百自塡塗隔煩憎網油徠德徽図学文正気空金
+- various minor updates
+
 2022/11/15
 - 韋: modify simplified Chinese stroke order
-- minor improvement of glyphs and/or medians of 章羊趣進泊欲復皇聖難署宀囗陥尋冫
+- minor enhancement of glyphs and/or medians of 章羊趣進泊欲復皇聖難署宀囗陥尋冫
 - various minor updates
 
 2022/11/14
-- add mediansAcjk.js that can recompute medians automatically
-- minor improvement of glyphs and/or medians of 待囲匸教幸息研階竣靴徒固芽確価績層磁債圈昌
+- add "Compute medians" sample which can automatically recalculate medians
+- minor enhancement of glyphs and/or medians of 待囲匸教幸息研階竣靴徒固芽確価績層磁債圈昌
 - various minor updates
 
 2022/11/11
-- minor improvement of glyphs and/or medians of 田白汐国番間
+- minor enhancement of glyphs and/or medians of 田白汐国番間
 - modify Japanese 拷 8th stroke direction
 
 2022/11/09
