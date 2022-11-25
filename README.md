@@ -211,24 +211,7 @@ Minor enhancements (glyphs or medians most of the time) and minor updates can be
 - remove use of codePoint.js polyfill
 - replace 剥頬 by 剝頰 in the Jōyō kanji list, keep 剥頬 in the Hyōgai kanji list
 - 禸禽檎璃離: modify Japanese number of strokes (禸 has 5 strokes in Japanese, even if it has only 4 strokes when handwriting), modify the glyph the same as what was done for 以
-- minor enhancements of:
-咽姻昧酎酌猶酬酪箇酵酷錮醜醸困循行督賂釉
-賊賄賜賠賦頼購霜贈瞬睦睡苗畜畔袖描幅雷瑠
-届憧黙鮮藩町個因啄団侑贈恩面囚飜伊楷詣套
-遭暦稲箸暑緒賭旭潜暫幡壕箱槽踏諧錯曖瞭闇
-譜韻籍響艶室省規盲眉盾眠眺眺帽諸旨旬伯縛
-鐘逸著響拍迫両臟皆汪旱旰父理米組藝距香泪
-嘗脂曹婚惜措曽晶替聞麟普僧暇鱗泡習堵日汕
-亥福奂留懒枨嵐悩敷楽者軸汛県借曰汜着乎殖
-奮竪筈汤汩汨増暮簡抽縮阳酉署著喬配酒笛宿
-指從富汊道首菌圏相明書昔博暑暗曜埴値権汔
-禸禽檎璃離污価的唱易寡織毘港晴空金國鬲由
-置渚混夢常铰几楢労冬分切隠劣駈細叢釆髟柑
-甘紺前詮北園旺畑並乗麥黍齒福春冫音目敢貼
-律只沌墓徴傾艶西溜蛐曲回豕豸澪濡瀕四白百
-自塡塗隔煩憎網徠德徽図学文正気田汐国番間
-章羊趣進泊欲復皇聖難署宀囗待囲匸教幸息研
-階竣徒固芽確価績層磁債圈昌陥尋
+- minor enhancements of: 咽姻昧酎酌猶酬酪箇酵酷錮醜醸困循行督賂釉賊賄賜賠賦頼購霜贈瞬睦睡苗畜畔袖描幅雷瑠届憧黙鮮藩町個因啄団侑贈恩面囚飜伊楷詣套遭暦稲箸暑緒賭旭潜暫幡壕箱槽踏諧錯曖瞭闇譜韻籍響艶室省規盲眉盾眠眺眺帽諸旨旬伯縛鐘逸著響拍迫両臟皆汪旱旰父理米組藝距香泪嘗脂曹婚惜措曽晶替聞麟普僧暇鱗泡習堵日汕亥福奂留懒枨嵐悩敷楽者軸汛県借曰汜着乎殖奮竪筈汤汩汨増暮簡抽縮阳酉署著喬配酒笛宿指從富汊道首菌圏相明書昔博暑暗曜埴値権汔禸禽檎璃離污価的唱易寡織毘港晴空金國鬲由置渚混夢常铰几楢労冬分切隠劣駈細叢釆髟柑甘紺前詮北園旺畑並乗麥黍齒福春冫音目敢貼律只沌墓徴傾艶西溜蛐曲回豕豸澪濡瀕四白百自塡塗隔煩憎網徠德徽図学文正気田汐国番間章羊趣進泊欲復皇聖難署宀囗待囲匸教幸息研階竣徒固芽確価績層磁債圈昌陥尋
 - various minor updates
 
 2022/11/16
