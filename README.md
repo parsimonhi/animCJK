@@ -14,7 +14,7 @@ For each character, there is one or several svg files in AnimCJK repository that
 
 SVG files are stored in several folders.
 
-The svgsJa folder contains svg files corresponding to the union of the Japanese "jōyō kanji" (2136 characters), the Japanese "jinmeyō Kanji" (862 characters) and 90 Japanese "hyōgai Kanji". As a result, svgsJa folder contains 3088 characters.
+The svgsJa folder contains svg files corresponding to the union of the Japanese "jōyō kanji" (2136 characters), the Japanese "jinmeyō Kanji" (862 characters) and 92 Japanese "hyōgai Kanji". As a result, svgsJa folder contains 3090 characters.
 
 The svgsKana folder contains svg files corresponding to the Japanese "hiragana" (86 characters) and Japanese "katakana" (91 characters). As a result, svgsKana folder contains 177 characters.
 
@@ -182,18 +182,13 @@ Part of magicAcjk.js script is derived from Animated_GIF sample called "basic".
 
 See https://github.com/sole/Animated_GIF for more details about Animated_GIF project.
 
-### String.codePointAt and String.fromCodePoint polyfills
-
-Some javascript scripts use polyfills for String.codePointAt and String.fromCodePoint functions. These polyfills are stored in codePoint.js script.
-
-These polyfills come from https://github.com/mathiasbynens/String.codePointAt and https://github.com/mathiasbynens/String.fromCodePoint projects.
-
 ### References
 
 We used various sources to cross-check our data. In particular:
 - Wiktionary, https://en.wiktionary.org/ (all characters)
-- Kakijun, https://kakijun.jp/ (Japanese characters)
-- KanjiVG, http://kanjivg.tagaini.net/viewer.html (Japanese characters)
+- Kakijun, https://kakijun.jp/ (Japanese characters, stroke order, kaishotai kanji)
+- Moji kakudai, https://moji.tekkai.com/ (Japanese characters, kaishotai kanji)
+- KanjiVG, http://kanjivg.tagaini.net/viewer.html (Japanese characters, stroke order)
 - ArchChinese, https://www.archchinese.com/chinese_english_dictionary.html (Chinese characters)
 - Taiwanese Minister Of Education, https://stroke-order.learningweb.moe.edu.tw/characters.do?lang=en (Chinese characters used in Taiwan)
 - Hong-Kong Education Bureau, https://www.edbchinese.hk/lexlist_en/ (Chinese characters used in Hong-Kong)
@@ -209,34 +204,59 @@ We used various sources to cross-check our data. In particular:
 
 ## What is new?
 
-Minor enhancements and minor updates can be skipped.
+Minor enhancements (glyphs or medians most of the time) and minor updates can be skipped.
+
+2022/11/25
+- simplify the license
+- remove use of codePoint.js polyfill
+- replace 剥頬 by 剝頰 in the Jōyō kanji list, keep 剥頬 in the Hyōgai kanji list
+- 禸禽檎璃離: modify Japanese number of strokes (禸 has 5 strokes in Japanese, even if it has only 4 strokes when handwriting), modify the glyph the same as what was done for 以
+- minor enhancements of:
+咽姻昧酎酌猶酬酪箇酵酷錮醜醸困循行督賂釉
+賊賄賜賠賦頼購霜贈瞬睦睡苗畜畔袖描幅雷瑠
+届憧黙鮮藩町個因啄団侑贈恩面囚飜伊楷詣套
+遭暦稲箸暑緒賭旭潜暫幡壕箱槽踏諧錯曖瞭闇
+譜韻籍響艶室省規盲眉盾眠眺眺帽諸旨旬伯縛
+鐘逸著響拍迫両臟皆汪旱旰父理米組藝距香泪
+嘗脂曹婚惜措曽晶替聞麟普僧暇鱗泡習堵日汕
+亥福奂留懒枨嵐悩敷楽者軸汛県借曰汜着乎殖
+奮竪筈汤汩汨増暮簡抽縮阳酉署著喬配酒笛宿
+指從富汊道首菌圏相明書昔博暑暗曜埴値権汔
+禸禽檎璃離污価的唱易寡織毘港晴空金國鬲由
+置渚混夢常铰几楢労冬分切隠劣駈細叢釆髟柑
+甘紺前詮北園旺畑並乗麥黍齒福春冫音目敢貼
+律只沌墓徴傾艶西溜蛐曲回豕豸澪濡瀕四白百
+自塡塗隔煩憎網徠德徽図学文正気田汐国番間
+章羊趣進泊欲復皇聖難署宀囗待囲匸教幸息研
+階竣徒固芽確価績層磁債圈昌陥尋
+- various minor updates
 
 2022/11/16
-- modify Japanese stroke order of 韭
-- minor enhancement of glyphs and/or medians of 音目貼律只沌墓徴田傾艶西溜蛐曲回看豕豸澪濡瀕四白百自塡塗隔煩憎網油徠德徽図学文正気空金
+- 韭: modify Japanese stroke order
+- 音目貼律只沌墓徴田傾艶西溜蛐曲回看豕豸澪濡瀕四白百自塡塗隔煩憎網油徠德徽図学文正気空金: minor enhancements
 - various minor updates
 
 2022/11/15
 - 韋: modify simplified Chinese stroke order
-- minor enhancement of glyphs and/or medians of 章羊趣進泊欲復皇聖難署宀囗陥尋冫
+- 章羊趣進泊欲復皇聖難署宀囗陥尋冫: minor enhancements
 - various minor updates
 
 2022/11/14
 - add "Compute medians" sample which can automatically recalculate medians
-- minor enhancement of glyphs and/or medians of 待囲匸教幸息研階竣靴徒固芽確価績層磁債圈昌
+- 待囲匸教幸息研階竣靴徒固芽確価績層磁債圈昌: minor enhancements
 - various minor updates
 
 2022/11/11
-- minor enhancement of glyphs and/or medians of 田白汐国番間
-- modify Japanese 拷 8th stroke direction
+- 田白汐国番間: minor enhancements
+- 拷: modify Japanese 8th stroke direction
 
 2022/11/09
-- modify Japanese glyph of 曜濯燿耀躍拐考条督微称弥祢顧与写判酸新薪親述術垂唾睡錘鬱
-- modify Japanese stroke order of 堕謹僅謹勤
+- 曜濯燿耀躍拐考条督微称弥祢顧与写判酸新薪親述術垂唾睡錘鬱: modify Japanese glyph
+- 堕謹僅謹勤: modify Japanese stroke order
 - various minor updates
 
 2022/11/07
-- svgsJa/27595.svg (毋), svgsJa/32786.svg (耒), svgsZhHans/34381.svg (虍): put the &lt;def&gt; tag at the right place 
+- 毋耒虍: in svgsJa/27595.svg (毋), svgsJa/32786.svg (耒), svgsZhHans/34381.svg (虍), put the &lt;def&gt; tag at the right place 
 
 2022/11/04:
 - 積: modify Japanese stroke order
@@ -246,9 +266,9 @@ Minor enhancements and minor updates can be skipped.
 - 捨: replace 舍 by 舎 in ja decomposition (⿰扌舍 in zh, ⿰扌舎 in ja)
 
 2022/10/27:
-- fixed a bug in a median of 覗 that caused graphicsJa.txt to be a wrong json file
-- fixed a bug in a median of 延 and 抽 that caused graphicsZhHans.txt to be a wrong json file
-- 似剣労: fix (tiny) bugs in medians
+- 覗: fixed a bug in a median that caused graphicsJa.txt to be a wrong json file
+- 延抽: fixed a bug in a median that caused graphicsZhHans.txt to be a wrong json file
+- 似剣労: minor enhancements
 
 2022/10/23:
 - fix some minor errors in dictionaryJa.txt and dictionaryZhHans.txt
@@ -259,7 +279,7 @@ Minor enhancements and minor updates can be skipped.
 - 雌: modify 5th stroke (glyph in svgsJa, stroke direction in svgsZhHans)
 - 笑: modify 7th stroke (glyph and stroke direction in svgsJa and svgsZhHans)
 - 円靑: improve glyph of 円 in svgsJa and 靑 in svgsJa and svgsZhHans
-- 谢耋徘薯: improve glyph in svgsZhHans
+- 谢耋徘薯: minor enhancements in svgsZhHans
 - 勧観: update decomposition (𮥶 component was missing)
 
 2022/01/19:
@@ -267,11 +287,11 @@ Minor enhancements and minor updates can be skipped.
 - add makeGraphicsFromSvgs4Kana.php script to build graphicsKana.txt
 
 2021/12/01:
-- improve "ゐ"
-- fix svg tag bug in 40860.svg in svgsZhHans (龜)
+- ゐ: minor enhancements in svgsKana
+- 龜: fix svg tag bug in 40860.svg in svgsZhHans
 - 骨: modify stroke order in svgsJa
-- 韋: modify stroke number in svgsJa and improve in svgsZhHans
-- improve 鳥 in svgsJa and in svgsZhHans
+- 韋: modify number of strokes in svgsJa and improve in svgsZhHans
+- 鳥: minor enhancements in svgsJa and in svgsZhHans
 
 2021/11/29:
 - add Kangxi radicals not already in svgsJa or svgsZhHans (because they are not jōyō or jinmeyō kanji or not commonly used simplified hanzi)
@@ -287,7 +307,7 @@ Minor enhancements and minor updates can be skipped.
 - add graphicsKana.txt
 
 2021/06/20:
-- fix a error in the median of the 5th stroke of 抽
+- 抽: fix a error in the median of the 5th stroke
 
 2020/07/23:
 - improve "の"
@@ -296,32 +316,33 @@ Minor enhancements and minor updates can be skipped.
 - replace 卜 by ⺊ in decomposition of 上, 占, etc.
 
 2019/03/28:
-- fix bug in 12388.svg (つ kana).
+- つ: fix bug in zhKana/12388.svg
 
 2019/01/27:
-- various minor updates,
-- various shape and stroke order updates.
+- various minor updates
+- various shape and stroke order updates
 
 2018/12/16:
-- remove css calc() from svg files (poorly supported),
-- various shape and stroke order updates.
+- remove css calc() from svg files (poorly supported)
+- various shape and stroke order updates
 
 2018/12/14:
-- add Infinite sample,
-- various minor updates.
+- add Infinite sample
+- various minor updates
 
 2018/12/07:
-- add traditional hanzi for HSK 1 (197 characters),
-- rewrite all the samples,
-- support of browsers that cannot animate SVG properly in samples,
-- various minor shape or stroke order updates,
-- various other minor updates.
+- add traditional hanzi for HSK 1 (197 characters)
+- rewrite all the samples
+- support of browsers that cannot animate SVG properly in samples
+- various minor shape or stroke order updates
+- various other minor updates
 
 ## Licences
 
-In summary, you can freely redistribute and/or modify the files of this project under the terms of 3 licenses:
-- Arphic Public License (files prefixed by "graphics" and SVG files excepting those that are in svgsKana folder),
-- MIT license (Animated_GIF.js and codePoint.js scripts),
-- GNU Lesser General Public License (all other files including SVG files that are in svgsKana folder).
+In summary, you can freely redistribute and/or modify the files of this project under the terms of:
+- Arphic Public License (files prefixed by "graphics" and SVG files),
+- GNU Lesser General Public License (all other files).
+
+When using any of the files prefixed with "graphics" or SVG files, you need only the Arphic Public License.
 
 See https://github.com/parsimonhi/animCJK/blob/master/licenses/COPYING.txt for more details about licences concerning this project.

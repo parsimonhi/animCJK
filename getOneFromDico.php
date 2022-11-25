@@ -1,7 +1,7 @@
 <?php
 header("Content-Type: text/plain");
 
-include "lib.php";
+include_once "lib.php";
 
 if (isset($_POST["data"])&&$_POST["data"])
 {

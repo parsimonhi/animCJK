@@ -35,24 +35,8 @@ $target="graphics".$version.".txt";
 <h1>Make graphics<?php echo $version;?>.txt file
 from svgs<?php echo $version;?> directory content</h1>
 <?php
-function unichr($u)
-{
-    return mb_convert_encoding('&#' . intval($u) . ';', 'UTF-8', 'HTML-ENTITIES');
-}
-function decUnicode($u)
-{
-	$len=strlen($u);
-	if ($len==0) return 63;
-	$r1=ord($u[0]);
-	if ($len==1) return $r1;
-	$r2=ord($u[1]);
-	if ($len==2) return (($r1&31)<< 6)+($r2&63);
-	$r3=ord($u[2]);
-	if ($len==3) return (($r1&15)<<12)+(($r2&63)<< 6)+($r3&63);
-	$r4=ord($u[3]);
-	if ($len==4) return (($r1& 7)<<18)+(($r2&63)<<12)+(($r3&63)<<6)+($r4&63);
-	return 63;
-}
+include_once "samples/_php/unicode.php";
+
 function transformPathFromSvgs($p)
 {
 	//assume "-" never follows a number

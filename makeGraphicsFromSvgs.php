@@ -31,28 +31,16 @@ else
 	$pAcjk=0;
 $dir="svgs".$version;
 $target="graphics".$version.".txt";
+
+include_once "samples/_php/getCharList.php";
+include_once "lib.php";
+
+if(isset($_GET["check"])) $check=intval($_GET["check"]);
+else $check=0;
 ?>
 <h1>Make graphics<?php echo $version;?>.txt file
 from svgs<?php echo $version;?> directory content</h1>
 <?php
-function unichr($u)
-{
-    return mb_convert_encoding('&#' . intval($u) . ';', 'UTF-8', 'HTML-ENTITIES');
-}
-function decUnicode($u)
-{
-	$len=strlen($u);
-	if ($len==0) return 63;
-	$r1=ord($u[0]);
-	if ($len==1) return $r1;
-	$r2=ord($u[1]);
-	if ($len==2) return (($r1&31)<< 6)+($r2&63);
-	$r3=ord($u[2]);
-	if ($len==3) return (($r1&15)<<12)+(($r2&63)<< 6)+($r3&63);
-	$r4=ord($u[3]);
-	if ($len==4) return (($r1& 7)<<18)+(($r2&63)<<12)+(($r3&63)<<6)+($r4&63);
-	return 63;
-}
 function transformPathFromSvgs($p)
 {
 	//assume "-" never follows a number
@@ -96,9 +84,19 @@ function replaceVHbyL($p)
 
 function makeGraphics($dir,$target,$version)
 {
+	global $check;
+	if($check)
+	{
+		$listOfChar="";
+		if($version=="Ja") $listOfChar.=getJaCharList();
+		else if($version=="ZhHans") $listOfChar.=getZhHansCharList();
+		else if($version=="ZhHant") $listOfChar.=getZhHantCharList();
+		else $check=0;
+	}
 	if (file_exists($target)) unlink($target);
 	$a=scandir($dir);
 	$k=0;
+	$badChars="";
 	foreach ($a as $f)
 	{
 		if (substr($f,0,1)==".") echo "Skip ".$f."<br>\n";
@@ -107,10 +105,13 @@ function makeGraphics($dir,$target,$version)
 		{
 			
 			$dec=intVal($f);
-			$handle=fopen($dir."/".$f,"r");
-			$s='{"character":"'.unichr($dec).'","strokes":[';
-			if ($handle)
+			$char=unichr($dec);
+			if(!$check||(mb_strpos($listOfChar,$char)!== false))
 			{
+				$handle=fopen($dir."/".$f,"r");
+				$s='{"character":"'.$char.'","strokes":[';
+				if ($handle)
+				{
 				$k++;
 				echo $k.": ".unichr($dec)." ".$f."<br>\n";
 				$n=0;
@@ -191,9 +192,13 @@ function makeGraphics($dir,$target,$version)
 				echo "n=".$n."<br>\n";
 				fclose($handle);
 			}
-			else echo "Cannot open \"".$f."\"<br>\n";
+				else echo "Cannot open \"".$f."\"<br>\n";
+			}
+			else if($check) $badChars.=$char;
+			else echo $char." not in convenient set!<br>\n";
 		}
 	}
+	echo "Bad chars: ".$badChars."<br>\n";
 }
 
 echo "<p>Begin<br>\n";

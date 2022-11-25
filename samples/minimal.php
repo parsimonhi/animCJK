@@ -1,27 +1,6 @@
 <?php
-mb_internal_encoding("UTF-8");
-mb_regex_encoding("UTF-8");
-
-function unichr($u)
-{
-	// return the UTF-8 char corresponding to the decimal unicode $u
-    return mb_convert_encoding('&#' . intval($u) . ';', 'UTF-8', 'HTML-ENTITIES');
-}
-function decUnicode($u)
-{
-	// return the decimal unicode of UTF-8 char $u
-	$len=strlen($u);
-	if ($len==0) return 63;
-	$r1=ord($u[0]);
-	if ($len==1) return $r1;
-	$r2=ord($u[1]);
-	if ($len==2) return (($r1&31)<< 6)+($r2&63);
-	$r3=ord($u[2]);
-	if ($len==3) return (($r1&15)<<12)+(($r2&63)<< 6)+($r3&63);
-	$r4=ord($u[3]);
-	if ($len==4) return (($r1& 7)<<18)+(($r2&63)<<12)+(($r3&63)<<6)+($r4&63);
-	return 63;
-}
+include_once "_php/encoding.php";
+include_once "_php/unicode.php";
 
 // Set some global variables
 // $lang (language code: ja, zh-hans or zh-hant)

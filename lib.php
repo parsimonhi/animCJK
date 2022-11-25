@@ -1,6 +1,6 @@
 <?php
-mb_internal_encoding("UTF-8");
-mb_regex_encoding("UTF-8");
+include_once "samples/_php/encoding.php";
+include_once "samples/_php/unicode.php";
 
 function my_json_decode($line)
 {
@@ -48,31 +48,6 @@ function my_json_decode($line)
 			$a->{'acjk'}=$match[1];
 	}
 	return $a;
-}
-
-function decUnicode($u)
-{
-	$len=strlen($u);
-	if ($len==0) return 63;
-	$r1=ord($u[0]);
-	if ($len==1) return $r1;
-	$r2=ord($u[1]);
-	if ($len==2) return (($r1&31)<< 6)+($r2&63);
-	$r3=ord($u[2]);
-	if ($len==3) return (($r1&15)<<12)+(($r2&63)<< 6)+($r3&63);
-	$r4=ord($u[3]);
-	if ($len==4) return (($r1& 7)<<18)+(($r2&63)<<12)+(($r3&63)<<6)+($r4&63);
-	return 63;
-}
-
-function hexUnicode($u)
-{
-	return str_pad(dechex(decUnicode($u)),5,"0",STR_PAD_LEFT);
-}
-
-function unihanUnicode($u)
-{
-	return "U+".strtoupper(dechex(decUnicode($u)));
 }
 
 function convertJapaneseKun($s)

@@ -104,8 +104,6 @@ echo "Acjk: ".$acjk;
 ?>
 </div>
 <?php echo displayFooter("radical");?>
-<!-- add polyfill for String.codePointAt() and String.fromCodePoint() functions -->
-<script src="_js/codePoint.js"></script>
 <!-- add asvg.js to support some pitiful browsers that cannot animate Svg properly -->
 <script src="_js/asvg.js"></script>
 <script>

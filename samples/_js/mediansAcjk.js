@@ -908,9 +908,13 @@ acjkm.getOldSvgAsJsonFile=function(data)
 					acjkm.counter++;
 					if(acjkm.debugOutput)
 					{
-						acjkm.debugOutput.innerHTML="#"+acjkm.counter+" character (read from "+acjkm.source+"): "+data+"<br>";
-						acjkm.debugOutput.innerHTML+="Num of strokes: "+a.strokes.length+"<br>";
-						acjkm.debugOutput.innerHTML+="Old Json line:<br>"+s+"<br>";
+						let b;
+						b="#"+acjkm.counter+" character";
+						if(typeof acjkm.source==='string') b+=" (read from "+acjkm.source+")";
+						b+=": "+data+"<br>";
+						b+="Num of strokes: "+a.strokes.length+"<br>";
+						b+="Old Json line:<br>"+s+"<br>";
+						acjkm.debugOutput.innerHTML=b;
 					}
 					for (k=0;k<acjkm.numOfStrokes;k++)
 					{
@@ -1000,9 +1004,13 @@ acjkm.getOldSvgAsSvg=function(data)
 	acjkm.counter++;
 	if(acjkm.debugOutput)
 	{
-		acjkm.debugOutput.innerHTML="#"+acjkm.counter+" character (read from "+acjkm.source+"): "+data+"<br>";
-		acjkm.debugOutput.innerHTML+="Num of strokes: "+a.strokes.length+"<br>";
-		acjkm.debugOutput.innerHTML+="Old Json line:<br>"+s+"<br>";
+		let b;
+		b="#"+acjkm.counter+" character";
+		if(typeof acjkm.source==='string') b+=" (read from "+acjkm.source+")";
+		b+=": "+data+"<br>";
+		b+="Num of strokes: "+a.strokes.length+"<br>";
+		b+="Old Json line:<br>"+s+"<br>";
+		acjkm.debugOutput.innerHTML=b;
 	}
 	for (k=0;k<acjkm.numOfStrokes;k++)
 	{

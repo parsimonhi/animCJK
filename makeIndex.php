@@ -225,7 +225,6 @@ svg.acjk path[id] {fill:#ccc;}
 .xrays svg.acjk path[id] {fill:#6666;}
 </style>
 <title>AnimCJK Demo</title>
-<script src="samples/_js/codePoint.js"></script>
 <script src="samples/_js/asvg.js"></script>
 <script>
 function cleanData(e)
