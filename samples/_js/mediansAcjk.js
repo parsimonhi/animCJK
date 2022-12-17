@@ -580,7 +580,7 @@ acjkm.boardClass.prototype.magic=function(nStroke,p1)
 		}
 		if (!t)
 			if (!acjkm.disMax||(acjkm.disMax.d<this.disMax))
-				acjkm.disMax={character:acjkm.data.substr(0,1),stroke:nStroke+1,d:this.disMax};
+				acjkm.disMax={character:[...acjkm.data][0],stroke:nStroke+1,d:this.disMax};
 	}
 
 	// Step 5
@@ -716,13 +716,13 @@ acjkm.boardClass.prototype.createNewSvg=function(nStroke,p1)
 				acjkm.allJsonLines="";
 			}
 		}
-		acjkm.data=acjkm.data.substr(1);
+		acjkm.data=acjkm.data.replace([...acjkm.data][0],"");
 		if (acjkm.data)
 		{
 			acjkm.board=[];
 			acjkm.svg=[];
 			acjkm.p1List=[];
-			acjkm.getOldSvg(acjkm.data.substr(0,1));
+			acjkm.getOldSvg([...acjkm.data][0]);
 		}
 		else if(acjkm.after) acjkm.after();
 	}
@@ -1115,8 +1115,8 @@ acjkm.run=function(p)
 	if (acjkm.data)
 	{
 		acjkm.data=acjkm.data.replace(/\s/g,"");
-		if(acjkm.recordType=="svg") acjkm.getOldSvgAsSvg(acjkm.data.substr(0,1));
-		else acjkm.getOldSvgAsJsonFile(acjkm.data.substr(0,1));
+		if(acjkm.recordType=="svg") acjkm.getOldSvgAsSvg([...acjkm.data][0]);
+		else acjkm.getOldSvgAsJsonFile([...acjkm.data][0]);
 	}
 	else if(acjkm.errorOutput) acjkm.errorOutput.innerHTML="No data to process!";
 };

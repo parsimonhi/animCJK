@@ -2,6 +2,7 @@
 function convertJapaneseKun($s)
 {
 	$s=str_replace("PP","っP",$s);
+	$s=str_replace("SS","っS",$s);
 	$s=str_replace("TT","っT",$s);
 
 	$s=str_replace("AA","Aあ",$s);
@@ -30,11 +31,11 @@ function convertJapaneseKun($s)
 	$s=str_replace("GE","げ",$s);
 	$s=str_replace("GO","ご",$s);
 
-	// tsu before su
 	$s=str_replace("CHA","ちゃ",$s);
 	$s=str_replace("CHU","ちゅ",$s);
 	$s=str_replace("CHO","ちょ",$s);
 	
+	// tsu before su
 	$s=str_replace("TA","た",$s);
 	$s=str_replace("CHI","ち",$s);
 	$s=str_replace("TSU","つ",$s);
@@ -149,9 +150,10 @@ function convertJapaneseKun($s)
 	
 	return $s;
 }
-
 function convertJapaneseOn($s)
 {
+	$s=str_replace("PP","ッP",$s);
+	$s=str_replace("SS","ッS",$s);
 	$s=str_replace("TT","ッT",$s);
 
 	$s=str_replace("AA","Aア",$s);

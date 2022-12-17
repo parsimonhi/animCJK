@@ -95,6 +95,7 @@ function makeGraphics($dir,$target,$version)
 	}
 	if (file_exists($target)) unlink($target);
 	$a=scandir($dir);
+	natsort($a);
 	$k=0;
 	$badChars="";
 	foreach ($a as $f)
@@ -113,7 +114,7 @@ function makeGraphics($dir,$target,$version)
 				if ($handle)
 				{
 				$k++;
-				echo $k.": ".unichr($dec)." ".$f."<br>\n";
+				echo $k.": ".unichr($dec)." ".$f."\n";
 				$n=0;
 				while (($line=fgets($handle))!==false)
 				{
@@ -189,7 +190,7 @@ function makeGraphics($dir,$target,$version)
 				$s.=']}';
 				//echo $s."<br>\n";
 				file_put_contents("graphics".$version.".txt",$s.PHP_EOL,FILE_APPEND|LOCK_EX);
-				echo "n=".$n."<br>\n";
+				echo " n=".$n."<br>\n";
 				fclose($handle);
 			}
 				else echo "Cannot open \"".$f."\"<br>\n";

@@ -1,6 +1,6 @@
 # AnimCJK
 
-![nichi](samples/_img/日-jred.png)![zhong](samples/_img/中-red.png)
+![nichi](samples/_img/日-jred.png)![zhong](samples/_img/中-jred.png)
 
 ## Description
 
@@ -14,7 +14,7 @@ For each character, there is one or several svg files in AnimCJK repository that
 
 SVG files are stored in several folders.
 
-The svgsJa folder contains svg files corresponding to the union of the Japanese "jōyō kanji" (2136 characters), the Japanese "jinmeyō Kanji" (862 characters) and 92 Japanese "hyōgai Kanji". As a result, svgsJa folder contains 3090 characters.
+The svgsJa folder contains svg files corresponding to the union of the Japanese "jōyō kanji" (2136 characters), the Japanese "jinmeyō Kanji" (862 characters) and 93 Japanese "hyōgai Kanji". As a result, svgsJa folder contains 3091 characters.
 
 The svgsKana folder contains svg files corresponding to the Japanese "hiragana" (86 characters) and Japanese "katakana" (91 characters). As a result, svgsKana folder contains 177 characters.
 
@@ -158,11 +158,11 @@ http://gooo.free.fr/animCJK/animkanji_wp_plugin_page.php
 
 ### Makemeahanzi
 
-This project is derived from the remarquable Makemeahanzi project which is designed to display Chinese characters. See https://github.com/skishore/makemeahanzi for more details. Many characters were modified or added in AnimCJK (between three or four thousand at the moment) for various reasons:
-- many Japanese characters have a different stroke order, or have a different glyph, or have a different stroke direction or are not commonly used in Chinese, and therefore have no entry in Makemeahanzi.
-- many Chinese traditional characters have a different stroke order, or have a different glyph, or have a different stroke direction or have no entry in Makemeahanzi.
+This project is derived from the remarquable Makemeahanzi project which is designed to display Chinese characters. See https://github.com/skishore/makemeahanzi for more details. However nearly all the characters were modified or added in animCJK for various reasons:
+- many Japanese characters have a different stroke order, or have a different glyph, or have a different stroke direction or are not commonly used in Chinese, and therefore are not in Makemeahanzi.
+- many Chinese traditional characters have a different stroke order, or have a different glyph, or have a different stroke direction or are not in Makemeahanzi.
 - many character shapes were just slightly modified to look prettier.
-- some commonly used (but not frequently used) Chinese characters have no entry in Makemeahanzi. 
+- some commonly used (but not frequently used) Chinese characters are not in Makemeahanzi. 
 
 Even if character shapes have the same look in both Makemeahanzi and AnimCJK, the svg files are different: the css is different, the svg structure is different, the coordinate system is different, the stroke paths are different, the median paths are different. However, for people who would like to re-import characters from AnimCJK to Makemeahanzi, text files are provided (graphicsJa.txt, graphicsZhHans.txt, etc.) that have the same format as the graphics.txt file of Makemeahanzi. So it is easy to generate SVG files in the format used by Makemeahanzi using AnimCJK data.
 
@@ -170,7 +170,7 @@ Even if character shapes have the same look in both Makemeahanzi and AnimCJK, th
 
 Makemeahanzi itself makes an extensive use of the Arphic PL KaitiM GB and Arphic PL UKai fonts generously provided by Arphic Technology.
 
-Many characters of AnimCJK are not present in these fonts (especially but not exclusively Japanese characters since these Arphic fonts are designed for Chinese). One used parts of other characters to design these missing characters and/or used various editors (mainly Inkscape and BBEdit) to modify their shape. One didn't use any other fonts to make these characters.
+Many characters in AnimCJK are not present in these fonts (especially but not exclusively Japanese characters since these Arphic fonts are designed for Chinese). One used parts of other characters to design these missing characters and/or used various editors (mainly Inkscape and BBEdit) to modify their shape. One didn't use any other fonts to make these characters.
 
 ### Animated_GIF
 
@@ -206,10 +206,19 @@ We used various sources to cross-check our data. In particular:
 
 Minor enhancements (glyphs or medians most of the time) and minor updates can be skipped.
 
+2022/12/10
+- add 𠮟 (svgsJa/134047.svg), warning: this character is not in the BMP (Basic Multilingual Plane)
+- replace 叱 (svgsJa/21489.svg) by 𠮟 (svgsJa/134047.svg) in the Jōyō kanji list
+- move 叱 (svgsJa/21489.svg) to the Hyōgai kanji list
+- modify various scripts to handle characters that are not in the BMP (Basic Multilingual Plane)
+- 由甲申电: replace 曰 by 日 in their decomposition
+- various minor updates
+
 2022/11/25
 - simplify the license
 - remove use of codePoint.js polyfill
-- replace 剥頬 by 剝頰 in the Jōyō kanji list, keep 剥頬 in the Hyōgai kanji list
+- replace 剥頬 by 剝頰 in the Jōyō kanji list
+- move 剥頬 to the Hyōgai kanji list
 - 禸禽檎璃離: modify Japanese number of strokes (禸 has 5 strokes in Japanese, even if it has only 4 strokes when handwriting), modify the glyph the same as what was done for 以
 - 咽姻昧酎酌猶酬酪箇酵酷錮醜醸困循行督賂釉賊賄賜賠賦頼購霜贈瞬睦睡苗畜畔袖描幅雷瑠届憧黙鮮藩町個因啄団侑贈恩面囚飜伊楷詣套遭暦稲箸暑緒賭旭潜暫幡壕箱槽踏諧錯曖瞭闇譜韻籍響艶室省規盲眉盾眠眺眺帽諸旨旬伯縛鐘逸著響拍迫両臟皆汪旱旰父理米組藝距香泪嘗脂曹婚惜措曽晶替聞麟普僧暇鱗泡習堵日汕亥福奂留懒枨嵐悩敷楽者軸汛県借曰汜着乎殖奮竪筈汤汩汨増暮簡抽縮阳酉署著喬配酒笛宿指從富汊道首菌圏相明書昔博暑暗曜埴値権汔禸禽檎璃離污価的唱易寡織毘港晴空金國鬲由置渚混夢常铰几楢労冬分切隠劣駈細叢釆髟柑甘紺前詮北園旺畑並乗麥黍齒福春冫音目敢貼律只沌墓徴傾艶西溜蛐曲回豕豸澪濡瀕四白百自塡塗隔煩憎網徠德徽図学文正気田汐国番間章羊趣進泊欲復皇聖難署宀囗待囲匸教幸息研階竣徒固芽確価績層磁債圈昌陥尋: minor enhancements
 - various minor updates
