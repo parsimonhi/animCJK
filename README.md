@@ -206,12 +206,13 @@ We used various sources to cross-check our data. In particular:
 
 Minor enhancements (glyphs or medians most of the time) and minor updates can be skipped.
 
-2022/12/10
+2022/12/17
 - add 𠮟 (svgsJa/134047.svg), warning: this character is not in the BMP (Basic Multilingual Plane)
 - replace 叱 (svgsJa/21489.svg) by 𠮟 (svgsJa/134047.svg) in the Jōyō kanji list
 - move 叱 (svgsJa/21489.svg) to the Hyōgai kanji list
 - modify various scripts to handle characters that are not in the BMP (Basic Multilingual Plane)
 - 由甲申电: replace 曰 by 日 in their decomposition
+- 争足癫闪泄泅泐泓泔坩甙甜疳绀苷蚶邯酣钳泖泚泛泜泞泠泫倉匚泮泯泱泷泸泺泻億鷺児包皿速鉄沧謹銀沨沩沪丁飲題集酒沭配都軽転路沮沱沽黛視何沾泃仰辺財下右大手木本見青音不僧覗賴飢欄層增凉綠沥打投整淚釀憎類曆歷錄檜渚猪醉團醤梱味鍋旅昭植瑚沦橋中日板皮祭都練廣淨黃穀沟濕實壽澁者署署緖諸狀剩孃愼穗峯齊裝瘦帶滯瀧鎭燈稻賣髮賓墨與搖曾冨沤頌颯錫醇醐醍醬汾饗馨魯圓緣沁沆悔悔薗鴨奧橫價壞沉懷陷僞薰揭擊縣劍顯嚴沏沔沘沚曉圈囱櫓渚湘囟摑凹凸蘇蠟袈裟裳襖詫諺谚猪珀皓絢讃豹貰賑蕾蹟眸瞥蒔詢迪遥硯窺焰狼遁鍬隈箕囫汹粟晒晋晦智暉曙糊紬椿綾纂纏肴楯槻芹苑茅莉萄葵難萩董重蒼蔭蔣蓬梅梅蕎蕉蕃蕪九溫海囤飯亮囵燎沣沅沄沐侃牽汭瑶瓜汴畠禎商定客稀俗稔稜稟汶谣箔禪寒岸庭式想意感所窪赌储诸卤洲琢洛浬卣园淵淳淀淋湊沂况沛佞湛堪溢滉围漕菖使薦倍品員乾龠栖鼻萌漣渴灘漢紐崚佃嶺彦悉摺沫撰播佛償買乘了仁斧亩偲斯寓昂昏旷昌旸晨噌间曝沓渥柏柚洸顔風高屠绪: minor enhancements
 - various minor updates
 
 2022/11/25
