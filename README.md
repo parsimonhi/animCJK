@@ -14,7 +14,7 @@ For each character, there is one or several svg files in AnimCJK repository that
 
 SVG files are stored in several folders.
 
-The svgsJa folder contains svg files corresponding to the union of the Japanese "jōyō kanji" (2136 characters), the Japanese "jinmeyō Kanji" (862 characters) and 93 Japanese "hyōgai Kanji". As a result, svgsJa folder contains 3091 characters.
+The svgsJa folder contains svg files corresponding to the union of the Japanese "jōyō kanji" (2136 characters), the Japanese "jinmeyō Kanji" (863 characters) and 120 Japanese "hyōgai Kanji". As a result, svgsJa folder contains 3119 characters.
 
 The svgsKana folder contains svg files corresponding to the Japanese "hiragana" (86 characters) and Japanese "katakana" (91 characters). As a result, svgsKana folder contains 177 characters.
 
@@ -67,7 +67,6 @@ Alternately, you can use HTML and Javascript. Write the code below in a file cal
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="initial-scale=1.0,user-scalable=yes">
-<title>Simple usage of AnimCJK</title>
 <style>
 svg.acjk
 {
@@ -75,23 +74,16 @@ svg.acjk
 	height:256px;
 }
 </style>
+<title>Simple usage of AnimCJK</title>
 </head>
 <body>
 <h1>Simple usage of AnimCJK</h1>
 <div id="svgBox"></div>
 <script>
-function loadSvg()
-{
-	var xhr=new XMLHttpRequest();
-	xhr.onreadystatechange=function()
-	{
-		if ((xhr.readyState==4)&&(xhr.status==200))
-			document.getElementById("svgBox").innerHTML=xhr.responseText;
-	};
-	xhr.open("GET","../svgsJa/20013.svg",true); // get Japanese 中
-	xhr.send(null);
-}
-window.addEventListener("load",loadSvg,false);
+window.addEventListener("load",function(){
+	fetch("../svgsJa/20013.svg") // get Japanese 中
+	.then(r=>r.text())
+	.then(r=>document.getElementById("svgBox").innerHTML=r);});
 </script>
 </body>
 </html>
@@ -190,6 +182,7 @@ We used various sources to cross-check our data. In particular:
 - Moji kakudai, https://moji.tekkai.com/ (Japanese characters, kaishotai kanji)
 - KanjiVG, http://kanjivg.tagaini.net/viewer.html (Japanese characters, stroke order)
 - ArchChinese, https://www.archchinese.com/chinese_english_dictionary.html (Chinese characters)
+- Qianpian https://zidian.qianp.com/ (Chinese characters)
 - Taiwanese Minister Of Education, https://stroke-order.learningweb.moe.edu.tw/characters.do?lang=en (Chinese characters used in Taiwan)
 - Hong-Kong Education Bureau, https://www.edbchinese.hk/lexlist_en/ (Chinese characters used in Hong-Kong)
 - Naver Hanja Dictionary, https://hanja.dict.naver.com/ (Korean characters)
@@ -205,6 +198,19 @@ We used various sources to cross-check our data. In particular:
 ## What is new?
 
 Minor enhancements (glyphs or medians most of the time) and minor updates can be skipped.
+
+2023/01/03
+- update the licence
+- remove use of asvg.js (ie browser is no longer supported)
+- rewrite samples
+- modify some decompositions
+- add a sample: "curves"
+- add two new kinds of characters: component and stroke
+- add (Jinmeiyō): 渾 
+- add (stroke): ㇀㇁㇂㇃㇄㇅㇆㇇㇈㇉㇊㇋㇌㇍㇎㇏㇐㇑㇒㇓㇔㇕㇖㇗㇘㇙㇚㇛㇜㇝㇞㇟㇠㇡㇢
+- add (various): 亻乚𠃍丄𠂇乂𠂉丆䒑丷亇龰龶𠂒乁𠃌𠂊𡿨乛𠂌𬺰⺆亼𠆢⺊𭕄亻氵习𠃊氶业亚吕𠄎乀辶⻌⻍⻎妟𧘇卄𠃋从飞乜⺤⺥爫爫⺄⺀𠘨刂⺈㔾𠂆⺌尣兀巜𠦝龴亢肀⺕
+- 亠丶丨之円一七三後白泼泽国竞鋸卒型堂塩失差图席府洁洄洇者倣傍洌洑洒洙建径徒得必成洧洨洫丢迁乔乒乓灞茀氽灏洮冱像洱冲冰决冻冼盱丿洴忏洹洺洼洽兴姪浃阪纤浇五二上六下入党浈浊测陇浍济浏运呻圻浐戦浑挙抓扳浒浓淇滂涎淫滨湟浔浕苌芹芪浙凱歼邺县听岙邱返孚饪浚剖饫饭忻识卷厂尢浞诉浠浡渌浣浥浯備鹵涂涅涌湫澧涑涓涔涕彐: minor enhancements
+- various minor updates
 
 2022/12/17
 - add 𠮟 (svgsJa/134047.svg), warning: this character is not in the BMP (Basic Multilingual Plane)
@@ -333,9 +339,9 @@ Minor enhancements (glyphs or medians most of the time) and minor updates can be
 ## Licences
 
 In summary, you can freely redistribute and/or modify the files of this project under the terms of:
-- Arphic Public License (files prefixed by "graphics" and SVG files),
+- Arphic Public License (files prefixed by "graphics" and SVG files representing kanji or hanzi),
 - GNU Lesser General Public License (all other files).
 
-When using any of the files prefixed with "graphics" or SVG files, you need only the Arphic Public License.
+Note: SVG files representing Kana or strokes may be redistributed and/or modified under the GNU Lesser General Public License alone, since these SVG are not derived from Arphic fonts (no entry for these characters in Arphic fonts).
 
 See https://github.com/parsimonhi/animCJK/blob/master/licenses/COPYING.txt for more details about licences concerning this project.

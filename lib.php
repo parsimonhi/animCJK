@@ -58,6 +58,8 @@ function convertSet($s,$lang)
 		if (preg_match("/^g([1-6])$/",$s)) $r=preg_replace("/^g([1-6])$/","Joyo kanji, grade $1",$s);
 		else if ($s=="g7") $r="Jōyō kanji, junior high school";
 		else if ($s=="g8") $r="Jinmeyō kanji";
+		else if ($s=="gc") $r="Component";
+		else if ($s=="gs") $r="Stroke";
 		else $r="Hyōgai kanji";
 	}
 	else if ($lang=="zh-Hans")
@@ -65,6 +67,8 @@ function convertSet($s,$lang)
 		if (preg_match("/^hsk([1-6])$/",$s)) $r=preg_replace("/^hsk([1-6])$/","HSK $1",$s);
 		else if ($s=="hsk7") $r="Frequent hanzi";
 		else if ($s=="hsk8") $r="Common hanzi";
+		else if ($s=="hskc") $r="Component";
+		else if ($s=="hsks") $r="Stroke";
 		else $r="Uncommon hanzi";
 	}
 	else if ($lang=="zh-Hant")
@@ -77,7 +81,19 @@ function convertSet($s,$lang)
 	else $r="";
 	return $r;
 }
-
+function spanize($s,$lang)
+{
+	// add span to avoid side effect when characters are not in the BMP
+	$a=mb_str_split($s);
+	$r="";
+	foreach($a as $b)
+	{
+		$r.="<span class=\"cjkChar\" lang=\"";
+		$r.=(preg_match("/[0-9.:⿰⿻]/u",$b)?"en":$lang);
+		$r.="\">".$b."</span>";
+	}
+	return $r;
+}
 function getDictionaryData($char,$lang="zh-hans")
 {
 	$s="<div class=\"dico\">";
@@ -105,9 +121,9 @@ function getDictionaryData($char,$lang="zh-hans")
 				if (property_exists($a,'radical')&&$a->{'radical'})
 					$s.="<div class=\"radical\">Radical: <span class=\"cjkChar\" lang=\"".$lang."\">".$a->{'radical'}."</span></div>";
 				if (property_exists($a,'decomposition')&&$a->{'decomposition'})
-					$s.="<div class=\"radical\">Decomposition: <span class=\"cjkChar\" lang=\"".$lang."\">".$a->{'decomposition'}."</span></div>";
+					$s.="<div class=\"radical\">Decomposition: ".spanize($a->{'decomposition'},$lang)."</div>";
 				if (property_exists($a,'acjk')&&$a->{'acjk'})
-					$s.="<div class=\"radical\">Acjk: <span class=\"cjkChar\" lang=\"".$lang."\">".$a->{'acjk'}."</span></div>";
+					$s.="<div class=\"radical\">Acjk: ".spanize($a->{'acjk'},$lang)."</div>";
 				if (($lang=="zh-hans")||($lang=="zh-hant"))
 				{
 					if (property_exists($a,'pinyin')&&count($a->{'pinyin'}))
