@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="initial-scale=1.0,user-scalable=yes">
+<link rel="stylesheet" href="_css/withSelector.css" type="text/css">
+<style>
+#c
+{
+	margin-top:0.5em;
+}
+#c>div
+{
+	display:inline-block;
+	width:256px;
+	height:256px;
+	border:1px solid #ccc;
+	margin:0.125em;
+	vertical-align:top;
+}
+#r path[id]
+{
+	fill:#0003;
+}
+#r path[clip-path]
+{
+	fill:none;
+	stroke:#c00;
+	stroke-width:12.8px;
+	stroke-linecap:round;
+}
+pre {white-space: pre-wrap;} 
+</style>
+<title>AnimCJK curves</title>
+</head>
+<body>
+<h1>AnimCJK curves</h1>
+<nav class="link">
+<a href="https://github.com/parsimonhi/animCJK"><span>Download</span></a>
+<a href="./"><span>Sample selector</span></a>
+</nav>
+<p>Transform the medians of a character in curved lines.
+The paths obtained can also be used as medians.
+See also <a href="https://towardsdatascience.com/b%C3%A9zier-interpolation-8033e9a262c2">Bézier Interpolation</a>
+and <a href="https://en.wikipedia.org/wiki/Tridiagonal_matrix_algorithm">Tridiagonal matrix algorithm</a>.
+</p>
+<div class="langSelector"></div>
+<div class="charSelector"></div>
+<div id="c">
+<div id="r"></div>
+<div id="a"></div>
+</div>
+<div id="t"></div>
+<div class="charListSelector"></div>
+<footer>
+<nav class="link">
+<a href="#"><span>Top</span></a>
+<a href="./"><span>Sample selector</span></a>
+<a href="../licenses/COPYING.txt"><span>Licences</span></a>
+</nav>
+</footer>
+<script>
+function getRadioValue(name)
+{
+	let list=document.querySelectorAll('[name="'+name+'"]');
+	for(k=0;k<list.length;k++) if(list[k].checked) return list[k].value;
+	return "Ja";
+}
+
+function solve(aa,bb,cc,dd)
+{
+	// clone the arguments since some are altered inside this function
+	let a=[...aa],b=[...bb],c=[...cc],d=[...dd],k,n=dd.length,w,x=[];
+	// assume n>1
+	for(k=1;k<n;k++)
+	{
+		w=a[k-1]/b[k-1];
+		b[k]=b[k]-w*c[k-1];
+		d[k]=d[k]-w*d[k-1];
+	}
+	x[n-1]=d[n-1]/b[n-1];
+	for(k=n-2;k>=0;k--) x[k]=(d[k]-c[k]*x[k+1])/b[k];
+	return x;
+}
+
+function curvePath(d0)
+{
+	// assume d0 is a path definition containing only straight lines
+	let a=[],b=[],c=[],d=[],ra=[],rb=[],k,km,z,dN;
+	let P=[]; // array of d0 points
+	d0.match(/[ML ][0-9-]+[, ][0-9-]+/g).forEach(s=>P.push(s.match(/[0-9-]+/g)));
+	km=P.length;
+	if(km<3) return d0; // need at leat 3 points to make curves
+	for(k=0;k<km;k++) P[k]=[parseInt(P[k][0]),parseInt(P[k][1])];
+	for(k=0;k<(km-3);k++) a[k]=1; a[km-3]=2;
+	b[0]=2; for(k=1;k<(km-2);k++) b[k]=4; b[km-2]=7;
+	for(k=0;k<(km-2);k++) c[k]=1;
+	for(z=0;z<2;z++)
+	{
+		d[0]=P[0][z]+2*P[1][z];
+		for(k=1;k<(km-2);k++) d[k]=2*(2*P[k][z]+P[k+1][z]);
+		d[km-2]=8*P[km-2][z]+P[km-1][z];
+		ra[z]=solve(a,b,c,d);
+		rb[z]=[];
+		for(k=0;k<(km-2);k++) rb[z][k]=2*P[k+1][z]-ra[z][k+1];
+		rb[z][km-2]=(ra[z][km-2]+P[km-1][z])/2;
+	}
+	dN="M";
+	for(k=0;k<(km-1);k++)
+		dN+=P[k][0]+" "+P[k][1]+"C"+ra[0][k]+" "+ra[1][k]+" "+rb[0][k]+" "+rb[1][k]+" ";
+	dN+=P[km-1][0]+" "+P[km-1][1];
+	dN=dN.replaceAll(/([^0-9"-])(-?[0-9]+)\.[0-9]+/g,"$1$2");
+	return dN;
+}
+
+function run(r)
+{
+	let list,newD=[],km,svg;
+	document.getElementById("r").innerHTML=r.replace(/<style>[^£]+<\/style>/,"");
+	list=document.querySelectorAll("#r path[clip-path]");
+	km=list.length;
+	for(k=0;k<km;k++) newD[k]=curvePath(list[k].getAttribute('d'));
+	svg="<svg viewBox='0 0 1024 1024' fill='none' stroke='#000' stroke-width='10'>\n";
+	for(k=0;k<km;k++) svg+="<path d='"+newD[k]+"'/>\n";
+	svg+="</svg>";
+	document.getElementById("a").innerHTML=svg;
+	svg=svg.replace(/</g,"&lt;").replace(/>/g,"&gt;");
+	document.getElementById("t").innerHTML="<pre>"+svg+"</pre>";
+}
+
+function doIt()
+{
+	let e=document.querySelector('[name="char"]'),c=e.value;
+	document.getElementById("r").innerHTML="";
+	document.getElementById("a").innerHTML="";
+	document.getElementById("t").innerHTML="";
+	if(c)
+	{
+		let dec=c.codePointAt(0),lang=getRadioValue("lang");
+		e.value=String.fromCodePoint(dec);
+		fetch('../svgs'+lang+'/'+dec+'.svg')
+		.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
+		.then(r=>{run(r);return true;})
+		.catch(e=>document.getElementById("r").innerHTML=e+' in svgs'+lang);
+	}
+}
+</script>
+<script src="_js/selectorAcjk.js"></script>
+</body>
+</html>

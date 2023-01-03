@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="initial-scale=1.0,user-scalable=yes">
-<meta name="description" content="Demo to generate an animated GIF image on the fly
-of a Japanese or Chinese character using animCJK SVG files">
+<meta name="description" content="Demo to animate indefinitely
+a Japanese or Chinese character using animCJK svg files">
 <link rel="stylesheet" href="_css/withSelector.css" type="text/css">
 <style>
 #a
@@ -12,24 +12,34 @@ of a Japanese or Chinese character using animCJK SVG files">
 	width:300px;
 	height:300px;
 	border:1px solid #ccc;
+	margin-top:0.5em;
 }
-#a img
+#a svg
 {
 	display:block;
 }
+pre
+{
+	border:1px solid #ccc;
+	padding:0.125em;
+	white-space:pre-wrap;
+}
 </style>
-<title>AnimCJK Animated GIF</title>
+<title>AnimCJK Infinite</title>
 </head>
 <body>
-<h1>AnimCJK Animated GIF</h1>
+<h1>AnimCJK Infinite</h1>
 <nav class="link">
 <a href="https://github.com/parsimonhi/animCJK"><span>Download</span></a>
 <a href="./"><span>Sample selector</span></a>
 </nav>
 <div class="langSelector"></div>
 <div class="charSelector"></div>
-<p id="p">Animated GIF image generated on the fly from a SVG</p>
 <div id="a"></div>
+<details>
+<summary>SVG code</summary>
+<pre class="codeTag"></pre>
+</details>
 <div class="charListSelector"></div>
 <footer>
 <nav class="link">
@@ -38,22 +48,49 @@ of a Japanese or Chinese character using animCJK SVG files">
 <a href="../licenses/COPYING.txt"><span>Licences</span></a>
 </nav>
 </footer>
-<script src="_js/Animated_GIF.js"></script>
 <script src="_js/magicAcjk.js"></script>
 <script>
+function updateCodeTag()
+{
+	let e,s,z;
+	z="<script"+">\n// <![CDATA[\n"+infinite+"\ninfinite();\n// ]]>\n</"+"script>";
+	e=document.getElementById("a");
+	s=e.innerHTML;
+	s=s.replace(/<style./,"<style"+">\n<![CDATA[");
+	s=s.replace(/.\/style>/,"]]>\n<"+"/style>");
+	s=s.replace(/<\/svg>/,z+"\n</"+"svg>")
+	s=s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+	document.querySelector('.codeTag').innerHTML=s;
+}
 function getRadioValue(name)
 {
 	let list=document.querySelectorAll('[name="'+name+'"]');
 	for(k=0;k<list.length;k++) if(list[k].checked) return list[k].value;
 	return "Ja";
 }
-function showAnimatedGif(image,background,dec)
+function infinite()
 {
-	document.getElementById("a").innerHTML="<img src=\""+image+"\">";
+	let e,s,n;
+	e=document.querySelector('svg.acjk');
+	s=e.innerHTML;
+	n=(s.match(/--d:[0-9]+s/g)||[]).length;
+	setInterval(()=>{e.innerHTML="";e.innerHTML=s;},(n+1)*1000);
 }
-function run(s,dec)
+function updateInfo(s)
 {
-	generateAnimatedGifFromSvg(s,300,"white",1000,dec,showAnimatedGif,"");
+	let d=new Date().getFullYear();
+	s=s.replace(/AnimCJK [0-9-]+/,"AnimCJK 2016-"+d);
+	s=s.replace(/Copyright[^-]+-/,"Copyright FM&SH -");
+	return s;
+}
+function run(s)
+{
+	s=updateInfo(s);
+	s=s.replace(/<style[^@]+@/,"<style"+">\n@");
+	s=s.replace(/}[^}]+\/style>/,"}\n<"+"/style>");
+	document.getElementById("a").innerHTML=s;
+	infinite();
+	updateCodeTag();
 }
 function doIt()
 {
@@ -65,7 +102,7 @@ function doIt()
 		e.value=String.fromCodePoint(dec);
 		fetch('../svgs'+lang+'/'+dec+'.svg')
 		.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
-		.then(r=>{run(r,dec);return true;})
+		.then(r=>{run(r);return true;})
 		.catch(e=>document.getElementById("a").innerHTML=e+' in svgs'+lang);
 	}
 }

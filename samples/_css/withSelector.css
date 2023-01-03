@@ -1,0 +1,49 @@
+.link a
+{
+	color:#000;
+	text-decoration:none;
+}
+.link a span
+{
+	text-decoration:underline;
+}
+.link a:not(:first-of-type)::before
+{
+	content:" - ";
+}
+input[name="char"]
+{
+	width:4em;
+}
+.langSelector label {display:block;}
+.charListSelector h2
+{
+	border-left:0.375em solid #c00;
+	padding-left: 0.375em;
+}
+.charListSelector h3:before
+{
+	content:"";
+	display:inline-block;
+	width:0.5em;
+	height:0.5em;
+	background:#000;
+	margin-right:0.375em;
+	margin-bottom:0.125em;
+}
+.charListSelector p
+{
+	border:1px solid #ccc;
+}
+.charListSelector button
+{
+	border:0;
+	padding:0.125em;
+	margin:0.125em;
+	background:none;
+	cursor:pointer;
+	font-size:1.25em;
+}
+html[lang="ja"] .charListSelector nav:not([lang="ja"]){display:none;}
+html[lang="zh-Hans"] .charListSelector nav:not([lang="zh-Hans"]){display:none;}
+html[lang="zh-Hant"] .charListSelector nav:not([lang="zh-Hant"]){display:none;}

@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="initial-scale=1.0,user-scalable=yes">
+<meta name="description" content="Demo to show the radical
+of a Japanese or Chinese character using animCJK svg files">
+<link rel="stylesheet" href="_css/withSelector.css" type="text/css">
+<style>
+#a
+{
+	width:300px;
+	height:300px;
+	border:1px solid #ccc;
+	margin-top:0.5em;
+}
+#a svg
+{
+	display:block;
+}
+pre
+{
+	border:1px solid #ccc;
+	padding:0.125em;
+	white-space:pre-wrap;
+}
+</style>
+<title>AnimCJK Radical</title>
+</head>
+<body>
+<h1>AnimCJK Radical</h1>
+<nav class="link">
+<a href="https://github.com/parsimonhi/animCJK"><span>Download</span></a>
+<a href="./"><span>Sample selector</span></a>
+</nav>
+<div class="langSelector"></div>
+<div class="charSelector"></div>
+<div id="a"></div>
+<div id="b"></div>
+<details>
+<summary>SVG code</summary>
+<pre class="codeTag"></pre>
+</details>
+<div class="charListSelector"></div>
+<footer>
+<nav class="link">
+<a href="#"><span>Top</span></a>
+<a href="./"><span>Sample selector</span></a>
+<a href="../licenses/COPYING.txt"><span>Licences</span></a>
+</nav>
+</footer>
+<script src="_js/magicAcjk.js"></script>
+<script>
+function updateCodeTag()
+{
+	let e,s;
+	e=document.getElementById("a");
+	s=e.innerHTML;
+	s=s.replace(/<style./,"<style"+">\n<![CDATA[");
+	s=s.replace(/.\/style>/,"]]>\n<"+"/style>");
+	s=s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+	document.querySelector('.codeTag').innerHTML=s;
+}
+function getRadioValue(name)
+{
+	let list=document.querySelectorAll('[name="'+name+'"]');
+	for(k=0;k<list.length;k++) if(list[k].checked) return list[k].value;
+	return "Ja";
+}
+function updateInfo(s)
+{
+	let d=new Date().getFullYear();
+	s=s.replace(/AnimCJK [0-9-]+/,"AnimCJK 2016-"+d);
+	s=s.replace(/Copyright[^-]+-/,"Copyright FM&SH -");
+	return s;
+}
+function run(r)
+{
+	let d=r.acjk,a,list,n;
+	s=updateInfo(r.svg);
+	s=s.replace(/<style[^@]+@/,"<style"+">\n@");
+	s=s.replace(/}[^}]+\/style>/,"}\n<"+"/style>");
+	document.querySelector('#a').innerHTML=s;
+	document.querySelector('#b').innerHTML=r.acjk;
+	d=d.replace(/[:]+/g,"");
+	d=d.replace(/[^.0-9]+/g," ").trim();
+	a=d.split(" ");
+	list=document.querySelectorAll('#a path:not([id])');
+	n=0;
+	if(a[0]==".")
+	{
+		// special cas: the character is a radical
+		for(let k=0;k<list.length;k++) list[k].style.stroke="#fa0";
+	}
+	else for(let b of a)
+	{
+		let p=b.match(/\./);
+		let km=-(-b.replace(".",""));
+		for(let k=0;k<km;k++)
+		{
+			if(p) list[k+n].style.stroke="#fa0";
+			else list[k+n].style.stroke="#00f";
+		}
+		n+=km;
+	}
+	updateCodeTag();
+}
+function doIt()
+{
+  	let e=document.querySelector('[name="char"]'),c=e.value;
+  	document.querySelector('#a').innerHTML="";
+  	document.querySelector('#b').innerHTML="";
+	if(c)
+	{
+		let dec=c.codePointAt(0),lang=getRadioValue("lang"),options;
+		e.value=String.fromCodePoint(dec);
+		options={method:"POST",body:JSON.stringify({lang:lang,dec:dec})};
+		fetch('_php/fetchRadicalData.php',options)
+		.then(r=>{if(!r.ok) throw r.statusText; return r.json();})
+		.then(r=>{run(r);return true;})
+		.catch(e=>document.querySelector('#a').innerHTML=e+' in svgs'+lang);
+	}
+}
+</script>
+<script src="_js/selectorAcjk.js"></script>
+</body>
+</html>

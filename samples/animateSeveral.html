@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="initial-scale=1.0,user-scalable=yes">
+<meta name="description" content="Demo to animate
+several Japanese or Chinese characters using animCJK SVG files">
+<link rel="stylesheet" href="_css/withSelector.css" type="text/css">
+<style>
+#container div
+{
+	display:inline-block;
+	width:256px;
+	height:256px;
+	border:1px solid #ccc;
+	vertical-align:top;
+}
+#container div:empty:not(:first-of-type)
+{
+	display:none;
+}
+#container svg
+{
+	display:block;
+}
+</style>
+<title>AnimCJK - Animate Several</title>
+</head>
+<body>
+<h1>AnimCJK - Animate Several</h1>
+<nav class="link">
+<a href="https://github.com/parsimonhi/animCJK"><span>Download</span></a>
+<a href="./"><span>Sample selector</span></a>
+</nav>
+<div class="langSelector"></div>
+<div class="charSelector"></div>
+<p>Add some characters (up to 4) in the input field above
+or click on some characters in the bottom list.</p>
+<div id="container">
+<div id="a"></div>
+<div id="b"></div>
+<div id="c"></div>
+<div id="d"></div>
+</div>
+<div class="charListSelector"></div>
+<footer>
+<nav class="link">
+<a href="#"><span>Top</span></a>
+<a href="./"><span>Sample selector</span></a>
+<a href="../licenses/COPYING.txt"><span>Licences</span></a>
+</nav>
+</footer>
+<script>
+let ready,store;
+function getRadioValue(name)
+{
+	let list=document.querySelectorAll('[name="'+name+'"]');
+	for(k=0;k<list.length;k++) if(list[k].checked) return list[k].value;
+	return "Ja";
+}
+function cleanStore()
+{
+	for(let k=0;k<store.length;k++)
+	{
+		let s=store[k],m,id;
+		m=s.match(/id="(z[0-9]+)"/);
+		id=m[1]+"-"+(k+1);
+		s=s.replace(/z[0-9]+/g,id);
+		store[k]=s;
+	}
+}
+function run(s,dec,n,kmax)
+{
+	store[n-1]=s;
+	ready++;
+	if(ready==kmax)
+	{
+		let list;
+		for(let k=1;k<=4;k++)
+			document.querySelector('#container div:nth-of-type('+k+')').innerHTML="";
+		cleanStore();
+		for(let k=0;k<kmax;k++)
+		{
+			let e=document.querySelector('#container div:nth-of-type('+(k+1)+')');
+			e.innerHTML=store[k];
+		}
+		list=document.querySelectorAll('#container path[clip-path]');
+		for(let k=0;k<list.length;k++)
+			list[k].setAttribute("style","--d:"+(k+1)+"s;");
+	}
+}
+function doIt()
+{
+  	let e=document.querySelector('[name="char"]'),s=e.value;
+	if(s)
+	{
+		let lang=getRadioValue("lang"),k,kmax;
+		s=s.replace(/^(....)(.*)$/,"$1");
+		e.value=s;
+		k=0;
+		kmax=0;
+		ready=0;
+		store=[];
+		for(let c of [...s]) kmax++;
+		for(let c of [...s])
+		{
+			let dec=c.codePointAt(0),n;
+			k++;
+			n=k;
+			if(dec)
+				fetch('../svgs'+lang+'/'+dec+'.svg')
+				.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
+				.then(r=>{run(r,dec,n,kmax);return true;})
+				.catch(e=>document.querySelector('#container div:nth-of-type('+n+')').innerHTML=e+' in svgs'+lang);
+		}
+	}
+}
+</script>
+<script src="_js/selectorAcjk.js"></script>
+</body>
+</html>

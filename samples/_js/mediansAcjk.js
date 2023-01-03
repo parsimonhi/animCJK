@@ -671,9 +671,11 @@ acjkm.boardClass.prototype.createNewSvg=function(nStroke,p1)
 	allAreHere=true;
 	acjkm.newMedianNum+=km;
 	if(acjkm.canvasContainer)
-		document.getElementById("result"+this.k).innerHTML+="New num of medians: "+km+"<br>";
-	if(acjkm.canvasContainer)
+	{
+		document.getElementById("result"+this.k).innerHTML="Stroke #"+(this.k+1)+"<br>";
+		document.getElementById("result"+this.k).innerHTML+="Num of medians: "+km+"<br>";
 		document.getElementById("result"+this.k).innerHTML+="Stroke width max: "+Math.ceil(Math.sqrt(this.disMax))+"<br>";
+	}
 	// Display and save results if all are here
 	for (k=0;k<acjkm.numOfStrokes;k++) if (!acjkm.board[k].medians) {allAreHere=false;break;}
 	if (allAreHere)

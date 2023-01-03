@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="initial-scale=1.0,user-scalable=yes">
+<meta name="description" content="Demo to animate
+a Japanese or Chinese character using animCJK SVG files,
+displaying a card of the character with additional data as its description and radical">
+<link rel="stylesheet" href="_css/withSelector.css" type="text/css">
+<style>
+#card
+{
+	width:302px;
+	margin:0.5em 0;
+}
+#card header,
+#card nav
+{
+	text-align:center;
+}
+#card main
+{
+	width:300px;
+	height:300px;
+	border:1px solid #ccc;
+}
+#card nav button
+{
+	margin:0.25em;
+	padding:0.25em 0.5em;
+}
+#card nav button:disabled
+{
+	fill:#999;
+}
+#card nav button svg
+{
+	display:block;
+	width:2em;
+	height:1em;
+}
+svg.acjk
+{
+	display:block;
+}
+svg.acjk path[id]
+{
+	fill:#ccc;
+	stroke:none;
+}
+svg.acjk path:not([id])
+{
+	fill:none;
+	stroke:transparent;
+	stroke-width:128;
+	stroke-linecap:round;
+}
+svg.acjk path.visible:not([id])
+{
+	stroke:#000;
+}
+</style>
+<title>AnimCJK Card</title>
+</head>
+<body>
+<h1>AnimCJK Card</h1>
+<nav class="link">
+<a href="https://github.com/parsimonhi/animCJK"><span>Download</span></a>
+<a href="./"><span>Sample selector</span></a>
+</nav>
+<div class="langSelector"></div>
+<div class="charSelector"></div>
+<div id="card">
+<header></header>
+<main></main>
+<nav>
+<button name="first" onclick="doFirst()" disabled><svg viewBox="-100 -50 200 100">
+<path d="M-50 -50H-12.5V50H-50Z"/>
+<path d="M-12.5 0L62.5 -50V50Z"/>
+</svg></button>
+<button name="pred" onclick="doPred()" disabled><svg viewBox="-100 -50 200 100">
+<path d="M-50 0L25 -50V50Z"/>
+</svg></button>
+<button name="next" onclick="doNext()" disabled><svg viewBox="-100 -50 200 100">
+<path d="M50 0L-25 -50V50Z"/>
+</svg></button>
+<button name="last" onclick="doLast()" disabled><svg viewBox="-100 -50 200 100">
+<path d="M50 -50H12.5V50H50Z"/>
+<path d="M12.5 0L-62.5 -50V50Z"/>
+</svg></button>
+</nav>
+<footer></footer>
+</div>
+<div class="charListSelector"></div>
+<footer>
+<nav class="link">
+<a href="#"><span>Top</span></a>
+<a href="./"><span>Sample selector</span></a>
+<a href="../licenses/COPYING.txt"><span>Licences</span></a>
+</nav>
+</footer>
+<script src="_js/magicAcjk.js"></script>
+<script>
+let card={};
+function getRadioValue(name)
+{
+	let list=document.querySelectorAll('[name="'+name+'"]');
+	for(k=0;k<list.length;k++) if(list[k].checked) return list[k].value;
+	return "Ja";
+}
+function getLanguage()
+{
+	let acjkLang=getRadioValue("lang");
+	if(acjkLang=="ZhHans") return "Simplified Chinese";
+	if(acjkLang=="ZhHant") return "Traditional Chinese";
+	return "Japanese";
+}
+function initCard()
+{
+	let list=document.querySelectorAll('#card main path:not([id])');
+	if(list&&list.length) card.maxShown=list.length;
+	else card.maxShown=0;
+	card.lastShown=0;
+}
+function disableBtn(name)
+{
+	document.querySelector('#card [name="'+name+'"]').disabled=true;
+}
+function enableBtn(name)
+{
+	document.querySelector('#card [name="'+name+'"]').disabled=false;
+}
+function updateAll()
+{
+	let list=document.querySelectorAll('#card main path:not([id])');
+	if(list)
+		for(let k=0;k<list.length;k++)
+		{
+			if(k<card.lastShown) list[k].classList.add("visible");
+			else list[k].classList.remove("visible");
+		}
+	if((card.lastShown==0)&&card.maxShown)
+	{
+		disableBtn("first");
+		disableBtn("pred");
+		enableBtn("next");
+		enableBtn("last");
+	}
+	else if((card.lastShown==card.maxShown)&&card.maxShown)
+	{
+		enableBtn("first");
+		enableBtn("pred");
+		disableBtn("next");
+		disableBtn("last");
+	}
+	else if(card.maxShown)
+	{
+		enableBtn("first");
+		enableBtn("pred");
+		enableBtn("next");
+		enableBtn("last");
+	}
+	else
+	{
+		disableBtn("first");
+		disableBtn("pred");
+		disableBtn("next");
+		disableBtn("last");
+	}
+}
+function doFirst()
+{
+	card.lastShown=0;
+	updateAll();
+}
+function doPred()
+{
+	if(card.lastShown>0) card.lastShown--;
+	updateAll();
+}
+function doNext()
+{
+	if(card.lastShown<card.maxShown) card.lastShown++;
+	updateAll();
+}
+function doLast()
+{
+	card.lastShown=card.maxShown;
+	updateAll();
+}
+function updateInfo(s)
+{
+	let d=new Date().getFullYear();
+	s=s.replace(/AnimCJK [0-9-]+/,"AnimCJK 2016-"+d);
+	s=s.replace(/Copyright[^-]+-/,"Copyright FM&SH -");
+	return s;
+}
+function run(r)
+{
+	console.log(r);
+	let c,dec;
+	let s=r.svg;
+	if(s)
+	{
+		s=updateInfo(s);
+		s=s.replace(/<style[^£]+\/style>\s/,"");
+		document.querySelector('#card main').innerHTML=s;
+		c=document.querySelector('[name="char"]').value;
+		dec=c.codePointAt(0);
+		document.querySelector('#card header').innerHTML=c+" ("+dec+") - "+getLanguage();
+		document.querySelector('#card footer').innerHTML=r.dico;
+	}
+	initCard();
+	updateAll();
+}
+function doIt()
+{
+  	let e=document.querySelector('[name="char"]'),c=e.value;
+  	document.querySelector('#card main').innerHTML="";
+	if(c)
+	{
+		let dec=c.codePointAt(0),lang=getRadioValue("lang"),options;
+		e.value=String.fromCodePoint(dec);
+		options={method:"POST",body:JSON.stringify({lang:lang,dec:dec})};
+		fetch('_php/fetchCardData.php',options)
+		.then(r=>{if(!r.ok) throw r.statusText; return r.json();})
+		.then(r=>{run(r);return true;})
+		.catch(e=>document.querySelector('#card main').innerHTML=e+' in svgs'+lang);
+	}
+}
+</script>
+<script src="_js/selectorAcjk.js"></script>
+</body>
+</html>

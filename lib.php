@@ -3,6 +3,22 @@ include_once "samples/_php/encoding.php";
 include_once "samples/_php/unicode.php";
 include_once "samples/_php/convertKana.php";
 
+if( !function_exists('mb_str_split')){
+    function mb_str_split(  $string = '', $length = 1 , $encoding = "UTF-8" ){
+        if(!empty($string)){
+            $split = array();
+            $mb_strlen = mb_strlen($string,$encoding);
+            for($pi = 0; $pi < $mb_strlen; $pi += $length){
+                $substr = mb_substr($string, $pi,$length,$encoding);
+                if( !empty($substr)){
+                    $split[] = $substr;
+                }
+            }
+        }
+        return $split;
+    }
+}
+
 function my_json_decode($line)
 {
 	// decode a line from graphicsXxx.txt or dictionaryXxx.txt

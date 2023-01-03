@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="initial-scale=1.0,user-scalable=yes">
-<meta name="description" content="Demo to generate an animated GIF image on the fly
-of a Japanese or Chinese character using animCJK SVG files">
+<meta name="description" content="Demo to animate
+one Japanese or Chinese character using animCJK SVG files">
 <link rel="stylesheet" href="_css/withSelector.css" type="text/css">
 <style>
 #a
@@ -12,23 +12,23 @@ of a Japanese or Chinese character using animCJK SVG files">
 	width:300px;
 	height:300px;
 	border:1px solid #ccc;
+	margin-top:0.5em;
 }
-#a img
+#a svg
 {
 	display:block;
 }
 </style>
-<title>AnimCJK Animated GIF</title>
+<title>AnimCJK Animate one</title>
 </head>
 <body>
-<h1>AnimCJK Animated GIF</h1>
+<h1>AnimCJK Animate one</h1>
 <nav class="link">
 <a href="https://github.com/parsimonhi/animCJK"><span>Download</span></a>
 <a href="./"><span>Sample selector</span></a>
 </nav>
 <div class="langSelector"></div>
 <div class="charSelector"></div>
-<p id="p">Animated GIF image generated on the fly from a SVG</p>
 <div id="a"></div>
 <div class="charListSelector"></div>
 <footer>
@@ -38,7 +38,6 @@ of a Japanese or Chinese character using animCJK SVG files">
 <a href="../licenses/COPYING.txt"><span>Licences</span></a>
 </nav>
 </footer>
-<script src="_js/Animated_GIF.js"></script>
 <script src="_js/magicAcjk.js"></script>
 <script>
 function getRadioValue(name)
@@ -47,13 +46,9 @@ function getRadioValue(name)
 	for(k=0;k<list.length;k++) if(list[k].checked) return list[k].value;
 	return "Ja";
 }
-function showAnimatedGif(image,background,dec)
+function run(s)
 {
-	document.getElementById("a").innerHTML="<img src=\""+image+"\">";
-}
-function run(s,dec)
-{
-	generateAnimatedGifFromSvg(s,300,"white",1000,dec,showAnimatedGif,"");
+	document.getElementById("a").innerHTML=s;
 }
 function doIt()
 {
@@ -65,7 +60,7 @@ function doIt()
 		e.value=String.fromCodePoint(dec);
 		fetch('../svgs'+lang+'/'+dec+'.svg')
 		.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
-		.then(r=>{run(r,dec);return true;})
+		.then(r=>{run(r);return true;})
 		.catch(e=>document.getElementById("a").innerHTML=e+' in svgs'+lang);
 	}
 }

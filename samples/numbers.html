@@ -1,40 +1,66 @@
 <!doctype html>
-<?php include "minimal.php";?>
-<html lang="<?php echo $lang;?>">
+<html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="initial-scale=1.0,user-scalable=yes">
-<meta name="description" content="Demo to add stroke numbers to AnimCJK SVG
-representing Japanese or Chinese characters">
-<link rel="stylesheet" href="_css/minimal.css" type="text/css">
-<title>AnimCJK - Number</title>
+<meta name="description" content="Demo to add a number on each stroke of
+a Japanese or Chinese character using animCJK svg files">
+<link rel="stylesheet" href="_css/withSelector.css" type="text/css">
+<style>
+#a
+{
+	width:300px;
+	height:300px;
+	border:1px solid #ccc;
+	margin-top:0.5em;
+}
+#a svg
+{
+	display:block;
+}
+</style>
+<title>AnimCJK Numbers</title>
 </head>
 <body>
-<?php displayHeader("AnimCJK - Number");?>
-<p>
-<label>Add/remove stroke numbers on the fly:
-<input id="number" checked type="checkbox" onclick="switchNumber()">
-</label>
-</p>
-<div id="charDiv">
-<?php
-$s=file_get_contents("../".$dir."/".$dec.".svg");
-// replace native css from svg file (since in this sample, there will be no animation)
-$a="<style>\n";
-$a.="svg.acjk path[clip-path] {\n";
-$a.="fill:none;\n";
-$a.="}\n";
-$a.="</style>";
-$s=preg_replace("/<style>[\s\S]*<.style>/",$a,$s);
-echo $s;
-?>
-</div>
-<?php echo displayFooter("number");?>
+<h1>AnimCJK Numbers</h1>
+<nav class="link">
+<a href="https://github.com/parsimonhi/animCJK"><span>Download</span></a>
+<a href="./"><span>Sample selector</span></a>
+</nav>
+<div class="langSelector"></div>
+<div class="charSelector"></div>
+<label>Add numbers: <input type="checkbox" name="numbers"></label>
+<div id="a"></div>
+<pre class="codeTag"></pre>
+<div class="charListSelector"></div>
+<footer>
+<nav class="link">
+<a href="#"><span>Top</span></a>
+<a href="./"><span>Sample selector</span></a>
+<a href="../licenses/COPYING.txt"><span>Licences</span></a>
+</nav>
+</footer>
+<script src="_js/magicAcjk.js"></script>
 <script>
-function setNumber(x)
+function updateCodeTag()
+{
+	let e,s;
+	e=document.getElementById("a");
+	s=e.innerHTML;
+	s=s.replace(/((<\/circle>)|(<\/text>))/g,"$1\n");
+	s=s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+	document.querySelector('.codeTag').innerHTML=s;
+}
+function getRadioValue(name)
+{
+	let list=document.querySelectorAll('[name="'+name+'"]');
+	for(k=0;k<list.length;k++) if(list[k].checked) return list[k].value;
+	return "Ja";
+}
+function setNumbers(x)
 {
 	// this function adds/removes stroke numbers
-	var go,g,list,k,km,l,a,c,e,cx,cy,cx1,cy1,cx2,cy2,d,sx,sy,fs=40,list0,km0;
+	let go,g,list,k,km,l,a,c,e,cx,cy,cx1,cy1,cx2,cy2,d,sx,sy,fs=40,list0,km0;
 	if (x)
 	{
 		// add numbers
@@ -118,11 +144,46 @@ function setNumber(x)
 			}
 	}
 }
-function switchNumber()
+function switchNumbers()
 {
-	setNumber(document.getElementById("number").checked);
+	setNumbers(document.querySelector('[name="numbers"]').checked);
+	updateCodeTag();
 }
-window.addEventListener("load",function(){setNumber(1);},false);
+function updateInfo(s)
+{
+	let d=new Date().getFullYear();
+	s=s.replace(/AnimCJK [0-9-]+/,"AnimCJK 2016-"+d);
+	s=s.replace(/Copyright[^-]+-/,"Copyright FM&SH -");
+	return s;
+}
+function run(s)
+{
+	s=updateInfo(s);
+	s=s.replace(/<style[^£]+\/style>\s/,"");
+	document.getElementById("a").innerHTML=s;
+	switchNumbers(); 
+}
+function doIt()
+{
+  	let e=document.querySelector('[name="char"]'),c=e.value;
+  	document.getElementById("a").innerHTML="";
+  	document.querySelector('.codeTag').innerHTML="";
+	if(c)
+	{
+		let dec=c.codePointAt(0),lang=getRadioValue("lang");
+		e.value=String.fromCodePoint(dec);
+		fetch('../svgs'+lang+'/'+dec+'.svg')
+		.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
+		.then(r=>{run(r);return true;})
+		.catch(e=>document.getElementById("a").innerHTML=e+' in svgs'+lang);
+	}
+}
+window.addEventListener("load",function(){
+	let e=document.querySelector('[name="numbers"]');
+	e.checked=true;
+	e.addEventListener("click",switchNumbers);
+});
 </script>
+<script src="_js/selectorAcjk.js"></script>
 </body>
 </html>

@@ -1,40 +1,35 @@
 <!doctype html>
-<html>
+<html lang="ja">
 <!--
 Compute medians of a svg that draws a Japanese or Chinese character
 -->
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="initial-scale=1.0,user-scalable=yes">
+<meta name="description" content="Compute medians of an animCJK SVG
+representing a Japanese or Chinese character">
+<link rel="stylesheet" href="_css/withSelector.css" type="text/css">
 <style>
 body
 {
 	--L1:400px;
 	--L2:256px;
 }
-h1,h2
-{
-	text-align:center;
-}
 span.error
 {
-	color:#f00;
+	color:#c00;
 }
-.inputContainer
+.dataSelector
 {
-	margin:0 auto;
 	max-width:max-content;
 	border:1px solid #ccc;
 	padding:0.5em;
 }
-.svgContainer
-{
-	display:flex;
-	justify-content:center;
-}
 .svgContainer section
 {
+	display:inline-block;
 	margin:1px;
+	vertical-align:top;
 }
 section.trace
 {
@@ -56,12 +51,12 @@ svg
 }
 .initial svg.acjk path[clip-path]
 {
-	stroke:#000;
+	stroke:#c00;
 	stroke-width:16px;
 }
 .medians svg.acjk path[clip-path]
 {
-	stroke:#f00;
+	stroke:#c00;
 	stroke-width:12px;
 }
 .medians svg.acjk path[id]
@@ -80,19 +75,42 @@ svg
 	width:var(--L2);
 	height:var(--L2);
 }
+h2
+{
+	font-size:1.2em;
+	border-left: 0.5rem solid #c00;
+	padding-left:0.25em;
+}
+.charListSelector p
+{
+	font-size:1em;
+	border:1px solid #ccc;
+	padding:0.125em;
+}
+.charListSelector button
+{
+	border:0;
+	background:none;
+	padding:0;
+	margin:0.25em;
+	cursor:pointer;
+}
+html[lang="ja"] .charListSelector nav:not([lang="ja"]){display:none;}
+html[lang="zh-hans"] .charListSelector nav:not([lang="zh-hans"]){display:none;}
+html[lang="zh-hant"] .charListSelector nav:not([lang="zh-hant"]){display:none;}
 </style>
-<title>animCJK - Compute medians</title>
+<title>AnimCJK Compute medians</title>
 </head>
 <body>
-<h1>Compute medians</h1>
-<div class="inputContainer">
-<label>Char: <input name="char" maxlength="1" lang="ja"> <span>(only one char)</label>
-<label>Lang :
-	<input type="radio" name="lang" value="Ja" checked> Japanese
-	<input type="radio" name="lang" value="ZhHans"> simplified Chinese
-	<input type="radio" name="lang" value="ZhHant"> traditional Chinese
-</label>
-<button type="button" onclick="doIt()">OK</button>
+<h1>AnimCJK Compute medians</h1>
+<nav class="link">
+<a href="https://github.com/parsimonhi/animCJK"><span>Download</span></a>
+<a href="./"><span>Sample selector</span></a>
+</nav>
+<p>Given a shape and a starting point for each stroke, compute their medians.</p>
+<div class="dataSelector">
+<div class="charSelector"></div>
+<div class="langSelector"></div>
 </div>
 <div class="svgContainer">
 <section class="initial">
@@ -112,16 +130,23 @@ svg
 <div id="canvasContainer"></div>
 <div id="finalResultOutput"></div>
 </section>
+<div class="charListSelector"></div>
+<footer>
+<nav class="link">
+<a href="#"><span>Top</span></a>
+<a href="./"><span>Sample selector</span></a>
+<a href="../licenses/COPYING.txt"><span>Licences</span></a>
+</nav>
+</footer>
 <script src="_js/mediansAcjk.js"></script>
 <script>
-function getLangFromInput()
+function getRadioValue(name)
 {
-	let k,km,list=document.querySelectorAll('input[type="radio"]');
-	km=list.length;
-	for(k=0;k<km;k++)
-		if(list[k].checked) return list[k].value;
-	return "ZhHans";
+	let list=document.querySelectorAll('[name="'+name+'"]');
+	for(k=0;k<list.length;k++) if(list[k].checked) return list[k].value;
+	return "Ja";
 }
+
 function replaceVHbyL(d)
 {
 	// assume "-" never follows a number
@@ -141,6 +166,7 @@ function replaceVHbyL(d)
 	}
 	return d;
 }
+
 function cleanStrokePath(d)
 {
 	let q;
@@ -169,20 +195,22 @@ function cleanStrokePath(d)
 	d=replaceVHbyL(d);
 	return d;
 }
+
 function cleanMedianPath(d)
 {
 	// keep only the starting point
 	d=d.replace(/^M[^0-9-]*([0-9-]+)[^0-9-]+([0-9-]+).*$/,"M$1 $2L$1 $2");
 	return d;
 }
-function afterInitial(r)
+
+function run(r)
 {
 	let c=document.querySelector('input[name="char"]').value;
-	let initial=document.querySelector(".initial div");
-	let medians=document.querySelector(".medians div");
+	let initial=document.querySelector('.initial div');
+	let medians=document.querySelector('.medians div');
 	if(r.match(/^Error:/))
 	{
-		initial.innerHTML='<span class="error">'+r+"</span>";
+		initial.innerHTML="<span class=\"error\">"+r+"</span>";
 		return false;
 	}
 	let svgId=r.replace(/^[^£]*<svg id="([^"]+)"[^£]*$/,"$1");
@@ -236,34 +264,22 @@ function afterInitial(r)
 	// run all
 	acjkm.run(p);
 }
+
 function doIt()
 {
-	let c=document.querySelector('input[name="char"]').value;
-	let lang=getLangFromInput();
-	let data={c:c,lang:lang};
-	fetch("_php/getOneSvg4ComputeMedians.php",{method:'POST',body:JSON.stringify(data)})
-	.then(r=>r.text())
-	.then(r=>afterInitial(r));
+	let e=document.querySelector('input[name="char"]'),c=e.value;
+	document.querySelector('.initial div').innerHTML="";
+	document.querySelector('.medians div').innerHTML="";
+	if(c)
+	{
+		let dec=c.codePointAt(0),lang=getRadioValue("lang");
+		e.value=String.fromCodePoint(dec);
+		fetch('../svgs'+lang+'/'+dec+'.svg')
+		.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
+		.then(r=>{run(r);return true;})
+		.catch(e=>document.querySelector('.initial div').innerHTML=e+' in svgs'+lang);
+	}
 }
-function updateDataLang(lang)
-{
-	let lang2;
-	if(lang=="Ja") lang2="ja";
-	else if(lang=="ZhHant") lang2="zh-hant";
-	else lang2="zh-hans";
-	document.querySelector('input[name="char"]').setAttribute("lang",lang2);
-}
-function addLangRadioHandler()
-{
-	let list,k,km;
-	list=document.querySelectorAll('input[name="lang"]');
-	km=list.length;
-	for(k=0;k<km;k++) list[k].addEventListener("click",function(event)
-		{
-			let e=event.target;
-			updateDataLang(e.value);
-		});
-}
-window.addEventListener("load",addLangRadioHandler);
 </script>
+<script src="_js/selectorAcjk.js"></script>
 </body>

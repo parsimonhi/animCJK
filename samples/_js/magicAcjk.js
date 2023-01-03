@@ -190,9 +190,10 @@ function generateAnimatedGifFromSvg(s,size,background,delay,dec,show,save)
 	// delay is the delay between two frames
 	// dec is the decimal unicode of the character
 	// show is a function called to show the image somewhere at the end of the process
-	// show has 2 parameters:
+	// show has 3 parameters:
 	//  image which is a base64 representation of the image
 	//  background which can be "transparent" or any css color
+	//  dec which is the decimal unicode of the character
 	// save is a function called to save the image somewhere at the end of the process
 	// save has 3 parameters:
 	//  image which is a base64 representation of the image
