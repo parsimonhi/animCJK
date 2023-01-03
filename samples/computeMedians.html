@@ -205,14 +205,15 @@ function cleanMedianPath(d)
 
 function run(r)
 {
-	let c=document.querySelector('input[name="char"]').value;
 	let initial=document.querySelector('.initial div');
-	let medians=document.querySelector('.medians div');
-	if(r.match(/^Error:/))
+	if(!r.match(/<svg/))
 	{
-		initial.innerHTML="<span class=\"error\">"+r+"</span>";
-		return false;
+		if(r.match(/^Error:/)) initial.innerHTML="<span class=\"error\">"+r+"</span>";
+		else initial.innerHTML="Data not found!";
+		return;
 	}
+	let medians=document.querySelector('.medians div');
+	let c=document.querySelector('input[name="char"]').value;
 	let svgId=r.replace(/^[^£]*<svg id="([^"]+)"[^£]*$/,"$1");
 	let dec;
 	// initial
@@ -267,9 +268,11 @@ function run(r)
 
 function doIt()
 {
-	let e=document.querySelector('input[name="char"]'),c=e.value;
+	let e=document.querySelector('input[name="char"]'),c=e.value,list;
 	document.querySelector('.initial div').innerHTML="";
 	document.querySelector('.medians div').innerHTML="";
+	list=document.querySelectorAll('.trace div');
+	for(div of list) div.innerHTML="";
 	if(c)
 	{
 		let dec=c.codePointAt(0),lang=getRadioValue("lang");

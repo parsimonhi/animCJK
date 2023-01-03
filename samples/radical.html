@@ -76,7 +76,12 @@ function updateInfo(s)
 }
 function run(r)
 {
-	let d=r.acjk,a,list,n;
+	let a,list,n,d=r.acjk,s=r.svg;
+	if(!s.match(/<svg/))
+	{
+		document.querySelector('#a').innerHTML="Data not found!";
+		return;
+	}
 	s=updateInfo(r.svg);
 	s=s.replace(/<style[^@]+@/,"<style"+">\n@");
 	s=s.replace(/}[^}]+\/style>/,"}\n<"+"/style>");
@@ -110,6 +115,7 @@ function doIt()
   	let e=document.querySelector('[name="char"]'),c=e.value;
   	document.querySelector('#a').innerHTML="";
   	document.querySelector('#b').innerHTML="";
+  	document.querySelector('.codeTag').innerHTML="";
 	if(c)
 	{
 		let dec=c.codePointAt(0),lang=getRadioValue("lang"),options;

@@ -76,6 +76,11 @@ function updateInfo(s)
 }
 function run(s)
 {
+	if(!s.match(/<svg/))
+	{
+		document.getElementById("a").innerHTML="Data not found!";
+		return;
+	}
 	let a,b;
 	s=updateInfo(s);
 	s=s.replace(/<style[^@]+@/,"<style"+">\n@");

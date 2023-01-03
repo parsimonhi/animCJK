@@ -48,6 +48,11 @@ function getRadioValue(name)
 }
 function run(s)
 {
+	if(!s.match(/<svg/))
+	{
+		document.getElementById("a").innerHTML="Data not found!";
+		return;
+	}
 	document.getElementById("a").innerHTML=s;
 }
 function doIt()

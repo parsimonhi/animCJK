@@ -69,8 +69,11 @@ function getRadioValue(name)
 function setSize(v)
 {
 	let svg=document.querySelector('#a svg');
-	svg.setAttribute("width",v);
-	svg.setAttribute("height",v);
+	if(svg)
+	{
+		svg.setAttribute("width",v);
+		svg.setAttribute("height",v);
+	}
 }
 function switchSize()
 {
@@ -86,12 +89,15 @@ function updateInfo(s)
 }
 function run(s)
 {
-	let svg;
+	if(!s.match(/<svg/))
+	{
+		document.getElementById("a").innerHTML="Data not found!";
+		return;
+	}
 	s=updateInfo(s);
 	s=s.replace(/<style[^@]+@/,"<style"+">\n@");
 	s=s.replace(/}[^}]+\/style>/,"}\n<"+"/style>");
 	document.getElementById("a").innerHTML=s;
-	svg=document.querySelector('#a svg');
 	switchSize();
 }
 function doIt()

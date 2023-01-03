@@ -115,6 +115,11 @@ function curvePath(d0)
 
 function run(r)
 {
+	if(!r.match(/<svg/))
+	{
+		document.getElementById("r").innerHTML="Data not found!";
+		return;
+	}
 	let list,newD=[],km,svg;
 	document.getElementById("r").innerHTML=r.replace(/<style>[^£]+<\/style>/,"");
 	list=document.querySelectorAll("#r path[clip-path]");

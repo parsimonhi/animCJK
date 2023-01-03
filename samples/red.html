@@ -86,15 +86,18 @@ function colorizeStrokesInRed(x)
 {
 	let k,km,list,c;
 	list=document.querySelectorAll("svg.acjk path[clip-path]");
-	km=list.length;
-	if (x)
+	if(list)
 	{
-		// c is the color of the last stroke
-		// can be replaced by any other color, including color with transparency
-		c={r:255,g:0,b:0,a:1};
-		for (k=0;k<km;k++) list[k].style.stroke=computeRedFinalColor(c,k,km-1);
+		km=list.length;
+		if (x)
+		{
+			// c is the color of the last stroke
+			// can be replaced by any other color, including color with transparency
+			c={r:255,g:0,b:0,a:1};
+			for (k=0;k<km;k++) list[k].style.stroke=computeRedFinalColor(c,k,km-1);
+		}
+		else for (k=0;k<km;k++) list[k].style.stroke="";
 	}
-	else for (k=0;k<km;k++) list[k].style.stroke="";
 }
 function switchRed()
 {
@@ -110,6 +113,11 @@ function updateInfo(s)
 }
 function run(s)
 {
+	if(!s.match(/<svg/))
+	{
+		document.getElementById("a").innerHTML="Data not found!";
+		return;
+	}
 	s=updateInfo(s);
 	s=s.replace(/<style[^@]+@/,"<style"+">\n@");
 	s=s.replace(/}[^}]+\/style>/,"}\n<"+"/style>");

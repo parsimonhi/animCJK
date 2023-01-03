@@ -197,19 +197,20 @@ function updateInfo(s)
 }
 function run(r)
 {
-	console.log(r);
 	let c,dec;
 	let s=r.svg;
-	if(s)
+	if(!s.match(/<svg/))
 	{
-		s=updateInfo(s);
-		s=s.replace(/<style[^£]+\/style>\s/,"");
-		document.querySelector('#card main').innerHTML=s;
-		c=document.querySelector('[name="char"]').value;
-		dec=c.codePointAt(0);
-		document.querySelector('#card header').innerHTML=c+" ("+dec+") - "+getLanguage();
-		document.querySelector('#card footer').innerHTML=r.dico;
+		document.querySelector('#card main').innerHTML="Data not found!";
+		return;
 	}
+	s=updateInfo(s);
+	s=s.replace(/<style[^£]+\/style>\s/,"");
+	document.querySelector('#card main').innerHTML=s;
+	c=document.querySelector('[name="char"]').value;
+	dec=c.codePointAt(0);
+	document.querySelector('#card header').innerHTML=c+" ("+dec+") - "+getLanguage();
+	document.querySelector('#card footer').innerHTML=r.dico;
 	initCard();
 	updateAll();
 }
@@ -217,6 +218,8 @@ function doIt()
 {
   	let e=document.querySelector('[name="char"]'),c=e.value;
   	document.querySelector('#card main').innerHTML="";
+	initCard();
+	updateAll();
 	if(c)
 	{
 		let dec=c.codePointAt(0),lang=getRadioValue("lang"),options;

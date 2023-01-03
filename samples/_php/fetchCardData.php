@@ -11,21 +11,23 @@ else $dec="";
 $dec=preg_replace("/[^0-9]/","",$dec);
 if($dec) $c=unichr($dec);
 else $c=null;
-if($lang&&$dec) $svg=file_get_contents("../../svgs".$lang."/".$dec.".svg");
-else $svg=null;
-if($lang&&$dec)
+$svg="";
+$dico="";
+$file="../../svgs".$lang."/".$dec.".svg";
+if($lang&&$dec&&file_exists($file)) $svg=file_get_contents($file);
+if($lang&&$dec&&($svg!=""))
 {
-	$f=file_get_contents("../../dictionary".$lang.".txt");
-	if($f)
+	$line=file_get_contents("../../dictionary".$lang.".txt");
+	if($line)
 	{
-		if(preg_match("/(\{\"character\":\"".$c."[^}]+\})/u",$f,$m))
+		if(preg_match("/(\{\"character\":\"".$c."[^}]+\})/u",$line,$m))
 		{
 			$d=json_decode($m[1]);
 			$dico="";
-			if($d->radical) $dico.="<div>Radical: ".$d->radical."</div>";
-			if($d->decomposition) $dico.="<div>Decomposition: ".$d->decomposition."</div>";
-			if($d->definition) $dico.="<div>Definition: ".$d->definition."</div>";
-			if(($lang=="Ja")&&$d->on)
+			if(property_exists($d,"radical")) $dico.="<div>Radical: ".$d->radical."</div>";
+			if(property_exists($d,"decomposition")) $dico.="<div>Decomposition: ".$d->decomposition."</div>";
+			if(property_exists($d,"definition")) $dico.="<div>Definition: ".$d->definition."</div>";
+			if(($lang=="Ja")&&property_exists($d,"on"))
 			{
 				$dico.="<div>Onyomi: ";
 				$first=true;
@@ -37,7 +39,7 @@ if($lang&&$dec)
 				}
 				$dico.="</div>";
 			}
-			if(($lang=="Ja")&&$d->kun)
+			if(($lang=="Ja")&&property_exists($d,"kun"))
 			{
 				$dico.="<div>Kunyomi: ";
 				$first=true;
@@ -49,7 +51,7 @@ if($lang&&$dec)
 				}
 				$dico.="</div>";
 			}
-			if((($lang=="ZhHans")||($lang=="ZhHant"))&&$d->pinyin)
+			if((($lang=="ZhHans")||($lang=="ZhHant"))&&property_exists($d,"pinyin"))
 			{
 				$dico.="<div>Pinyin: ";
 				$first=true;
@@ -62,10 +64,7 @@ if($lang&&$dec)
 				$dico.="</div>";
 			}
 		}
-		else $dico=null;
 	}
-	else $dico=null;
 }
-else $dico=null;
 echo json_encode(["svg"=>$svg,"dico"=>$dico]);
 ?>

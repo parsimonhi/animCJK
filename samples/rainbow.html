@@ -94,6 +94,7 @@ function colorizeStrokes(x)
 {
 	let k,km,list,c,e;
 	list=document.querySelectorAll('svg.acjk path:not([id])');
+	if(!list) return;
 	km=list.length;
 	if (x)
 	{
@@ -131,11 +132,13 @@ function setNumbers4Rainbow(x)
 	if (x)
 	{
 		list=document.querySelectorAll("svg.acjk circle, svg.acjk text");
-		if(list.length) return;
+		if(list&&list.length) return;
 		// add numbers
 		list0=document.querySelectorAll("svg.acjk path[id]");
+		if(!list0) return;
 		km0=list0.length;
 		list=document.querySelectorAll("svg.acjk path:not([id])");
+		if(!list) return;
 		km=list.length;
 		l=0;
 		go=0;
@@ -201,6 +204,7 @@ function setNumbers4Rainbow(x)
 	{
 		// remove numbers
 		list=document.querySelectorAll("svg.acjk circle, svg.acjk text");
+		if(!list) return;
 		km=list.length;
 		if (km) 
 			for (k=0;k<km;k++)
@@ -215,9 +219,12 @@ function restartAnime()
 	// force a reflow to restart animation
 	let e,s;
 	e=document.querySelector("svg.acjk");
-	s=e.innerHTML;
-	e.innerHTML="";
-	e.innerHTML=s;
+	if(e)
+	{
+		s=e.innerHTML;
+		e.innerHTML="";
+		e.innerHTML=s;
+	}
 }
 function switchAll()
 {
@@ -234,6 +241,11 @@ function updateInfo(s)
 }
 function run(s)
 {
+	if(!s.match(/<svg/))
+	{
+		document.getElementById("a").innerHTML="Data not found!";
+		return;
+	}
 	let style="";
 	s=updateInfo(s);
 	style+="<style";

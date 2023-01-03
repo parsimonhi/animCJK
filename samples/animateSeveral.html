@@ -71,6 +71,14 @@ function cleanStore()
 }
 function run(s,dec,n,kmax)
 {
+	if(!s.match(/<svg/))
+	{
+		document.getElementById("a").innerHTML="Data not found!";
+		document.getElementById("b").innerHTML="";
+		document.getElementById("c").innerHTML="";
+		document.getElementById("d").innerHTML="";
+		return;
+	}
 	store[n-1]=s;
 	ready++;
 	if(ready==kmax)

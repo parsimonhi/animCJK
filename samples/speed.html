@@ -116,9 +116,12 @@ function restartAnime()
 	// force a reflow to restart animation
 	let e,s;
 	e=document.querySelector("svg.acjk");
-	s=e.innerHTML;
-	e.innerHTML="";
-	e.innerHTML=s;
+	if(e)
+	{
+		s=e.innerHTML;
+		e.innerHTML="";
+		e.innerHTML=s;
+	}
 }
 function updateInfo(s)
 {
@@ -129,6 +132,11 @@ function updateInfo(s)
 }
 function run(s)
 {
+	if(!s.match(/<svg/))
+	{
+		document.getElementById("a").innerHTML="Data not found!";
+		return;
+	}
 	let svg;
 	s=updateInfo(s);
 	s=s.replace(/<style[^@]+@/,"<style"+">\n@");

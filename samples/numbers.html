@@ -18,6 +18,12 @@ a Japanese or Chinese character using animCJK svg files">
 {
 	display:block;
 }
+pre
+{
+	border:1px solid #ccc;
+	padding:0.125em;
+	white-space:pre-wrap;
+}
 </style>
 <title>AnimCJK Numbers</title>
 </head>
@@ -31,7 +37,10 @@ a Japanese or Chinese character using animCJK svg files">
 <div class="charSelector"></div>
 <label>Add numbers: <input type="checkbox" name="numbers"></label>
 <div id="a"></div>
+<details>
+<summary>SVG code</summary>
 <pre class="codeTag"></pre>
+</details>
 <div class="charListSelector"></div>
 <footer>
 <nav class="link">
@@ -65,8 +74,10 @@ function setNumbers(x)
 	{
 		// add numbers
 		list0=document.querySelectorAll("svg.acjk path[id]");
+		if(!list0) return;
 		km0=list0.length;
 		list=document.querySelectorAll("svg.acjk path:not([id])");
+		if(!list) return;
 		km=list.length;
 		l=0;
 		go=0;
@@ -135,6 +146,7 @@ function setNumbers(x)
 	{
 		// remove numbers
 		list=document.querySelectorAll("svg.acjk circle, svg.acjk text");
+		if(!list) return;
 		km=list.length;
 		if (km) 
 			for (k=0;k<km;k++)
@@ -158,6 +170,12 @@ function updateInfo(s)
 }
 function run(s)
 {
+	if(!s.match(/<svg/))
+	{
+		document.getElementById("a").innerHTML="Data not found!";
+		updateCodeTag();
+		return;
+	}
 	s=updateInfo(s);
 	s=s.replace(/<style[^£]+\/style>\s/,"");
 	document.getElementById("a").innerHTML=s;

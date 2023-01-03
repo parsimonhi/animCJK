@@ -85,6 +85,11 @@ function updateInfo(s)
 }
 function run(s)
 {
+	if(!s.match(/<svg/))
+	{
+		document.getElementById("a").innerHTML="Data not found!";
+		return;
+	}
 	s=updateInfo(s);
 	s=s.replace(/<style[^@]+@/,"<style"+">\n@");
 	s=s.replace(/}[^}]+\/style>/,"}\n<"+"/style>");
@@ -96,6 +101,7 @@ function doIt()
 {
   	let e=document.querySelector('[name="char"]'),c=e.value;
   	document.getElementById("a").innerHTML="";
+  	document.querySelector('.codeTag').innerHTML="";
 	if(c)
 	{
 		let dec=c.codePointAt(0),lang=getRadioValue("lang");
