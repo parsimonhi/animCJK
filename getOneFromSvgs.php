@@ -87,10 +87,13 @@ function getSvgChar($char,$lang="zh-hans")
 
 if (isset($_POST["data"])&&$_POST["data"])
 {
-	if (isset($_POST["lang"])&&$_POST["lang"]) $lang=$_POST["lang"];
-	else $lang="zh";
-	$char=$_POST["data"];
-	echo getSvgChar($char,$lang)."\n";
+	if (isset($_POST["lang"])&&$_POST["lang"])
+	{
+		$lang=$_POST["lang"];
+		$char=$_POST["data"];
+		echo getSvgChar($char,$lang)."\n";
+	}
+	else echo errorSvg(2,"en","Error!","No lang!");
 }
 else echo errorSvg(4,"en","No data!","Click on","a character","in the list below");
 

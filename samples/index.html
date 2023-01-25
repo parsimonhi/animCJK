@@ -5,7 +5,7 @@
 <meta name="viewport" content="initial-scale=1.0,user-scalable=yes">
 <style>
 * {box-sizing:border-box;}
-body {text-align:center;}
+body {text-align:center;font-family:sans-serif;}
 h2,ul,form {text-align:left;max-width:512px;}
 h2 {margin:0 auto;padding:0;}
 form {margin:1em auto;border:1px solid #ccc;padding:1em;}
@@ -63,8 +63,7 @@ input.charInput
 	text-align:center;
 	vertical-align:middle;
 }
-#debug {color:#000;margin-top:0.5em;}
-#debug.nok {color:#c00;}
+footer nav>*:not(:last-of-type):after {content:" -";}
 </style>
 <title>AnimCJK - Sample selector</title>
 </head>
@@ -93,8 +92,8 @@ input.charInput
 </ul>
 <footer>
 <nav>
-<a href="../"><span>Home</span></a>
-<a href="../licenses/COPYING.txt"><span>Licences</span></a>
+<span><a href="../">Home</a></span>
+<span><a href="../licenses/COPYING.txt">Licences</a></span>
 </nav>
 </footer>
 </script>

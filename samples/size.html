@@ -23,6 +23,24 @@ pre
 	padding:0.125em;
 	white-space:pre-wrap;
 }
+input[name="size"]
+{
+	font-size:1rem;
+	display:block;
+	width:13.5em;
+	margin:0 2em;
+}
+#sizeMarks
+{
+	font-size:1rem;
+	display:flex;
+	margin:0;
+	padding:0;
+	width:17.5em;
+	justify-content:space-between;
+}
+#sizeMarks option:not([label]) {display:none;}
+#sizeMarks option {width:4em;text-align:center;margin:0;padding:0;}
 </style>
 <title>AnimCJK Size</title>
 </head>
@@ -34,7 +52,26 @@ pre
 </nav>
 <div class="langSelector"></div>
 <div class="charSelector"></div>
-<label>Size: <input type="range" name="size" min="0" max="1024" value="256"></label>
+<label><input autocomplete="off" name="size" type="range" list="sizeMarks" onclick="switchSize()" value="256" step="64" min="0" max="1024"></label>
+<datalist id="sizeMarks">
+<option value="0" label="0 px"></option>
+<option value="64"></option>
+<option value="128"></option>
+<option value="192"></option>
+<option value="256"></option>
+<option value="320"></option>
+<option value="384"></option>
+<option value="448"></option>
+<option value="512" label="512 px"></option>
+<option value="576"></option>
+<option value="640"></option>
+<option value="704"></option>
+<option value="768"></option>
+<option value="832"></option>
+<option value="896"></option>
+<option value="960"></option>
+<option value="1024" label="1024 px"></option>
+</datalist>
 <div id="a"></div>
 <details>
 <summary>SVG code</summary>
@@ -48,7 +85,6 @@ pre
 <a href="../licenses/COPYING.txt"><span>Licences</span></a>
 </nav>
 </footer>
-<script src="_js/magicAcjk.js"></script>
 <script>
 function updateCodeTag()
 {

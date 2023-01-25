@@ -13,6 +13,7 @@ several Japanese or Chinese characters using animCJK SVG files">
 	width:256px;
 	height:256px;
 	border:1px solid #ccc;
+	margin:0.125em;
 	vertical-align:top;
 }
 #container div:empty:not(:first-of-type)
@@ -34,13 +35,9 @@ several Japanese or Chinese characters using animCJK SVG files">
 </nav>
 <div class="langSelector"></div>
 <div class="charSelector"></div>
-<p>Add some characters (up to 4) in the input field above
+<p>Add some characters (up to 5) in the input field above
 or click on some characters in the bottom list.</p>
 <div id="container">
-<div id="a"></div>
-<div id="b"></div>
-<div id="c"></div>
-<div id="d"></div>
 </div>
 <div class="charListSelector"></div>
 <footer>
@@ -64,28 +61,22 @@ function cleanStore()
 	{
 		let s=store[k],m,id;
 		m=s.match(/id="(z[0-9]+)"/);
-		id=m[1]+"-"+(k+1);
-		s=s.replace(/z[0-9]+/g,id);
-		store[k]=s;
+		if(m)
+		{
+			id=m[1]+"-"+(k+1);
+			s=s.replace(/z[0-9]+/g,id);
+			store[k]=s;
+		}
 	}
 }
 function run(s,dec,n,kmax)
 {
-	if(!s.match(/<svg/))
-	{
-		document.getElementById("a").innerHTML="Data not found!";
-		document.getElementById("b").innerHTML="";
-		document.getElementById("c").innerHTML="";
-		document.getElementById("d").innerHTML="";
-		return;
-	}
+	// assume no special characters nor kana with overlapping strokes
 	store[n-1]=s;
 	ready++;
 	if(ready==kmax)
 	{
 		let list;
-		for(let k=1;k<=4;k++)
-			document.querySelector('#container div:nth-of-type('+k+')').innerHTML="";
 		cleanStore();
 		for(let k=0;k<kmax;k++)
 		{
@@ -100,10 +91,12 @@ function run(s,dec,n,kmax)
 function doIt()
 {
   	let e=document.querySelector('[name="char"]'),s=e.value;
+	for(let k=1;k<=5;k++)
+		document.querySelector('#container div:nth-of-type('+k+')').innerHTML="";
 	if(s)
 	{
 		let lang=getRadioValue("lang"),k,kmax;
-		s=s.replace(/^(....)(.*)$/,"$1");
+		s=s.replace(/^(.....)(.*)$/,"$1"); // max 5 chars
 		e.value=s;
 		k=0;
 		kmax=0;
@@ -119,10 +112,14 @@ function doIt()
 				fetch('../svgs'+lang+'/'+dec+'.svg')
 				.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
 				.then(r=>{run(r,dec,n,kmax);return true;})
-				.catch(e=>document.querySelector('#container div:nth-of-type('+n+')').innerHTML=e+' in svgs'+lang);
+				.catch(e=>{run(e,dec,n,kmax);return false;});
 		}
 	}
 }
+window.addEventListener("load",function(){
+	let c=document.getElementById("container");
+	for(let k=0;k<5;k++) c.appendChild(document.createElement("div"));
+});
 </script>
 <script src="_js/selectorAcjk.js"></script>
 </body>

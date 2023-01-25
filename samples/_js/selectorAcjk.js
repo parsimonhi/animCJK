@@ -11,6 +11,7 @@
 	{
 		if(lang=="ZhHans") return "zh-hans";
 		if(lang=="ZhHant") return "zh-hant";
+		if(lang=="Ko") return "ko";
 		return "ja";
 	}
 	function setLang(lang)
@@ -32,6 +33,7 @@
 	function addLangSelector(p)
 	{
 		addOneLangRadio(p,"Ja","Japanese");
+		addOneLangRadio(p,"Ko","Korean");
 		addOneLangRadio(p,"ZhHans","Simplified Chinese");
 		addOneLangRadio(p,"ZhHant","Traditional Chinese");
 	}
@@ -39,7 +41,7 @@
 	{
 		let s="",e;
 		e=document.createElement('label');
-		s+="Hanzi or Kanji (one char only): <input name=\"char\"></label>";
+		s+="Kanji, Hanja or Hanzi (one char only): <input name=\"char\"></label>";
 		s+=" <button type=\"button\" name=\"run\">Run</button>";
 		e.innerHTML=s;
 		p.appendChild(e);
@@ -63,13 +65,15 @@
 		nav=document.createElement('nav');
 		if(lang=="ZhHans") s="<h2>Simplified hanzi</h2>";
 		else if(lang=="ZhHant") s="<h2>Traditional hanzi</h2>";
+		else if(lang=="Ko") s="<h2>Hanja</h2>";
 		else s="<h2>Kanji</h2>";
 		for(let a of r)
 		{
-			if(a.title) s+="<h3>"+a.title+"</h3>";
-			s+="<p>";
+			s+="<details open><summary><h3>";
+			s+=a.title?a.title:"?";
+			s+="</h3></summary><p>";
 			for(let c of [...a.chars]) s+='<button type="button">'+c+'</button>';
-			s+="</p>";
+			s+="</p></details>";
 		}
 		nav.innerHTML=s;
 		nav.setAttribute("lang",makeLangIso(lang));
@@ -81,7 +85,7 @@
 	if(charSelector) addCharSelector(charSelector);
 	if(charListSelector)
 	{
-		for(let b of ["Ja","ZhHans","ZhHant"])
+		for(let b of ["Ja","Ko","ZhHans","ZhHant"])
 		{
 			let options={method:"POST",body:JSON.stringify({s:b})};
 			fetch('_php/fetchCharList.php',options)

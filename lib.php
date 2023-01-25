@@ -112,13 +112,15 @@ function spanize($s,$lang)
 }
 function getDictionaryData($char,$lang="zh-hans")
 {
-	$s="<div class=\"dico\">";
-	$s.="<div class=\"unicode\"><span class=\"cjkChar\" lang=\"".$lang."\">".$char."</span> ";
+	$s="<div class=\"unicode\">";
+	$s.="<span class=\"cjkChar\" lang=\"".$lang."\">".$char."</span> ";
 	$s.="U+".hexUnicode($char)." "."&amp;#".decUnicode($char).";"."</div>\n";
 	if (strtolower($lang)=="ja") $handle=fopen("dictionaryJa.txt","r");
+	else if (strtolower($lang)=="ko") $handle=fopen("dictionaryKo.txt","r");
+	else if (strtolower($lang)=="zh-hans") $handle=fopen("dictionaryZhHans.txt","r");
 	else if (strtolower($lang)=="zh-hant") $handle=fopen("dictionaryZhHant.txt","r");
-	else $handle=fopen("dictionaryZhHans.txt","r");
-	if ($handle)
+	else $handle=null;
+	if ($handle!==null)
 	{
 		$k=0;
 		while (($line=fgets($handle))!==false)
@@ -165,9 +167,8 @@ function getDictionaryData($char,$lang="zh-hans")
 						$ini=true;
 						foreach ($a->{'on'} as $b)
 						{
-							if (!$ini) $s.=", ";
-							$s.=convertJapaneseOn($b);
-							$ini=false;
+							if ($ini) $ini=false; else $s.=", ";
+							$s.="<span lang=\"".$lang."\">".convertJapaneseOn($b)."</span>";
 						}
 						$s.="</div>";
 					}
@@ -177,9 +178,8 @@ function getDictionaryData($char,$lang="zh-hans")
 						$ini=true;
 						foreach ($a->{'kun'} as $b)
 						{
-							if (!$ini) $s.=", ";
-							$s.=convertJapaneseKun($b);
-							$ini=false;
+							if ($ini) $ini=false; else $s.=", ";
+							$s.="<span lang=\"".$lang."\">".convertJapaneseKun($b)."</span>";
 						}
 						$s.="</div>";
 					}
@@ -191,8 +191,7 @@ function getDictionaryData($char,$lang="zh-hans")
 		}
 		fclose($handle);
 	}
-	else $s.="Error";
-	$s.="</div>";
+	else $s.="<div>Error</div>";
 	return $s;
 }
 

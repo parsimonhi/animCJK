@@ -1,3 +1,4 @@
+// add a brush effect to the ends of the strokes
 if (typeof debug=='undefined') debug=0;
 
 SVGPathElement.prototype.getPointAtLengthForAcjk = function(k) {

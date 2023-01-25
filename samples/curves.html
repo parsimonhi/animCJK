@@ -26,7 +26,7 @@
 {
 	fill:none;
 	stroke:#c00;
-	stroke-width:12.8px;
+	stroke-width:12.8;
 	stroke-linecap:round;
 }
 pre {white-space: pre-wrap;} 
@@ -46,7 +46,13 @@ and <a href="https://en.wikipedia.org/wiki/Tridiagonal_matrix_algorithm">Tridiag
 </p>
 <div class="langSelector"></div>
 <div class="charSelector"></div>
+<div>
+<label>Stroke-width:
+<input type="range" name="strokeWidth" min="1" max="100" value="46" step="9" onclick="doRange()">
+</label>
+</div>
 <div id="c">
+<div id="s"></div>
 <div id="r"></div>
 <div id="a"></div>
 </div>
@@ -66,7 +72,16 @@ function getRadioValue(name)
 	for(k=0;k<list.length;k++) if(list[k].checked) return list[k].value;
 	return "Ja";
 }
-
+function getStrokeWidth()
+{
+	return -(-document.querySelector('[name="strokeWidth"]').value);
+}
+function doRange()
+{
+	let e=document.querySelector("#a svg");
+	if(e) e.setAttributeNS(null,"stroke-width",getStrokeWidth());
+	updateCode();
+}
 function solve(aa,bb,cc,dd)
 {
 	// clone the arguments since some are altered inside this function
@@ -113,6 +128,19 @@ function curvePath(d0)
 	return dN;
 }
 
+function changeId(r,n)
+{
+	let m,id;
+	m=r.match(/id="(z[0-9]+)"/);
+	id=m[1]+"-"+n;
+	return r.replace(/z[0-9]+/g,id);
+}
+function updateCode()
+{
+	let svg=document.getElementById("a").innerHTML;
+	svg=svg.replace(/</g,"&lt;").replace(/>/g,"&gt;");
+	document.getElementById("t").innerHTML="<pre>"+svg+"</pre>";
+}
 function run(r)
 {
 	if(!r.match(/<svg/))
@@ -120,22 +148,24 @@ function run(r)
 		document.getElementById("r").innerHTML="Data not found!";
 		return;
 	}
-	let list,newD=[],km,svg;
-	document.getElementById("r").innerHTML=r.replace(/<style>[^£]+<\/style>/,"");
+	let list,newD=[],km,svg,p;
+	document.getElementById("s").innerHTML=changeId(r,1).replace(/<style>[^£]+<\/style>/,"");
+	document.getElementById("r").innerHTML=changeId(r,2).replace(/<style>[^£]+<\/style>/,"");
 	list=document.querySelectorAll("#r path[clip-path]");
 	km=list.length;
 	for(k=0;k<km;k++) newD[k]=curvePath(list[k].getAttribute('d'));
-	svg="<svg viewBox='0 0 1024 1024' fill='none' stroke='#000' stroke-width='10'>\n";
+	p="fill='none' stroke='#000' stroke-width='"+getStrokeWidth()+"' stroke-linecap='round'";
+	svg="<svg viewBox='0 0 1024 1024' "+p+">\n";
 	for(k=0;k<km;k++) svg+="<path d='"+newD[k]+"'/>\n";
 	svg+="</svg>";
 	document.getElementById("a").innerHTML=svg;
-	svg=svg.replace(/</g,"&lt;").replace(/>/g,"&gt;");
-	document.getElementById("t").innerHTML="<pre>"+svg+"</pre>";
+	updateCode();
 }
 
 function doIt()
 {
 	let e=document.querySelector('[name="char"]'),c=e.value;
+	document.getElementById("s").innerHTML="";
 	document.getElementById("r").innerHTML="";
 	document.getElementById("a").innerHTML="";
 	document.getElementById("t").innerHTML="";
@@ -146,7 +176,7 @@ function doIt()
 		fetch('../svgs'+lang+'/'+dec+'.svg')
 		.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
 		.then(r=>{run(r);return true;})
-		.catch(e=>document.getElementById("r").innerHTML=e+' in svgs'+lang);
+		.catch(e=>document.getElementById("s").innerHTML=e+' in svgs'+lang);
 	}
 }
 </script>

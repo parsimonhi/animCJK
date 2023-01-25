@@ -34,7 +34,16 @@ pre
 </nav>
 <div class="langSelector"></div>
 <div class="charSelector"></div>
-<label>Speed: <input type="range" name="speed" min="0.01" max="5" step="0.01" value="1"></label>
+<label>Speed:
+<input type="range" name="speed" list="sizeMarks" min="0" max="256" step="16" value="128">
+<datalist id="sizeMarks">
+<option value="0"></option>
+<option value="64"></option>
+<option value="128"></option>
+<option value="192"></option>
+<option value="256"></option>
+</datalist>
+</label>
 <div id="a"></div>
 <details>
 <summary>SVG code</summary>
@@ -48,7 +57,6 @@ pre
 <a href="../licenses/COPYING.txt"><span>Licences</span></a>
 </nav>
 </footer>
-<script src="_js/magicAcjk.js"></script>
 <script>
 function updateCodeTag()
 {
@@ -73,9 +81,11 @@ function getDelay(e)
 	if (a&&(m=a.match(/--d:([^;]+);/))) return Math.max(parseFloat(m[1]),0.01);
 	return 0.01;
 }
-function round(n)
+function round(n,p=1)
 {
-	return Math.round(n*1000)/1000;
+	let m=1;
+	for(let k=0;k<p;k++) m=m*10;
+	return Math.round(n*m)/m;
 }
 function setDuration(e,new_s,old_d0)
 {
@@ -89,16 +99,18 @@ function setDuration(e,new_s,old_d0)
 		if(m2=a.match(/--t:([^;]+);/)) old_t=parseFloat(m2[1]);
 		else old_t=0.8;
 		old_s=old_t/0.8;
-		new_t=round(0.8*new_s);
-		new_d=round(new_s*(old_d-old_d0)/old_s+old_d0); // keep the same initial delay
+		new_t=round(0.8*new_s,2);
+		new_d=round(new_s*(old_d-old_d0)/old_s+old_d0,2); // keep the same initial delay
 		a=a.replace(/--t:[^;]+;/,""); // work even if no --t in style attribute
 		a=a.replace(/--d:[^;]+;/,"--d:"+new_d+"s;--t:"+new_t+"s;");
 		e.setAttributeNS(null,"style",a);
 	}
 }
-function setSpeed(new_s)
+function setSpeed(alpha)
 {
-	let list;
+	let list,new_s;
+	new_s=round(8-Math.log2(alpha),1);
+	new_s=Math.max(Math.min(new_s,8),0.05);
 	list=document.querySelectorAll("#a svg.acjk path:not([id])");
 	if (list&&list.length)
 	{

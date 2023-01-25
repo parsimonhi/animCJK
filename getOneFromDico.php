@@ -1,14 +1,12 @@
 <?php
-header("Content-Type: text/plain");
-
 include_once "lib.php";
-
-if (isset($_POST["data"])&&$_POST["data"])
+$input=json_decode(file_get_contents('php://input'),true);
+if(isset($input["data"])&&$input["data"])
 {
-	if (isset($_POST["lang"])&&$_POST["lang"]) $lang=$_POST["lang"];
+	$char=$input["data"];
+	if(isset($input["lang"])&&$input["lang"]) $lang=$input["lang"];
 	else $lang="zh-hans";
-	$char=$_POST["data"];
 	echo getDictionaryData($char,$lang)."\n";
 }
-
+else echo "Error, no data!"."\n";
 ?>

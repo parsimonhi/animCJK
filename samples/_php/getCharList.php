@@ -190,7 +190,7 @@ function getCharList($set)
 		$a.="覇譜蹴離霧韻髄鯨鶏麓麗懸欄籍譲醸鐘響騰艦躍露顧魔鶴";
 		$a.="籠襲驚鑑鬱";
 	}
-	else if ($set=="g8")
+	else if ($set=="g8") // jinmeiyō
 	{
 		// 1) jinmeiyō kanji which are not traditional forms of jōyō or jinmeiyō kanji (632 chars)
 		$a.="丑丞乃之乎也云亘些亦亥亨亮仔伊伍伽佃佑伶侃侑俄俠俣俐倭俱倦倖偲傭儲允兎兜其冴凌凜凧凪凰凱函劉劫勁勺勿匁";
@@ -236,22 +236,19 @@ function getCharList($set)
 		$a.="渾";
 		$a=html_entity_decode($a,ENT_NOQUOTES,'UTF-8');
 	}
-	else if ($set=="g9")
+	else if ($set=="g9") // hyōgai
 	{
-		$a.="篭罠囁呟醤噛梱叱填剥頬繍繋壷覗";
 		$a.="丨丶丿亅亠儿冂冖冫几凵勹匕匚匸卩厂厶囗夂夊宀尢尸屮巛幺广廴廾弋彐彡彳";
 		$a.="戈戶攴无曰歹殳毋气爻爿疒癶禸网耒聿舛艮艸虍襾豕豸辵釆隶隹靑韋韭";
 		$a.="髟鬥鬯鬲鹵麥黍黹黽鼠齒龜龠";
-		$a.="丄乁乂乚亇亼氶亚业吕辶妟卄从乜刂㔾尣兀巜亢肀习";
+		$a.="篭罠囁呟醤噛梱叱填剥頬繍繋壷覗";
+		$a.="丄乁乂乚亇亼氶亚业吕辶妟卄从乜刂㔾尣兀巜亢肀习罒彑丩𠄌尓艹帀乍刖丬袁昜𫩏亽卬尹氐朩𢆉弗并𫶧";
+		$a.="呆𠬶夋夾吴㣊咅侖𠕁㑒";
 	}
 	else if ($set=="gc")
 	{
-		$a.="⺀⺄⺆⺈⺊⺌⺤⺥爫爫⺕⻌⻍⻎䒑丆丷乀乛亻氵飞龰龴龶𠂆𠂇𠂉𠂊𠂌𠂒𠃊𠃋𠃌𠃍𠄎𠆢𠘨𠦝𡿨𧘇𬺰𭕄";
-	}
-	else if ($set=="gs")
-	{
-		// strokes, not chars nor components
-		$a.="㇀㇁㇂㇃㇄㇅㇆㇇㇈㇉㇊㇋㇌㇍㇎㇏㇐㇑㇒㇓㇔㇕㇖㇗㇘㇙㇚㇛㇜㇝㇞㇟㇠㇡㇢";
+		$a.="⺀⺄⺆⺈⺊⺌⺤⺥爫爫⺕⻌⻍⻎䒑丆丷乀乛亻攵氵飞覀龰龴龶龷𠂆𠂇𠂉𠂊𠂌𠂒𠃊𠃋𠃌𠃍𠃑𠄎𠆢𠘨𠦝𠫔";
+		$a.="𡿨𧘇𫢉𬺰𭕄";
 	}
 	// zhHans
 	else if ($set=="frequent2500")
@@ -640,32 +637,102 @@ function getCharList($set)
 	}
 	else if ($set=="uncommon")
 	{
-		$a.="丨丶丿亅亠冂冖冫凵勹匚匸卩厶囗夂夊宀尢屮巛廴廾彐彡戶攴疋疒癶禸糸艸虍襾見貝";
-		$a.="車辵釆長門隹靑韋頁風飛馬髟鬥魚鳥鹵麥黃黽齊齒龍龜";
-		$a.="䒑丄丆乁乚乛亇亼𠂇𠃌𡿨氶辶妟卄刂㔾𠂆尣巜肀";
+		$a.="丨丶丿亅亠冂冖冫凵勹匚匸卩厶囗夂夊宀尢屮巛廴廾彐彡攴疋疒癶禸糸虍襾辵釆隹髟";
+		$a.="䒑丄丆乁乚乛亇亼𠂇𠃌𡿨氶辶妟卄刂㔾𠂆尣巜肀罒彑丩𠄌艹帀丬昜雚𫩏亽卬朩𢆉𫶧𠬶夋㣊咅侖𠕁";
+	}
+	else if ($set=="traditional")
+	{
+		// traditional characters when the language code is zh-Hans
+		// reference: https://zidian.qianp.com/zi/x where x is a character (Xinhua Zidian)
+		// radicals
+		$a.="戶見貝艸車長門靑韋頁風飛馬鬥魚鳥鹵麥黃黽齊齒龍龜";
+		// hsk1 (only those are not already above)
+		$a.="愛氣電話點腦視東讀對兒飯館機鐘興個漢語後會幾開塊來師裡媽嗎買貓沒關係蘋錢請熱認識誰麼時書覺說歲聽學餵";
+		$a.="們歡現寫謝習醫樣這國繫説";
+		// hsk2 (only those are not already above)
+		$a.="為過還眞讓給別彆經從訴問錯間進幫動兩題離場錶邊準員備試體樂報遠運條務遊藥賣韆紅雞筆雖課紙貴陰紹賓顏籃";
+		$a.="鉛";
+		// hsk3 (only those are not already above)
+		$a.="發髮該當噹幹實應頭帶種記結難剛變總辦選決賽須單張萬聲護節願擔壞議禮數調業參復據簡輕滿靜極講戲終圖換檢";
+		$a.="臉擇樓練歷顧畫聞腳詞輛雙響網園遲燒聰樹銀環爺燈褲盤陽較層鐵舊藍騎餓淨鮮掃慣郵綠鄰飲襯績煉傘飽鍛";
+		// hsk5 (only those are not already above)
+		$a.="夾";
+		// hsk6 (only those are not already above)
+		$a.="烏";
+		// others
+		$a.="";
 	}
 	else if ($set=="component")
 	{
-		$a.="⺀⺄⺆⺈⺊⺌⺕⺤⺥爫⻌⻍⻎丷乀亻氵龰龴龶𠂉𠂊𠂌𠂒𠃊𠃋𠃍𠄎𠆢𠘨𠦝𧘇𬺰𭕄";
+		$a.="⺀⺄⺆⺈⺊⺌⺕⺤⺥爫⻌⻍⻎丷乀亻攵氵覀龰龴龶龷𠂉𠂊𠂌𠂒𠃊𠃋𠃍𠃑𠄎𠆢𠘨𠦝𠫔𧘇𫢉𬺰𭕄";
 	}
-	else if ($set=="stroke")
+	// zhHant, traditional characters when the language code is zh-Hant (in practice as in Taiwan)
+	else if ($set=="traditional1") // corresponding traditional chars of hsk1 chars
 	{
-		// strokes, not chars nor components
-		$a.="㇀㇁㇂㇃㇄㇅㇆㇇㇈㇉㇊㇋㇌㇍㇎㇏㇐㇑㇒㇓㇔㇕㇖㇗㇘㇙㇚㇛㇜㇝㇞㇟㇠㇡㇢";
+		// hsk1 traditional without those that are the same as hsk1 simplified
+		// 愛氣電點腦飯機鐘興後幾來裡媽嗎貓係蘋錢熱認麼覺歲聽學餵們歡謝醫這國
+		// openCC hsk1 conversion 2023-01-18, https://opencc.byvoid.com/ 簡體中文-繁體中文-臺灣標準-臺灣模式
+		//$a.="我的你是了　不們這一他　麼在有個　好來人那會什沒說　嗎想能上去她很看對　裡　都子生時樣和下現做大怎出點　起天開謝些";
+		  $a.="我的你是了瞭不們這一他么麼在有個箇好來人那會什沒說説嗎想能上去她很看對裏裡里都子生時樣和下現做大怎出點齣起天開謝些"; // discard 箇裏 from zh-Hans
+		//$a.="家　後　兒多話小回　果見聽覺太媽打再呢女前先明中作面愛　　電哪西候歡關車年喜認爸誰老機分今工東名同　學叫本國友高";
+		  $a.="傢家后後兒多話小回迴果見聽覺太媽打再呢女前先明中作面愛麪麵電哪西候歡關車年喜認爸誰老機分今工東名同衕學叫本國友高"; // discard 齣傢迴麪衕麵 from zh-Hans
+		//$a.="請住錢吃朋系　　　幾氣少醫三興服字水號師星識坐期買影二喝月寫姐飛視衣鍾　　十睡亮狗腦院書四米校客歲　　五漂喂　塊店語";
+		  $a.="請住錢喫朋系係繫几幾氣少醫三興服字水號師星識坐期買影二喝月寫姐飛視衣鍾鈡鐘十睡亮狗腦院書四米校客嵗歲𡻕五漂喂餵塊店語"; // discard: 鈡喫號鍾嵗𡻕餵 from zh-Hans
+		//$a.="熱杯　昨飯冷午習六讀商八漢租貓七菜北桌雨九椅茶京　蘋";
+		  $a.="熱杯盃昨飯冷午習六讀商八漢租貓七菜北桌雨九椅茶京苹蘋"; // discard: 盃 from zh-Hans
 	}
-	// zhHant
-	else if ($set=="traditional1")
+	else if ($set=="traditional2") // corresponding traditional chars of hsk2 chars
 	{
-		$a.="我的你是了瞭不們這一他么麼在有個箇好來人那會什沒說説嗎想能上去她很看對裏裡";
-		$a.="里都子生時樣和下現做大怎出齣點起天開謝些傢家后後兒多話小回迴果見聽覺太媽打";
-		$a.="再呢女前先明中作面麪麵愛電哪西候歡關車年喜認爸誰老機分今工東名同衕學叫本國";
-		$a.="友高請住錢喫朋係系繫几幾氣少醫三興服字水號師星識坐期買影二喝月寫姐飛視衣鈡";
-		$a.="鍾鐘十睡亮狗腦院書四米校客嵗歲𡻕五漂喂餵塊店語熱杯盃昨飯冷午習六讀商八漢租";
-		$a.="貓七菜北桌雨九椅茶京苹蘋";
+		// hsk2 traditional without those that are the same as hsk2 simplified
+		//$a.="為過還眞讓給別彆經從訴問錯間進幫動長兩題離場錶邊準員備試體樂門報敎遠運條";
+		//$a.="務遊葯藥賣牀韆紅魚舘館雞鷄筆雖課紙貴陰纍紹賓顏顔籃鉛";
+		// openCC hsk2 conversion 2023-01-18, https://opencc.byvoid.com/ 簡體中文-繁體中文-臺灣標準-臺灣模式
+		//$a.="要就到為道可知得過吧還以事也真讓給但著意別　所然走經因告最手找快等從情訴已問錯孩它間次正進比幫晚動常";
+		  $a.="要就到為道可知得過吧還以事也眞讓給但着意別彆所然走經因告最手找快等從情訴已問錯孩它間次正進比幫晚動常"; // discard from zh-Hant: 爲
+		//$a.="長白第兩非公身題完望離新思場始外件表　希邊男　準員玩每備試體樂早門房球夫路日舞笑報教色遠眼蛋息室運哥火";
+		  $a.="長白第兩非公身題完望離新思場始外件表錶希邊男准準員玩每備試體樂早門房球夫路日舞笑報教色遠眼蛋息室運哥火"; // discard from zh-Hant: 敎
+		//$a.="條病弟您送近穿助司跑忙站跳便歌務黑票遊　唱考往步班藥賣百妹足慢妻床休洗奶千　共懂介紅魚牛館肉旅雞丈睛筆";
+		  $a.="條病弟您送近穿助司跑忙站跳便歌務黑票遊游唱考往步班藥賣百妹足慢妻床休洗奶千韆共懂介紅魚牛館肉旅雞丈睛筆"; // add 床, discard from zh-hant: 葯牀舘
+		//$a.="雖啡課咖紙左右旁雪貴汽瓜陰累紹踢賓泳零羊顏姓籃宜鉛晴";
+		  $a.="雖啡課咖紙左右旁雪貴汽瓜陰累紹踢賓泳零羊顏姓籃宜鉛晴"; // discard from zh-hant: 鷄纍顔
+	}
+	else if ($set=="traditional3") // corresponding traditional chars of hsk3 chars
+	{
+		// hsk3 simplified for reference
+		//$a.="啊把只如自发心定该当用地行而像被跟成感干法己信实方应头特相需放直才于带力种者安理重记加接拿解其又更马";
+		//$a.="结难位刚查或变物总办主算必害选且向照提决求目留清世片口酒周赛须卡婚根单张万声音奇怕护花节怪愿除界担空";
+		//$a.="阿注坏久议礼数平调文业包参风复忘假据嘴越简易答乎超轻满静故极讲趣戏容化束终差图半楚市城换船级刻迎段检";
+		//$a.="脸择楼皮练历山元角街料板顾遇史画闻急糕脚聊居词突努辆句季双牙南冰响网箱园冒甜香叔搬迟烧借聪腿鞋树银短";
+		//$a.="环哭康般境爷灯裤盘附阳健较耳草层末铁黄夏舒旧蓝疼河鸟骑饿瓶典育净李鲜扫惯邮帽啤梯鼻绿熊胖爬邻春朵饮裙";
+		//$a.="澡渴衫刷衬姨秋碗绩冬刮瘦矮炼伞饱锻蕉斤筷";
+		// hsk3 traditional without those that are the same as hsk3 simplified
+		//$a.="發髮該當噹幹實應頭於帶種記馬結難剛變總辦選決賽須單張萬聲護節願擔壞議禮數調業參復風據簡輕滿靜極講戲終圖";
+		//$a.="換級檢臉擇樓練歷顧畫聞腳詞輛雙響網園遲燒聰樹銀環爺燈褲盤陽較層鐵黃舊藍鳥騎餓淨鮮掃慣郵綠鄰飲襯績煉傘飽";
+		//$a.="鍛";
+		//$a.="乾榦纔査嚮曏週鬚註蔘複覆厤曆闆畵藉凈緑鞦鼕颳鍊";
+		// discard 祇衹隻
+		// openCC hsk3 convertion 2023-01-17, https://opencc.byvoid.com/ 簡體中文-繁體中文-臺灣標準-臺灣模式
+		//$a.="啊把只如自發　心定該當　用地行而像被跟成感幹法己信實方應頭特相需放直才於帶力種者安理重記加接拿解其又更馬";
+		  $a.="啊把只如自發髮心定該當噹用地行而像被跟成感幹法己信實方應頭特相需放直才於帶力種者安理重記加接拿解其又更馬";
+		//$a.="結難位剛查或變物總辦主算必害選且向照提決求目留清世片口酒周賽須卡婚根單張萬聲音奇怕護花節怪願除界擔空";
+		  $a.="結難位剛查或變物總辦主算必害選且向照提決求目留清世片口酒周賽須卡婚根單張萬聲音奇怕護花節怪願除界擔空";
+		//$a.="阿注壞久議禮數平調文業包參風復忘假據嘴越簡易答乎超輕滿靜故極講趣戲容化束終差圖半楚市城換船級刻迎段檢";
+		  $a.="阿注壞久議禮數平調文業包參風復忘假據嘴越簡易答乎超輕滿靜故極講趣戲容化束終差圖半楚市城換船級刻迎段檢";
+		//$a.="臉擇樓皮練歷山元角街料板顧遇史畫聞急糕腳聊居詞突努輛句季雙牙南冰響網箱園冒甜香叔搬遲燒借聰腿鞋樹銀短";
+		  $a.="臉擇樓皮練歷山元角街料板顧遇史畫聞急糕腳聊居詞突努輛句季雙牙南冰響網箱園冒甜香叔搬遲燒借聰腿鞋樹銀短";
+		//$a.="環哭康般境爺燈褲盤附陽健較耳草層末鐵黃夏舒舊藍疼河鳥騎餓瓶典育淨李鮮掃慣郵帽啤梯鼻綠熊胖爬鄰春朵飲裙";
+		  $a.="環哭康般境爺燈褲盤附陽健較耳草層末鐵黃夏舒舊藍疼河鳥騎餓瓶典育淨李鮮掃慣郵帽啤梯鼻綠熊胖爬鄰春朵飲裙";
+		//$a.="澡渴衫刷襯姨秋碗績冬刮瘦矮煉傘飽鍛蕉斤筷";
+		  $a.="澡渴衫刷襯姨秋碗績冬刮瘦矮煉傘飽鍛蕉斤筷";
+	}
+	else if ($set=="traditionalu")
+	{
+		$a.="丨艹";
 	}
 	// zhTw
 	else if ($set=="taiwan4808") $a.=getTaiwan4808CharList();
 	// ko
+	else if (preg_match("/^hanja[1-9]$/",$set)) $a.=getHanjaByLevelCharList($set);
 	else if ($set=="hanja1800a") $a.=getHanja1800aCharList();
 	else if ($set=="hanja1800b") $a.=getHanja1800bCharList();
 	else if ($set=="radicals")
@@ -702,33 +769,46 @@ function getCharList($set)
 		$a.="鬲鬼魚鳥鹵鹿麥麻黃黍黑黹黽鼎鼓鼠";
 		$a.="鼻齊齒龍龜龠";
 	}
-	// more
+	else if ($set=="stroke")
+	{
+		// strokes, not chars nor components
+		$a.="㇀㇁㇂㇃㇄㇅㇆㇇㇈㇉㇊㇋㇌㇍㇎㇏㇐㇑㇒㇓㇔㇕㇖㇗㇘㇙㇚㇛㇜㇝㇞㇟㇠㇡㇢";
+	}
 	else if ($set=="more")
 	{
 		$a.="〇";
 	}
 	// groups (start with an uppercase)
+	else if($set=="Kana") $a.=getCharList("hiragana").getCharList("katakana");
 	else if($set=="Joyo") for($k=0;$k<8;$k++) $a.=getCharList("g".$k);
 	else if($set=="Ja")
 	{
 		for($k=0;$k<10;$k++) $a.=getCharList("g".$k);
 		$a.=getCharList("gc");
-		$a.=getCharList("gs");
+		$a.=getCharList("stroke");
 	}
 	else if($set=="Ko") $a.=getKoCharList();
 	else if($set=="ZhHans")
 	{
 		$a.=getCharList("common7000");
 		$a.=getCharList("uncommon");
+		$a.=getCharList("traditional");
 		$a.=getCharList("component");
 		$a.=getCharList("stroke");
 	}
 	else if($set=="ZhHant")
 	{
 		$a.=getCharList("traditional1");
+		$a.=getCharList("traditional2");
+		$a.=getCharList("traditional3");
+		$a.=getCharList("traditionalu");
 	}
 	else if($set=="ZhTw") $a.=getZhTwCharList();
 	return $a;
+}
+function getKanaCharList()
+{
+	return getCharList("Kana");
 }
 function getJaCharList()
 {

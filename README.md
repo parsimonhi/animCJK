@@ -14,13 +14,15 @@ For each character, there is one or several svg files in AnimCJK repository that
 
 SVG files are stored in several folders.
 
-The svgsJa folder contains svg files corresponding to the union of the Japanese "jōyō kanji" (2136 characters), the Japanese "jinmeyō Kanji" (863 characters), 116 Japanese "hyōgai Kanji", 43 components, and 35 strokes. As a result, svgsJa folder contains 3193 characters.
+The svgsJa folder contains svg files corresponding to the union of the Japanese "jōyō kanji" (2136 characters), the Japanese "jinmeyō Kanji" (863 characters), 148 Japanese "hyōgai Kanji", 49 components, and 35 strokes. As a result, svgsJa folder contains 3231 characters.
 
 The svgsKana folder contains svg files corresponding to the Japanese "hiragana" (86 characters) and Japanese "katakana" (91 characters). As a result, svgsKana folder contains 177 characters.
 
-The svgsZhHans folder contains svg files corresponding to Chinese "commonly used simplified hanzi" (7000 characters), 82 "uncommon hanzi" in a text written in simplified hanzi, 34 components and 35 strokes. This set includes the "HSK hanzi" (2663 characters) and the "frequently used simplified hanzi" (3500 characters). As a result, svgsJa folder contains 7151 characters.
+The svgsKo folder contains svg files corresponding to Korean "hanja level 8 and level 7" (150 characters).
 
-The svgsZhHant folder contains svg files corresponding to Chinese "HSK 1 traditional hanzi" (197 characters). Note that some simplified characters have more than one corresponding traditional character.
+The svgsZhHans folder contains svg files corresponding to Chinese "commonly used simplified hanzi" (7000 characters), 79 "uncommon hanzi", 236 "traditional hanzi" (that can appear in a simplified hanzi text), 40 components and 35 strokes. This set includes the "HSK hanzi" (2663 characters) and the "frequently used simplified hanzi" (3500 characters). As a result, svgsJa folder contains 7390 characters.
+
+The svgsZhHant folder contains svg files corresponding to Chinese "HSK 1, HSK 2 and HSK 3 traditional hanzi" (647 characters) and 2 other characters. Note that some simplified characters have more than one corresponding traditional character. As a result, svgsZhHant folder contains 649 characters.
 
 Take care because characters are not always the same in Japanese and in Chinese even when they share the same unicode. For instance 勉 (21193.svg) in Japanese has not the same shape as 勉 (21193.svg) in Chinese.
 
@@ -102,17 +104,11 @@ See also http://gooo.free.fr/animCJK/official/samples
 
 Using php, javascript or any other languages, you can easily modify svg files in order to change size of characters, colors, animation duration, etc.
 - to insert several characters in the same page, see animeSeveral.html.
-- to change colors of a character, see color.php and red.php.
-- to change the size of a character, see size.php.
-- to change the speed of drawing a character, see speed.php.
+- to change colors of a character, see color.html, rainbow.html or red.html.
+- to change the size of a character, see size.html.
+- to change the speed of drawing a character, see speed.html.
 
 See other samples for more usages.
-
-### Support of browsers than cannot animate svg properly
-
-Some browsers (notably Microsoft browsers) cannot animate svg properly. A workaround for these browsers is provided with the samples.
-
-However, the market share of these browsers is constantly decreasing. So it is conceivable (in 2018) to remove this workaround to simplify your code. 
 
 ## Technical details
 
@@ -150,11 +146,12 @@ http://gooo.free.fr/animCJK/animkanji_wp_plugin_page.php
 
 ### Makemeahanzi
 
-This project is derived from the remarquable Makemeahanzi project which is designed to display Chinese characters. See https://github.com/skishore/makemeahanzi for more details. However nearly all the characters were modified or added in animCJK for various reasons:
+This project is derived from the remarquable Makemeahanzi project which is designed to display Chinese characters. See https://github.com/skishore/makemeahanzi for more details. However almost all characters have been modified (or added) in animCJK for various reasons:
 - many Japanese characters have a different stroke order, or have a different glyph, or have a different stroke direction or are not commonly used in Chinese, and therefore are not in Makemeahanzi.
 - many Chinese traditional characters have a different stroke order, or have a different glyph, or have a different stroke direction or are not in Makemeahanzi.
 - many character shapes were just slightly modified to look prettier.
-- some commonly used (but not frequently used) Chinese characters are not in Makemeahanzi. 
+- some commonly used (but not frequently used) Chinese characters are not in Makemeahanzi.
+- some uncommon characters are not in Makemeahanzi.
 
 Even if character shapes have the same look in both Makemeahanzi and AnimCJK, the svg files are different: the css is different, the svg structure is different, the coordinate system is different, the stroke paths are different, the median paths are different. However, for people who would like to re-import characters from AnimCJK to Makemeahanzi, text files are provided (graphicsJa.txt, graphicsZhHans.txt, etc.) that have the same format as the graphics.txt file of Makemeahanzi. So it is easy to generate SVG files in the format used by Makemeahanzi using AnimCJK data.
 
@@ -186,8 +183,9 @@ We used various sources to cross-check our data. In particular:
 - Taiwanese Minister Of Education, https://stroke-order.learningweb.moe.edu.tw/characters.do?lang=en (Chinese characters used in Taiwan)
 - Hong-Kong Education Bureau, https://www.edbchinese.hk/lexlist_en/ (Chinese characters used in Hong-Kong)
 - Naver Hanja Dictionary, https://hanja.dict.naver.com/ (Korean characters)
+- Korean Wiki Project， https://www.koreanwikiproject.com/wiki/Category:Hanja_characters (Korean characters displayed using a Korean font in kaisho style)
 - OpenCC, https://github.com/BYVoid/OpenCC (correspondence between simplified and traditional Chinese characters)
-- Commons Chinese characters decomposition, https://commons.wikimedia.org/wiki/Commons:Chinese_characters_decomposition (Chinese characters decomposition)
+- Commons Chinese Characters Decomposition, https://commons.wikimedia.org/wiki/Commons:Chinese_characters_decomposition (Chinese characters decomposition)
 - CJK Decomposition Data, https://archive.codeplex.com/?p=cjkdecomp (Chinese characters decomposition)
 - Hanzi Yuan, http://hanziyuan.net/ (Chinese characters etymology)
 - Shufa Ai, http://www.shufaai.com/a/zidian/zi/ (various images of Chinese characters)
@@ -198,6 +196,18 @@ We used various sources to cross-check our data. In particular:
 ## What is new?
 
 Minor enhancements (glyphs or medians most of the time) and minor updates can be skipped.
+
+2023/01/25
+- add some traditional hanzi (hsk1, hsk2 and hsk3) in svgsZhHans (Continental China)
+- add some traditional hanzi (hsk2 and hsk3) in svgsZhHant (Taiwan)
+- add some hanja (level 8 and level 7) in svgsKo (Korea)
+- add some uncommon or component characters
+- modify some character decompositions
+- modify numerous characters (minor enhancements)
+- 坐: modify stroke order (permute 5th and 6th strokes)
+- various minor updates
+
+Note: there are many tiny differences (stroke order, glyph, ...) between the traditional hanzi of svgsZhHans and those of svgsZhHant.
 
 2023/01/03
 - update the licence
