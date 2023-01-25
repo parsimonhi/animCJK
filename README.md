@@ -4,7 +4,7 @@
 
 ## Description
 
-The purpose of this project is to display kanji and kana (Japanese characters) or hanzi (simplified and traditional Chinese characters) stroke by stroke.
+The purpose of this project is to display kanji and kana (Japanese characters), hanzi (simplified and traditional Chinese characters) or hanja (Korean characters) stroke by stroke.
 
 For a demo, see http://gooo.free.fr/animCJK/official
 
@@ -20,7 +20,7 @@ The svgsKana folder contains svg files corresponding to the Japanese "hiragana" 
 
 The svgsKo folder contains svg files corresponding to Korean "hanja level 8 and level 7" (150 characters).
 
-The svgsZhHans folder contains svg files corresponding to Chinese "commonly used simplified hanzi" (7000 characters), 79 "uncommon hanzi", 236 "traditional hanzi" (that can appear in a simplified hanzi text), 40 components and 35 strokes. This set includes the "HSK hanzi" (2663 characters) and the "frequently used simplified hanzi" (3500 characters). As a result, svgsJa folder contains 7390 characters.
+The svgsZhHans folder contains svg files corresponding to Chinese "commonly used simplified hanzi" (7000 characters), 79 "uncommon hanzi", 236 "traditional hanzi" (that can appear in a simplified hanzi text), 40 components and 35 strokes. This set includes the "HSK hanzi" (2663 characters) and the "frequently used simplified hanzi" (3500 characters). As a result, svgsZhHans folder contains 7390 characters.
 
 The svgsZhHant folder contains svg files corresponding to Chinese "HSK 1, HSK 2 and HSK 3 traditional hanzi" (647 characters) and 2 other characters. Note that some simplified characters have more than one corresponding traditional character. As a result, svgsZhHant folder contains 649 characters.
 
@@ -147,7 +147,7 @@ http://gooo.free.fr/animCJK/animkanji_wp_plugin_page.php
 ### Makemeahanzi
 
 This project is derived from the remarquable Makemeahanzi project which is designed to display Chinese characters. See https://github.com/skishore/makemeahanzi for more details. However almost all characters have been modified (or added) in animCJK for various reasons:
-- many Japanese characters have a different stroke order, or have a different glyph, or have a different stroke direction or are not commonly used in Chinese, and therefore are not in Makemeahanzi.
+- many Japanese and Korean characters have a different stroke order, or have a different glyph, or have a different stroke direction or are not commonly used in Chinese, and therefore are not in Makemeahanzi.
 - many Chinese traditional characters have a different stroke order, or have a different glyph, or have a different stroke direction or are not in Makemeahanzi.
 - many character shapes were just slightly modified to look prettier.
 - some commonly used (but not frequently used) Chinese characters are not in Makemeahanzi.
