@@ -10,7 +10,7 @@ on the fly from AnimCJK or MakeMeAHanzi SVG files">
 <script src="_js/magicAcjk.js"></script>
 <script src="_js/brushingAcjk.js"></script>
 <script>
-var svgsDir="../svgsJa";
+var svgsDir="svgs";
 function debug(s,a)
 {
 	return;
@@ -24,7 +24,15 @@ function debug(s,a)
 function status(s) {document.getElementById('status').innerHTML=s;}
 function changeDir(dir)
 {
+	let newLang,html;
+	html=document.querySelector('html');
 	svgsDir=dir;
+	if(dir=="../svgsJa") html.setAttribute("lang","ja");
+	else if(dir=="../svgsKo") html.setAttribute("lang","ko");
+	else if(dir=="../svgsZhHans") html.setAttribute("lang","zh-Hans");
+	else if(dir=="../svgsZhHant") html.setAttribute("lang","zh-Hant");
+	else html.setAttribute("lang","zh");
+	status('Push "Create" button to generate the images!');
 }
 function showAnimatedGif(image,background,dec)
 {
@@ -77,7 +85,7 @@ function ok()
 	if (d2=document.getElementById('d2')) d2.innerHTML="";
 	if (e2=document.getElementById('e2')) e2.innerHTML="";
     document.getElementById('data').focus();
-    document.getElementById('showSource').value="Show sources";
+    document.getElementById('showCode').value="Show codes";
     // get data from the input field
 	data=document.getElementById("data").value;
 	if (!data) {status("No data!"); return;}
@@ -135,21 +143,21 @@ function base64Hide(id)
 }
 function ok2(input)
 {
-	// show source of images, encoded in base64
+	// show codes of images, encoded in base64
 	// these data can be used to save images files locally or on a server
 	var e,e2,imgs;
-	if (input.value=="Show sources")
+	if (input.value=="Show codes")
 	{
 		base64Show('a');
 		//base64Show('b');
 		base64Show('c');
 		//base64Show('d');
 		base64Show('e');
-		input.value="Hide sources";
+		input.value="Hide codes";
 	}
 	else
 	{
-		input.value="Show sources";
+		input.value="Show codes";
 		base64Hide('a');
 		//base64Hide('b');
 		base64Hide('c');
@@ -220,9 +228,11 @@ input {font-size:1em;}
 <h1>Image factory</h1>
 <div class="dirSelector">
 <p>Select a repository:</p>
-<label><input checked type="radio" name="changeDir" value="1" onclick="changeDir('../svgsJa')"> svgsJa (from AnimCJK, 2998 characters)</label>
-<label><input type="radio" name="changeDir" value="2" onclick="changeDir('../svgsZhHans')"> svgsZhHans (from AnimCJK, 7000 characters)</label>
-<label><input type="radio" name="changeDir" value="3" onclick="changeDir('svgs')"> svgs (from MakeMeAHanzi, just for testing, contains only 鼠貓牛虎兔龍蛇馬羊猴雞狗)</label>
+<label><input type="radio" name="changeDir" value="1" onclick="changeDir('../svgsJa')"> svgsJa (from AnimCJK)</label>
+<label><input type="radio" name="changeDir" value="2" onclick="changeDir('../svgsKo')"> svgsKo (from AnimCJK)</label>
+<label><input type="radio" name="changeDir" value="3" onclick="changeDir('../svgsZhHans')"> svgsZhHans (from AnimCJK)</label>
+<label><input type="radio" name="changeDir" value="4" onclick="changeDir('../svgsZhHant')"> svgsZhHant (from AnimCJK)</label>
+<label><input checked type="radio" name="changeDir" value="5" onclick="changeDir('svgs')"> svgs (from MakeMeAHanzi, just for testing, contains only 鼠貓牛虎兔龍蛇馬羊猴雞狗)</label>
 </div>
 <div class="dirSelector">
 <input id="data" type="text" maxlength="1" value="馬" placeholder="Enter a character here">
@@ -238,15 +248,15 @@ input {font-size:1em;}
 <!-- <p>Note: animated GIF images without grey strokes can be transformed in transparent image
 using a tool such as gifsicle</p> -->
 <p>Images encoded in base64:
-<input id="showSource" type="button" value="Show sources" onclick="ok2(this)"></p>
-<div>Source of transparent red PNG image: <span id="a2"></span></div>
+<input id="showCode" type="button" value="Show codes" onclick="ok2(this)"></p>
+<div>Code of transparent red PNG image: <span id="a2"></span></div>
 <!-- <div>Source of not transparent red PNG image: <span id="b2"></span></div> -->
-<div>Source of animated GIF image with grey strokes: <span id="c2"></span></div>
+<div>Code of animated GIF image with grey strokes: <span id="c2"></span></div>
 <!-- <div>Source of animated GIF image without grey strokes: <span id="d2"></span></div> -->
-<div>Source of sequence PNG image: <span id="e2"></span></div>
+<div>Code of sequence PNG image: <span id="e2"></span></div>
 <div id="debug"></div>
 <footer>
-<a href="../">Home</a>
+<a href="./">Sample selector</a>
 - <a href="../licenses/COPYING.txt">Licences</a>
 </footer>
 </body>
