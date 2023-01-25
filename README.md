@@ -146,7 +146,7 @@ http://gooo.free.fr/animCJK/animkanji_wp_plugin_page.php
 
 ### Makemeahanzi
 
-This project is derived from the remarquable Makemeahanzi project which is designed to display Chinese characters. See https://github.com/skishore/makemeahanzi for more details. However almost all characters have been modified (or added) in animCJK for various reasons:
+This project is derived from the remarquable Makemeahanzi project which is designed to display Chinese characters. See https://github.com/skishore/makemeahanzi for more details. However many characters have been modified (or added) in animCJK for various reasons:
 - many Japanese and Korean characters have a different stroke order, or have a different glyph, or have a different stroke direction or are not commonly used in Chinese, and therefore are not in Makemeahanzi.
 - many Chinese traditional characters have a different stroke order, or have a different glyph, or have a different stroke direction or are not in Makemeahanzi.
 - many character shapes were just slightly modified to look prettier.
