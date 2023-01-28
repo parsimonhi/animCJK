@@ -472,7 +472,7 @@ function ok()
 					return false;
 				}
 			})
-		.catch(e=>a.innerHTML=e);
+		.catch(e=>a.innerHTML=c+" not in "+dir+" repository!");
 		options.method="POST";
 		options.body=JSON.stringify({lang:langIso,data:c});
 		fetch('getOneFromDico.php',options)
