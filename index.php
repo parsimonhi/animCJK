@@ -458,7 +458,20 @@ function ok()
 		dir="svgs"+(((lang=="Ja")&&(dec>12352)&&(dec<12541))?"Kana":lang);
 		fetch(dir+"/"+dec+".svg",options)
 		.then(r=>{if(!r.ok) throw r.statusText;return r.text();})
-		.then(r=>{a.innerHTML=r.replace(/<style[\s\S]+\/style>\s/,"");switchNumbers();})
+		.then(r=>
+			{
+				if(r&&r.match(/<svg id="z/))
+				{
+					a.innerHTML=r.replace(/<style[\s\S]+\/style>\s/,"");
+					switchNumbers();
+					return true;
+				}
+				else
+				{
+					a.innerHTML="Data not found!";
+					return false;
+				}
+			})
 		.catch(e=>a.innerHTML=e);
 		options.method="POST";
 		options.body=JSON.stringify({lang:langIso,data:c});
