@@ -468,7 +468,7 @@ function ok()
 				}
 				else
 				{
-					a.innerHTML="Data not found!";
+					a.innerHTML=c+" not in "+dir+" repository!";
 					return false;
 				}
 			})
