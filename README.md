@@ -4,7 +4,7 @@
 
 ## Description
 
-The purpose of this project is to display kanji and kana (Japanese characters), hanzi (simplified and traditional Chinese characters) or hanja (Korean characters) stroke by stroke.
+The purpose of this project is to display kanji and kana (Japanese characters), hanja (Korean characters) or hanzi (simplified and traditional Chinese characters) stroke by stroke.
 
 For a demo, see http://gooo.free.fr/animCJK/official
 
@@ -196,6 +196,11 @@ We used various sources to cross-check our data. In particular:
 ## What is new?
 
 Minor enhancements (glyphs or medians most of the time) and minor updates can be skipped.
+
+2023/02/02
+- 餅餌: change of glyph and stroke order in svgsJa
+- add hanja level 6 to svgsKo
+- various minor updates
 
 2023/01/25
 - add some traditional hanzi (hsk1, hsk2 and hsk3) in svgsZhHans (Continental China)

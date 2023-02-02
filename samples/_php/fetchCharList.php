@@ -57,12 +57,16 @@ if($set=="Ja"||$set=="Ko"||$set=="ZhHans"||$set=="ZhHant")
 	$first=true;
 	foreach($a as $b)
 	{
-		if($first) $first=false;
-		else $s.=",";
-		$s.="{";
-		$s.="\"title\":\"".makeTitle($b)."\",\"chars\":\"";
-		$s.=getCharList($b);
-		$s.="\"}";
+		$c=getCharList($b);
+		if($c)
+		{
+			if($first) $first=false;
+			else $s.=",";
+			$s.="{";
+			$s.="\"title\":\"".makeTitle($b)."\",\"chars\":\"";
+			$s.=getCharList($b);
+			$s.="\"}";
+		}
 	}
 	$s.="]";
 }

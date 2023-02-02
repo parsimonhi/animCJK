@@ -244,8 +244,8 @@ $q["ja"]=[
 	["stroke","Strokes"]];
 $q["ko"]=[
 	["hanja8","Hanja level 8"],
-	["hanja7","Hanja level 7"]//,
-	//["hanja6","Hanja level 6"]//,
+	["hanja7","Hanja level 7"],
+	["hanja6","Hanja level 6"]//,
 	//["hanja5","Hanja level 5"]//,
 	//["hanja4","Hanja level 4"]//,
 	//"hanja3","Hanja level 3"]//,
@@ -288,7 +288,7 @@ function navigation($lang)
 	}
 	else if ($lang=="ko")
 	{
-		for ($k=8;$k>6;$k--)
+		for ($k=8;$k>5;$k--)
 			echo "<span><a href=\"#koHanja".$k."\">Level ".$k."</a></span>";
 	}
 	else if ($lang=="zhHans")
