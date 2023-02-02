@@ -24,9 +24,9 @@ The svgsZhHans folder contains svg files corresponding to Chinese "commonly used
 
 The svgsZhHant folder contains svg files corresponding to Chinese "HSK 1, HSK 2 and HSK 3 traditional hanzi" (647 characters) and 2 other characters. Note that some simplified characters have more than one corresponding traditional character. As a result, svgsZhHant folder contains 649 characters.
 
-Take care because characters are not always the same in Japanese and in Chinese even when they share the same unicode. For instance 勉 (21193.svg) in Japanese has not the same shape as 勉 (21193.svg) in Chinese.
+Be careful because the characters are not always the same in all languages even when they share the same unicode. For instance 勉 (21193.svg) in Japanese has not the same shape as 勉 (21193.svg) in Chinese.
 
-Take care of compatibility characters such as 勉 (64051.svg) that has in Japanese the same shape as 勉 (21193.svg) in Chinese, but has not the same unicode.
+Pay attention to compatibility characters such as 勉 (64051.svg) which has the same glyph in Japanese as 勉 (21193.svg) in Chinese, but does not have the same unicode.
 
 Each svg can be inserted as is in a web page, or with some modifications using for instance javascript.
 
