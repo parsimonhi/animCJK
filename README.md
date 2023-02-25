@@ -197,6 +197,9 @@ We used various sources to cross-check our data. In particular:
 
 Minor enhancements (glyphs or medians most of the time) and minor updates can be skipped.
 
+2023/02/25
+- fixes the decomposition of 览 (issue #27)
+
 2023/02/20
 - add 々
 - various minor updates
