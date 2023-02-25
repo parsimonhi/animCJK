@@ -201,7 +201,7 @@ Minor enhancements (glyphs or medians most of the time) and minor updates can be
 - fixes the decomposition of 览 (issue #27)
 
 2023/02/20
-- add 々
+- add 々 (issue #26)
 - various minor updates
 
 2023/02/02
