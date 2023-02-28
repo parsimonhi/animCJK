@@ -245,8 +245,8 @@ $q["ja"]=[
 $q["ko"]=[
 	["hanja8","Hanja level 8"],
 	["hanja7","Hanja level 7"],
-	["hanja6","Hanja level 6"]//,
-	//["hanja5","Hanja level 5"]//,
+	["hanja6","Hanja level 6"],
+	["hanja5","Hanja level 5"]//,
 	//["hanja4","Hanja level 4"]//,
 	//"hanja3","Hanja level 3"]//,
 	//["hanja2","Hanja level 2"]//,
