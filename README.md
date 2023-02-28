@@ -197,7 +197,7 @@ We used various sources to cross-check our data. In particular:
 
 Minor enhancements (glyphs or medians most of the time) and minor updates can be skipped.
 
-2023/02/27
+2023/02/28
 - 務: modify zhHans glyph, and decomposition in everywhere
 - 健楗毽犍腱: modify zhHans decomposition
 - add hanja level 5 to svgsKo
