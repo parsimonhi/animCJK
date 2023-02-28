@@ -18,7 +18,7 @@ The svgsJa folder contains svg files corresponding to the union of the Japanese 
 
 The svgsKana folder contains svg files corresponding to the Japanese "hiragana" (86 characters) and Japanese "katakana" (91 characters). As a result, svgsKana folder contains 177 characters.
 
-The svgsKo folder contains svg files corresponding to Korean "hanja level 8, 7 and 6" (300 characters).
+The svgsKo folder contains svg files corresponding to Korean "hanja level 8, 7, 6 and 5" (500 characters).
 
 The svgsZhHans folder contains svg files corresponding to Chinese "commonly used simplified hanzi" (7000 characters), 80 "uncommon hanzi", 236 "traditional hanzi" (that can appear in a simplified hanzi text), 40 components and 35 strokes. This set includes the "HSK hanzi" (2663 characters) and the "frequently used simplified hanzi" (3500 characters). As a result, svgsZhHans folder contains 7391 characters.
 
@@ -196,6 +196,12 @@ We used various sources to cross-check our data. In particular:
 ## What is new?
 
 Minor enhancements (glyphs or medians most of the time) and minor updates can be skipped.
+
+2023/02/27
+- 務: modify zhHans glyph, and decomposition in everywhere
+- 健楗毽犍腱: modify zhHans decomposition
+- add hanja level 5 to svgsKo
+- various minor updates
 
 2023/02/25
 - fixes the decomposition of 览 (issue #27)
