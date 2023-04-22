@@ -14,13 +14,13 @@ For each character, there is one or several svg files in AnimCJK repository that
 
 SVG files are stored in several folders.
 
-The svgsJa folder contains svg files corresponding to the union of the Japanese "jōyō kanji" (2136 characters), the Japanese "jinmeyō Kanji" (863 characters), 149 Japanese "hyōgai Kanji", 49 components, and 35 strokes. As a result, svgsJa folder contains 3232 characters.
+The svgsJa folder contains svg files corresponding to the union of the Japanese "jōyō kanji" (2136 characters), the Japanese "jinmeyō Kanji" (863 characters), 150 Japanese "hyōgai Kanji", 51 components, and 35 strokes. As a result, svgsJa folder contains 3235 characters.
 
 The svgsKana folder contains svg files corresponding to the Japanese "hiragana" (86 characters) and Japanese "katakana" (91 characters). As a result, svgsKana folder contains 177 characters.
 
 The svgsKo folder contains svg files corresponding to Korean "hanja level 8, 7, 6 and 5" (500 characters).
 
-The svgsZhHans folder contains svg files corresponding to Chinese "commonly used simplified hanzi" (7000 characters), 80 "uncommon hanzi", 236 "traditional hanzi" (that can appear in a simplified hanzi text), 40 components and 35 strokes. This set includes the "HSK hanzi" (2663 characters) and the "frequently used simplified hanzi" (3500 characters). As a result, svgsZhHans folder contains 7391 characters.
+The svgsZhHans folder contains svg files corresponding to Chinese "commonly used simplified hanzi" (7000 characters), 80 "uncommon hanzi", 236 "traditional hanzi" (that can appear in a simplified hanzi text), 42 components and 35 strokes. This set includes the "HSK hanzi" (2663 characters) and the "frequently used simplified hanzi" (3500 characters). As a result, svgsZhHans folder contains 7393 characters.
 
 The svgsZhHant folder contains svg files corresponding to Chinese "HSK 1, HSK 2 and HSK 3 traditional hanzi" (647 characters) and 2 other characters. Note that some simplified characters have more than one corresponding traditional character. As a result, svgsZhHant folder contains 649 characters.
 
@@ -197,8 +197,12 @@ We used various sources to cross-check our data. In particular:
 
 Minor enhancements (glyphs or medians most of the time) and minor updates can be skipped.
 
+2023/04/22
+- add 燻 (in svgsJa), 扌 and 衤 (in svgsJa and svgsZhHans)
+- various minor updates
+
 2023/02/28
-- 務: modify zhHans glyph, and decomposition in everywhere
+- 務: modify zhHans glyph, and decomposition everywhere
 - 健楗毽犍腱: modify zhHans decomposition
 - add hanja level 5 to svgsKo
 - various minor updates

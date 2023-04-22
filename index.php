@@ -288,7 +288,7 @@ function navigation($lang)
 	}
 	else if ($lang=="ko")
 	{
-		for ($k=8;$k>4;$k--)
+		for ($k=8;$k>5;$k--)
 			echo "<span><a href=\"#koHanja".$k."\">Level ".$k."</a></span>";
 	}
 	else if ($lang=="zhHans")

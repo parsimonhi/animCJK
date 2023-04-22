@@ -241,7 +241,7 @@ function getCharList($set)
 		$a.="丨丶丿亅亠儿冂冖冫几凵勹匕匚匸卩厂厶囗夂夊宀尢尸屮巛幺广廴廾弋彐彡彳";
 		$a.="戈戶攴无曰歹殳毋气爻爿疒癶禸网耒聿舛艮艸虍襾豕豸辵釆隶隹靑韋韭";
 		$a.="髟鬥鬯鬲鹵麥黍黹黽鼠齒龜龠";
-		$a.="篭罠囁呟醤噛梱叱填剥頬繍繋壷覗";
+		$a.="篭罠囁呟醤噛梱叱填剥頬繍繋壷覗燻";
 		$a.="丄乁乂乚亇亼氶亚业吕辶妟卄从乜刂㔾尣兀巜亢肀习罒彑丩𠄌尓艹帀乍刖丬袁昜𫩏亽卬尹氐朩𢆉弗并𫶧";
 		$a.="呆𠬶夋夾吴㣊咅侖𠕁㑒";
 		$a.="々";
@@ -249,7 +249,7 @@ function getCharList($set)
 	else if ($set=="gc")
 	{
 		$a.="⺀⺄⺆⺈⺊⺌⺤⺥爫爫⺕⻌⻍⻎䒑丆丷乀乛亻攵氵飞覀龰龴龶龷𠂆𠂇𠂉𠂊𠂌𠂒𠃊𠃋𠃌𠃍𠃑𠄎𠆢𠘨𠦝𠫔";
-		$a.="𡿨𧘇𫢉𬺰𭕄";
+		$a.="𡿨𧘇𫢉𬺰𭕄扌衤";
 	}
 	// zhHans
 	else if ($set=="frequent2500")
@@ -666,7 +666,7 @@ function getCharList($set)
 	}
 	else if ($set=="component")
 	{
-		$a.="⺀⺄⺆⺈⺊⺌⺕⺤⺥爫⻌⻍⻎丷乀亻攵氵覀龰龴龶龷𠂉𠂊𠂌𠂒𠃊𠃋𠃍𠃑𠄎𠆢𠘨𠦝𠫔𧘇𫢉𬺰𭕄";
+		$a.="⺀⺄⺆⺈⺊⺌⺕⺤⺥爫⻌⻍⻎丷乀亻攵氵覀龰龴龶龷𠂉𠂊𠂌𠂒𠃊𠃋𠃍𠃑𠄎𠆢𠘨𠦝𠫔𧘇𫢉𬺰𭕄扌衤";
 	}
 	// zhHant, traditional characters when the language code is zh-Hant (in practice as in Taiwan)
 	else if ($set=="traditional1") // corresponding traditional chars of hsk1 chars
