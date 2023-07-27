@@ -197,6 +197,9 @@ We used various sources to cross-check our data. In particular:
 
 Minor enhancements (glyphs or medians most of the time) and minor updates can be skipped.
 
+2023/07/27
+- add 轤轆 in svgsJa
+
 2023/04/25
 - add 犭忄牜𤣩灬𠀃礻阝豖𫝀丂戉乇仌彥𫠠壴𥫗 (in svgsJa and svgsZhHans)
 - add 电关叩开扁旁禺桀 (in svgsJa)

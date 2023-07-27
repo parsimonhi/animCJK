@@ -241,7 +241,7 @@ function getCharList($set)
 		$a.="丨丶丿亅亠儿冂冖冫几凵勹匕匚匸卩厂厶囗夂夊宀尢尸屮巛幺广廴廾弋彐彡彳";
 		$a.="戈戶攴无曰歹殳毋气爻爿疒癶禸网耒聿舛艮艸虍襾豕豸辵釆隶隹靑韋韭";
 		$a.="髟鬥鬯鬲鹵麥黍黹黽鼠齒龜龠";
-		$a.="篭罠囁呟醤噛梱叱填剥頬繍繋壷覗燻";
+		$a.="篭罠囁呟醤噛梱叱填剥頬繍繋壷覗燻轤轆";
 		$a.="丄乁乂乚亇亼氶亚业吕辶妟卄从乜刂㔾尣兀巜亢肀习罒彑丩𠄌尓艹帀乍刖丬袁昜𫩏亽卬尹氐朩𢆉弗并𫶧";
 		$a.="呆𠬶夋夾吴㣊咅侖𠕁㑒关叩开𠀃豖扁旁丂禺桀戉乇仌彥𫠠壴";
 		$a.="々";
@@ -737,6 +737,9 @@ function getCharList($set)
 	else if ($set=="taiwan4808") $a.=getTaiwan4808CharList();
 	// ko
 	else if (preg_match("/^hanja[1-9]$/",$set)) $a.=getHanjaByLevelCharList($set);
+	else if ($set=="hangul") $a.=getHangulCharList();
+	else if ($set=="hanguljamos") $a.=getHangulJamosCharList();
+	else if ($set=="hangulsyllables") $a.=getHangulSyllablesCharList();
 	else if ($set=="hanja1800a") $a.=getHanja1800aCharList();
 	else if ($set=="hanja1800b") $a.=getHanja1800bCharList();
 	else if ($set=="radicals")
