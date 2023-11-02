@@ -14,7 +14,7 @@ For each character, there is one or several svg files in AnimCJK repository that
 
 SVG files are stored in several folders.
 
-The svgsJa folder contains svg files corresponding to the union of the Japanese "jōyō kanji" (2136 characters), the Japanese "jinmeyō Kanji" (863 characters), 168 Japanese "hyōgai Kanji" and 61 components, and 35 strokes. In all, svgsJa folder contains 3263 characters.
+The svgsJa folder contains svg files corresponding to the union of the Japanese "jōyō kanji" (2136 characters), the Japanese "jinmeyō Kanji" (863 characters), 168 Japanese "hyōgai Kanji", 61 components, and 35 strokes. In all, svgsJa folder contains 3263 characters.
 
 The svgsKana folder contains svg files corresponding to the Japanese "hiragana" (86 characters) and Japanese "katakana" (91 characters). As a result, svgsKana folder contains 177 characters.
 
@@ -240,6 +240,9 @@ Minor enhancements (glyphs or medians most of the time) and minor updates can be
 - various minor updates
 
 Note: there are many tiny differences (stroke order, glyph, ...) between the traditional hanzi of svgsZhHans and those of svgsZhHant.
+
+2023/11/02
+- fix 昇 stroke order (issue #34)
 
 2023/01/03
 - update the licence
