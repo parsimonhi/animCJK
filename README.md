@@ -242,6 +242,7 @@ Minor enhancements (glyphs or medians most of the time) and minor updates can be
 Note: there are many tiny differences (stroke order, glyph, ...) between the traditional hanzi of svgsZhHans and those of svgsZhHant.
 
 2023/11/02
+- fix 昇 medians (issue #35)
 - fix 昇 stroke order (issue #34)
 
 2023/01/03

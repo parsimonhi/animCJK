@@ -1,14 +1,12 @@
 <!doctype html>
 <html>
 <!--
-Purpose: make graphicsXxx.txt from svgsXxx folder content
-Usage 1: run makeGraphicsFromSvgs.php in a browser
-Usage 2: run makeGraphicsFromSvgs.php?d=Xxx in a browser
-Xxx may be omitted or an empty string, and can contain only letters, number and minus sign
-Requirements: svgsXxx directory must exist, graphicsXxx.txt file must not exist
+Purpose: make graphicsKana.txt from svgsKana folder content
+Usage: run makeGraphicsFromSvgs4Kana.php in a browser
+Requirements: svgsKana directory must exist, graphicsKana.txt file must not exist
 Clean svg paths (remove decimal, replace "," by " ", ...)
-Does nothing if svgsXxx doesn't exist
-Does nothing if graphicsXxx.txt already exists
+Does nothing if svgsKana doesn't exist
+Does nothing if graphicsKana.txt already exists
 Note: the server must be "localhost" or the server specified as value of $myServer below
 -->
 <head>
@@ -24,7 +22,7 @@ footer a {text-align:center;color:#000;}
 // replace the value of $myServer below by your server domain or ip
 // don't let $myServer set to a production server to avoid anybody runs this script
 $myServer="192.168.1.23";
-$version=(isset($_GET["d"])?$_GET["d"]:"");
+$version="Kana";
 if (isset($_GET["p"])&&(md5($_GET["p"]."acjk")=="897950b81d960d551df6a6e9e9df9be5"))
 	$pAcjk=1;
 else
