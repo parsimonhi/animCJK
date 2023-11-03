@@ -197,6 +197,13 @@ We used various sources to cross-check our data. In particular:
 
 Minor enhancements (glyphs or medians most of the time) and minor updates can be skipped.
 
+2023/11/03
+- add 膵 in svgsJa
+
+2023/11/02
+- fix 昇 medians (issue #35)
+- fix 昇 stroke order (issue #34)
+
 2023/07/27
 - add 轤轆 in svgsJa
 
@@ -240,13 +247,6 @@ Minor enhancements (glyphs or medians most of the time) and minor updates can be
 - various minor updates
 
 Note: there are many tiny differences (stroke order, glyph, ...) between the traditional hanzi of svgsZhHans and those of svgsZhHant.
-
-2023/11/03
-- add 膵 in svgsJa
-
-2023/11/02
-- fix 昇 medians (issue #35)
-- fix 昇 stroke order (issue #34)
 
 2023/01/03
 - update the licence
