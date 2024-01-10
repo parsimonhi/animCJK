@@ -197,6 +197,9 @@ We used various sources to cross-check our data. In particular:
 
 Minor enhancements (glyphs or medians most of the time) and minor updates can be skipped.
 
+2024/01/10
+- modify す and ず (issue #40)
+
 2023/12/19
 - fix stroke number of ヲヺ in svgsKana (issue #38)
 - fix stroke order of も in svgsKana (issue #37)
