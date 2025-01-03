@@ -1,4 +1,23 @@
 <?php
+include_once "unicode.php";
+function getHangulJamosCharList()
+{
+	$a="";
+	for($k=4352;$k<=4370;$k++) $a.=unichr($k);
+	for($k=4449;$k<=4469;$k++) $a.=unichr($k);
+	for($k=4520;$k<=4546;$k++) $a.=unichr($k);
+	return $a;
+}
+function getHangulSyllablesCharList()
+{
+	$a="";
+	for($k=44032;$k<=55203;$k++) $a.=unichr($k);
+	return $a;
+}
+function getHangulCharList()
+{
+	return getHangulJamosCharList().getHangulSyllablesCharList();
+}
 function getHanjaByLevelCharList($n)
 {
 	// list: made from https://hanjasajun.co.kr/
