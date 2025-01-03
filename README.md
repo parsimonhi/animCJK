@@ -205,7 +205,7 @@ Minor enhancements (glyphs or medians most of the time) and minor updates can be
 - improve in svgsJa
 	雑餌擢摺腔麺錆灼豹曾駿樽噌哨鞘倦捲騒顚頓祥雌儲鄭盡叡韋
 - improve in svgsZhHans
-	渊赝戋颠渍炮镫歡呱瓞瓠瓣瓤魃魍魏魔藠鹟罽琎
+	渊赝戋颠渍炮镫歡呱瓞瓠瓣瓤魃魍魏魔藠鹟罽琎葖
 - add to svgsJa and improve in svgsZhHans and svgsZhHant
 	它
 - add to svgsJa and improve in svgsZhHans
