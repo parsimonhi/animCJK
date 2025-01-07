@@ -1,7 +1,7 @@
 <?php
 header("Content-Type: text/plain");
 
-include_once "lib.php";
+include_once __DIR__."/lib.php";
 
 function errorSvg($n,$lang,$char1,$char2="",$char3="",$char4="")
 {

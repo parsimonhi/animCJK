@@ -33,7 +33,7 @@ $target="graphics".$version.".txt";
 <h1>Make graphics<?php echo $version;?>.txt file
 from svgs<?php echo $version;?> directory content</h1>
 <?php
-include_once "samples/_php/unicode.php";
+include_once __DIR__."/samples/_php/unicode.php";
 
 function transformPathFromSvgs($p)
 {

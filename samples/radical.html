@@ -36,7 +36,7 @@ pre
 <div class="langSelector"></div>
 <div class="charSelector"></div>
 <div id="a"></div>
-<div id="b"></div>
+<div id="b" class="acjkDecomposition"></div>
 <details>
 <summary>SVG code</summary>
 <pre class="codeTag"></pre>
@@ -49,6 +49,7 @@ pre
 <a href="../licenses/COPYING.txt"><span>Licences</span></a>
 </nav>
 </footer>
+<script src="_js/setRadical.js"></script>
 <script>
 function updateCodeTag()
 {
@@ -86,6 +87,8 @@ function run(r)
 	s=s.replace(/}[^}]+\/style>/,"}\n<"+"/style>");
 	document.querySelector('#a').innerHTML=s;
 	document.querySelector('#b').innerHTML=r.acjk;
+	setRadical(1);
+	/*
 	d=d.replace(/[:]+/g,"");
 	d=d.replace(/[^.0-9]+/g," ").trim();
 	a=d.split(" ");
@@ -107,6 +110,7 @@ function run(r)
 		}
 		n+=km;
 	}
+	*/
 	updateCodeTag();
 }
 function doIt()

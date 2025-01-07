@@ -197,6 +197,10 @@ We used various sources to cross-check our data. In particular:
 
 Minor enhancements (glyphs or medians most of the time) and minor updates can be skipped.
 
+2025/01/07
+- add ヲ in svgsKana (was missing for an unknown reason in some versions)
+- various minor changes in js and php scripts
+
 2025/01/03
 - improve in all folders
 	加牙

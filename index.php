@@ -6,7 +6,7 @@
 <meta name="description" content="To draw kana, kanji, jinmeyō Kanji and hanzi
 stroke by stroke using AnimCJK SVG files">
 <?php
-include "samples/_php/getCharList.php";
+include_once __DIR__."/samples/_php/getCharList.php";
 $fs=256;
 $loc=(($_SERVER['SERVER_NAME']=="localhost")?1:0);
 ?>

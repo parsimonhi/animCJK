@@ -1,7 +1,7 @@
 <?php
-include_once "samples/_php/encoding.php";
-include_once "samples/_php/unicode.php";
-include_once "samples/_php/convertKana.php";
+include_once __DIR__."/samples/_php/encoding.php";
+include_once __DIR__."/samples/_php/unicode.php";
+include_once __DIR__."/samples/_php/convertKana.php";
 
 if( !function_exists('mb_str_split')){
     function mb_str_split(  $string = '', $length = 1 , $encoding = "UTF-8" ){

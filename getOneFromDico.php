@@ -1,5 +1,5 @@
 <?php
-include_once "lib.php";
+include_once __DIR__."/lib.php";
 $input=json_decode(file_get_contents('php://input'),true);
 if(isset($input["data"])&&$input["data"])
 {

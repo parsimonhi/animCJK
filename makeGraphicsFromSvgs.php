@@ -33,8 +33,8 @@ else
 $dir="svgs".$version;
 $target="graphics".$version.".txt";
 
-include_once "samples/_php/getCharList.php";
-include_once "lib.php";
+include_once __DIR__."/samples/_php/getCharList.php";
+include_once __DIR__."/lib.php";
 
 if(isset($_GET["check"])) $check=intval($_GET["check"]);
 else $check=0;

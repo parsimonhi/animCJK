@@ -1,6 +1,6 @@
 <?php
-include_once "encoding.php";
-include_once "getCharList.php";
+include_once __DIR__."/encoding.php";
+include_once __DIR__."/getCharList.php";
 $input=json_decode(file_get_contents('php://input'),true);
 if(isset($input["s"])) $set=$input["s"];
 else $set="Ja";

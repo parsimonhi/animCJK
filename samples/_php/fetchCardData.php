@@ -1,7 +1,7 @@
 <?php
-include_once "encoding.php";
-include_once "unicode.php";
-include_once "convertKana.php";
+include_once __DIR__."/encoding.php";
+include_once __DIR__."/unicode.php";
+include_once __DIR__."/convertKana.php";
 $input=json_decode(file_get_contents('php://input'),true);
 if(isset($input["lang"])) $lang=$input["lang"];
 else $lang="Ja";

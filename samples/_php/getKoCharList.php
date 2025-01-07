@@ -1,5 +1,5 @@
 <?php
-include_once "unicode.php";
+include_once __DIR__."/unicode.php";
 function getHangulJamosCharList()
 {
 	$a="";

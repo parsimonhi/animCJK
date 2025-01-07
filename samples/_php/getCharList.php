@@ -1,6 +1,6 @@
 <?php
-include_once "getZhTwCharList.php";
-include_once "getKoCharList.php";
+include_once __DIR__."/getZhTwCharList.php";
+include_once __DIR__."/getKoCharList.php";
 function getCharList($set)
 {
 	$a="";
