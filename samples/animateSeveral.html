@@ -111,8 +111,15 @@ function doIt()
 			if(dec)
 				fetch('../svgs'+lang+'/'+dec+'.svg')
 				.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
-				.then(r=>{run(r,dec,n,kmax);return true;})
-				.catch(e=>{run(e,dec,n,kmax);return false;});
+				.then(r=>{
+					if(!r.match(/<svg[^>]+class="acjk"/))
+						r=c+" not found in svgs"+lang;
+					run(r,dec,n,kmax);return true;
+				})
+				.catch(e=>{
+					run(e+' (no '+c+' in svgs'+lang+')',dec,n,kmax);
+					return false;
+				});
 		}
 	}
 }
