@@ -261,7 +261,7 @@ Japanese kana or kanji and simplified or traditional Chinese hanzi stroke by str
 and some other characters ("Uncommon hanzi", "Traditional hanzi used with simplified hanzi", "components" and "strokes").
 Note that "HSK hanzi" (2663 characters)
 and "Frequently used hanzi" (3500 characters) are subsets of "Commonly used hanzi".</p>
-<p>The traditional Chinese repository contains "HSK 1", "HSK 2", "HSK 3" and some other traditional hanzi.</p>
+<p>The traditional Chinese repository contains "HSK v3 level 1", "HSK v3 level 2" and some other traditional hanzi.</p>
 </section>
 <?php
 $q=[];
