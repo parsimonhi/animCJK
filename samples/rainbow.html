@@ -7,12 +7,18 @@
 a Japanese or Chinese character using AnimCJK SVG files">
 <link rel="stylesheet" href="_css/withSelector.css" type="text/css">
 <style>
+.specificSelector
+{
+	margin:0.5em 0;
+	padding:0;
+	border:0;
+}
 #a
 {
-	width:300px;
-	height:300px;
+	width:16em;
+	height:16em;
 	border:1px solid #ccc;
-	margin-top:0.5em;
+	margin:0.5em 0 0 0;
 }
 #a svg
 {
@@ -33,16 +39,18 @@ pre
 <a href="https://github.com/parsimonhi/animCJK"><span>Download</span></a>
 <a href="./"><span>Sample selector</span></a>
 </nav>
-<div class="langSelector"></div>
-<div class="charSelector"></div>
+<fieldset class="langSelector"></fieldset>
+<fieldset class="dataSelector"></fieldset>
+<fieldset class="specificSelector">
 <label>Colorize: <input type="checkbox" name="colorize"></label>
 <label>Numbers: <input type="checkbox" name="numbers"></label>
-<div id="a"></div>
+</fieldset>
+<figure id="a"></figure>
 <details>
 <summary>SVG code</summary>
 <pre class="codeTag"></pre>
 </details>
-<div class="charListSelector"></div>
+<fieldset class="charListSelector"></fieldset>
 <footer>
 <nav class="link">
 <a href="#"><span>Top</span></a>
@@ -63,11 +71,10 @@ function updateCodeTag()
 	s=s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 	document.querySelector('.codeTag').innerHTML=s;
 }
-function getRadioValue(name)
+function getLangAcjk()
 {
-	let list=document.querySelectorAll('[name="'+name+'"]');
-	for(k=0;k<list.length;k++) if(list[k].checked) return list[k].value;
-	return "Ja";
+	let e=document.querySelector('[name="lang"]:checked');
+	return e?e.value:"Ja";
 }
 function random(n)
 {
@@ -193,12 +200,12 @@ function run(s)
 }
 function doIt()
 {
-  	let e=document.querySelector('[name="char"]'),c=e.value;
+  	let e=document.querySelector('[name="data"]'),c=e.value;
   	document.getElementById("a").innerHTML="";
   	document.querySelector('.codeTag').innerHTML="";
 	if(c)
 	{
-		let dec=c.codePointAt(0),lang=getRadioValue("lang");
+		let dec=c.codePointAt(0),lang=getLangAcjk();
 		e.value=String.fromCodePoint(dec);
 		//fetch('../svgs'+lang+'/'+dec+'.svg',{cache:"reload"})
 		fetch('../svgs'+lang+'/'+dec+'.svg')

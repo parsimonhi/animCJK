@@ -1,21 +1,37 @@
-.link a
+:focus-visible
 {
-	color:#000;
-	text-decoration:none;
+	outline:2px solid #07f7;
+	outline-offset:1px;
 }
-.link a span
+a {color:#000;}
+a {display:inline-block;margin:0.25em;padding:0.25em;}
+input[name="data"]
 {
-	text-decoration:underline;
-}
-.link a:not(:first-of-type)::before
-{
-	content:" - ";
-}
-input[name="char"]
-{
+	display:inline-block;
 	width:5em;
+	margin:0 0.5rem;
+}
+button[name="run"]
+{
+	display:inline-block;
+	font-size:1em;
+	margin:0.25rem;
 }
 .langSelector label {display:block;}
+.langSelector, .dataSelector, .charListSelector
+{
+	margin:0;
+	padding:0;
+}
+.langSelector, .dataSelector, .charListSelector, .charListSelector fieldset
+{
+	border:0;
+}
+.langSelector input
+{
+	display:inline-block;
+	margin-right:0.25rem;
+}
 .charListSelector h2
 {
 	border-left:0.375em solid #c00;
@@ -26,20 +42,18 @@ input[name="char"]
 	display:inline-block;
 	margin:0 0 0 0.25em;
 }
-.charListSelector p
-{
-	border:1px solid #ccc;
-}
 .charListSelector button
 {
+	-webkit-appearance:none;
+	appearance:none;
 	border:0;
-	padding:0.125em;
-	margin:0.125em;
+	padding:0.25em;
+	margin:0.25em;
 	background:none;
 	cursor:pointer;
 	font-size:1.25em;
 }
-html[lang="ja"] .charListSelector nav:not([lang="ja"]){display:none;}
-html[lang="ko"] .charListSelector nav:not([lang="ko"]){display:none;}
-html[lang="zh-Hans"] .charListSelector nav:not([lang="zh-Hans"]){display:none;}
-html[lang="zh-Hant"] .charListSelector nav:not([lang="zh-Hant"]){display:none;}
+html[lang="ja"] .charListSelector section:not([lang="ja"]){display:none;}
+html[lang="ko"] .charListSelector section:not([lang="ko"]){display:none;}
+html[lang="zh-Hans"] .charListSelector section:not([lang="zh-Hans"]){display:none;}
+html[lang="zh-Hant"] .charListSelector section:not([lang="zh-Hant"]){display:none;}

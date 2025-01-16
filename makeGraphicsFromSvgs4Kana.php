@@ -1,13 +1,13 @@
 <!doctype html>
 <html>
 <!--
-Purpose: make graphicsKana.txt from svgsKana folder content
+Purpose: make graphicsKana.txt from svgsJaKana folder content
 Usage: run makeGraphicsFromSvgs4Kana.php in a browser
-Requirements: svgsKana directory must exist, graphicsKana.txt file must not exist
+Requirements: svgsJaKana directory must exist, graphicsKana.txt file must not exist
 Clean svg paths (remove decimal, replace "," by " ", ...)
-Does nothing if svgsKana doesn't exist
-Does nothing if graphicsKana.txt already exists
-Note: the server must be "localhost" or the server specified as value of $myServer below
+Does nothing if svgsJaKana doesn't exist
+Does nothing if graphicsJaKana.txt already exists
+Note: the server must be "localhost"
 -->
 <head>
 <meta charset="UTF-8">
@@ -18,11 +18,8 @@ footer a {text-align:center;color:#000;}
 </head>
 <body>
 <?php
-// if you want to use a server which is not "localhost"
-// replace the value of $myServer below by your server domain or ip
-// don't let $myServer set to a production server to avoid anybody runs this script
-$myServer="192.168.1.23";
-$version="Kana";
+// you must run this script on "localhost"
+$version="JaKana";
 if (isset($_GET["p"])&&(md5($_GET["p"]."acjk")=="897950b81d960d551df6a6e9e9df9be5"))
 	$pAcjk=1;
 else
@@ -179,8 +176,7 @@ function makeGraphics($dir,$target,$version)
 }
 
 echo "<p>Begin<br>\n";
-if (($_SERVER['SERVER_NAME']!="localhost")&&($_SERVER['SERVER_NAME']!=$myServer))
-	echo "Error: not a convenient server<br>\n";
+if ($_SERVER['SERVER_NAME']!="localhost") echo "Error: not a convenient server<br>\n";
 else if (!file_exists($dir)) echo "Error: ".$dir." directory not found<br>\n";
 else if (!$pAcjk&&file_exists($target))
 {

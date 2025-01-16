@@ -9,10 +9,10 @@ of a Japanese or Chinese character using animCJK svg files">
 <style>
 #a
 {
-	width:300px;
-	height:300px;
+	width:16em;
+	height:16em;
 	border:1px solid #ccc;
-	margin-top:0.5em;
+	margin:0.5em 0 0 0;
 }
 #a svg
 {
@@ -33,15 +33,15 @@ pre
 <a href="https://github.com/parsimonhi/animCJK"><span>Download</span></a>
 <a href="./"><span>Sample selector</span></a>
 </nav>
-<div class="langSelector"></div>
-<div class="charSelector"></div>
-<div id="a"></div>
-<div id="b" class="acjkDecomposition"></div>
+<fieldset class="langSelector"></fieldset>
+<fieldset class="dataSelector"></fieldset>
+<figure id="a"></figure>
+<p id="b" class="acjkDecomposition"></p>
 <details>
 <summary>SVG code</summary>
 <pre class="codeTag"></pre>
 </details>
-<div class="charListSelector"></div>
+<fieldset class="charListSelector"></fieldset>
 <footer>
 <nav class="link">
 <a href="#"><span>Top</span></a>
@@ -61,11 +61,15 @@ function updateCodeTag()
 	s=s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 	document.querySelector('.codeTag').innerHTML=s;
 }
-function getRadioValue(name)
+function getLangAcjk()
 {
-	let list=document.querySelectorAll('[name="'+name+'"]');
-	for(k=0;k<list.length;k++) if(list[k].checked) return list[k].value;
-	return "Ja";
+	let e=document.querySelector('[name="lang"]:checked');
+	return e?e.value:"Ja";
+}
+function getLangIso()
+{
+	let e=document.querySelector('[name="lang"]:checked');
+	return e?e.getAttribute("data-lang"):"ja";
 }
 function updateInfo(s)
 {
@@ -74,9 +78,12 @@ function updateInfo(s)
 	s=s.replace(/Copyright[^-]+-/,"Copyright FM-SH -");
 	return s;
 }
-function run(r)
+function run(j)
 {
-	let a,list,n,d=r.acjk,s=r.svg;
+	let a,list,n,d,r,s;
+	r=j[0];
+	d=r.acjks?r.acjks:r.acjk?r.acjk:"";
+	s=r.svg?r.svg:"";
 	if(!s.match(/<svg/))
 	{
 		document.querySelector('#a').innerHTML="Data not found!";
@@ -86,45 +93,22 @@ function run(r)
 	s=s.replace(/<style[^@]+@/,"<style"+">\n@");
 	s=s.replace(/}[^}]+\/style>/,"}\n<"+"/style>");
 	document.querySelector('#a').innerHTML=s;
-	document.querySelector('#b').innerHTML=r.acjk;
+	document.querySelector('#b').innerHTML=d;
 	setRadical(1);
-	/*
-	d=d.replace(/[:]+/g,"");
-	d=d.replace(/[^.0-9]+/g," ").trim();
-	a=d.split(" ");
-	list=document.querySelectorAll('#a path:not([id])');
-	n=0;
-	if(a[0]==".")
-	{
-		// special cas: the character is a radical
-		for(let k=0;k<list.length;k++) list[k].style.stroke="#fa0";
-	}
-	else for(let b of a)
-	{
-		let p=b.match(/\./);
-		let km=-(-b.replace(".",""));
-		for(let k=0;k<km;k++)
-		{
-			if(p) list[k+n].style.stroke="#fa0";
-			else list[k+n].style.stroke="#00f";
-		}
-		n+=km;
-	}
-	*/
 	updateCodeTag();
 }
 function doIt()
 {
-  	let e=document.querySelector('[name="char"]'),c=e.value;
+  	let e=document.querySelector('[name="data"]'),c=e.value;
   	document.querySelector('#a').innerHTML="";
   	document.querySelector('#b').innerHTML="";
   	document.querySelector('.codeTag').innerHTML="";
 	if(c)
 	{
-		let dec=c.codePointAt(0),lang=getRadioValue("lang"),options;
+		let dec=c.codePointAt(0),lang=getLangAcjk(),langIso=getLangIso(),options;
 		e.value=String.fromCodePoint(dec);
-		options={method:"POST",body:JSON.stringify({lang:lang,dec:dec})};
-		fetch('_php/fetchRadicalData.php',options)
+		options={method:"POST",body:JSON.stringify({lang:langIso,data:[dec],special:"1"})};
+		fetch('_php/fetchData.php',options)
 		.then(r=>{if(!r.ok) throw r.statusText; return r.json();})
 		.then(r=>{run(r);return true;})
 		.catch(e=>document.querySelector('#a').innerHTML=e+' in svgs'+lang);

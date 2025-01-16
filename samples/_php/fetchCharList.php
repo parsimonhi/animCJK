@@ -4,9 +4,21 @@ include_once __DIR__."/getCharList.php";
 $input=json_decode(file_get_contents('php://input'),true);
 if(isset($input["s"])) $set=$input["s"];
 else $set="Ja";
+if(isset($input["map"])) $map=json_decode($input["map"],true);
+else
+{
+	// minimal map
+	$map=[];
+	$map["Ja"]=[];
+	$map["Ko"]=[];
+	$map["ZhHans"]=[];
+	$map["ZhHant"]=[];
+}
 $s="";
 function makeTitle($s)
 {
+	if($s=="hiragana") return "Hiragana";
+	if($s=="katakana") return "Katakana";
 	if($s=="g1") return "Grade 1";
 	if($s=="g2") return "Grade 2";
 	if($s=="g3") return "Grade 3";
@@ -25,37 +37,52 @@ function makeTitle($s)
 	if($s=="hanja3") return "Hanja level 3";
 	if($s=="hanja2") return "Hanja level 2";
 	if($s=="hanja1") return "Hanja level 1";
-	if($s=="hsk1") return "HSK 1, simplified hanzi";
-	if($s=="hsk2") return "HSK 2, simplified hanzi";
-	if($s=="hsk3") return "HSK 3, simplified hanzi";
-	if($s=="hsk4") return "HSK 4, simplified hanzi";
-	if($s=="hsk5") return "HSK 5, simplified hanzi";
-	if($s=="hsk6") return "HSK 6, simplified hanzi";
-	if($s=="hsk6") return "HSK 6, simplified hanzi";
-	if($s=="frequentNotHsk") return "Other frequent hanzi";
-	if($s=="commonNotHskNorFrequent") return "Other common hanzi";
-	if($s=="traditional") return "Traditional hanzi";
+	if($s=="hanja1800a") return "Hanja part 1";
+	if($s=="hanja1800b") return "Hanja part 2";
+	if($s=="ku") return "Uncommon hanja";
+	if($s=="kc") return "Components";
+	if($s=="hanguljamos") return "Jamo";
+	if($s=="hangulsyllables") return "Hangul";
+	if($s=="hsk31") return "HSK v3 level 1, simplified hanzi";
+	if($s=="hsk32") return "HSK v3 level 2, simplified hanzi";
+	if($s=="hsk33") return "HSK v3 level 3, simplified hanzi";
+	if($s=="hsk34") return "HSK v3 level 4, simplified hanzi";
+	if($s=="hsk35") return "HSK v3 level 5, simplified hanzi";
+	if($s=="hsk36") return "HSK v3 level 6, simplified hanzi";
+	if($s=="hsk37") return "HSK v3 level 7, simplified hanzi";
+	if($s=="hsk38") return "HSK v3 level 8, simplified hanzi";
+	if($s=="hsk39") return "HSK v3 level 9, simplified hanzi";
+	if($s=="frequentNotHsk3") return "Other frequent hanzi";
+	if($s=="commonNotHsk3NorFrequent") return "Other common hanzi";
+	if($s=="frequent2500") return "2500 frequent hanzi";
+	if($s=="lessFrequent1000") return "1000 less frequent hanzi";
+	if($s=="commonNotFrequent") return "3500 other common hanzi";
+	if($s=="common7000") return "7000 common hanzi";
+	if($s=="traditional") return "Traditional hanzi used in simplified Chinese";
 	if($s=="uncommon") return "Uncommon hanzi";
 	if($s=="component") return "Components";
-	if($s=="traditional1") return "HSK 1, traditional hanzi";
-	if($s=="traditional2") return "HSK 2, traditional hanzi";
-	if($s=="traditional3") return "HSK 3, traditional hanzi";
-	if($s=="traditional4") return "HSK 4, traditional hanzi";
-	if($s=="traditional5") return "HSK 5, traditional hanzi";
-	if($s=="traditional6") return "HSK 6, traditional hanzi";
+	if($s=="t31") return "HSK v3 level 1, traditional hanzi";
+	if($s=="t32") return "HSK v3 level 2, traditional hanzi";
+	if($s=="t33") return "HSK v3 level 3, traditional hanzi";
+	if($s=="t34") return "HSK v3 level 4, traditional hanzi";
+	if($s=="t35") return "HSK v3 level 5, traditional hanzi";
+	if($s=="t36") return "HSK v3 level 6, traditional hanzi";
+	if($s=="t37") return "HSK v3 level 7, traditional hanzi";
+	if($s=="t38") return "HSK v3 level 8, traditional hanzi";
+	if($s=="t39") return "HSK v3 level 9, traditional hanzi";
+	if($s=="taiwan4808") return "Taiwan 4808 common traditional hanzi";
+	if($s=="tu") return "Other traditional hanzi";
+	if($s=="tc") return "Components";
+	if($s=="more") return "More";
+	if($s=="radicals") return "The 214 radicals";
 	if($s=="stroke") return "Strokes";
 	return "";
 }
-if($set=="Ja") $a=["g1","g2","g3","g4","g5","g6","g7","g8","g9","gc","stroke"];
-else if($set=="Ko") $a=["hanja8","hanja7","hanja6","hanja5","hanja4","hanja3","hanja2","hanja1"];
-else if($set=="ZhHans") $a=["hsk1","hsk2","hsk3","hsk4","hsk5","hsk6","frequentNotHsk","commonNotHskNorFrequent","uncommon","traditional","component","stroke"];
-else if($set=="ZhHant") $a=["traditional1","traditional2","traditional3"];
 if($set=="Ja"||$set=="Ko"||$set=="ZhHans"||$set=="ZhHant")
 {
 	$s.="[";
-	
 	$first=true;
-	foreach($a as $b)
+	foreach($map[$set] as $b)
 	{
 		$c=getCharList($b);
 		if($c)

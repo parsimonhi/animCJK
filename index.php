@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="initial-scale=1.0,user-scalable=yes">
@@ -7,11 +7,15 @@
 stroke by stroke using AnimCJK SVG files">
 <?php
 include_once __DIR__."/samples/_php/getCharList.php";
-$fs=256;
 $loc=(($_SERVER['SERVER_NAME']=="localhost")?1:0);
 ?>
 <style>
-:root {--fs:<?=$fs?>px;}
+:root
+{
+	--highlight-color:#c00;
+	--speed:1;
+	--size:256px;
+}
 body
 {
 	font-family:sans-serif;
@@ -19,10 +23,16 @@ body
 	margin:0;
 	padding:0;
 }
+:focus-visible
+{
+	outline:2px solid #07f7;
+	outline-offset:1px;
+}
 a {color:#000;}
-nav>*:not(:last-of-type):after {content:" - ";}
+a {display:inline-block;margin:0.25em;padding:0.25em;}
 h1,nav,fieldset,#a {text-align:center;}
-h2,h3,nav {margin:0;padding:0.5em;}
+h2,h3 {margin:0;padding:0.5em;}
+nav {margin:0.5em 0;}
 h2
 {
 	height:1.2em;
@@ -45,11 +55,11 @@ h3
 .important {color:#000;}
 .very-important {color:#c00;}
 p.instruction {padding-left:1rem;padding-right:1rem;}
-#size
+[name="size"]
 {
 	font-size:1rem;
 	display:block;
-	width:13.5em;
+	width:14rem;
 	margin:0 auto;
 }
 #sizeMarks
@@ -57,25 +67,31 @@ p.instruction {padding-left:1rem;padding-right:1rem;}
 	font-size:1rem;
 	display:flex;
 	margin:0 auto;
-	width:17.5em;
+	width:14rem;
 	justify-content:space-between;
 }
 #sizeMarks option:not([label]) {display:none;}
-#sizeMarks option {width:4em;text-align:center;margin:0;padding:0;}
+#sizeMarks option {width:3rem;text-align:center;margin:0;padding:0;}
 
-#jaSection {display:block;}
+#jaSection,
+#koSection,
 #zhHansSection,
 #zhHantSection {display:none;}
+body:has([name="section"][value="Ja"]:checked) #jaSection {display:block;}
+body:has([name="section"][value="Ko"]:checked) #koSection {display:block;}
+body:has([name="section"][value="ZhHans"]:checked) #zhHansSection {display:block;}
+body:has([name="section"][value="ZhHant"]:checked) #zhHantSection {display:block;}
 section.description p {margin:1em 1rem;}
 .charList
 {
 	cursor:pointer;
 	letter-spacing:0.25rem;
 	color:#000;
-	padding:0.5em 0.5rem;
+	padding:0.5em;
 	margin:0.25em 1rem;
 	font-size:2rem;
 	border:1px solid #ccc;
+	text-align:left;
 }
 
 #data
@@ -88,44 +104,78 @@ section.description p {margin:1em 1rem;}
 	line-height:1.5em;
 	margin:0 auto;
 	padding:0;
+	border:1px solid #0003;
 }
 #ok
-{	
+{
 	-webkit-appearance:none;
+	appearance:none;
 	margin-top:0.5em;
+	padding:0 0.5em;
 	font-size:2em;
+	height:1.75em;
+	line-height:1.75em;
 	border:0;
-	background:#999;
+	background:#c00;
 	color:#fff;
 	border-radius:0.5em;
 }
-#a
-{
-	position:relative;
-	width:var(--fs);
-	height:var(--fs);
-	margin:1em auto;
-}
-#a {border:1px solid #ccc;color:#000;}
 button:hover {cursor:pointer;}
-#ok:focus,
-#ok:active,
-#ok:hover {background:#c00;}
 fieldset {border:0;margin:0.5em;padding:0;}
 label {display:inline-block;margin:0 0.5em;white-space:nowrap;}
 input[type="radio"],
 input[type="checkbox"] {margin:0 0.25em;}
-#b
+
+#output, #output li, #output dl, #output dt, #output dd
+{
+	margin:0;
+	padding:0;
+}
+#output
+{
+	list-style-type:none;
+	display:grid;
+	grid-template-columns:repeat(auto-fit,calc(var(--size) + 2px));
+	grid-gap:0.25rem;
+	justify-content:center;
+	align-content:flex-start;
+	padding:0.5em 0;
+}
+#output svg
+{
+	display:block;
+	border:1px solid #0003;
+}
+#output svg text
+{
+	fill:var(--highlight-color);
+}
+body:has([name="grid"]:checked) #output svg
+{
+	background:url('data:image/svg+xml,<svg viewBox="0 0 4 4" fill="none" stroke="%230003" xmlns="http://www.w3.org/2000/svg"><path vector-effect="non-scaling-stroke" d="M1 0V4M2 0V4M3 0V4M0 1H4M0 2H4M0 3H4M.4 .4H3.6V3.6H.4Z"/></svg>');
+}
+#output dl
 {
 	display:none;
-	width:var(--fs);
-	min-height:9.5em;
-	margin:1em auto;
 }
-#b.dico {display:block;}
-#b.dico>div {margin:0 0.25em;padding-top:0.25em;text-align:left;line-height:1.25em;}
-span.cjkChar {vertical-align:top;}
-
+body:has([name="dico"]:checked) #output dl
+{
+	display:block;
+	text-align:left;
+	overflow:auto;
+	margin:0;
+	padding:0;
+	line-height:1.5em;
+}
+body:has([name="dico"]:checked) #output dt:not(:first-of-type)
+{
+	float:left;
+	margin-right:0.25em;
+}
+body:has([name="dico"]:checked) #output dt:not(:first-of-type)::after
+{
+	content:":";
+}
 /* style for svg.acjk since style from svg file was removed when loading svg */
 @keyframes zk
 {
@@ -154,10 +204,8 @@ svg.acjk path[clip-path]
 	stroke:#000;
 }
 svg.acjk path[id] {fill:#ccc;}
-.xrays svg.acjk path[clip-path] {stroke-width:6.4;}
-.xrays svg.acjk path[id] {fill:#6666;}
-.grid {background:url('data:image/svg+xml,<svg viewBox="0 0 4 4" fill="none" stroke="%23ccc" xmlns="http://www.w3.org/2000/svg"><path vector-effect="non-scaling-stroke" d="M1 0V4M2 0V4M3 0V4M0 1H4M0 2H4M0 3H4M.4 .4H3.6V3.6H.4Z"/></svg>');}
-svg.error {font-size:var(--fs);}
+body:has([name="xrays"]:checked) svg.acjk path[clip-path] {stroke:var(--highlight-color);stroke-width:6.4;}
+body:has([name="xrays"]:checked) svg.acjk path[id] {fill:#6666;}
 
 </style>
 <title>AnimCJK Demo</title>
@@ -165,41 +213,31 @@ svg.error {font-size:var(--fs);}
 <body>
 <h1>AnimCJK Demo</h1>
 <nav>
-<span><a href="https://github.com/parsimonhi/animCJK">Download</a></span><!--
---><span><a href="samples/">Samples</a></span>
+<a href="https://github.com/parsimonhi/animCJK">Download</a>
+<a href="samples/">Samples</a>
 </nav>
 <fieldset>
-<label><input id="jaRadio" type="radio" checked name="sectionSwitch" value="Ja" onclick="switchSection()">Japanese</label>
-<label><input id="koRadio" type="radio" name="sectionSwitch" value="Ko" onclick="switchSection()">Korean</label>
-<label><input id="zhHansRadio" type="radio" name="sectionSwitch" value="ZhHans" onclick="switchSection()">Simplifed Chinese</label>
-<label><input id="zhHantRadio" type="radio" name="sectionSwitch" value="ZhHant" onclick="switchSection()">Traditional Chinese</label>
+<label><input id="jaRadio" type="radio" name="section" value="Ja" data-lang="ja">Japanese</label>
+<label><input id="koRadio" type="radio" name="section" value="Ko" data-lang="ko">Korean</label>
+<label><input id="zhHansRadio" type="radio" name="section" value="ZhHans" data-lang="zh-Hans">Simplifed Chinese</label>
+<label><input id="zhHantRadio" type="radio" name="section" value="ZhHant" data-lang="zh-Hant">Traditional Chinese</label>
 </fieldset>
 <fieldset>
-<label><input id="dico" type="checkbox" checked onclick="switchDico()">Dico</label>
-<label><input id="grid" type="checkbox" onclick="switchGrid()">Grid</label>
-<label><input id="numbers" type="checkbox" onclick="switchNumbers()">Stroke numbering</label>
-<label><input id="xrays" type="checkbox" onclick="switchXrays()">X-rays</label>
+<label><input name="dico" type="checkbox">Dico</label>
+<label><input name="grid" type="checkbox">Grid</label>
+<label><input name="numbers" type="checkbox">Numbers</label>
+<label><input name="xrays" type="checkbox">X-rays</label>
 </fieldset>
 <fieldset>
-<label><input id="size" type="range" list="sizeMarks" onclick="switchSize()" value="<?=$fs?>" step="64" min="0" max="1024"></label>
+<label>Size <input name="size" type="range" list="sizeMarks" value="256" step="64" min="64" max="960"></label>
 <datalist id="sizeMarks">
-<option value="0" label="0 px"></option>
-<option value="64"></option>
-<option value="128"></option>
-<option value="192"></option>
+<option value="128" label="128"></option>
 <option value="256"></option>
-<option value="320"></option>
 <option value="384"></option>
-<option value="448"></option>
-<option value="512" label="512 px"></option>
-<option value="576"></option>
+<option value="512" label="512"></option>
 <option value="640"></option>
-<option value="704"></option>
 <option value="768"></option>
-<option value="832"></option>
-<option value="896"></option>
-<option value="960"></option>
-<option value="1024" label="1024 px"></option>
+<option value="896" label="896"></option>
 </datalist>
 </fieldset>
 <fieldset>
@@ -209,8 +247,7 @@ svg.error {font-size:var(--fs);}
 at the bottom of the page.</p>
 <button id="ok" type="button" onclick="ok()">Animate</button>
 </fieldset>
-<div id="a"></div>
-<div id="b"></div>
+<ul id="output"></ul>
 <section class="description">
 <h2>Description</h2>
 <p>
@@ -239,76 +276,91 @@ $q["ja"]=[
 	["g6","Grade 6"],
 	["g7","Junior high school"],
 	["g8","Jinmeiyō"],
-	["g9","Hyōgai"],
-	["gc","Components"],
-	["stroke","Strokes"]];
+	["g9","Some hyōgai"],
+	["gc","Some components"],
+	["stroke","Strokes"]
+	];
 $q["ko"]=[
 	["hanja8","Hanja level 8"],
 	["hanja7","Hanja level 7"],
 	["hanja6","Hanja level 6"],
 	["hanja5","Hanja level 5"],
-	["hanja4","Hanja level 4"]//,
-	//["hanja3","Hanja level 3"]//,
-	//["hanja2","Hanja level 2"]//,
-	//["hanja1","Hanja level 1"]
+	["hanja4","Hanja level 4"],
+	//["hanja3","Hanja level 3"],
+	//["hanja2","Hanja level 2"],
+	//["hanja1","Hanja level 1"],
+	["ku","Some uncommon hanja"],
+	["kc","Some components"]
 	];
 $q["zhHans"]=[
-	["hsk1","HSK 1, simplified hanzi"],
-	["hsk2","HSK 2, simplified hanzi"],
-	["hsk3","HSK 3, simplified hanzi"],
-	["hsk4","HSK 4, simplified hanzi"],
-	["hsk5","HSK 5, simplified hanzi"],
-	["hsk6","HSK 6, simplified hanzi"],
-	["frequentNotHsk","Other frequently used hanzi"],
-	["commonNotHskNorFrequent","Other commonly used hanzi"],
-	["uncommon","Uncommon hanzi"],
-	["traditional","Traditional hanzi"],
-	["component","Components"],
-	["stroke","Strokes"]];
+	["hsk31","HSK v3 level 1, simplified hanzi"],
+	["hsk32","HSK v3 level 2, simplified hanzi"],
+	["hsk33","HSK v3 level 3, simplified hanzi"],
+	["hsk34","HSK v3 level 4, simplified hanzi"],
+	["hsk35","HSK v3 level 5, simplified hanzi"],
+	["hsk36","HSK v3 level 6, simplified hanzi"],
+	["hsk37","HSK v3 level 7, simplified hanzi"],
+	["hsk38","HSK v3 level 8, simplified hanzi"],
+	["hsk39","HSK v3 level 9, simplified hanzi"],
+	["frequentNotHsk3","Other frequently used hanzi"],
+	["commonNotHsk3NorFrequent","Other commonly used hanzi"],
+	["uncommon","Some uncommon hanzi"],
+	["traditional","Some traditional hanzi when used with simplified hanzi"],
+	["component","Some components"],
+	["stroke","Strokes"]
+	];
 $q["zhHant"]=[
-	["traditional1","HSK 1, traditional hanzi"],
-	["traditional2","HSK 2, traditional hanzi"],
-	["traditional3","HSK 3, traditional hanzi"],
-	["traditionalu","Uncommon traditional hanzi"]];
+	["t31","HSK v3 level 1, traditional hanzi"],
+	["t32","HSK v3 level 2, traditional hanzi"],
+	//["t33","HSK v3 level 3, traditional hanzi"],
+	//["t34","HSK v3 level 4, traditional hanzi"],
+	//["t35","HSK v3 level 5, traditional hanzi"],
+	//["t36","HSK v3 level 6, traditional hanzi"],
+	//["t37","HSK v3 level 7, traditional hanzi"],
+	//["t38","HSK v3 level 8, traditional hanzi"],
+	//["t39","HSK v3 level 9, traditional hanzi"],
+	["tu","Some uncommon traditional hanzi"],
+	["tc","Some components"]
+	];
 
 function navigation($lang)
 {
 	echo "<nav>";
 	if ($lang=="ja")
 	{
-		echo "<span><a href=\"#jaHiragana\">Hiragana</a></span>";
-		echo "<span><a href=\"#jaKatakana\">Katakana</a></span>";
+		echo "<a href=\"#jaHiragana\">Hiragana</a>";
+		echo "<a href=\"#jaKatakana\">Katakana</a>";
 		for ($k=1;$k<7;$k++)
-			echo "<span><a href=\"#jaG".$k."\">Grade ".$k."</a></span>";
-		echo "<span><a href=\"#jaG7\">Junior high school</a></span>";
-		echo "<span><a href=\"#jaG8\">Jinmeiyō</a></span>";
-		echo "<span><a href=\"#jaG9\">Hyōgai</a></span>";
-		echo "<span><a href=\"#jaGc\">Components</a></span>";
-		echo "<span><a href=\"#jaStroke\">Strokes</a></span>";
+			echo "<a href=\"#jaG".$k."\">Grade ".$k."</a>";
+		echo "<a href=\"#jaG7\">Junior high school</a>";
+		echo "<a href=\"#jaG8\">Jinmeiyō</a>";
+		echo "<a href=\"#jaG9\">Hyōgai</a>";
+		echo "<a href=\"#jaGc\">Components</a>";
+		echo "<a href=\"#jaStroke\">Strokes</a>";
 	}
 	else if ($lang=="ko")
 	{
 		for ($k=8;$k>3;$k--)
-			echo "<span><a href=\"#koHanja".$k."\">Level ".$k."</a></span>";
+			echo "<a href=\"#koHanja".$k."\">Level ".$k."</a>";
 	}
 	else if ($lang=="zhHans")
 	{
-		for ($k=1;$k<7;$k++)
-			echo "<span><a href=\"#zhHansHsk".$k."\">HSK ".$k."</a></span>";
-		echo "<span><a href=\"#zhHansFrequentNotHsk\">Frequent</a></span>";
-		echo "<span><a href=\"#zhHansCommonNotHskNorFrequent\">Common</a></span>";
-		echo "<span><a href=\"#zhHansUncommon\">Uncommon</a></span>";
-		echo "<span><a href=\"#zhHanscomponent\">Components</a></span>";
-		echo "<span><a href=\"#zhHansStroke\">Strokes</a></span>";
+		for ($k=1;$k<10;$k++)
+			echo "<a href=\"#zhHansHsk3".$k."\">HSK ".$k."</a>";
+		echo "<a href=\"#zhHansFrequentNotHsk3\">Frequent</a>";
+		echo "<a href=\"#zhHansCommonNotHsk3NorFrequent\">Common</a>";
+		echo "<a href=\"#zhHansUncommon\">Uncommon</a>";
+		echo "<a href=\"#zhHanscomponent\">Components</a>";
+		echo "<a href=\"#zhHansStroke\">Strokes</a>";
 	}
 	else if ($lang=="zhHant")
 	{
 		for ($k=1;$k<3;$k++)
-			echo "<span><a href=\"#zhHantTraditional".$k."\">HSK ".$k." traditional</a></span>";
-		echo "<span><a href=\"#zhHantTraditionalu\">Uncommon traditional</a></span>";
+			echo "<a href=\"#zhHantTraditional".$k."\">HSK ".$k." traditional</a>";
+		echo "<a href=\"#zhHantTraditionalu\">Uncommon traditional</a>";
 	}
-	echo "<span><a href=\"#\">Top</a></span>";
-	echo "<span><a href=\"#bottom\">Bottom</a></span>";
+	echo "<a href=\"#\">Top</a>";
+	echo "<a href=\"#bottom\">Bottom</a>";
 	echo "</nav>\n";
 }
 function langIso($section)
@@ -335,16 +387,16 @@ foreach(["ja","ko","zhHans","zhHant"] as $section)
 		else if($a[0]=="g1") echo "<h2>Kanji</h2>";
 		else if($a[0]=="gc") echo "<h2>Others</h2>";
 		else if($a[0]=="hanja8") echo "<h2>Hanja (ko)</h2>";
-		else if($a[0]=="hsk1") echo "<h2>HSK (zh-Hans)</h2>";
-		else if($a[0]=="frequentNotHsk") echo "<h2>Other hanzi (zh-Hans)</h2>";
-		else if($a[0]=="traditional1") echo "<h2>HSK traditional hanzi (zh-Hant)</h2>";
-		else if($a[0]=="traditionalu") echo "<h2>Other traditional hanzi (zh-Hant)</h2>";
+		else if($a[0]=="hsk31") echo "<h2>HSK v3 (zh-Hans)</h2>";
+		else if($a[0]=="frequentNotHsk3") echo "<h2>Others (zh-Hans)</h2>";
+		else if($a[0]=="t31") echo "<h2>HSK v3 traditional hanzi (zh-Hant)</h2>";
+		else if($a[0]=="tu") echo "<h2>Others (zh-Hant)</h2>";
 		$id=$section.ucfirst($a[0]);
 		echo "<details open>";
 		echo "<summary>";
 		echo "<h3 id='".$id."'>".$a[1]." (".$a[3]." characters)</h3>\n";
 		echo "</summary>";
-		echo "<div class=\"charList\">".$a[2]."</div>\n";
+		echo "<p class=\"charList\">".$a[2]."</p>\n";
 		navigation($section);
 		echo "</details>";
 	}
@@ -352,21 +404,12 @@ foreach(["ja","ko","zhHans","zhHant"] as $section)
 }
 ?>
 <nav id="bottom">
-<span><a href="licenses/COPYING.txt">Licences</a></span><!--
---><span><a href="https://github.com/parsimonhi/animCJK">Download</a></span><!--
---><span><a href="samples/">Samples</a></span>
+<a href="licenses/COPYING.txt">Licences</a>
+<a href="https://github.com/parsimonhi/animCJK">Download</a>
+<a href="samples/">Samples</a>
 </nav>
 <script src="samples/_js/setNumbersAcjk.js"></script>
 <script>
-function getLang()
-{
-	let list=document.querySelectorAll('[name="sectionSwitch"]');
-	for(e of list)
-	{
-		if(e.checked) return e.value;
-	}
-	return "Ja";
-}
 function cleanData(e)
 {
 	// don't use this function as a oninput handler because it disturbs asian language IME
@@ -376,51 +419,6 @@ function cleanData(e)
 	// keep only the 1st character
 	if (data.length) data=String.fromCodePoint(data.codePointAt(0));
 	e.value=data;
-}
-function setSection()
-{
-	let langIso="";
-	if (document.getElementById("jaRadio").checked)
-	{
-		langIso="ja";
-		document.getElementById("jaSection").style.display="block";
-		document.getElementById("koSection").style.display="none";
-		document.getElementById("zhHansSection").style.display="none";
-		document.getElementById("zhHantSection").style.display="none";
-	}
-	else if (document.getElementById("koRadio").checked)
-	{
-		langIso="ko";
-		document.getElementById("jaSection").style.display="none";
-		document.getElementById("koSection").style.display="block";
-		document.getElementById("zhHansSection").style.display="none";
-		document.getElementById("zhHantSection").style.display="none";
-	}
-	else if (document.getElementById("zhHansRadio").checked)
-	{
-		langIso="zh-hans";
-		document.getElementById("jaSection").style.display="none";
-		document.getElementById("koSection").style.display="none";
-		document.getElementById("zhHansSection").style.display="block";
-		document.getElementById("zhHantSection").style.display="none";
-	}
-	else if (document.getElementById("zhHantRadio").checked)
-	{
-		langIso="zh-hant";
-		document.getElementById("jaSection").style.display="none";
-		document.getElementById("koSection").style.display="none";
-		document.getElementById("zhHansSection").style.display="none";
-		document.getElementById("zhHantSection").style.display="block";
-	}
-	else
-	{
-		document.getElementById("jaSection").style.display="none";
-		document.getElementById("koSection").style.display="none";
-		document.getElementById("zhHansSection").style.display="none";
-		document.getElementById("zhHantSection").style.display="none";
-	}
-	if(langIso) document.getElementById("data").setAttribute("lang",langIso);
-	else  document.getElementById("data").removeAttribute("lang");
 }
 function hideSvg()
 {
@@ -439,46 +437,59 @@ function scrollToOk()
 	if (window.innerHeight>(top+height)) window.scrollTo(0,0);
     else window.scrollTo(0,okTop-8);
 }
+function buildDicoContent(r)
+{
+	let c,dec,hex,dico="";
+	c=r.character; // assume r has the character property
+	dec=c.codePointAt(0);
+	hex=dec.toString(16).padStart(5,'0');
+	dico+="<dt>"+c+" U+"+hex+" &amp;#"+dec+";</dt>";
+	if(Object.hasOwn(r,"pinyin")) dico+="<dt>Pinyin</dt><dd class=\"pinyin\">"+(r.pinyin+"").replace(/\([^\)]+\)/g,"").replace(/[ ]+/g,", ")+"</dd>";
+	if(Object.hasOwn(r,"on")) dico+="<dt>On</dt><dd class=\"on\">"+(r.on+"").replace(/,([^ ])/g,", $1")+"</dd>";
+	if(Object.hasOwn(r,"kun")) dico+="<dt>Kun</dt><dd class=\"kun\">"+(r.kun+"").replace(/,([^ ])/g,", $1")+"</dd>";
+	if(Object.hasOwn(r,"definition")) dico+="<dt>Definition</dt><dd class=\"definition\">"+r.definition+"</dd>";
+	if(Object.hasOwn(r,"radical")) dico+="<dt>Radical</dt><dd class=\"radical\">"+r.radical+"</dd>";
+	if(Object.hasOwn(r,"decomposition")) dico+="<dt>Decomposition</dt><dd class=\"decomposition\">"+r.decomposition+"</dd>";
+	if(Object.hasOwn(r,"acjk")) dico+="<dt>Acjk</dt><dd class=\"acjkDecomposition\">"+r.acjk+"</dd>";
+	if(Object.hasOwn(r,"acjks")) dico+="<dt>Acjks</dt><dd class=\"acjksDecomposition\">"+r.acjks+"</dd>";
+	return dico;
+}
+function createItems(j)
+{
+	let ul=document.getElementById("output"),d0=0;
+	for(let k=0;k<j.length;k++)
+	{
+		let svg=j[k].svg,dico,dicoLine;
+		dico="<dl>"+buildDicoContent(j[k])+"</dl>";
+		svg=svg.replace(/<svg/,"<svg style=\"--d0:"+d0+"s;\"");
+		svg=svg.replace(/(z[0-9]+)/g,"$1"+"-"+(k+1));
+		d0+=(svg.match(/id="z[0-9-]+d[0-9]+a?"/g)||[]).length;
+		li=document.createElement("li");
+		li.innerHTML=svg+dico;
+		ul.append(li);
+	}
+	setNumbers(document.querySelector('[name="numbers"]').checked);
+	ul.scrollIntoView({block:"nearest"});
+}
 function ok()
 {
-	let a,b,c,dec,dir,e,lang,langIso,options={cache:<?=$loc?>?"reload":"default"};
+	let a,b,c,dec,dir,e,s,lang,options={};
 	e=document.getElementById("data");
-	lang=getLang();
-	langIso=e.getAttribute("lang");
-	a=document.getElementById("a");
-	b=document.getElementById("b");
-	a.innerHTML="";
-	b.innerHTML="";
+	s=document.querySelector('[name="section"]:checked');
+	lang=s?s.getAttribute("data-lang"):"ja";
+	document.getElementById("output").innerHTML="";
 	cleanData(e);
 	c=e.value;
 	if(c)
 	{
-		scrollToOk();
 		dec=c.codePointAt(0);
-		dir="svgs"+(((lang=="Ja")&&(dec>12352)&&(dec<12541))?"Kana":lang);
-		fetch(dir+"/"+dec+".svg",options)
-		.then(r=>{if(!r.ok) throw r.statusText;return r.text();})
-		.then(r=>
-			{
-				if(r&&r.match(/<svg id="z/))
-				{
-					a.innerHTML=r.replace(/<style[\s\S]+\/style>\s/,"");
-					switchNumbers();
-					return true;
-				}
-				else
-				{
-					a.innerHTML=c+" not in "+dir+" repository!";
-					return false;
-				}
-			})
-		.catch(e=>a.innerHTML=c+" not in "+dir+" repository!");
+		options.cache=<?=$loc?>?"reload":"default";
 		options.method="POST";
-		options.body=JSON.stringify({lang:langIso,data:c});
-		fetch('getOneFromDico.php',options)
-		.then(r=>{if(!r.ok) throw r.statusText;return r.text();})
-		.then(r=>b.innerHTML=r)
-		.catch(e=>b.innerHTML=e);
+		options.body=JSON.stringify({lang:lang,data:[dec]});
+		fetch('samples/_php/fetchData.php',options)
+		.then(r=>{if(!r.ok) throw r.statusText; return r.json();})
+		.then(j=>{createItems(j);return true;})
+		.catch(e=>{console.log(e);b.innerHTML=e;});
 	}
 }
 function doIt(c)
@@ -486,41 +497,103 @@ function doIt(c)
 	document.getElementById("data").value=c;
 	ok();
 }
-function switchDico()
+
+function initSection()
 {
-	let b=document.getElementById("b");
-	let x=document.getElementById("dico").checked;
-	if(x) b.classList.add("dico");
-	else b.classList.remove("dico");
+	let section=localStorage.getItem("section")?localStorage.getItem("section"):"Ja",
+		e=document.querySelector('[name="section"][value="'+section+'"]');
+	if(e)
+	{
+		e.checked=true;
+		document.documentElement.lang=e.getAttribute("data-lang");
+	}
 }
-function switchGrid()
+function initDico()
 {
-	let a=document.getElementById("a");
-	let x=document.getElementById("grid").checked;
-	if (x) a.classList.add("grid");
-	else a.classList.remove("grid");
+	let dico=(localStorage.getItem("dico")=="1")?true:false;
+	document.querySelector('[name="dico"]').checked=dico;
 }
-function switchNumbers()
+function initGrid()
 {
-	// setNumbers() is defined in setNumbersAcjk.js
-	setNumbers(document.getElementById("numbers").checked);
+	let grid=(localStorage.getItem("grid")=="1")?true:false;
+	document.querySelector('[name="grid"]').checked=grid;
 }
-function switchSection()
+function initNumbers()
 {
-	setSection();
-	ok();
+	let numbers=(localStorage.getItem("numbers")=="1")?true:false;
+	document.querySelector('[name="numbers"]').checked=numbers;
 }
-function switchSize()
+function initXrays()
 {
-	let size=-(-document.getElementById("size").value);
-	document.documentElement.style.setProperty('--fs',size+"px");
+	let xrays=(localStorage.getItem("xrays")=="0")?false:true;
+	document.querySelector('[name="xrays"]').checked=xrays;
 }
-function switchXrays()
+function initSize()
 {
-	let a=document.getElementById("a");
-	let x=document.getElementById("xrays").checked;
-	if(x) a.classList.add("xrays");
-	else a.classList.remove("xrays");
+	let size;
+	size=localStorage.getItem("size")?localStorage.getItem("size"):"256";
+	document.querySelector('[name="size"]').value=size;
+	document.querySelector(':root').style.setProperty('--size',size+"px");
+}
+function initAll()
+{
+	initSection();
+	initDico();
+	initGrid();
+	initNumbers();
+	initXrays();
+	initSize();
+}
+function changeSection()
+{
+	let e=document.querySelector('[name="section"]:checked'),section;
+	if(e)
+	{
+		section=e.value;
+		localStorage.setItem("section",section);
+		document.documentElement.lang=e.getAttribute("data-lang");
+		ok();
+	}
+}
+function changeDico()
+{
+	let dico=document.querySelector('[name="dico"]').checked;
+	localStorage.setItem("dico",dico?"1":"0");
+}
+function changeGrid()
+{
+	let grid=document.querySelector('[name="grid"]').checked;
+	localStorage.setItem("grid",grid?"1":"0");
+}
+function changeNumbers()
+{
+	let numbers=document.querySelector('[name="numbers"]').checked;
+	localStorage.setItem("numbers",numbers?"1":"0");
+	setNumbers(numbers);
+}
+function changeXrays()
+{
+	let xrays=document.querySelector('[name="xrays"]').checked;
+	localStorage.setItem("xrays",xrays?"1":"0");
+}
+function changeSize()
+{
+	let size=document.querySelector('[name="size"]').value;
+	localStorage.setItem("size", size);
+	document.querySelector(':root').style.setProperty('--size',size+"px");
+}
+function changeSection()
+{
+	let e=document.querySelector('[name="section"]:checked'),
+		section,lang;
+	if(e)
+	{
+		section=e.value;
+		lang=e.getAttribute("data-lang");
+		localStorage.setItem("section",section);
+		document.documentElement.lang=lang;
+		ok();
+	}
 }
 function magic(ev)
 {
@@ -560,11 +633,16 @@ window.addEventListener("load",function()
 		event.preventDefault();
 		if (event.keyCode==13) ok();
 	});
-	setSection();
-	switchDico();
-	switchGrid();
-	switchSize();
-	switchXrays();
+	document.querySelector('[name="section"][value="Ja"]').addEventListener("change",changeSection);
+	document.querySelector('[name="section"][value="Ko"]').addEventListener("change",changeSection);
+	document.querySelector('[name="section"][value="ZhHans"]').addEventListener("change",changeSection);
+	document.querySelector('[name="section"][value="ZhHant"]').addEventListener("change",changeSection);
+	document.querySelector('[name="dico"]').addEventListener("change",changeDico);
+	document.querySelector('[name="grid"]').addEventListener("change",changeGrid);
+	document.querySelector('[name="numbers"]').addEventListener("change",changeNumbers);
+	document.querySelector('[name="xrays"]').addEventListener("change",changeXrays);
+	document.querySelector('[name="size"]').addEventListener("change",changeSize);
+	initAll();
 });
 </script>
 </body>

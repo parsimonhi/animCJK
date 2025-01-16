@@ -4,6 +4,7 @@ include_once __DIR__."/samples/_php/unicode.php";
 include_once __DIR__."/samples/_php/convertKana.php";
 
 if( !function_exists('mb_str_split')){
+	// some old php do not have it
     function mb_str_split(  $string = '', $length = 1 , $encoding = "UTF-8" ){
         if(!empty($string)){
             $split = array();
@@ -21,6 +22,7 @@ if( !function_exists('mb_str_split')){
 
 function my_json_decode($line)
 {
+	// some old php do not have json_encode() and json_decode
 	// decode a line from graphicsXxx.txt or dictionaryXxx.txt
 	$a=new StdClass();
 	if (preg_match("/^\\{\"character\":\"([^\"]+)\",\"strokes\":\\[\"([^\\]]+)\"\\],\"medians\":\\[(.+)\\]\\}$/",$line,$match))
@@ -65,134 +67,6 @@ function my_json_decode($line)
 			$a->{'acjk'}=$match[1];
 	}
 	return $a;
-}
-
-function convertSet($s,$lang)
-{
-	if ($lang=="ja")
-	{
-		if (preg_match("/^g([1-6])$/",$s)) $r=preg_replace("/^g([1-6])$/","Joyo kanji, grade $1",$s);
-		else if ($s=="g7") $r="Jōyō kanji, junior high school";
-		else if ($s=="g8") $r="Jinmeyō kanji";
-		else if ($s=="gc") $r="Component";
-		else if ($s=="gs") $r="Stroke";
-		else $r="Hyōgai kanji";
-	}
-	else if ($lang=="zh-Hans")
-	{
-		if (preg_match("/^hsk([1-6])$/",$s)) $r=preg_replace("/^hsk([1-6])$/","HSK $1",$s);
-		else if ($s=="hsk7") $r="Frequent hanzi";
-		else if ($s=="hsk8") $r="Common hanzi";
-		else if ($s=="hskc") $r="Component";
-		else if ($s=="hsks") $r="Stroke";
-		else $r="Uncommon hanzi";
-	}
-	else if ($lang=="zh-Hant")
-	{
-		if (preg_match("/^traditional([1-6])$/",$s)) $r=preg_replace("/^traditional([1-6])$/","HSK $1 traditional",$s);
-		else if ($s=="traditional7") $r="Frequent traditional hanzi";
-		else if ($s=="traditional8") $r="Common traditional hanzi";
-		else $r="Uncommon hanzi";
-	}
-	else $r="";
-	return $r;
-}
-function spanize($s,$lang)
-{
-	// add span to avoid side effect when characters are not in the BMP
-	$a=mb_str_split($s);
-	$r="";
-	foreach($a as $b)
-	{
-		$r.="<span class=\"cjkChar\" lang=\"";
-		$r.=(preg_match("/[0-9.:⿰⿻]/u",$b)?"en":$lang);
-		$r.="\">".$b."</span>";
-	}
-	return $r;
-}
-function getDictionaryData($char,$lang="zh-hans")
-{
-	$s="<div class=\"unicode\">";
-	$s.="<span class=\"cjkChar\" lang=\"".$lang."\">".$char."</span> ";
-	$s.="U+".hexUnicode($char)." "."&amp;#".decUnicode($char).";"."</div>\n";
-	if (strtolower($lang)=="ja") $handle=fopen("dictionaryJa.txt","r");
-	else if (strtolower($lang)=="ko") $handle=fopen("dictionaryKo.txt","r");
-	else if (strtolower($lang)=="zh-hans") $handle=fopen("dictionaryZhHans.txt","r");
-	else if (strtolower($lang)=="zh-hant") $handle=fopen("dictionaryZhHant.txt","r");
-	else $handle=null;
-	if ($handle!==null)
-	{
-		$k=0;
-		while (($line=fgets($handle))!==false)
-		{
-			$k++;
-			if (mb_strpos($line,'{"character":"'.$char,0,'UTF-8')!==false)
-			{
-				$a=my_json_decode($line);
-				if (count($a->{'set'}))
-				{
-					$s.="<div class=\"set\">";
-					$ini=true;
-					foreach ($a->{'set'} as $b) {if (!$ini) $s.=", ";$s.=convertSet($b,$lang);$ini=false;}
-					$s.="</div>";
-				}
-				if (property_exists($a,'radical')&&$a->{'radical'})
-					$s.="<div class=\"radical\">Radical: <span class=\"cjkChar\" lang=\"".$lang."\">".$a->{'radical'}."</span></div>";
-				if (property_exists($a,'decomposition')&&$a->{'decomposition'})
-					$s.="<div class=\"radical\">Decomposition: ".spanize($a->{'decomposition'},$lang)."</div>";
-				if (property_exists($a,'acjk')&&$a->{'acjk'})
-					$s.="<div class=\"radical\">Acjk: ".spanize($a->{'acjk'},$lang)."</div>";
-				if (($lang=="zh-hans")||($lang=="zh-hant"))
-				{
-					if (property_exists($a,'pinyin')&&count($a->{'pinyin'}))
-					{
-						$s.="<div class=\"pinyin\">Pinyin: ";
-						$ini=true;
-						foreach ($a->{'pinyin'} as $b)
-						{
-							if (!$ini) $s.=", ";
-							$b=str_replace(" ",", ",$b);
-							$b=preg_replace("/\\([0-9]+\\)/","",$b);
-							$s.=$b;
-							$ini=false;
-						}
-						$s.="</div>";
-					}
-				}
-				else if ($lang=="ja")
-				{
-					if (property_exists($a,'on')&&count($a->{'on'}))
-					{
-						$s.="<div class=\"yomi\">Onyomi: ";
-						$ini=true;
-						foreach ($a->{'on'} as $b)
-						{
-							if ($ini) $ini=false; else $s.=", ";
-							$s.="<span lang=\"".$lang."\">".convertJapaneseOn($b)."</span>";
-						}
-						$s.="</div>";
-					}
-					if (property_exists($a,'kun')&&count($a->{'kun'}))
-					{
-						$s.="<div class=\"yomi\">Kunyomi: ";
-						$ini=true;
-						foreach ($a->{'kun'} as $b)
-						{
-							if ($ini) $ini=false; else $s.=", ";
-							$s.="<span lang=\"".$lang."\">".convertJapaneseKun($b)."</span>";
-						}
-						$s.="</div>";
-					}
-				}
-				if (property_exists($a,'definition'))
-					$s.="<div class=\"english\">Definition: ".$a->{'definition'}."</div>";
-				break;
-			}
-		}
-		fclose($handle);
-	}
-	else $s.="<div>Error</div>";
-	return $s;
 }
 
 function transformPathFromGraphics($p)

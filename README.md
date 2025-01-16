@@ -14,15 +14,15 @@ For each character, there is one or several svg files in AnimCJK repository that
 
 SVG files are stored in several folders.
 
-The svgsJa folder contains svg files corresponding to the union of the Japanese "jōyō kanji" (2136 characters), the Japanese "jinmeyō Kanji" (863 characters), 586 Japanese "hyōgai Kanji", 96 components, and 35 strokes. In all, svgsJa folder contains 3716 characters.
+The svgsJa folder contains svg files corresponding to the union of the Japanese "jōyō kanji" (2136 characters), the Japanese "jinmeyō Kanji" (863 characters), some Japanese "hyōgai Kanji", components, and the 35 basic strokes. In all, svgsJa folder contains 3718 characters.
 
 The svgsKana folder contains svg files corresponding to the Japanese "hiragana" (86 characters) and Japanese "katakana" (91 characters). As a result, svgsKana folder contains 177 characters.
 
-The svgsKo folder contains svg files corresponding to Korean "hanja level 8, 7, 6, 5 and some of the level 4" (510 characters).
+The svgsKo folder contains svg files corresponding to Korean "hanja level 8, 7, 6, 5", some of the level 4, and some other characters. In all, svgsKo folder contains 521 characters.
 
-The svgsZhHans folder contains svg files corresponding to Chinese "commonly used simplified hanzi" (7000 characters), 172 "uncommon hanzi", 236 "traditional hanzi" (that can appear in a simplified hanzi text), 76 components and 35 strokes. This set includes the "HSK hanzi" (2663 characters) and the "frequently used simplified hanzi" (3500 characters). In all, svgsZhHans folder contains 7519 characters.
+The svgsZhHans folder contains svg files corresponding to Chinese "commonly used simplified hanzi" (7000 characters), and some "uncommon hanzi", "traditional hanzi" (that can appear in a simplified hanzi text), components and the 35 basic strokes. This set includes the "HSK hanzi" (2663 characters) and the "frequently used simplified hanzi" (3500 characters). In all, svgsZhHans folder contains 7522 characters.
 
-The svgsZhHant folder contains svg files corresponding to Chinese "HSK 1, HSK 2 and HSK 3 traditional hanzi" (647 characters) and 2 other characters. Note that some simplified characters have more than one corresponding traditional character. As a result, svgsZhHant folder contains 649 characters.
+The svgsZhHant folder contains svg files corresponding to Chinese "HSK v3 level 1 and HSK v3 level 2 traditional hanzi" (602 characters) and some other characters. Note that some simplified characters have more than one corresponding traditional character. As a result, svgsZhHant folder contains 764 characters.
 
 Be careful because the characters are not always the same in all languages even when they share the same unicode. For instance 勉 (21193.svg) in Japanese has not the same glyph as 勉 (21193.svg) in Chinese.
 
@@ -80,7 +80,7 @@ svg.acjk
 </head>
 <body>
 <h1>Simple usage of AnimCJK</h1>
-<div id="svgBox"></div>
+<figure id="svgBox"></figure>
 <script>
 window.addEventListener("load",function(){
 	fetch("../svgsJa/20013.svg") // get Japanese 中
@@ -195,7 +195,19 @@ We used various sources to cross-check our data. In particular:
 
 ## What is new?
 
-Minor enhancements (glyphs or medians most of the time) and minor updates can be skipped.
+2025/01/16
+- numerous scripts changes
+- change svgsKana to svgsJaKana
+- change HSK v2 (2012) char list to HSK v3 (2021) char list
+- modify stroke order in svgsZhHant: 快情
+- improve in all folders: 出願情為通食
+- improve in svgsJa: 圥黽俳排匪悲扉斐緋誹輩覆際
+- improve in svgsZhHans: 们黽睛覆餐
+- improve in svgsZhHant: 原業樂晴情請睛青漂
+- add in svgsJa: 坴埶
+- add in svgsKo: 忄丨丶丿亅亠儿冂冖冫几
+- add in svgsZhHans: 圥坴埶靠
+- add in svgsZhHant: 忄乾干榦舘敎凈毛頁扉 斐祇交份低佔使例倒停 億克入全划利劃印原取 受合吹味咱喊嚮堂夜夠 套封度座庭廣弄忽愿態 拉挺掉排推收改晨普永 油活流海涼湖溫熟牆由 省碰確示科稱篇組背臟 舉英藉處裝複覆觀言計 討許論通週遍適部量閤 闆隊際隨隻雲青靠順食 餃養餐髒鬚
 
 2025/01/07
 - add ヲ in svgsKana (was missing for an unknown reason in some versions)

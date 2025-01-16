@@ -4,6 +4,9 @@
 Purpose: make graphicsXxx.txt from svgsXxx folder content
 Usage 1: run makeGraphicsFromSvgs.php in a browser
 Usage 2: run makeGraphicsFromSvgs.php?d=Xxx in a browser
+Usage 3: run makeGraphicsFromSvgs.php?d=Xxx&r=ppp in a browser
+(where ppp is a relative path between the directory of this script
+and the directory where svgsXxx are stored)
 Xxx may be omitted or an empty string, and can contain only letters, number and minus sign
 Requirements: svgsXxx directory must exist, graphicsXxx.txt file must not exist
 Clean svg paths (remove decimal, replace "," by " ", ...)
@@ -23,15 +26,20 @@ footer a {text-align:center;color:#000;}
 <?php
 // if you want to use a server which is not "localhost"
 // replace the value of $myServer below by your server domain or ip
-// don't let $myServer set to a production server to avoid anybody runs this script
-$myServer="192.168.1.23";
-$version=(isset($_GET["d"])?$_GET["d"]:"");
+// avoid to let $myServer set to a production server to avoid anybody runs this script
+$myServer="";
 if (isset($_GET["p"])&&(md5($_GET["p"]."acjk")=="897950b81d960d551df6a6e9e9df9be5"))
+{
+	$myServer="gooo.free.fr";
 	$pAcjk=1;
-else
-	$pAcjk=0;
-$dir="svgs".$version;
-$target="graphics".$version.".txt";
+}
+else $pAcjk=0;
+$version=(isset($_GET["d"])?$_GET["d"]:"");
+if (isset($_GET["r"])) $r=$_GET["r"]."/";
+else $r="";
+$version=ucfirst($version); // mandatory
+$dir=$r."svgs".$version;
+$target=$r."graphics".$version.".txt";
 
 include_once __DIR__."/samples/_php/getCharList.php";
 include_once __DIR__."/lib.php";
@@ -89,9 +97,10 @@ function makeGraphics($dir,$target,$version)
 	if($check)
 	{
 		$listOfChar="";
-		if($version=="Ja") $listOfChar.=getJaCharList();
-		else if($version=="ZhHans") $listOfChar.=getZhHansCharList();
-		else if($version=="ZhHant") $listOfChar.=getZhHantCharList();
+		if($version=="Ja") $listOfChar.=getCharList("Ja");
+		else if($version=="Ko") $listOfChar.=getCharList("Ko");
+		else if($version=="ZhHans") $listOfChar.=getCharList("ZhHans");
+		else if($version=="ZhHant") $listOfChar.=getCharList("ZhHant");
 		else $check=0;
 	}
 	if (file_exists($target)) unlink($target);
@@ -101,9 +110,7 @@ function makeGraphics($dir,$target,$version)
 	$badChars="";
 	foreach ($a as $f)
 	{
-		if (substr($f,0,1)==".") echo "Skip ".$f."<br>\n";
-		else if ($f=="00000.svg") echo "Skip ".$f."<br>\n";
-		else
+		if(preg_match("/^[0-9]+z?\.svg$/",$f))
 		{
 			
 			$dec=intVal($f);
@@ -190,7 +197,7 @@ function makeGraphics($dir,$target,$version)
 				}
 				$s.=']}';
 				//echo $s."<br>\n";
-				file_put_contents("graphics".$version.".txt",$s.PHP_EOL,FILE_APPEND|LOCK_EX);
+				file_put_contents($target,$s.PHP_EOL,FILE_APPEND|LOCK_EX);
 				echo " n=".$n."<br>\n";
 				fclose($handle);
 			}
@@ -201,11 +208,12 @@ function makeGraphics($dir,$target,$version)
 		}
 	}
 	echo "Bad chars: ".$badChars."<br>\n";
+	echo "Target: ".$target."<br>\n";
 }
 
 echo "<p>Begin<br>\n";
 if (($_SERVER['SERVER_NAME']!="localhost")&&($_SERVER['SERVER_NAME']!=$myServer))
-	echo "Error: not a convenient server<br>\n";
+	echo "Not a convenient server<br>\n";
 else if (!file_exists($dir)) echo "Error: ".$dir." directory not found<br>\n";
 else if (!$pAcjk&&file_exists($target))
 {
@@ -220,7 +228,7 @@ echo "End</p>\n";
 <footer>
 <a href="./">Home</a>
 - <a href="licenses/COPYING.txt">Licences</a><br>
-Copyright 2016-2022 - FM&SH
+Copyright 2016-2025 - FM&SH
 </footer>
 </body>
 </html>

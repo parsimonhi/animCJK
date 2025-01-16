@@ -21,6 +21,8 @@ Array.prototype.unique=function()
 };
 // one and only one global variable: acjkm
 if (typeof acjkm=='undefined') acjkm={};
+// must be done at the beginning since currentScript could become null later
+acjkm.url=new URL(document.currentScript.src);
 acjkm.d=1024; // canvas width
 acjkm.c=Math.round(42*acjkm.d/1024); // contour min length
 // acjkm.step:
@@ -719,14 +721,18 @@ acjkm.boardClass.prototype.createNewSvg=function(nStroke,p1)
 			}
 		}
 		acjkm.data=acjkm.data.replace([...acjkm.data][0],"");
-		if (acjkm.data)
+		if (acjkm.data&&(acjkm.recordType=="jsonFile"))
 		{
 			acjkm.board=[];
 			acjkm.svg=[];
 			acjkm.p1List=[];
-			acjkm.getOldSvg([...acjkm.data][0]);
+			acjkm.getOldSvgAsJsonFile([...acjkm.data][0]);
 		}
-		else if(acjkm.after) acjkm.after();
+		else if (!acjkm.data)
+		{
+			if(acjkm.after) acjkm.after();
+		}
+		// else data is processed asynchronously
 	}
 };
 // methods of acjkm:
@@ -841,10 +847,10 @@ acjkm.createCanvas=function(a)
 	{
 		for (k=0;k<acjkm.numOfStrokes;k++)
 		{
-			s+="<div class=\"strokeContainer\">";
-			s+="<div id=\"result"+k+"\"></div>";
+			s+="<li class=\"strokeContainer\">";
+			s+="<p id=\"result"+k+"\"></p>";
 			if (acjkm.strokeOn) s+="<canvas id=\"canvas"+k+"\" width=\""+acjkm.d+"\" height=\""+acjkm.d+"\"></canvas>";
-			s+="</div>";
+			s+="</li>";
 		}
 		acjkm.canvasContainer.innerHTML=s;
 	}
@@ -882,13 +888,12 @@ acjkm.createCanvas=function(a)
 };
 acjkm.getOldSvgAsJsonFile=function(data)
 {
-	var xhr;
+	let xhr;
 	if (data)
 	{
 		xhr=new XMLHttpRequest();
 		xhr.onreadystatechange=function()
 		{
-			var a=document.getElementById("a"),s,r,k;
 			if ((xhr.readyState==4)&&(xhr.status==200))
 			{
 				if (!xhr.responseText)
@@ -903,6 +908,7 @@ acjkm.getOldSvgAsJsonFile=function(data)
 				}
 				else
 				{
+					let a,r,s;
 					s=xhr.responseText;
 					acjkm.oldJsonLine=s;
 					a=JSON.parse(s);
@@ -912,13 +918,14 @@ acjkm.getOldSvgAsJsonFile=function(data)
 					{
 						let b;
 						b="#"+acjkm.counter+" character";
-						if(typeof acjkm.source==='string') b+=" (read from "+acjkm.source+")";
+						if(typeof acjkm.source==='string')
+							b+=" (read from "+acjkm.source+")";
 						b+=": "+data+"<br>";
 						b+="Num of strokes: "+a.strokes.length+"<br>";
 						b+="Old Json line:<br>"+s+"<br>";
 						acjkm.debugOutput.innerHTML=b;
 					}
-					for (k=0;k<acjkm.numOfStrokes;k++)
+					for (let k=0;k<acjkm.numOfStrokes;k++)
 					{
 						r=acjkm.buildSvg2(a,k);
 						acjkm.svg.push(r.s);
@@ -928,9 +935,10 @@ acjkm.getOldSvgAsJsonFile=function(data)
 				}
 			}
 		};
-		// getJsonLine.php gets json line of the current character from acjkm.source
+		// jsonGetLine.php gets json line of the current character from acjkm.source
 		// acjkm.source can be something like "graphicsXxx.txt"
-		xhr.open("POST","getJsonLine.php",true);
+		let path=acjkm.url.pathname.replace("_js/mediansAcjk.js","")+'_php/';
+		xhr.open("POST",path+"jsonGetLine.php",true);
 		xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
 		xhr.send("data="+encodeURIComponent(data)+"&source="+acjkm.source);
 	}
@@ -953,9 +961,10 @@ acjkm.setNewSvgAsJsonFile=function(data)
 				acjkm.finalResultOutput.innerHTML+=xhr.responseText+"<br>";
 		}
     };
-    // setJsonLine.php appends new json lines to acjkm.target
+    // jsonSetLine.php appends new json lines to acjkm.target
     // acjkm.target can be something like "graphicsXxx-new.txt"
-	xhr.open("POST","setJsonLine.php",true);
+	let path=acjkm.url.pathname.replace("_js/mediansAcjk.js","")+'_php/';
+	xhr.open("POST",path+"jsonSetLine.php",true);
 	xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
 	xhr.send("data="+encodeURIComponent(data)+"&target="+acjkm.target);
 }
@@ -1046,7 +1055,7 @@ acjkm.run=function(p)
 {
 	// recordType: "jsonFile" (many files) or "svg" (only one svg record), default "jsonFile"
 	// if (recordType=="jsonFile") source and target should be graphics txt files
-	// if (recordType=="svg") source and target should be html div elements
+	// if (recordType=="svg") source and target should be html elements
 	if(p.recordType) acjkm.recordType=p.recordType; // optional
 	else acjkm.recordType="jsonFile";
 	// data:

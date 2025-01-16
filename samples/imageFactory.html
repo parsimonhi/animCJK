@@ -8,16 +8,17 @@ on the fly from AnimCJK or MakeMeAHanzi SVG files">
 <title>Image factory</title>
 <script src="_js/Animated_GIF.js"></script>
 <script src="_js/magicAcjk.js"></script>
-<script src="_js/brushingAcjk.js"></script>
+<!-- no need to add a brush effect in this version -->
+<!--<script src="_js/brushingAcjk.js"></script>-->
 <script>
 var svgsDir="svgs";
 function debug(s,a)
 {
 	return;
 	var e;
-	if (e=document.getElementById("debug"))
+	if(e=document.getElementById("debug"))
 	{
-		if (a) e.innerHTML+=s;
+		if(a) e.innerHTML+=s;
 		else e.innerHTML=s;
 	}
 }
@@ -36,31 +37,33 @@ function changeDir(dir)
 }
 function showAnimatedGif(image,background,dec)
 {
-	if (background=="transparent")
+	if(background=="transparent")
 		document.getElementById("d").innerHTML="<img src=\""+image+"\">";
 	else
 		document.getElementById("c").innerHTML="<img src=\""+image+"\">";
 }
+/*
 function setBrushing(s)
 {
-	var target,list,k,km,idBrush,eBrush,newD=[];
-	target=document.createElement("div");
+	// no need to add a brush effect in this version
+	let target,list,km,idBrush,eBrush,newD=[];
+	target=document.createElement("figure");
 	target.innerHTML=s;
 	list=target.querySelectorAll("svg.acjk path[clip-path]");
 	km=list.length;
-	for (k=0;k<km;k++)
+	for (let k=0;k<km;k++)
 	{
 		idBrush=getPathIdFromClipPathAttribute(list[k]);
 		eBrush=target.querySelector("#"+idBrush);
 		eBrush.setAttribute("d",cleanPathBeforeBrushing(eBrush.getAttribute("d")));
 	}
-	for (k=0;k<km;k++)
+	for (let k=0;k<km;k++)
 	{
 		idBrush=getPathIdFromClipPathAttribute(list[k]);
 		eBrush=target.querySelector("#"+idBrush);
 		newD[k]=strokeBrushing(eBrush);
 	}
-	for (k=0;k<km;k++)
+	for (let k=0;k<km;k++)
 	{
 		idBrush=getPathIdFromClipPathAttribute(list[k]);
 		eBrush=target.querySelector("#"+idBrush);
@@ -68,27 +71,67 @@ function setBrushing(s)
 	}
 	return target.innerHTML.replace(/><\/path>/g,"/>");
 }
+*/
+function base64Show(id)
+{
+	e=document.getElementById(id);
+	e2=document.getElementById(id+'2');
+	imgs=e.getElementsByTagName("img");
+	if(imgs&&imgs[0]) e2.innerHTML=imgs[0].getAttribute("src");
+	else e2.innerHTML="no data!";
+}
+function base64Hide(id)
+{
+	document.getElementById(id+'2').innerHTML="";
+}
+function ok2(input)
+{
+	// show codes of images, encoded in base64
+	// these data can be used to save images files locally or on a server
+	var e,e2,imgs;
+	if(input.value=="Show codes")
+	{
+		base64Show('a');
+		//base64Show('b');
+		base64Show('c');
+		//base64Show('d');
+		base64Show('e');
+		input.value="Hide codes";
+		document.getElementById("base64codes").classList.add("showCodes");
+	}
+	else
+	{
+		input.value="Show codes";
+		base64Hide('a');
+		//base64Hide('b');
+		base64Hide('c');
+		//base64Hide('d');
+		base64Hide('e');
+		document.getElementById("base64codes").classList.remove("showCodes");
+	}
+}
 function ok()
 {
 	// do what is necessary when a user clicked on "create" input
 	var data,xhr,file,a,b,c,d,e,a2,b2,c2,d2,e2,dec;
 	// reset display
 	status(" ");
-	if (a=document.getElementById('a')) a.innerHTML="";
-	if (b=document.getElementById('b')) b.innerHTML="";
-	if (c=document.getElementById('c')) c.innerHTML="";
-	if (d=document.getElementById('d')) d.innerHTML="";
-	if (e=document.getElementById('e')) e.innerHTML="";
-	if (a2=document.getElementById('a2')) a2.innerHTML="";
-	if (b2=document.getElementById('b2')) b2.innerHTML="";
-	if (c2=document.getElementById('c2')) c2.innerHTML="";
-	if (d2=document.getElementById('d2')) d2.innerHTML="";
-	if (e2=document.getElementById('e2')) e2.innerHTML="";
+	ok2("Hide codes");
+	if(a=document.getElementById('a')) a.innerHTML="";
+	if(b=document.getElementById('b')) b.innerHTML="";
+	if(c=document.getElementById('c')) c.innerHTML="";
+	if(d=document.getElementById('d')) d.innerHTML="";
+	if(e=document.getElementById('e')) e.innerHTML="";
+	if(a2=document.getElementById('a2')) a2.innerHTML="";
+	if(b2=document.getElementById('b2')) b2.innerHTML="";
+	if(c2=document.getElementById('c2')) c2.innerHTML="";
+	if(d2=document.getElementById('d2')) d2.innerHTML="";
+	if(e2=document.getElementById('e2')) e2.innerHTML="";
     document.getElementById('data').focus();
     document.getElementById('showCode').value="Show codes";
     // get data from the input field
 	data=document.getElementById("data").value;
-	if (!data) {status("No data!"); return;}
+	if(!data) {status("No data!"); return;}
 	dec=data.codePointAt(0);
     // svgs folder of this demo contains MakeMeAHanzi svg files
     // svgs folder contains only 鼠貓牛虎兔龍蛇馬羊猴雞狗 at the moment
@@ -100,15 +143,14 @@ function ok()
 	xhr.onreadystatechange=function()
 	{
 		var s,sa,sb,se;
-		if ((xhr.readyState==4)&&(xhr.status==200))
+		if((xhr.readyState==4)&&(xhr.status==200))
 		{
 			s=xhr.responseText;
 			// check the response (some servers may return an error page here)
-			if (s.match(/make-me-a-hanzi/)||s.match(/<svg[^>]+class="acjk/))
+			if(s.match(/make-me-a-hanzi/)||s.match(/<svg[^>]+class="acjk/))
 			{
-				// add a brush effect on svg paths if they contain straight lines as clips
-				if ((s.match(/<svg[^>]+class="acjk/))
-					&&(s.match(/<path[^>]+id="[^>]+L/))) s=setBrushing(s);
+				// no need to add a brush effect in this version
+				// if((s.match(/<svg[^>]+class="acjk/))&&(s.match(/<path[^>]+id="[^>]+L/))) s=setBrushing(s);
 				sa=generateRedPngFromSvg(s,300,"transparent");
 				xhr.acjk.a.innerHTML="<img src=\""+sa+"\">";
 				// don't generate opaque png in this version
@@ -121,61 +163,26 @@ function ok()
 				xhr.acjk.e.innerHTML="<img src=\""+se+"\">";
 				status("Svg file name: "+xhr.acjk.dec+".svg");
 			}
-			else status("Svg not found in svgs repository!");
+			else status("Data not found in the selected svgs repository!");
         }
-        else if ((xhr.readyState==4)&&(xhr.status==404))
-        	status("Svg not found in svgs repository!");
+        else if((xhr.readyState==4)&&(xhr.status==404))
+        	status("Data not found in the selected svgs repository!");
     };
   	xhr.open("GET",file,true);
   	xhr.send();
-}
-function base64Show(id)
-{
-	e=document.getElementById(id);
-	e2=document.getElementById(id+'2');
-	imgs=e.getElementsByTagName("img");
-	if (imgs&&imgs[0]) e2.innerHTML=imgs[0].getAttribute("src");
-	else e2.innerHTML="no data!";
-}
-function base64Hide(id)
-{
-	document.getElementById(id+'2').innerHTML="";
-}
-function ok2(input)
-{
-	// show codes of images, encoded in base64
-	// these data can be used to save images files locally or on a server
-	var e,e2,imgs;
-	if (input.value=="Show codes")
-	{
-		base64Show('a');
-		//base64Show('b');
-		base64Show('c');
-		//base64Show('d');
-		base64Show('e');
-		input.value="Hide codes";
-	}
-	else
-	{
-		input.value="Show codes";
-		base64Hide('a');
-		//base64Hide('b');
-		base64Hide('c');
-		//base64Hide('d');
-		base64Hide('e');
-	}
 }
 </script>
 <style>
 #a,#b,#c,#d
 {
-	width:300px;
-	height:300px;
+	width:16em;
+	height:16em;
 	position:relative;
 	display:inline-block;
 	border:1px solid #ccc;
 	background:#eee;
-	margin-bottom:3em;
+	margin:0 0 3em 0;
+	padding:0;
 }
 #e
 {
@@ -186,6 +193,8 @@ function ok2(input)
 	margin-bottom:3em;
 	min-height:110px;
 	min-width:110px;
+	margin:0 0 3em 0;
+	padding:0;
 }
 #a:after
 {
@@ -217,44 +226,48 @@ function ok2(input)
 	top:100%;
 	content:'Sequence PNG';
 }
-#a img,#b img,#c img,#d img,#e img {display:block;}
+#a img,#b img,#c img,#d img,#e img {display:block; width:100%;}
 #status {color:#c00;}
 input {font-size:1em;}
-.dirSelector {margin-bottom:1em;}
-.dirSelector label {display:block;}
+#base64codes:not(.showCodes) {display:none;}
+.dirSelector,.dataSelector {margin:0 0 1em 0; padding:0; border:0;}
+.dirSelector label,.dataSelector label {display:block;}
 </style>
 </head>
 <body>
 <h1>Image factory</h1>
-<div class="dirSelector">
+<fieldset class="dirSelector">
 <p>Select a repository:</p>
 <label><input type="radio" name="changeDir" value="1" onclick="changeDir('../svgsJa')"> svgsJa (from AnimCJK)</label>
 <label><input type="radio" name="changeDir" value="2" onclick="changeDir('../svgsKo')"> svgsKo (from AnimCJK)</label>
 <label><input type="radio" name="changeDir" value="3" onclick="changeDir('../svgsZhHans')"> svgsZhHans (from AnimCJK)</label>
 <label><input type="radio" name="changeDir" value="4" onclick="changeDir('../svgsZhHant')"> svgsZhHant (from AnimCJK)</label>
 <label><input checked type="radio" name="changeDir" value="5" onclick="changeDir('svgs')"> svgs (from MakeMeAHanzi, just for testing, contains only 鼠貓牛虎兔龍蛇馬羊猴雞狗)</label>
-</div>
-<div class="dirSelector">
+</fieldset>
+<fieldset class="dataSelector">
 <input id="data" type="text" maxlength="1" value="馬" placeholder="Enter a character here">
 <input type="button" value="Create" onclick="ok()">
-</div>
+</fieldset>
 <p id="status">Push "Create" button to generate the images!</p>
 <p>Images generated on the fly</p>
-<div id="a"></div>
-<!-- <div id="b"></div> -->
-<div id="c"></div>
-<!-- <div id="d"></div> -->
-<div id="e"></div>
-<!-- <p>Note: animated GIF images without grey strokes can be transformed in transparent image
-using a tool such as gifsicle</p> -->
+<figure id="a"></figure>
+<!-- <figure id="b"></figure> -->
+<figure id="c"></figure>
+<!-- <figure id="d"></figure> -->
+<figure id="e"></figure>
+<!-- Note: animated GIF images without grey strokes can be transformed in transparent image
+using a tool such as gifsicle -->
 <p>Images encoded in base64:
-<input id="showCode" type="button" value="Show codes" onclick="ok2(this)"></p>
-<div>Code of transparent red PNG image: <span id="a2"></span></div>
-<!-- <div>Source of not transparent red PNG image: <span id="b2"></span></div> -->
-<div>Code of animated GIF image with grey strokes: <span id="c2"></span></div>
-<!-- <div>Source of animated GIF image without grey strokes: <span id="d2"></span></div> -->
-<div>Code of sequence PNG image: <span id="e2"></span></div>
-<div id="debug"></div>
+<input id="showCode" type="button" value="Show codes" onclick="ok2(this)">
+</p>
+<ul id="base64codes">
+<li>Code of transparent red PNG image: <span id="a2"></span></li>
+<!-- <li>Source of not transparent red PNG image: <span id="b2"></span></li> -->
+<li>Code of animated GIF image with grey strokes: <span id="c2"></span></li>
+<!-- <li>Source of animated GIF image without grey strokes: <span id="d2"></span></li> -->
+<li>Code of sequence PNG image: <span id="e2"></span></li>
+</ul>
+<p id="debug"></p>
 <footer>
 <a href="./">Sample selector</a>
 - <a href="../licenses/COPYING.txt">Licences</a>

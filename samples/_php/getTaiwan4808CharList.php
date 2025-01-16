@@ -142,8 +142,4 @@ function getTaiwan4808CharList()
 	$a.="齒齟齣齡齜齦齬齪齷齲龍龔龜";
 	return $a;
 }
-function getZhTwCharList()
-{
-	return getTaiwan4808CharList();
-}
 ?>

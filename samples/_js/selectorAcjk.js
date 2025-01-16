@@ -1,30 +1,54 @@
-// create a lang selector in the .langSelector if any
-// create a char selector in the .charSelector if any
-// create some char list selectors in the .charListSelector if any
-// assume a doIt() function is defined in the calling page
+// Create a lang selector in the tag having .langSelector as class if any.
+// Create a char selector in the tag having .dataSelector as class if any.
+// Create a char list selector in the tag having .charListSelector as class if any.
+// A doIt() function should be defined in the calling page if a tag having .dataSelector
+// as class is present.
+// This function is executed:
+//	- when the user changes the lang using the lang selector
+//	- clicking on the "Run" button of the char selector
+// A afterAddingChartSelector may be defined in the calling page to execute something
+// just after adding the char list to the page
+// A charListMap object may be set in the calling page to indicate
+// what the char list selector will contain
 (function()
 {
 	let langSelector=document.querySelector('.langSelector');
-	let charSelector=document.querySelector('.charSelector');
+	let dataSelector=document.querySelector('.dataSelector');
 	let charListSelector=document.querySelector('.charListSelector');
+	let map;
+	if(charListSelector)
+	{
+		if(typeof charListMap !== "undefined") map=JSON.stringify(charListMap);
+		else
+		{
+			// default map (convenient for samples)
+			let charListMap={};
+			charListMap["Ja"]=["g1","g2","g3","g4","g5","g6","g7"];
+			charListMap["Ko"]=["hanja8","hanja7","hanja6","hanja5","hanja4","hanja3","hanja2","hanja1"];
+			charListMap["ZhHans"]=["hsk31","hsk32","hsk33","hsk34","hsk35","hsk36","hsk37","hsk38","hsk39"];
+			charListMap["ZhHant"]=["t31","t32","t33","t34","t35","t36","t37","t38","t39"];
+			map=JSON.stringify(charListMap);
+		}
+	}
 	function makeLangIso(lang)
 	{
-		if(lang=="ZhHans") return "zh-hans";
-		if(lang=="ZhHant") return "zh-hant";
+		if(lang=="ZhHans") return "zh-Hans";
+		if(lang=="ZhHant") return "zh-Hant";
 		if(lang=="Ko") return "ko";
 		return "ja";
 	}
 	function setLang(lang)
 	{
 		document.querySelector('html').setAttribute("lang",makeLangIso(lang));
-		doIt();
+		if(!!window.doIt) doIt();
 	}
-	function addOneLangRadio(p,value,label)
+	function addOneLangRadio(p,value,label,langIso)
 	{
 		let s="",e,checked=(value=="Ja"?" checked":"");
 		e=document.createElement('label');
-		s+="<input type=\"radio\" name=\"lang\" value=\""+value+"\" "+checked+">";
-		s+=" "+label;
+		s+="<input type=\"radio\" name=\"lang\"";
+		s+=" data-lang=\""+langIso+"\" value=\""+value+"\" "+checked+">";
+		s+=label;
 		e.innerHTML=s;
 		p.appendChild(e);
 		e=p.querySelector('[value="'+value+'"]');
@@ -32,37 +56,38 @@
 	}
 	function addLangSelector(p)
 	{
-		addOneLangRadio(p,"Ja","Japanese");
-		addOneLangRadio(p,"Ko","Korean");
-		addOneLangRadio(p,"ZhHans","Simplified Chinese");
-		addOneLangRadio(p,"ZhHant","Traditional Chinese");
+		addOneLangRadio(p,"Ja","Japanese","ja");
+		addOneLangRadio(p,"Ko","Korean","ko");
+		addOneLangRadio(p,"ZhHans","Simplified Chinese","zh-Hans");
+		addOneLangRadio(p,"ZhHant","Traditional Chinese","zh-Hant");
 	}
 	function addCharSelector(p)
 	{
 		let s="",e;
-		e=document.createElement('label');
-		s+="Kanji, Hanja or Hanzi (one char only): <input name=\"char\"></label>";
-		s+=" <button type=\"button\" name=\"run\">Run</button>";
-		e.innerHTML=s;
-		p.appendChild(e);
+		s+="<label>Kanji, Hanja or Hanzi (one char only)<input name=\"data\"></label>";
+		s+="<button type=\"button\" name=\"run\">Run</button>";
+		p.innerHTML=s;
 		e=p.querySelector('[name="run"]');
-		e.addEventListener('click',doIt);
+		e.addEventListener('click',(!!window.doIt)?doIt:function(){alert("No doIt?")});
 	}
 	function click(ev)
 	{
 		let b=ev.target;
-		let c=document.querySelector('[name="char"]');
+		let c=b.innerHTML;
+		let d=document.querySelector('[name="data"]');
 		let o=document.querySelector('[name="run"]');
-		c.value=b.innerHTML+c.value; // able to deal several characters
-		o.focus(); // otherwise mobiles may show keyboard
+		if(d) d.value=c+d.value; // able to deal several characters
+		if(o) o.focus(); // otherwise mobiles may show keyboard
 		window.scrollTo(0,0);
-		o.dispatchEvent(new Event('click'));
+		if(o) o.dispatchEvent(new Event('click'));
+		else if(!!window.doIt) doIt(c);
+		else alert("No doIt?");
 		b.classList.add="visited";
 	}
 	function addCharListSelector(p,r,lang)
 	{
-		let nav,list,s;
-		nav=document.createElement('nav');
+		let section,list,s;
+		section=document.createElement('section');
 		if(lang=="ZhHans") s="<h2>Simplified hanzi</h2>";
 		else if(lang=="ZhHant") s="<h2>Traditional hanzi</h2>";
 		else if(lang=="Ko") s="<h2>Hanja</h2>";
@@ -71,24 +96,30 @@
 		{
 			s+="<details open><summary><h3>";
 			s+=a.title?a.title:"?";
-			s+="</h3></summary><p>";
+			s+="</h3></summary><fieldset>";
 			for(let c of [...a.chars]) s+='<button type="button">'+c+'</button>';
-			s+="</p></details>";
+			s+="</fieldset></details>";
 		}
-		nav.innerHTML=s;
-		nav.setAttribute("lang",makeLangIso(lang));
-		p.appendChild(nav);
-		list=nav.querySelectorAll('button');
+		section.innerHTML=s;
+		section.setAttribute("lang",makeLangIso(lang));
+		p.appendChild(section);
+		list=section.querySelectorAll('button');
 		for(let b of list) b.addEventListener("click",function(ev){click(ev);});
+		if(!!window.afterAddingChartSelector)
+			if(p.querySelector('[lang="ja"]')&&p.querySelector('[lang="ko"]')
+				&&p.querySelector('[lang="zh-Hans"]')&&p.querySelector('[lang="zh-Hant"]'))
+				afterAddingChartSelector();
 	}
 	if(langSelector) addLangSelector(langSelector);
-	if(charSelector) addCharSelector(charSelector);
+	if(dataSelector) addCharSelector(dataSelector);
 	if(charListSelector)
 	{
+		let url=new URL(document.currentScript.src),
+			path=url.pathname.replace("_js/selectorAcjk.js","")+'_php/';
 		for(let b of ["Ja","Ko","ZhHans","ZhHant"])
 		{
-			let options={method:"POST",body:JSON.stringify({s:b})};
-			fetch('_php/fetchCharList.php',options)
+			let options={method:"POST",body:JSON.stringify({s:b,map:map})};
+			fetch(path+'fetchCharList.php',options)
 			.then(r=>r.json())
 			.then(r=>addCharListSelector(charListSelector,r,b));
 		}

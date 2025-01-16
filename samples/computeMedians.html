@@ -12,40 +12,38 @@ representing a Japanese or Chinese character">
 <style>
 body
 {
-	--L1:400px;
-	--L2:256px;
+	min-width:19em;
+	--L1:min(16em,calc(100vw - 2px - 1em));
+	--L2:min(16em,calc(100vw - 2px - 1.5em));
 }
-span.error
+.error
 {
 	color:#c00;
 }
-.dataSelector
-{
-	max-width:max-content;
-	border:1px solid #ccc;
-	padding:0.5em;
-}
-.svgContainer section
+.initial, .medians
 {
 	display:inline-block;
-	margin:1px;
 	vertical-align:top;
 }
-section.trace
+.initial>:last-child, .medians>:last-child
 {
-	display:block;
+	width:var(--L1);
+	height:var(--L1);
+	border:1px solid #0003;
+	margin:0;
+	padding:0;
 }
-section:not(.trace)>div
+.initial>:last-child
 {
-	width:calc(var(--L1));
-	height:calc(var(--L1));
-	border:1px solid #ccc;
+	position:relative;
 }
-label
+.initial>:last-child p
 {
-	display:block;
+	position:absolute;
+	margin:0.25em;
+	padding:0;
 }
-svg
+.initial svg, .medians svg
 {
 	display:block;
 }
@@ -66,38 +64,14 @@ svg
 .strokeContainer
 {
 	display:inline-block;
-	width:calc(var(--L2) + 2px);
-	border:1px solid #ccc;
-	margin:1px;
+	border:1px solid #0003;
+	margin:0.25em;
 }
 .strokeContainer canvas
 {
 	width:var(--L2);
 	height:var(--L2);
 }
-h2
-{
-	font-size:1.2em;
-	border-left: 0.5rem solid #c00;
-	padding-left:0.25em;
-}
-.charListSelector p
-{
-	font-size:1em;
-	border:1px solid #ccc;
-	padding:0.125em;
-}
-.charListSelector button
-{
-	border:0;
-	background:none;
-	padding:0;
-	margin:0.25em;
-	cursor:pointer;
-}
-html[lang="ja"] .charListSelector nav:not([lang="ja"]){display:none;}
-html[lang="zh-hans"] .charListSelector nav:not([lang="zh-hans"]){display:none;}
-html[lang="zh-hant"] .charListSelector nav:not([lang="zh-hant"]){display:none;}
 </style>
 <title>AnimCJK Compute medians</title>
 </head>
@@ -108,29 +82,25 @@ html[lang="zh-hant"] .charListSelector nav:not([lang="zh-hant"]){display:none;}
 <a href="./"><span>Sample selector</span></a>
 </nav>
 <p>Given a shape and a starting point for each stroke, compute their medians.</p>
-<div class="dataSelector">
-<div class="charSelector"></div>
-<div class="langSelector"></div>
-</div>
-<div class="svgContainer">
+<fieldset class="dataSelector"></fieldset>
+<fieldset class="langSelector"></fieldset>
 <section class="initial">
 <h2>Initial</h2>
-<div></div>
+<figure></figure>
 </section>
 <section class="medians">
 <h2>Medians</h2>
-<div></div>
+<figure></figure>
 </section>
-</div>
 <section class="trace">
 <h2>Trace</h2>
-<div id="errorOutput"></div>
-<div id="strangeStrokesOutput"></div>
-<div id="debugOutput"></div>
-<div id="canvasContainer"></div>
-<div id="finalResultOutput"></div>
+<p id="errorOutput"></p>
+<p id="strangeStrokesOutput"></p>
+<p id="debugOutput"></p>
+<ul id="canvasContainer"></ul>
+<p id="finalResultOutput"></p>
 </section>
-<div class="charListSelector"></div>
+<fieldset class="charListSelector"></fieldset>
 <footer>
 <nav class="link">
 <a href="#"><span>Top</span></a>
@@ -140,13 +110,11 @@ html[lang="zh-hant"] .charListSelector nav:not([lang="zh-hant"]){display:none;}
 </footer>
 <script src="_js/mediansAcjk.js"></script>
 <script>
-function getRadioValue(name)
+function getLangAcjk()
 {
-	let list=document.querySelectorAll('[name="'+name+'"]');
-	for(k=0;k<list.length;k++) if(list[k].checked) return list[k].value;
-	return "Ja";
+	let e=document.querySelector('[name="lang"]:checked');
+	return e?e.value:"Ja";
 }
-
 function replaceVHbyL(d)
 {
 	// assume "-" never follows a number
@@ -205,15 +173,14 @@ function cleanMedianPath(d)
 
 function run(r)
 {
-	let initial=document.querySelector('.initial div');
+	let initial=document.querySelector('.initial>:last-child');
 	if(!r.match(/<svg/))
 	{
-		if(r.match(/^Error:/)) initial.innerHTML="<span class=\"error\">"+r+"</span>";
-		else initial.innerHTML="Data not found!";
+		initial.innerHTML="<p>Data not found!</p>";
 		return;
 	}
-	let medians=document.querySelector('.medians div');
-	let c=document.querySelector('input[name="char"]').value;
+	let medians=document.querySelector('.medians>:last-child');
+	let c=document.querySelector('input[name="data"]').value;
 	let svgId=r.replace(/^[^£]*<svg id="([^"]+)"[^£]*$/,"$1");
 	let dec;
 	// initial
@@ -268,19 +235,19 @@ function run(r)
 
 function doIt()
 {
-	let e=document.querySelector('input[name="char"]'),c=e.value,list;
-	document.querySelector('.initial div').innerHTML="";
-	document.querySelector('.medians div').innerHTML="";
-	list=document.querySelectorAll('.trace div');
-	for(div of list) div.innerHTML="";
+	let data=document.querySelector('input[name="data"]'),c=data.value,list;
+	document.querySelector('.initial>:last-child').innerHTML="";
+	document.querySelector('.medians>:last-child').innerHTML="";
+	list=document.querySelectorAll('.trace>:not(h2)');
+	for(let e of list) e.innerHTML="";
 	if(c)
 	{
-		let dec=c.codePointAt(0),lang=getRadioValue("lang");
-		e.value=String.fromCodePoint(dec);
+		let dec=c.codePointAt(0),lang=getLangAcjk();
+		data.value=String.fromCodePoint(dec);
 		fetch('../svgs'+lang+'/'+dec+'.svg')
 		.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
 		.then(r=>{run(r);return true;})
-		.catch(e=>document.querySelector('.initial div').innerHTML=e+' in svgs'+lang);
+		.catch(e=>document.querySelector('.initial>:last-child').innerHTML=e+' in svgs'+lang);
 	}
 }
 </script>

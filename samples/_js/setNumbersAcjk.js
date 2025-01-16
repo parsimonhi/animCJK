@@ -3,7 +3,7 @@ function setNumbers(x)
 {
 	// if(x) add numbers else remove them
 	var go,g,list,l;
-	list=document.querySelectorAll("svg.acjk circle, svg.acjk text");
+	list=document.querySelectorAll("svg.acjk circle, svg.acjk text:not(.background)");
 	if (x)
 	{
 		if(list&&list.length) return;

@@ -7,11 +7,21 @@
 of a Japanese or Chinese character displayed with an animCJK svg file">
 <link rel="stylesheet" href="_css/withSelector.css" type="text/css">
 <style>
+.specificSelector
+{
+	margin:0.5em 0;
+	padding:0;
+	border:0;
+}
 #a
 {
 	width:max-content;
 	border:1px solid #ccc;
-	margin-top:0.5em;
+	margin:0.5em 0 0 0;
+}
+#a:empty
+{
+	border:0;
 }
 #a svg
 {
@@ -23,24 +33,24 @@ pre
 	padding:0.125em;
 	white-space:pre-wrap;
 }
-input[name="size"]
+.specificSelector input[name="size"]
 {
-	font-size:1rem;
+	font-size:1em;
 	display:block;
-	width:13.5em;
-	margin:0 2em;
+	width:14em;
+	margin:0;
 }
-#sizeMarks
+.specificSelector #sizeMarks
 {
-	font-size:1rem;
+	font-size:1em;
 	display:flex;
 	margin:0;
 	padding:0;
-	width:17.5em;
+	width:14em;
 	justify-content:space-between;
 }
-#sizeMarks option:not([label]) {display:none;}
-#sizeMarks option {width:4em;text-align:center;margin:0;padding:0;}
+.specificSelector #sizeMarks option:not([label]) {display:none;}
+.specificSelector #sizeMarks option {width:3em;text-align:center;margin:0;padding:0;}
 </style>
 <title>AnimCJK Size</title>
 </head>
@@ -50,34 +60,29 @@ input[name="size"]
 <a href="https://github.com/parsimonhi/animCJK"><span>Download</span></a>
 <a href="./"><span>Sample selector</span></a>
 </nav>
-<div class="langSelector"></div>
-<div class="charSelector"></div>
-<label><input autocomplete="off" name="size" type="range" list="sizeMarks" onclick="switchSize()" value="256" step="64" min="0" max="1024"></label>
+<fieldset class="langSelector"></fieldset>
+<fieldset class="dataSelector"></fieldset>
+<fieldset class="specificSelector">
+<label>
+<span>Size:</span>
+<input autocomplete="off" name="size" type="range" list="sizeMarks" onclick="switchSize()" value="256" step="64" min="64" max="960">
+</label>
 <datalist id="sizeMarks">
-<option value="0" label="0 px"></option>
-<option value="64"></option>
-<option value="128"></option>
-<option value="192"></option>
+<option value="128" label="128"></option>
 <option value="256"></option>
-<option value="320"></option>
 <option value="384"></option>
-<option value="448"></option>
-<option value="512" label="512 px"></option>
-<option value="576"></option>
+<option value="512" label="512"></option>
 <option value="640"></option>
-<option value="704"></option>
 <option value="768"></option>
-<option value="832"></option>
-<option value="896"></option>
-<option value="960"></option>
-<option value="1024" label="1024 px"></option>
+<option value="896" label="896"></option>
 </datalist>
-<div id="a"></div>
+</fieldset>
+<figure id="a"></figure>
 <details>
 <summary>SVG code</summary>
 <pre class="codeTag"></pre>
 </details>
-<div class="charListSelector"></div>
+<fieldset class="charListSelector"></fieldset>
 <footer>
 <nav class="link">
 <a href="#"><span>Top</span></a>
@@ -96,11 +101,10 @@ function updateCodeTag()
 	s=s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 	document.querySelector('.codeTag').innerHTML=s;
 }
-function getRadioValue(name)
+function getLangAcjk()
 {
-	let list=document.querySelectorAll('[name="'+name+'"]');
-	for(k=0;k<list.length;k++) if(list[k].checked) return list[k].value;
-	return "Ja";
+	let e=document.querySelector('[name="lang"]:checked');
+	return e?e.value:"Ja";
 }
 function setSize(v)
 {
@@ -138,12 +142,12 @@ function run(s)
 }
 function doIt()
 {
-  	let e=document.querySelector('[name="char"]'),c=e.value;
+  	let e=document.querySelector('[name="data"]'),c=e.value;
   	document.getElementById("a").innerHTML="";
   	document.querySelector('.codeTag').innerHTML="";
 	if(c)
 	{
-		let dec=c.codePointAt(0),lang=getRadioValue("lang");
+		let dec=c.codePointAt(0),lang=getLangAcjk();
 		e.value=String.fromCodePoint(dec);
 		fetch('../svgs'+lang+'/'+dec+'.svg')
 		.then(r=>{if(!r.ok) throw r.statusText; return r.text();})

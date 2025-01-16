@@ -9,13 +9,16 @@ of a Japanese or Chinese character using animCJK SVG files">
 <style>
 #a
 {
-	width:300px;
-	height:300px;
+	width:16em;
+	height:16em;
 	border:1px solid #ccc;
+	margin:0.5em 0;
+	padding:0;
 }
 #a img
 {
 	display:block;
+	width:100%;
 }
 </style>
 <title>AnimCJK Animated GIF</title>
@@ -26,11 +29,11 @@ of a Japanese or Chinese character using animCJK SVG files">
 <a href="https://github.com/parsimonhi/animCJK"><span>Download</span></a>
 <a href="./"><span>Sample selector</span></a>
 </nav>
-<div class="langSelector"></div>
-<div class="charSelector"></div>
+<fieldset class="langSelector"></fieldset>
+<fieldset class="dataSelector"></fieldset>
 <p id="p">Animated GIF image generated on the fly from a SVG</p>
-<div id="a"></div>
-<div class="charListSelector"></div>
+<figure id="a"></figure>
+<fieldset class="charListSelector"></fieldset>
 <footer>
 <nav class="link">
 <a href="#"><span>Top</span></a>
@@ -41,11 +44,10 @@ of a Japanese or Chinese character using animCJK SVG files">
 <script src="_js/Animated_GIF.js"></script>
 <script src="_js/magicAcjk.js"></script>
 <script>
-function getRadioValue(name)
+function getLangAcjk()
 {
-	let list=document.querySelectorAll('[name="'+name+'"]');
-	for(k=0;k<list.length;k++) if(list[k].checked) return list[k].value;
-	return "Ja";
+	let e=document.querySelector('[name="lang"]:checked');
+	return e?e.value:"Ja";
 }
 function showAnimatedGif(image,background,dec)
 {
@@ -57,11 +59,11 @@ function run(s,dec)
 }
 function doIt()
 {
-  	let e=document.querySelector('[name="char"]'),c=e.value;
+  	let e=document.querySelector('[name="data"]'),c=e.value;
   	document.getElementById("a").innerHTML="";
 	if(c)
 	{
-		let dec=c.codePointAt(0),lang=getRadioValue("lang");
+		let dec=c.codePointAt(0),lang=getLangAcjk();
 		e.value=String.fromCodePoint(dec);
 		fetch('../svgs'+lang+'/'+dec+'.svg')
 		.then(r=>{if(!r.ok) throw r.statusText; return r.text();})

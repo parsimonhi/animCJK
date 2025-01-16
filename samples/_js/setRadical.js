@@ -8,14 +8,21 @@ function setRadical(x)
 	let svgs=document.querySelectorAll('svg.acjk');
 	for(let i=0;i<svgs.length;i++)
 	{
-		let medians=svgs[i].querySelectorAll('[clip-path]'),a,c,d,n=0;
+		let medians=svgs[i].querySelectorAll('[clip-path]'),a,c,d,dec1,dec2,chr,n=0;
 		if(x)
 		{
 			c=svgs[i].parentNode.querySelector('.acjksDecomposition');
 			if(!c) c=svgs[i].parentNode.querySelector('.acjkDecomposition');
 			if(!c) c=svgs[i].parentNode.parentNode.querySelector('.acjksDecomposition');
 			if(!c) c=svgs[i].parentNode.parentNode.querySelector('.acjkDecomposition');
-			d=c?c.innerHTML:(d=medians.length+"");
+			if(c)
+			{
+				dec1=c.innerHTML.codePointAt(0);
+				dec2=svgs[i].id.replace(/^z([0-9]+).*$/,"$1");
+				if(dec1==dec2) d=c.innerHTML;
+				else d=medians.length+"";
+			}
+			else d=medians.length+"";
 			d=d.replace(/[:]+/g,"");
 			d=d.replace(/[^.0-9]+/g," ").trim();
 			d=d.replace(/ +/g," ");

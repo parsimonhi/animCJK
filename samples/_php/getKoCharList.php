@@ -23,6 +23,7 @@ function getHanjaByLevelCharList($n)
 	// list: made from https://hanjasajun.co.kr/
 	// check: https://hanja.dict.naver.com/
 	//        https://www.koreanwikiproject.com/wiki/Category:Hanja_characters
+	// uncommented chars are verified, others are not
 	$a="";
 	if($n=="hanja8") // 50 chars
 		$a.="校敎九國軍金南女年大東六萬母木門民白父北四山三生西先小水室十五王外月二人一日長弟中靑寸七土八學韓兄火";
@@ -109,10 +110,14 @@ function getHanja1800bCharList()
 	$a.="核響享軒憲獻險驗顯懸玄縣絃穴嫌脅亨螢衡慧兮毫互浩胡豪護惑昏魂忽洪弘鴻禾禍擴確穫還環丸換荒況悔懷獲劃橫曉侯候毁輝揮携吸稀戱";
 	return $a;
 }
-function getKoCharList()
+function getUncommonHanjaCharList()
 {
-	$s="";
-	for($k=8;$k>0;$k--) $s.=getHanjaByLevelCharList("hanja".$k);
-	return $s;
+	$a="丨丶丿亅亠儿冂冖冫几";
+	return $a;
+}
+function getHanjaComponentsCharList()
+{
+	$a="忄";
+	return $a;
 }
 ?>

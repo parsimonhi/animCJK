@@ -7,20 +7,27 @@
 several Japanese or Chinese characters using animCJK SVG files">
 <link rel="stylesheet" href="_css/withSelector.css" type="text/css">
 <style>
-#container div
+#output
+{
+	list-style-type:none;
+	margin:0;
+	padding:0;
+}
+#output li
 {
 	display:inline-block;
-	width:256px;
-	height:256px;
+	width:16em;
+	height:16em;
 	border:1px solid #ccc;
 	margin:0.125em;
+	padding:0;
 	vertical-align:top;
 }
-#container div:empty:not(:first-of-type)
+#output li:empty:not(:first-of-type)
 {
 	display:none;
 }
-#container svg
+#output svg
 {
 	display:block;
 }
@@ -33,13 +40,12 @@ several Japanese or Chinese characters using animCJK SVG files">
 <a href="https://github.com/parsimonhi/animCJK"><span>Download</span></a>
 <a href="./"><span>Sample selector</span></a>
 </nav>
-<div class="langSelector"></div>
-<div class="charSelector"></div>
+<fieldset class="langSelector"></fieldset>
+<fieldset class="dataSelector"></fieldset>
 <p>Add some characters (up to 5) in the input field above
 or click on some characters in the bottom list.</p>
-<div id="container">
-</div>
-<div class="charListSelector"></div>
+<ul id="output"></ul>
+<fieldset class="charListSelector"></fieldset>
 <footer>
 <nav class="link">
 <a href="#"><span>Top</span></a>
@@ -49,11 +55,10 @@ or click on some characters in the bottom list.</p>
 </footer>
 <script>
 let ready,store;
-function getRadioValue(name)
+function getLangAcjk()
 {
-	let list=document.querySelectorAll('[name="'+name+'"]');
-	for(k=0;k<list.length;k++) if(list[k].checked) return list[k].value;
-	return "Ja";
+	let e=document.querySelector('[name="lang"]:checked');
+	return e?e.value:"Ja";
 }
 function cleanStore()
 {
@@ -80,22 +85,22 @@ function run(s,dec,n,kmax)
 		cleanStore();
 		for(let k=0;k<kmax;k++)
 		{
-			let e=document.querySelector('#container div:nth-of-type('+(k+1)+')');
+			let e=document.querySelector('#output li:nth-of-type('+(k+1)+')');
 			e.innerHTML=store[k];
 		}
-		list=document.querySelectorAll('#container path[clip-path]');
+		list=document.querySelectorAll('#output path[clip-path]');
 		for(let k=0;k<list.length;k++)
 			list[k].setAttribute("style","--d:"+(k+1)+"s;");
 	}
 }
 function doIt()
 {
-  	let e=document.querySelector('[name="char"]'),s=e.value;
+  	let e=document.querySelector('[name="data"]'),s=e.value;
 	for(let k=1;k<=5;k++)
-		document.querySelector('#container div:nth-of-type('+k+')').innerHTML="";
+		document.querySelector('#output li:nth-of-type('+k+')').innerHTML="";
 	if(s)
 	{
-		let lang=getRadioValue("lang"),k,kmax;
+		let lang=getLangAcjk(),k,kmax;
 		s=s.replace(/^(.....)(.*)$/,"$1"); // max 5 chars
 		e.value=s;
 		k=0;
@@ -124,8 +129,8 @@ function doIt()
 	}
 }
 window.addEventListener("load",function(){
-	let c=document.getElementById("container");
-	for(let k=0;k<5;k++) c.appendChild(document.createElement("div"));
+	let c=document.getElementById("output");
+	for(let k=0;k<5;k++) c.appendChild(document.createElement("li"));
 });
 </script>
 <script src="_js/selectorAcjk.js"></script>
