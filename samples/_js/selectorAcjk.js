@@ -110,18 +110,20 @@
 				&&p.querySelector('[lang="zh-Hans"]')&&p.querySelector('[lang="zh-Hant"]'))
 				afterAddingChartSelector();
 	}
+	function addCharListSelectors(p,r)
+	{
+		// all in one
+		for(let s of r) addCharListSelector(p,s.r,s.lang);
+	}
 	if(langSelector) addLangSelector(langSelector);
 	if(dataSelector) addCharSelector(dataSelector);
 	if(charListSelector)
 	{
 		let url=new URL(document.currentScript.src),
 			path=url.pathname.replace("_js/selectorAcjk.js","")+'_php/';
-		for(let b of ["Ja","Ko","ZhHans","ZhHant"])
-		{
-			let options={method:"POST",body:JSON.stringify({s:b,map:map})};
-			fetch(path+'fetchCharList.php',options)
-			.then(r=>r.json())
-			.then(r=>addCharListSelector(charListSelector,r,b));
-		}
+		let options={method:"POST",body:JSON.stringify({s:"all",map:map})};
+		fetch(path+'fetchCharList.php',options)
+		.then(r=>r.json())
+		.then(r=>addCharListSelectors(charListSelector,r));
 	}
 })();

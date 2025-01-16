@@ -1,4 +1,5 @@
 <?php
+header("Content-type:application/json;charset=utf-8");
 include_once __DIR__."/encoding.php";
 include_once __DIR__."/getCharList.php";
 $input=json_decode(file_get_contents('php://input'),true);
@@ -14,7 +15,6 @@ else
 	$map["ZhHans"]=[];
 	$map["ZhHant"]=[];
 }
-$s="";
 function makeTitle($s)
 {
 	if($s=="hiragana") return "Hiragana";
@@ -78,9 +78,10 @@ function makeTitle($s)
 	if($s=="stroke") return "Strokes";
 	return "";
 }
-if($set=="Ja"||$set=="Ko"||$set=="ZhHans"||$set=="ZhHant")
+function getOnelangSet($set)
 {
-	$s.="[";
+	global $map;
+	$s="[";
 	$first=true;
 	foreach($map[$set] as $b)
 	{
@@ -96,13 +97,35 @@ if($set=="Ja"||$set=="Ko"||$set=="ZhHans"||$set=="ZhHant")
 		}
 	}
 	$s.="]";
+	return $s;
 }
+if($set=="all")
+{
+	$r="[";
+	$lang="Ja";
+	$s=getOnelangSet($lang);
+	$r.="{\"lang\":\"".$lang."\",\"r\":".$s."}";
+	$lang="Ko";
+	$s=getOnelangSet($lang);
+	$r.=",{\"lang\":\"".$lang."\",\"r\":".$s."}";
+	$lang="ZhHans";
+	$s=getOnelangSet($lang);
+	$r.=",{\"lang\":\"".$lang."\",\"r\":".$s."}";
+	$lang="ZhHant";
+	$s=getOnelangSet($lang);
+	$r.=",{\"lang\":\"".$lang."\",\"r\":".$s."}";
+	$r.="]";
+	echo $r;
+}
+else if($set=="Ja"||$set=="Ko"||$set=="ZhHans"||$set=="ZhHant")
+	echo getOnelangSet($set);
 else
 {
-	$s.="[{";
+	$s="[{";
 	$s.="\"title\":\"\",\"chars\":\"";
 	$s.=getCharList($set);
 	$s.="\"}]";
+	echo $s;
 }
-echo $s;
+
 ?>
