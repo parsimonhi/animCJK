@@ -195,6 +195,9 @@ We used various sources to cross-check our data. In particular:
 
 ## What is new?
 
+2025/01/17
+- improve in svgsZhHant: 𡻕嵗
+
 2025/01/16
 - numerous scripts changes
 - change svgsKana to svgsJaKana
