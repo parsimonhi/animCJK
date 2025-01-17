@@ -20,7 +20,7 @@ body
 {
 	font-family:sans-serif;
 	background:#fff;
-	margin:0;
+	margin:1rem;
 	padding:0;
 }
 :focus-visible
@@ -29,28 +29,25 @@ body
 	outline-offset:1px;
 }
 a {color:#000;}
-a {display:inline-block;margin:0.25em;padding:0.25em;}
+a {display:inline-block;margin:0.25rem;padding:0.25rem;}
 h1,nav,fieldset,#a {text-align:center;}
-h2,h3 {margin:0;padding:0.5em;}
-nav {margin:0.5em 0;}
+nav {margin:0.5rem 0;}
 h2
 {
-	height:1.2em;
-	line-height:1.2em;
-	margin:0.5rem 1rem ;
+	margin:0.5rem 0;
 	border-left:0.5rem solid #c00;
+	padding:0 0 0 0.75rem;
 }
 summary
 {
-	margin-left:1rem;
+	margin:0;
+	padding:0;
 }
 h3
 {
-	display:inline-block;
-	position:relative;
-	height:1.2em;
-	line-height:1.2em;
-	margin:0.25rem 0;
+	display:inline;
+	margin:0;
+	padding:0.5rem;
 }
 .important {color:#000;}
 .very-important {color:#c00;}
@@ -81,14 +78,14 @@ body:has([name="section"][value="Ja"]:checked) #jaSection {display:block;}
 body:has([name="section"][value="Ko"]:checked) #koSection {display:block;}
 body:has([name="section"][value="ZhHans"]:checked) #zhHansSection {display:block;}
 body:has([name="section"][value="ZhHant"]:checked) #zhHantSection {display:block;}
-section.description p {margin:1em 1rem;}
+section.description p {margin:1rem 1rem;}
 .charList
 {
 	cursor:pointer;
 	letter-spacing:0.25rem;
 	color:#000;
-	padding:0.5em;
-	margin:0.25em 1rem;
+	padding:0.5rem;
+	margin:0.25rem 1rem;
 	font-size:2rem;
 	border:1px solid #ccc;
 	text-align:left;
@@ -98,10 +95,10 @@ section.description p {margin:1em 1rem;}
 {
 	display:block;
 	text-align:center;
-	width:8em;
-	font-size:2em;
-	height:1.5em;
-	line-height:1.5em;
+	width:8rem;
+	font-size:2rem;
+	height:3rem;
+	line-height:3rem;
 	margin:0 auto;
 	padding:0;
 	border:1px solid #0003;
@@ -110,36 +107,38 @@ section.description p {margin:1em 1rem;}
 {
 	-webkit-appearance:none;
 	appearance:none;
-	margin-top:0.5em;
-	padding:0 0.5em;
-	font-size:2em;
-	height:1.75em;
-	line-height:1.75em;
+	margin-top:0.5rem;
+	padding:0 0.5rem;
+	font-size:2rem;
+	height:3.5rem;
+	line-height:3.5rem;
 	border:0;
 	background:#c00;
 	color:#fff;
-	border-radius:0.5em;
+	border-radius:0.5rem;
 }
 button:hover {cursor:pointer;}
-fieldset {border:0;margin:0.5em;padding:0;}
-label {display:inline-block;margin:0 0.5em;white-space:nowrap;}
+fieldset {border:0;margin:0.5rem;padding:0;}
+label {display:inline-block;margin:0 0.5rem;white-space:nowrap;}
 input[type="radio"],
-input[type="checkbox"] {margin:0 0.25em;}
+input[type="checkbox"] {margin:0 0.25rem;}
 
-#output, #output li, #output dl, #output dt, #output dd
-{
-	margin:0;
-	padding:0;
-}
 #output
 {
 	list-style-type:none;
-	display:grid;
-	grid-template-columns:repeat(auto-fit,calc(var(--size) + 2px));
-	grid-gap:0.25rem;
-	justify-content:center;
-	align-content:flex-start;
-	padding:0.5em 0;
+	margin:0;
+	padding:0.5rem 0;
+}
+#output li
+{
+	max-width:calc(var(--size) + 2px);
+	margin:0.5rem auto;
+	padding:0;
+}
+#output dl, #output dt, #output dd
+{
+	margin:0;
+	padding:0;
 }
 #output svg
 {
@@ -165,12 +164,12 @@ body:has([name="dico"]:checked) #output dl
 	overflow:auto;
 	margin:0;
 	padding:0;
-	line-height:1.5em;
+	line-height:1.5rem;
 }
 body:has([name="dico"]:checked) #output dt:not(:first-of-type)
 {
 	float:left;
-	margin-right:0.25em;
+	margin-right:0.25rem;
 }
 body:has([name="dico"]:checked) #output dt:not(:first-of-type)::after
 {
