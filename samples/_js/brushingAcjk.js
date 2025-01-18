@@ -189,14 +189,14 @@ function isNodesElsewhere(target,id1,x1,y1,x2,y2)
 	var list=target.querySelectorAll("svg.acjk path[id]");
 	var k,km,n1,m1,n2,m2,id2,d,q1,q2;
 	n1=id1.replace(/^(z[0-9-]+)d[0-9abcd]+$/,"$1");
-	m1=id1.replace(/^z[0-9-]+d([0-9abcd]+)$/,"$1");
+	m1=id1.replace(/^z[0-9-]+d([0-9]+)[abcd]?$/,"$1");
 	km=list.length;
 	if (debug) debug(id1+" in isNodesElsewhere<br>",1);
 	for (k=0;k<km;k++)
 	{
 		id2=list[k].getAttribute("id");
 		n2=id2.replace(/^(z[0-9-]+)d[0-9abcd]+$/,"$1");
-		m2=id2.replace(/^z[0-9-]+d([0-9abcd]+)$/,"$1");
+		m2=id2.replace(/^z[0-9-]+d([0-9]+)[abcd]?$/,"$1");
 		if ((n1==n2)&&(m1!=m2)) // same character, different stroke
 		{
 			d=list[k].getAttribute("d");
@@ -219,14 +219,14 @@ function isSegmentElsewhere(target,id1,x1,y1,x2,y2)
 	var list=target.querySelectorAll("svg.acjk path[id]");
 	var k,km,n1,m1,n2,m2,id2,d,q;
 	n1=id1.replace(/^(z[0-9-]+)d[0-9abcd]+$/,"$1");
-	m1=id1.replace(/^z[0-9-]+d([0-9abcd]+)$/,"$1");
+	m1=id1.replace(/^z[0-9-]+d([0-9]+)[abcd]?$/,"$1");
 	km=list.length;
 	for (k=0;k<km;k++)
 	{
 		id2=list[k].getAttribute("id");
 		n2=id2.replace(/^(z[0-9-]+)d[0-9abcd]+$/,"$1");
-		m2=id2.replace(/^z[0-9-]+d([0-9abcd]+)$/,"$1");
-		if ((n1==n2)&&(m1!=m2)) // same character, different stroke
+		m2=id2.replace(/^z[0-9-]+d([0-9]+)[abcd]?$/,"$1");
+		if ((n1==n2)&&(m1!=m2)) // same character, different strokes
 		{
 			d=list[k].getAttribute("d");
 			q=new RegExp(x1+" "+y1+'(L|(Q[0-9-]+ [0-9-]+ )|(C[0-9-]+ [0-9-]+ [0-9-]+ [0-9-]+ ))'+x2+" "+y2);
@@ -257,15 +257,18 @@ function whichSegmentElsewhere(target,id1,x1,y1,x2,y2)
 	var list=target.querySelectorAll("svg.acjk path[id]");
 	var k,km,n1,m1,n2,m2,id2,d,q,k1,k2,k3,ktot,delta,ratio;
 	n1=id1.replace(/^(z[0-9-]+)d[0-9abcd]+$/,"$1");
-	m1=id1.replace(/^z[0-9-]+d([0-9abcd]+)$/,"$1");
+	m1=id1.replace(/^z[0-9-]+d([0-9]+)[abcd]$/,"$1");
 	km=list.length;
 	for (k=0;k<km;k++)
 	{
 		id2=list[k].getAttribute("id");
 		n2=id2.replace(/^(z[0-9-]+)d[0-9abcd]+$/,"$1");
-		m2=id2.replace(/^z[0-9-]+d([0-9abcd]+)$/,"$1");
-		if ((n1==n2)&&(m1!=m2)) // same character, different stroke
+		m2=id2.replace(/^z[0-9-]+d([0-9]+)[abcd]$/,"$1");
+		if ((n1==n2)&&(m1!=m2))
 		{
+			// same character, different stroke
+			// two special sibling strokes are considered as one stroke
+			// no brush for the clip between them
 			if (((k1=isPointInStroke(list[k],x1,y1))>=0)&&((k2=isPointInStroke(list[k],x2,y2))>=0))
 			{
 				ktot=list[k].getTotalLengthForAcjk();

@@ -101,6 +101,7 @@ function getOnelangSet($set)
 }
 if($set=="all")
 {
+	// do not mix characters of different languages
 	$r="[";
 	$lang="Ja";
 	$s=getOnelangSet($lang);

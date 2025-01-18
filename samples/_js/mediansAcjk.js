@@ -16,7 +16,6 @@ Array.prototype.unique=function()
                 a.splice(j--, 1);
         }
     }
-
     return a;
 };
 // one and only one global variable: acjkm
@@ -831,7 +830,13 @@ acjkm.buildSvg2=function(a,n)
 	s="<svg id=\""+id+"\" version=\"1.1\" "+width+" "+height+" "+viewBox+" "+xmlns+">\n";
 	s+="<g transform=\"scale(1,-1) translate(0,-900)\">\n";
 	s+="\t<defs>\n";
-	s+="\t\t<path shape-rendering=\"optimizeSpeed\" id=\""+id+"-def-"+n+"\" d=\""+a.strokes[n]+"\"/>\n";
+	let stroke="",medianStr=a.medians[n].toString();
+	// if special, just merge stroke definitions in case of special sibling strokes
+	// remember sibling strokes have the same medians
+	// do the merge only in the canvas to have a convenient mask for computation
+	for(let k=0;k<a.medians.length;k++)
+		if(a.medians[k].toString()==medianStr) stroke+=a.strokes[k];
+	s+="\t\t<path shape-rendering=\"optimizeSpeed\" id=\""+id+"-def-"+n+"\" d=\""+stroke+"\"/>\n";
 	s+="\t</defs>\n";
 	s+="\t<use xlink:href=\"#"+id+"-def-"+n+"\"/>\n";
 	s+="</g>\n";

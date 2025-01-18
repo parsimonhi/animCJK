@@ -112,7 +112,7 @@
 	}
 	function addCharListSelectors(p,r)
 	{
-		// all in one
+		// all in one, multilang
 		for(let s of r) addCharListSelector(p,s.r,s.lang);
 	}
 	if(langSelector) addLangSelector(langSelector);

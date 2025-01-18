@@ -195,6 +195,13 @@ We used various sources to cross-check our data. In particular:
 
 ## What is new?
 
+2025/01/18
+- add to svgsZhHansSpecial: 矗
+- improve in svgsJa: 七
+- improve in svgsKo: 七
+- improve in svgsZhHans: 七
+- improve scripts
+
 2025/01/17
 - improve in svgsZhHant: 𡻕嵗
 
