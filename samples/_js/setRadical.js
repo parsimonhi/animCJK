@@ -3,7 +3,7 @@
 // the tag should be a descendant of the svg parent or grandParent
 // the tag should have a acjkDecomposition or acjksDecomposition class
 // the tag should be the first to have such a class in the svg parent or grandParent
-function setRadical(x)
+function setRadical(x,c1="#f90",c2="#06f")
 {
 	let svgs=document.querySelectorAll('svg.acjk');
 	for(let i=0;i<svgs.length;i++)
@@ -30,14 +30,14 @@ function setRadical(x)
 			if(a[0]==".")
 			{
 				// special cas: the character is a radical
-				for(let j=0;j<medians.length;j++) medians[j].style.stroke="#fa0";
+				for(let j=0;j<medians.length;j++) medians[j].style.stroke=c1;
 			}
 			else for(let b of a)
 			{
 				let p=b.match(/\./),km=-(-b.replace(".",""));
 				for(let k=0;k<km;k++)
-					if(p) medians[k+n].style.stroke="#fa0";
-					else medians[k+n].style.stroke="#00f";
+					if(p) medians[k+n].style.stroke=c1;
+					else medians[k+n].style.stroke=c2;
 				n+=km;
 			}
 		}
