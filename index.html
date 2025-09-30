@@ -443,7 +443,7 @@ function createItems(j)
 	let ul=document.getElementById("output"),d0=0;
 	for(let k=0;k<j.length;k++)
 	{
-		let svg=j[k].svg,dico,dicoLine;
+		let svg=j[k].svg,dico,li;
 		dico="<dl>"+buildDicoContent(j[k])+"</dl>";
 		svg=svg.replace(/<svg/,"<svg style=\"--d0:"+d0+"s;\"");
 		svg=svg.replace(/(z[0-9]+)/g,"$1"+"-"+(k+1));
@@ -460,7 +460,7 @@ function createOne(c,lang,dec,svg)
 	let r={character:c};
 	let ul=document.getElementById("output");
 	let li=document.createElement("li");
-	let dico=buildDicoContent(r);
+	let dico="<dl>"+buildDicoContent(r)+"</dl>";
 	li.innerHTML=svg+dico;
 	ul.append(li);
 	setNumbers(document.querySelector('[name="numbers"]').checked);
