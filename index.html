@@ -455,11 +455,13 @@ function createItems(j)
 	setNumbers(document.querySelector('[name="numbers"]').checked);
 	ul.scrollIntoView({block:"nearest"});
 }
-function createOne(c,lang,dec,s)
+function createOne(c,lang,dec,svg)
 {
+	let r={character:c};
 	let ul=document.getElementById("output");
 	let li=document.createElement("li");
-	li.innerHTML=s;
+	let dico=buildDicoContent(r);
+	li.innerHTML=svg+dico;
 	ul.append(li);
 	setNumbers(document.querySelector('[name="numbers"]').checked);
 	ul.scrollIntoView({block:"nearest"});
