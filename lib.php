@@ -1,7 +1,6 @@
 <?php
 include_once __DIR__."/samples/_php/encoding.php";
 include_once __DIR__."/samples/_php/unicode.php";
-include_once __DIR__."/samples/_php/convertKana.php";
 
 if( !function_exists('mb_str_split')){
 	// some old php do not have it
