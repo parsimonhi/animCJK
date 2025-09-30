@@ -481,8 +481,10 @@ function ok()
 	c=e.value;
 	if(c)
 	{
+		let kana;
 		dec=c.codePointAt(0);
-		fetch('svgs'+capitalize(lang)+"/"+dec+".svg")
+		kana=(lang=="ja")&&(dec>=12353)&&(dec<=12540);
+		fetch('svgs'+capitalize(lang)+(kana?"Kana":"")+"/"+dec+".svg")
 		.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
 		.then(s=>{createOne(c,lang,dec,s);return true;})
 		.catch(e=>{console.log(e);b.innerHTML=e;});
