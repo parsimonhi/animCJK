@@ -438,26 +438,21 @@ function buildDicoContent(r)
 	if(Object.hasOwn(r,"acjks")) dico+="<dt>Acjks</dt><dd class=\"acjksDecomposition\">"+r.acjks+"</dd>";
 	return dico;
 }
-function createItems(j)
+function capitalize(s)
 {
-	let ul=document.getElementById("output"),d0=0;
-	for(let k=0;k<j.length;k++)
-	{
-		let svg=j[k].svg,dico,li;
-		dico="<dl>"+buildDicoContent(j[k])+"</dl>";
-		svg=svg.replace(/<svg/,"<svg style=\"--d0:"+d0+"s;\"");
-		svg=svg.replace(/(z[0-9]+)/g,"$1"+"-"+(k+1));
-		d0+=(svg.match(/id="z[0-9-]+d[0-9]+a?"/g)||[]).length;
-		li=document.createElement("li");
-		li.innerHTML=svg+dico;
-		ul.append(li);
-	}
-	setNumbers(document.querySelector('[name="numbers"]').checked);
-	ul.scrollIntoView({block:"nearest"});
+	return s.charAt(0).toUpperCase()+s.slice(1);
 }
-function createOne(c,lang,dec,svg)
+function getOneFromDico(c,j)
 {
-	let r={character:c};
+	let re=new RegExp("^[^£]*(\\{\"character\":\""+c+"\"[^}]+\\})[^£]*$","u");
+	let jj=j.replace(re,"$1");
+	console.log(re);
+	console.log(jj);
+	return JSON.parse(jj);
+}
+function afterOk2(c,lang,dec,svg,j)
+{
+	let r=getOneFromDico(c,j);
 	let ul=document.getElementById("output");
 	let li=document.createElement("li");
 	let dico="<dl>"+buildDicoContent(r)+"</dl>";
@@ -466,9 +461,13 @@ function createOne(c,lang,dec,svg)
 	setNumbers(document.querySelector('[name="numbers"]').checked);
 	ul.scrollIntoView({block:"nearest"});
 }
-function capitalize(s)
+function afterOk(c,lang,dec,svg,kana)
 {
-	return s.charAt(0).toUpperCase()+s.slice(1);
+	if(kana) afterOk2(c,lang,dec,svg,"{\"character\":\""+c+"\"}");
+	else fetch('dictionary'+capitalize(lang)+".txt")
+		.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
+		.then(j=>{afterOk2(c,lang,dec,svg,j);return true;})
+		.catch(e=>{console.log(e)});
 }
 function ok()
 {
@@ -486,7 +485,7 @@ function ok()
 		kana=(lang=="ja")&&(dec>=12353)&&(dec<=12540);
 		fetch('svgs'+capitalize(lang)+(kana?"Kana":"")+"/"+dec+".svg")
 		.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
-		.then(s=>{createOne(c,lang,dec,s);return true;})
+		.then(s=>{afterOk(c,lang,dec,s,kana);return true;})
 		.catch(e=>{console.log(e);b.innerHTML=e;});
 	}
 }
