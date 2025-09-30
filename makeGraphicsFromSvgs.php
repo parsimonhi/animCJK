@@ -16,7 +16,7 @@ Note: the server must be "localhost" or the server specified as value of $myServ
 -->
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="initial-scale=1.0,user-scalable=yes">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <style>
 body {font-family:sans-serif;}
 footer a {text-align:center;color:#000;}

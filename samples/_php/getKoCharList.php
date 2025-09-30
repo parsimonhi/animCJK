@@ -112,7 +112,8 @@ function getHanja1800bCharList()
 }
 function getUncommonHanjaCharList()
 {
-	$a="丨丶丿亅亠儿冂冖冫几";
+	$a="丨丶丿亅亠儿冂冖冫几厂广";
+	$a.="々〇";
 	return $a;
 }
 function getHanjaComponentsCharList()

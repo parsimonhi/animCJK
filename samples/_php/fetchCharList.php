@@ -70,10 +70,11 @@ function makeTitle($s)
 	if($s=="t37") return "HSK v3 level 7, traditional hanzi";
 	if($s=="t38") return "HSK v3 level 8, traditional hanzi";
 	if($s=="t39") return "HSK v3 level 9, traditional hanzi";
-	if($s=="taiwan4808") return "Taiwan 4808 common traditional hanzi";
-	if($s=="tu") return "Other traditional hanzi";
+	if($s=="taiwan4808") return "Taiwan 4808 traditional hanzi";
+	if($s=="t3NotTaiwan4808") return "HSK v3 traditional hanzi not in Taiwan 4808";
+	if($s=="taiwan4808NotT3") return "Taiwan 4808 traditional hanzi not in HSK v3";
+	if($s=="tu") return "Uncommon traditional hanzi";
 	if($s=="tc") return "Components";
-	if($s=="more") return "More";
 	if($s=="radicals") return "The 214 radicals";
 	if($s=="stroke") return "Strokes";
 	return "";

@@ -48,7 +48,7 @@ function getLengthAtNode(e,p,sign)
 			z=z>>1;
 		}
 	}
-	if (debug) debug("in getLengthAtNode id="+e.id+" k="+k+"<br>",1);
+	if (debug) debug("in getLengthAtNode id="+e.id+" k="+k,1);
 	return k;
 }
 function getAnotherPointOnPath(eBrush,p1,sign)
@@ -68,7 +68,7 @@ function getAnotherPointOnPath(eBrush,p1,sign)
 	}
 	p2.x=Math.round(p2.x);
 	p2.y=Math.round(p2.y);
-	if (debug) debug("getAnotherPointOnPath x1="+p1.x+" y1="+p1.y+" k="+Math.round(k)+" len="+len+" x2="+p2.x+" y2="+p2.y+"<br>",1);
+	if (debug) debug("getAnotherPointOnPath x1="+p1.x+" y1="+p1.y+" k="+Math.round(k)+" len="+len+" x2="+p2.x+" y2="+p2.y,1);
 	return p2;
 }
 function cleanPathBeforeBrushing(d)
@@ -125,7 +125,7 @@ function isNodeInStroke(e,x,y)
 function isPointInStroke(e,x,y)
 {
 	// rarely used
-	if (debug) debug("in isPointInStroke "+x+" "+y+" in "+e.getAttribute("id")+"<br>",1);
+	if (debug) debug("in isPointInStroke "+x+" "+y+" in "+e.getAttribute("id"),1);
 	var len=e.getTotalLengthForAcjk();
 	var k,p,z=3;
 	x=parseInt(x);
@@ -135,7 +135,7 @@ function isPointInStroke(e,x,y)
 		p=e.getPointAtLengthForAcjk(k);
 		if ((x>(p.x-z))&&(x<(p.x+z))&&(y>(p.y-z))&&(y<(p.y+z)))
 		{
-			if (debug) debug("in isPointInStroke, found "+x+" "+y+" at "+k+" in "+e.getAttribute("id")+"<br>",1);
+			if (debug) debug("in isPointInStroke, found "+x+" "+y+" at "+k+" in "+e.getAttribute("id"),1);
 			return k;
 		}
 	}
@@ -191,7 +191,7 @@ function isNodesElsewhere(target,id1,x1,y1,x2,y2)
 	n1=id1.replace(/^(z[0-9-]+)d[0-9abcd]+$/,"$1");
 	m1=id1.replace(/^z[0-9-]+d([0-9]+)[abcd]?$/,"$1");
 	km=list.length;
-	if (debug) debug(id1+" in isNodesElsewhere<br>",1);
+	if (debug) debug(id1+" in isNodesElsewhere",1);
 	for (k=0;k<km;k++)
 	{
 		id2=list[k].getAttribute("id");
@@ -204,12 +204,12 @@ function isNodesElsewhere(target,id1,x1,y1,x2,y2)
 			q2=new RegExp(x2+" "+y2+"(L|(Q[0-9-]+ [0-9-]+ )|(C[0-9-]+ [0-9-]+ [0-9-]+ [0-9-]+ ))");
 			if (d.match(q1)&&d.match(q2))
 			{
-				if (debug) debug(id1+" Nodes elsewhere found in "+id2+"<br>",1);
+				if (debug) debug(id1+" Nodes elsewhere found in "+id2,1);
 				return 1;
 			}
 		}
 	}
-	if (debug) debug(id1+" Nodes elsewhere not found<br>",1);
+	if (debug) debug(id1+" Nodes elsewhere not found",1);
 	return 0;
 }
 function isSegmentElsewhere(target,id1,x1,y1,x2,y2)
@@ -245,12 +245,12 @@ function whichSegmentElsewhere(target,id1,x1,y1,x2,y2)
 	// return 2 if clip
 	if (isSegmentElsewhere(target,id1,x1,y1,x2,y2))
 	{
-		if (debug) debug(id1+" Segment elsewhere "+x1+" "+y1+" "+x2+" "+y2+"<br>",1);
+		if (debug) debug(id1+" Segment elsewhere "+x1+" "+y1+" "+x2+" "+y2,1);
 		return 2; // (x1,y1) and (x2,y2) are adjacent nodes => clip
 	}
 	else if (isNodesElsewhere(target,id1,x1,y1,x2,y2))
 	{
-		if (debug) debug(id1+" Nodes elsewhere "+x1+" "+y1+" "+x2+" "+y2+"<br>",1);
+		if (debug) debug(id1+" Nodes elsewhere "+x1+" "+y1+" "+x2+" "+y2,1);
 		return 1; // (x1,y1) and (x2,y2) are not adjacent => bridge
 	}
 	// one of the two nodes not found, thus look for points
@@ -280,7 +280,7 @@ function whichSegmentElsewhere(target,id1,x1,y1,x2,y2)
 				// a big ratio indicates that (x1,y1) and (x2,y2) are not closed together
 				// thus probable bridge thus return 1
 				// otherwise probable clip thus return 2
-				if (debug) debug(id1+" whichSegmentElsewhere "+k1+" "+k2+" "+ktot+" "+delta+" "+ratio+"<br>",1);
+				if (debug) debug(id1+" whichSegmentElsewhere "+k1+" "+k2+" "+ktot+" "+delta+" "+ratio,1);
 				if (delta<3) return 0;
 				if (ratio>0.25) return 1;
 				return 2;
@@ -294,7 +294,7 @@ function isFlat(x0,y0,x1,y1,x4,y4,x5,y5,am)
 	var a1,a2;
 	a1=getAngle(x0,y0,x1,y1,x4,y4);
 	a2=getAngle(x1,y1,x4,y4,x5,y5);
-	if (debug) debug("in isFlat x1="+x1+" y1="+y1+" x4="+x4+" y4="+y4+" a1="+Math.round(a1)+" a2="+Math.round(a2)+"<br>",1);
+	if (debug) debug("in isFlat x1="+x1+" y1="+y1+" x4="+x4+" y4="+y4+" a1="+Math.round(a1)+" a2="+Math.round(a2),1);
 	return (a1>am)&&(a2>am);
 }
 function isHalfFlat(x0,y0,x1,y1,x4,y4,x5,y5,am)
@@ -302,7 +302,7 @@ function isHalfFlat(x0,y0,x1,y1,x4,y4,x5,y5,am)
 	var a1,a2;
 	a1=getAngle(x0,y0,x1,y1,x4,y4);
 	a2=getAngle(x1,y1,x4,y4,x5,y5);
-	if (debug) debug("in isHalfFlat "+Math.round(a1)+" "+Math.round(a2)+"<br>",1);
+	if (debug) debug("in isHalfFlat "+Math.round(a1)+" "+Math.round(a2),1);
 	return (a1>am)||(a2>am);
 }
 function isDoubleClip(target,id,d,x1,y1,x2,y2)
@@ -330,7 +330,7 @@ function strokeBrushing(eBrush)
 	var p0,p3,p5,p8;
 	var segmentElsewhere,doubleClipEffect,hasToCurve;
 	// replace each straight line L by a cubic bezier curve C
-	if (debug) debug("<br>strokeBrushing "+idBrush+" "+dBrush+"<br>",1);
+	if (debug) debug("strokeBrushing "+idBrush+" "+dBrush,1);
 	while (mBrush=dBrush.match(/([0-9-]+) ([0-9-]+)L([0-9-]+) ([0-9-]+)/))
 	{
 			// dSeg is a fraction of the length of L
@@ -355,7 +355,7 @@ function strokeBrushing(eBrush)
 			doubleClipEffect=0;
 			if (!isFlat(x0,y0,x1,y1,x4,y4,x5,y5,165))
 			{
-				if (debug) debug(idBrush+" not flat "+x1+" "+y1+" "+x4+" "+y4+"<br>",1);
+				if (debug) debug(idBrush+" not flat "+x1+" "+y1+" "+x4+" "+y4,1);
 				segmentElsewhere=whichSegmentElsewhere(target,idBrush,x1,y1,x4,y4);
 				if ((segmentElsewhere==2)
 					&&(mBrush2=isDoubleClip(target,idBrush,dBrush,x1,y1,x4,y4)))
@@ -369,7 +369,7 @@ function strokeBrushing(eBrush)
 					p8=getAnotherPointOnPath(eBrush,{x:x7,y:y7},"+");
 					x8=Math.round(p8.x);
 					y8=Math.round(p8.y);
-					if (debug) debug(idBrush+" double clip "+x1+" "+y1+" "+x4+" "+y4+" "+x7+" "+y7+"<br>",1);
+					if (debug) debug(idBrush+" double clip "+x1+" "+y1+" "+x4+" "+y4+" "+x7+" "+y7,1);
 					// double clip as in 木
 					// remove the middle node
 					// curve the resulting line
@@ -382,7 +382,7 @@ function strokeBrushing(eBrush)
 					else if ((dSeg1<3)||(dSeg2<3)) doubleClipEffect=0;
 					else doubleClipEffect=1;
 					// remove (x4,y4)
-					if (debug) debug(idBrush+" double clip="+doubleClipEffect+" remove "+x4+" "+y4+"<br>",1);
+					if (debug) debug(idBrush+" double clip="+doubleClipEffect+" remove "+x4+" "+y4,1);
 					qBrush=new RegExp('L'+x4+' '+y4);
 					dBrush=dBrush.replace(qBrush,"");
 					x4ex=x4;
@@ -396,21 +396,21 @@ function strokeBrushing(eBrush)
 				{
 					if (segmentElsewhere==2)
 					{
-						if (debug) debug(idBrush+" single clip "+x1+" "+y1+" "+x4+" "+y4+"<br>",1);
+						if (debug) debug(idBrush+" single clip "+x1+" "+y1+" "+x4+" "+y4,1);
 						// single clip
 						// just curve the line
 						hasToCurve=1;
 					}
 					else if (segmentElsewhere==1)
 					{
-						if (debug) debug(idBrush+" bridge "+x1+" "+y1+" "+x4+" "+y4+"<br>",1);
+						if (debug) debug(idBrush+" bridge "+x1+" "+y1+" "+x4+" "+y4,1);
 						// for instance 2nd stroke of 女 as bottom component (妻委姿...)
 						// just curve the line
 						hasToCurve=1;
 					}
 				}
 			}
-			else if (debug) debug(idBrush+" flat "+x1+" "+y1+" "+x4+" "+y4+"<br>",1);
+			else if (debug) debug(idBrush+" flat "+x1+" "+y1+" "+x4+" "+y4,1);
 			if (hasToCurve)
 			{
 				// replace L by a C
@@ -465,6 +465,6 @@ function strokeBrushing(eBrush)
 			y4=Math.round(y4);
 			dBrush=dBrush.replace(/L([0-9-]+) ([0-9-]+)/,"C"+x2+" "+y2+" "+x3+" "+y3+" "+x4+" "+y4);
 	}
-	if (debug) debug(idBrush+" "+dBrush+"<br>",1);
+	if (debug) debug(idBrush+" "+dBrush,1);
 	return dBrush;
 }

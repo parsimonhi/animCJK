@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="initial-scale=1.0,user-scalable=yes">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="description" content="To draw kana, kanji, jinmeyō Kanji and hanzi
 stroke by stroke using AnimCJK SVG files">
 <?php
@@ -171,6 +171,13 @@ body:has([name="dico"]:checked) #output dt:not(:first-of-type)
 	float:left;
 	margin-right:0.25rem;
 }
+/* need to clear:both (otherwise see for instance what appends with a stroke) */
+body:has([name="dico"]:checked) #output dd::after
+{
+	content:"";
+	clear:both;
+    display:block; 
+}
 body:has([name="dico"]:checked) #output dt:not(:first-of-type)::after
 {
 	content:":";
@@ -208,6 +215,7 @@ body:has([name="xrays"]:checked) svg.acjk path[id] {fill:#6666;}
 
 </style>
 <title>AnimCJK Demo</title>
+<link rel="icon" type="image/svg+xml" href="animCJKIcon.svg">
 </head>
 <body>
 <h1>AnimCJK Demo</h1>
@@ -240,7 +248,7 @@ body:has([name="xrays"]:checked) svg.acjk path[id] {fill:#6666;}
 </datalist>
 </fieldset>
 <fieldset>
-<input autocomplete="off" id="data" lang="ja" type="text" value="" maxlength="23" placeholder="Enter data here">
+<input autocomplete="off" id="data" type="text" value="" maxlength="23" placeholder="Enter data here">
 <p class="important instruction"><span class="very-important">Enter only one character</span> in the data field above or
 <span class="very-important">click on a character</span> in the lists
 at the bottom of the page.</p>
@@ -311,7 +319,7 @@ $q["zhHans"]=[
 $q["zhHant"]=[
 	["t31","HSK v3 level 1, traditional hanzi"],
 	["t32","HSK v3 level 2, traditional hanzi"],
-	//["t33","HSK v3 level 3, traditional hanzi"],
+	["t33","HSK v3 level 3, traditional hanzi"],
 	//["t34","HSK v3 level 4, traditional hanzi"],
 	//["t35","HSK v3 level 5, traditional hanzi"],
 	//["t36","HSK v3 level 6, traditional hanzi"],
@@ -524,7 +532,7 @@ function initNumbers()
 }
 function initXrays()
 {
-	let xrays=(localStorage.getItem("xrays")=="0")?false:true;
+	let xrays=(localStorage.getItem("xrays")=="1")?true:false;
 	document.querySelector('[name="xrays"]').checked=xrays;
 }
 function initSize()

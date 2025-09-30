@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="initial-scale=1.0,user-scalable=yes">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="description" content="Demo to change the speed ot the animation
 of a Japanese or Chinese character displayed with an animCJK svg file">
 <link rel="stylesheet" href="_css/withSelector.css" type="text/css">
@@ -151,7 +151,6 @@ function updateInfo(s)
 {
 	let d=new Date().getFullYear();
 	s=s.replace(/AnimCJK [0-9-]+/,"AnimCJK 2016-"+d);
-	s=s.replace(/Copyright[^-]+-/,"Copyright FM-SH -");
 	return s;
 }
 function run(s)

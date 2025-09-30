@@ -135,7 +135,7 @@ function buildSvg($a)
 	{
 		$k++;
 		$s.="\t<clipPath id=\"".$id."c".$k."\">";
-		$s.="<use xlink:href=\"#".$id."d".$k."\"/>";
+		$s.="<use href=\"#".$id."d".$k."\"/>";
 		$s.="</clipPath>\n";
 	}
 	$s.="</defs>\n";

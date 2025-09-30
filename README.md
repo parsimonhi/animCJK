@@ -14,15 +14,15 @@ For each character, there is one or several svg files in AnimCJK repository that
 
 SVG files are stored in several folders.
 
-The svgsJa folder contains svg files corresponding to the union of the Japanese "jōyō kanji" (2136 characters), the Japanese "jinmeyō Kanji" (863 characters), some Japanese "hyōgai Kanji", components, and the 35 basic strokes. In all, svgsJa folder contains 3718 characters.
+The svgsJa folder contains svg files corresponding to the union of the Japanese "jōyō kanji" (2136 characters), the Japanese "jinmeyō Kanji" (863 characters), some Japanese "hyōgai Kanji", some components, and the 35 basic strokes. In all, svgsJa folder contains 3819 characters.
 
 The svgsKana folder contains svg files corresponding to the Japanese "hiragana" (86 characters) and Japanese "katakana" (91 characters). As a result, svgsKana folder contains 177 characters.
 
-The svgsKo folder contains svg files corresponding to Korean "hanja level 8, 7, 6, 5", some of the level 4, and some other characters. In all, svgsKo folder contains 521 characters.
+The svgsKo folder contains svg files corresponding to Korean "hanja level 8, 7, 6, 5", some of the level 4, and some other characters. In all, svgsKo folder contains 525 characters.
 
-The svgsZhHans folder contains svg files corresponding to Chinese "commonly used simplified hanzi" (7000 characters), and some "uncommon hanzi", "traditional hanzi" (that can appear in a simplified hanzi text), components and the 35 basic strokes. This set includes the "HSK hanzi" (2663 characters) and the "frequently used simplified hanzi" (3500 characters). In all, svgsZhHans folder contains 7522 characters.
+The svgsZhHans folder contains svg files corresponding to Chinese "commonly used simplified hanzi" (7000 characters), some "uncommon hanzi", some "traditional hanzi" (that can appear in a simplified hanzi text), some components and the 35 basic strokes. This set includes the "HSK hanzi" (2663 characters) and the "frequently used simplified hanzi" (3500 characters). In all, svgsZhHans folder contains 7672 characters.
 
-The svgsZhHant folder contains svg files corresponding to Chinese "HSK v3 level 1 and HSK v3 level 2 traditional hanzi" (602 characters) and some other characters. Note that some simplified characters have more than one corresponding traditional character. As a result, svgsZhHant folder contains 764 characters.
+The svgsZhHant folder contains svg files corresponding to Chinese "HSK v3 level 1 to 3 traditional hanzi" (907 characters) and some other characters. Note that some simplified characters have more than one corresponding traditional character. As a result, svgsZhHant folder contains 1013 characters.
 
 Be careful because the characters are not always the same in all languages even when they share the same unicode. For instance 勉 (21193.svg) in Japanese has not the same glyph as 勉 (21193.svg) in Chinese.
 
@@ -180,7 +180,7 @@ We used various sources to cross-check our data. In particular:
 - KanjiVG, http://kanjivg.tagaini.net/viewer.html (Japanese characters, stroke order)
 - ArchChinese, https://www.archchinese.com/chinese_english_dictionary.html (Chinese characters)
 - Qianpian https://zidian.qianp.com/ (Chinese characters)
-- Taiwanese Minister Of Education, https://stroke-order.learningweb.moe.edu.tw/characters.do?lang=en (Chinese characters used in Taiwan)
+- Taiwanese Minister Of Education, https://stroke-order.learningweb.moe.edu.tw (Chinese characters used in Taiwan)
 - Hong-Kong Education Bureau, https://www.edbchinese.hk/lexlist_en/ (Chinese characters used in Hong-Kong)
 - Naver Hanja Dictionary, https://hanja.dict.naver.com/ (Korean characters)
 - Korean Wiki Project， https://www.koreanwikiproject.com/wiki/Category:Hanja_characters (Korean characters displayed using a Korean font in kaisho style)
@@ -194,6 +194,42 @@ We used various sources to cross-check our data. In particular:
 - How SVG Line Animation Works, https://css-tricks.com/svg-line-animation-works/
 
 ## What is new?
+
+2025/09/30
+- remove the version attribute from svg
+- replace the xlink:href attribute by href in svg
+- fix a bug for 鍵 in svgsJa (issue #48)
+- improve in all folders:
+	古格死綠國百見月校水石立兄
+- improve in svgsJaKana:
+	ぬタダほぼぽ
+- improve in svgsJa:
+	傳價優劇升危反某察專 導底廠慶批爪掛極標此 汁冶次准凜凄凋凍填增 墨深湯煙錄雜迷龍藝幣 𦆕弊瞥尙貝盲慎臟誤𢆉
+	菫藍卩田甘磁秤扌戌跡 恋変蛮亦乍暑粦
+- improve in svgsKo:
+	令飮偉傳價少效領淸
+- improve in svgsZhHans:
+	判升危吵某察批爪效極 概此汁渎苜矸乖乘侨仿 俊倘倡倾偿冶次净准减 凑凤凄凋凭凳唉喘嚷嚼 囊咱洎淌灌渐盼渑填墓
+	墙墨壤坡渔够奋迷龍曦 渗渝渤渫熏玻猜娇宾寨 渲渺湃湄湉帜庙弊瞥貝 盲诣瞍悬慎捆插摇掏揪 摔摧撇撕散攀敌湍孩凈
+	髌聰醋估癸湎湔暂榜梳 桥羡层裹哈毫湜榴毯氧 餃𢆉聚溪滑滔滚满滤滥 滩烘烟烤烧烫湝湨眊卩 爱爹牺犁田甘痒盯真睬
+	瞎确碌碰磁秃秆秤輛匀 湮湲溃溅溆秧积稍稠稳 笔简粪粱扌爰宓戍戌澡 弯亦迹乍溇溏粦
+- improve in svgsZhHant:
+	條然據極蘋綠茶麼孩夠 凈態稱臟處哈餃輛
+- add in svgsJa:
+	〇罙⺳𨥫劵𠔉敄熏辯辡 變䜌撥發𭚧玻猜敝㡀廁 拆倡襯做掉肚范抓闖聰 醋貳瘋傅丐跟估刮癸裹 滾哈孩喊毫盒很猴擠迹
+	假餃驕睛荅丵𦰌竟聚靠 哭籃𠅃𦰩𠂎𠂑卪懶倆臉 輛聊兩𠓜𠀉皀㫗賁匀屏 涂孰胥冏聶聑爰襄宓禹 戍兔澡弯𠪚尗鄰蘿麩
+- add in svgsKo:
+	〇厂广々
+- add in svgsZhHans:
+	〇罙⺳𠓜敄㡀凈敎號麵 佔億劃夠廣態涼溫牆確 稱級組臟舉處裝複觀計 討許論週適隊際隨雲順 餃養髒並亂佈偉傳傷僅
+	價儘優內創劇勝勢區圍 團堅壓將專導屬幣廠強 慶掛採斷標橋況湯濟煙 煩營爭狀產眾礎積範紀 約絕緊線繼續義聯職華
+	藝術衛補製規親訂訓訪 設証評誌誤談證豬負責 費資贏趕輸轉農連達鄉 醣錄險雜預頓領類顯驗 麗荅丵𠂎𠂑卪𠀉㫗兽冏
+- add in svgsZhHant:
+	〇丶丿亅亠儿厂广龠並 丰亂互仍付代似佈何保 修值偉傳傷僅價儘優充 光內具刀切初判制創劇 功勝勢區升危及反古另
+	台各否吵命品哈善器困 圍團土基堅增壓失姑娘 媒存宣富察將專導屋展 屬巧布幣幸底廠建式強 形彩待志念性恐慶批技
+	抓拍持指按掛採握播支 效救敢散整斷族景暖曾 朝木材村架某格概標橋 止此武死母民汁沙況洞 派浪消深湯演濟烈煙煩
+	營爭父牌狀產痛眾石破 礎社祝神福程積立章管 範精紀約絕緊線繼續缺 美群義聯職至苦華落藝 血術衛補製規親訂訓訪
+	設証評誌誤談證警象豬 負責費資贏趕輸轉農迷 追退速造連達鄉配醣金 錄防險集雜預頓領類顯 首驗麗麻齊龍菸敌旨
 
 2025/01/18
 - add to svgsZhHansSpecial: 矗

@@ -11,7 +11,7 @@ Note: the server must be "localhost"
 -->
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="initial-scale=1.0,user-scalable=yes">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <style>
 footer a {text-align:center;color:#000;}
 </style>

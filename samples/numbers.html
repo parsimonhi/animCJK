@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="initial-scale=1.0,user-scalable=yes">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="description" content="Demo to add a number on each stroke of
 a Japanese or Chinese character using animCJK svg files">
 <link rel="stylesheet" href="_css/withSelector.css" type="text/css">
@@ -42,7 +42,7 @@ pre
 <fieldset class="langSelector"></fieldset>
 <fieldset class="dataSelector"></fieldset>
 <fieldset class="specificSelector">
-<label>Add numbers: <input type="checkbox" name="numbers"></label>
+<label>Show numbers: <input type="checkbox" name="numbers"></label>
 </fieldset>
 <figure id="a"></figure>
 <details>
@@ -82,7 +82,6 @@ function updateInfo(s)
 {
 	let d=new Date().getFullYear();
 	s=s.replace(/AnimCJK [0-9-]+/,"AnimCJK 2016-"+d);
-	s=s.replace(/Copyright[^-]+-/,"Copyright FM-SH -");
 	return s;
 }
 function run(s)

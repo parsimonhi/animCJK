@@ -141,7 +141,7 @@ acjkm.boardClass.prototype.getMiniLocal=function(nStroke,p,dir)
 	else if (this.isEmpty(x,y-1)) dir2="S";
 	else if (this.isEmpty(x+1,y)) dir2="W";
 	else dir2="N";
-	while ((k<10000)&&(x>xo-delta)&&(y>yo-delta)&&(x<xo+delta)&&(y<yo+delta)&&!((x==xo)&&(y==yo)&&(k>4)))
+	while ((k<99999)&&(x>xo-delta)&&(y>yo-delta)&&(x<xo+delta)&&(y<yo+delta)&&!((x==xo)&&(y==yo)&&(k>4)))
 	{
 		k++;
 		if (!this.isEmpty(x,y))
@@ -170,7 +170,7 @@ acjkm.boardClass.prototype.getMiniLocal=function(nStroke,p,dir)
 	else if (this.isEmpty(x,y-1)) dir2="S";
 	else if (this.isEmpty(x+1,y)) dir2="W";
 	else dir2="N";
-	while ((k<10000)&&(x>xo-delta)&&(y>yo-delta)&&(x<xo+delta)&&(y<yo+delta)&&!((x==xo)&&(y==yo)&&(k>4)))
+	while ((k<99999)&&(x>xo-delta)&&(y>yo-delta)&&(x<xo+delta)&&(y<yo+delta)&&!((x==xo)&&(y==yo)&&(k>4)))
 	{
 		k++;
 		if (!this.isEmpty(x,y))
@@ -327,7 +327,7 @@ acjkm.boardClass.prototype.contour=function(nStroke,xo,yo,wo)
 		else if (this.isEmpty(x,y-1)) dir="S";
 		else if (this.isEmpty(x+1,y)) dir="W";
 		else dir="N";
-		while ((k<10000)&&!((x==xo)&&(y==yo)&&(k>4)))
+		while ((k<99999)&&!((x==xo)&&(y==yo)&&(k>4)))
 		{
 			k++;
 			if (!this.isEmpty(x,y))
@@ -838,7 +838,7 @@ acjkm.buildSvg2=function(a,n)
 		if(a.medians[k].toString()==medianStr) stroke+=a.strokes[k];
 	s+="\t\t<path shape-rendering=\"optimizeSpeed\" id=\""+id+"-def-"+n+"\" d=\""+stroke+"\"/>\n";
 	s+="\t</defs>\n";
-	s+="\t<use xlink:href=\"#"+id+"-def-"+n+"\"/>\n";
+	s+="\t<use href=\"#"+id+"-def-"+n+"\"/>\n";
 	s+="</g>\n";
 	s+="</svg>";
 	p1[0]=Math.round(a.medians[n][0][0]*(acjkm.d/1024));
