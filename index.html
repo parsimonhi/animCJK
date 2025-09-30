@@ -132,6 +132,10 @@ input[type="checkbox"] {margin:0 0.25rem;}
 	margin:0.5rem auto;
 	padding:0;
 }
+#output li.error
+{
+	border:1px solid #0003;
+}
 #output dl, #output dt, #output dd
 {
 	margin:0;
@@ -440,7 +444,6 @@ function buildDicoContent(r)
 }
 function langToDir(lang)
 {
-	console.log(lang);
 	switch(lang)
 	{
 		case "ko":return "Ko";
@@ -466,13 +469,39 @@ function afterOk2(c,lang,dec,svg,j)
 	setNumbers(document.querySelector('[name="numbers"]').checked);
 	ul.scrollIntoView({block:"nearest"});
 }
+function afterError(c,lang,dec)
+{
+	let ul=document.getElementById("output");
+	let li=document.createElement("li");
+	let language;
+	switch(lang)
+	{
+		case "zh-Hans":language="simplified Chinese";break;
+		case "zh-Hant":language="traditional Chinese";break;
+		case "ko":language="Korean";break;
+		default: language="Japanese";
+	}
+	li.classList.add("error");
+	li.innerHTML=c+" not found in "+language+" repository!";
+	ul.append(li);
+	ul.scrollIntoView({block:"nearest"});
+}
+function afterError2(lang)
+{
+	let ul=document.getElementById("output");
+	let li=document.createElement("li");
+	li.classList.add("error");
+	li.innerHTML="Dictionary not found!";
+	ul.append(li);
+	ul.scrollIntoView({block:"nearest"});
+}
 function afterOk(c,lang,dec,svg,kana)
 {
 	if(kana) afterOk2(c,lang,dec,svg,"{\"character\":\""+c+"\"}");
 	else fetch('dictionary'+langToDir(lang)+".txt")
 		.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
 		.then(j=>{afterOk2(c,lang,dec,svg,j);return true;})
-		.catch(e=>{console.log(e)});
+		.catch(e=>{console.log(e);afterError2(lang)});
 }
 function ok()
 {
@@ -491,7 +520,7 @@ function ok()
 		fetch('svgs'+langToDir(lang)+(kana?"Kana":"")+"/"+dec+".svg")
 		.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
 		.then(s=>{afterOk(c,lang,dec,s,kana);return true;})
-		.catch(e=>{console.log(e);b.innerHTML=e;});
+		.catch(e=>{console.log(e);afterError(c,lang,dec)});
 	}
 }
 function doIt(c)
