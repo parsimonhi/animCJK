@@ -455,9 +455,22 @@ function createItems(j)
 	setNumbers(document.querySelector('[name="numbers"]').checked);
 	ul.scrollIntoView({block:"nearest"});
 }
+function createOne(c,lang,dec,s)
+{
+	let ul=document.getElementById("output");
+	let li=document.createElement("li");
+	li.innerHTML=s;
+	ul.append(li);
+	setNumbers(document.querySelector('[name="numbers"]').checked);
+	ul.scrollIntoView({block:"nearest"});
+}
+function capitalize(s)
+{
+	return s.charAt(0).toUpperCase()+s.slice(1);
+}
 function ok()
 {
-	let a,b,c,dec,dir,e,s,lang,options={};
+	let a,b,c,dec,dir,e,s,lang;
 	e=document.getElementById("data");
 	s=document.querySelector('[name="section"]:checked');
 	lang=s?s.getAttribute("data-lang"):"ja";
@@ -467,12 +480,9 @@ function ok()
 	if(c)
 	{
 		dec=c.codePointAt(0);
-		options.cache=1?"reload":"default";
-		options.method="POST";
-		options.body=JSON.stringify({lang:lang,data:[dec]});
-		fetch('samples/_php/fetchData.php',options)
-		.then(r=>{if(!r.ok) throw r.statusText; return r.json();})
-		.then(j=>{createItems(j);return true;})
+		fetch('svgs'+capitalize(lang)+"/"+dec+".svg")
+		.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
+		.then(s=>{createOne(c,lang,dec,s);return true;})
 		.catch(e=>{console.log(e);b.innerHTML=e;});
 	}
 }
