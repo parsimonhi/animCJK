@@ -2,7 +2,6 @@
 header("Content-type:application/json;charset=utf-8");
 include_once __DIR__."/encoding.php";
 include_once __DIR__."/unicode.php";
-include_once __DIR__."/convertKana.php";
 $input=json_decode(file_get_contents('php://input'),true);
 if (isset($input["data"])&&$input["data"]) $data=$input["data"];
 else $data="";
@@ -55,8 +54,6 @@ function getDicoData($dec,$c)
 	if(preg_match("/\{\"character\":\"".$c."\"[^\}]+\}/",$s,$m)) $s=$m[0];
 	else $s="{\"character\":\"".$c."\"}";
 	$o=json_decode($s);
-	if(property_exists($o,"on")) $o->{'on'}=convertJapaneseOn($o->{'on'});
-	if(property_exists($o,"kun")) $o->{'kun'}=convertJapaneseKun($o->{'kun'});
 	return $o;
 }
 $k=0;
