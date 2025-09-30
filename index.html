@@ -438,9 +438,16 @@ function buildDicoContent(r)
 	if(Object.hasOwn(r,"acjks")) dico+="<dt>Acjks</dt><dd class=\"acjksDecomposition\">"+r.acjks+"</dd>";
 	return dico;
 }
-function capitalize(s)
+function langToDir(lang)
 {
-	return s.charAt(0).toUpperCase()+s.slice(1);
+	console.log(lang);
+	switch(lang)
+	{
+		case "ko":return "Ko";
+		case "zh-Hans":return "ZhHans";
+		case "zh-Hant":return "ZhHant";
+		default:return "Ja";
+	}
 }
 function getOneFromDico(c,j)
 {
@@ -462,7 +469,7 @@ function afterOk2(c,lang,dec,svg,j)
 function afterOk(c,lang,dec,svg,kana)
 {
 	if(kana) afterOk2(c,lang,dec,svg,"{\"character\":\""+c+"\"}");
-	else fetch('dictionary'+capitalize(lang)+".txt")
+	else fetch('dictionary'+langToDir(lang)+".txt")
 		.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
 		.then(j=>{afterOk2(c,lang,dec,svg,j);return true;})
 		.catch(e=>{console.log(e)});
@@ -481,7 +488,7 @@ function ok()
 		let kana;
 		dec=c.codePointAt(0);
 		kana=(lang=="ja")&&(dec>=12353)&&(dec<=12540);
-		fetch('svgs'+capitalize(lang)+(kana?"Kana":"")+"/"+dec+".svg")
+		fetch('svgs'+langToDir(lang)+(kana?"Kana":"")+"/"+dec+".svg")
 		.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
 		.then(s=>{afterOk(c,lang,dec,s,kana);return true;})
 		.catch(e=>{console.log(e);b.innerHTML=e;});
