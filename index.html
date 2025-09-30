@@ -446,8 +446,6 @@ function getOneFromDico(c,j)
 {
 	let re=new RegExp("^[^£]*(\\{\"character\":\""+c+"\"[^}]+\\})[^£]*$","u");
 	let jj=j.replace(re,"$1");
-	console.log(re);
-	console.log(jj);
 	return JSON.parse(jj);
 }
 function afterOk2(c,lang,dec,svg,j)
