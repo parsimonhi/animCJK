@@ -417,6 +417,7 @@ foreach(["ja","ko","zhHans","zhHant"] as $section)
 </nav>
 <script src="samples/_js/setNumbersAcjk.js"></script>
 <script>
+dicos={Ja:"",Ko:"",ZhHans:"",ZhHant:""};
 function cleanData(e)
 {
 	// don't use this function as a oninput handler because it disturbs asian language IME
@@ -461,26 +462,72 @@ function buildDicoContent(r)
 	if(Object.hasOwn(r,"acjks")) dico+="<dt>Acjks</dt><dd class=\"acjksDecomposition\">"+r.acjks+"</dd>";
 	return dico;
 }
-function createItems(j)
+function langToDir(lang)
 {
-	let ul=document.getElementById("output"),d0=0;
-	for(let k=0;k<j.length;k++)
+	switch(lang)
 	{
-		let svg=j[k].svg,dico,dicoLine;
-		dico="<dl>"+buildDicoContent(j[k])+"</dl>";
-		svg=svg.replace(/<svg/,"<svg style=\"--d0:"+d0+"s;\"");
-		svg=svg.replace(/(z[0-9]+)/g,"$1"+"-"+(k+1));
-		d0+=(svg.match(/id="z[0-9-]+d[0-9]+a?"/g)||[]).length;
-		li=document.createElement("li");
-		li.innerHTML=svg+dico;
-		ul.append(li);
+		case "ko":return "Ko";
+		case "zh-Hans":return "ZhHans";
+		case "zh-Hant":return "ZhHant";
+		default:return "Ja";
 	}
+}
+function getOneFromDico(c,j)
+{
+	let re=new RegExp("\\{\"character\":\""+c+"\"[^}]+\\}","u");
+	let jj=j.match(re);
+	if(jj) return JSON.parse(jj);
+	return null;
+}
+function afterError(lang)
+{
+	let ul=document.getElementById("output");
+	let li=document.createElement("li");
+	li.classList.add("error");
+	li.innerHTML="Dictionary not found!";
+	ul.append(li);
+	ul.scrollIntoView({block:"nearest"});
+}
+function afterError2(c,lang,dec)
+{
+	let ul=document.getElementById("output");
+	let li=document.createElement("li");
+	let language;
+	switch(lang)
+	{
+		case "zh-Hans":language="simplified Chinese";break;
+		case "zh-Hant":language="traditional Chinese";break;
+		case "ko":language="Korean";break;
+		default: language="Japanese";
+	}
+	li.classList.add("error");
+	li.innerHTML=c+" not found in "+language+" repository!";
+	ul.append(li);
+	ul.scrollIntoView({block:"nearest"});
+}
+function afterOk(c,lang,langLabel,dec,j)
+{
+	let dicoLine=getOneFromDico(c,j);
+	if(dicoLine)
+		fetch('svgs'+langLabel+"/"+dec+".svg")
+		.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
+		.then(s=>{afterOk2(c,lang,dec,s,dicoLine);return true;})
+		.catch(e=>{console.log(e);afterError2(c,lang,dec)});
+	else afterError2(c,lang,dec);
+}
+function afterOk2(c,lang,dec,svg,dicoLine)
+{
+	let ul=document.getElementById("output");
+	let li=document.createElement("li");
+	let cartouche="<dl>"+buildDicoContent(dicoLine)+"</dl>";
+	li.innerHTML=svg+cartouche;
+	ul.append(li);
 	setNumbers(document.querySelector('[name="numbers"]').checked);
 	ul.scrollIntoView({block:"nearest"});
 }
 function ok()
 {
-	let a,b,c,dec,dir,e,s,lang,options={};
+	let c,dec,e,s,lang;
 	e=document.getElementById("data");
 	s=document.querySelector('[name="section"]:checked');
 	lang=s?s.getAttribute("data-lang"):"ja";
@@ -489,14 +536,19 @@ function ok()
 	c=e.value;
 	if(c)
 	{
+		let kana,j,langLabel=langToDir(lang);
 		dec=c.codePointAt(0);
-		options.cache=<?=$loc?>?"reload":"default";
-		options.method="POST";
-		options.body=JSON.stringify({lang:lang,data:[dec]});
-		fetch('samples/_php/fetchData.php',options)
-		.then(r=>{if(!r.ok) throw r.statusText; return r.json();})
-		.then(j=>{createItems(j);return true;})
-		.catch(e=>{console.log(e);b.innerHTML=e;});
+		kana=(lang=="ja")&&(dec>=12353)&&(dec<=12540);
+		if(kana) 
+			fetch('svgs'+langLabel+"Kana/"+dec+".svg")
+			.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
+			.then(s=>{afterOk2(c,lang,dec,s,{character:c});return true;})
+			.catch(e=>{console.log(e);afterError2(c,lang,dec)});
+		else if(j=dicos[langLabel]) afterOk(c,lang,langLabel,dec,j);
+		else fetch('dictionary'+langLabel+".txt")
+			.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
+			.then(j=>{dicos[langLabel]=j;afterOk(c,lang,langLabel,dec,j);return true;})
+			.catch(e=>{console.log(e);afterError(lang)});
 	}
 }
 function doIt(c)

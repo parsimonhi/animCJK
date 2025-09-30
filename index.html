@@ -398,6 +398,7 @@ and "Frequently used hanzi" (3500 characters) are subsets of "Commonly used hanz
 </nav>
 <script src="samples/_js/setNumbersAcjk.js"></script>
 <script>
+dicos={Ja:"",Ko:"",ZhHans:"",ZhHant:""};
 function cleanData(e)
 {
 	// don't use this function as a oninput handler because it disturbs asian language IME
@@ -454,22 +455,21 @@ function langToDir(lang)
 }
 function getOneFromDico(c,j)
 {
-	let re=new RegExp("^[^£]*(\\{\"character\":\""+c+"\"[^}]+\\})[^£]*$","u");
-	let jj=j.replace(re,"$1");
-	return JSON.parse(jj);
+	let re=new RegExp("\\{\"character\":\""+c+"\"[^}]+\\}","u");
+	let jj=j.match(re);
+	if(jj) return JSON.parse(jj);
+	return null;
 }
-function afterOk2(c,lang,dec,svg,j)
+function afterError(lang)
 {
-	let r=getOneFromDico(c,j);
 	let ul=document.getElementById("output");
 	let li=document.createElement("li");
-	let dico="<dl>"+buildDicoContent(r)+"</dl>";
-	li.innerHTML=svg+dico;
+	li.classList.add("error");
+	li.innerHTML="Dictionary not found!";
 	ul.append(li);
-	setNumbers(document.querySelector('[name="numbers"]').checked);
 	ul.scrollIntoView({block:"nearest"});
 }
-function afterError(c,lang,dec)
+function afterError2(c,lang,dec)
 {
 	let ul=document.getElementById("output");
 	let li=document.createElement("li");
@@ -486,26 +486,29 @@ function afterError(c,lang,dec)
 	ul.append(li);
 	ul.scrollIntoView({block:"nearest"});
 }
-function afterError2(lang)
+function afterOk(c,lang,langLabel,dec,j)
+{
+	let dicoLine=getOneFromDico(c,j);
+	if(dicoLine)
+		fetch('svgs'+langLabel+"/"+dec+".svg")
+		.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
+		.then(s=>{afterOk2(c,lang,dec,s,dicoLine);return true;})
+		.catch(e=>{console.log(e);afterError2(c,lang,dec)});
+	else afterError2(c,lang,dec);
+}
+function afterOk2(c,lang,dec,svg,dicoLine)
 {
 	let ul=document.getElementById("output");
 	let li=document.createElement("li");
-	li.classList.add("error");
-	li.innerHTML="Dictionary not found!";
+	let cartouche="<dl>"+buildDicoContent(dicoLine)+"</dl>";
+	li.innerHTML=svg+cartouche;
 	ul.append(li);
+	setNumbers(document.querySelector('[name="numbers"]').checked);
 	ul.scrollIntoView({block:"nearest"});
-}
-function afterOk(c,lang,dec,svg,kana)
-{
-	if(kana) afterOk2(c,lang,dec,svg,"{\"character\":\""+c+"\"}");
-	else fetch('dictionary'+langToDir(lang)+".txt")
-		.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
-		.then(j=>{afterOk2(c,lang,dec,svg,j);return true;})
-		.catch(e=>{console.log(e);afterError2(lang)});
 }
 function ok()
 {
-	let a,b,c,dec,dir,e,s,lang;
+	let c,dec,e,s,lang;
 	e=document.getElementById("data");
 	s=document.querySelector('[name="section"]:checked');
 	lang=s?s.getAttribute("data-lang"):"ja";
@@ -514,13 +517,19 @@ function ok()
 	c=e.value;
 	if(c)
 	{
-		let kana;
+		let kana,j,langLabel=langToDir(lang);
 		dec=c.codePointAt(0);
 		kana=(lang=="ja")&&(dec>=12353)&&(dec<=12540);
-		fetch('svgs'+langToDir(lang)+(kana?"Kana":"")+"/"+dec+".svg")
-		.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
-		.then(s=>{afterOk(c,lang,dec,s,kana);return true;})
-		.catch(e=>{console.log(e);afterError(c,lang,dec)});
+		if(kana) 
+			fetch('svgs'+langLabel+"Kana/"+dec+".svg")
+			.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
+			.then(s=>{afterOk2(c,lang,dec,s,{character:c});return true;})
+			.catch(e=>{console.log(e);afterError2(c,lang,dec)});
+		else if(j=dicos[langLabel]) afterOk(c,lang,langLabel,dec,j);
+		else fetch('dictionary'+langLabel+".txt")
+			.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
+			.then(j=>{dicos[langLabel]=j;afterOk(c,lang,langLabel,dec,j);return true;})
+			.catch(e=>{console.log(e);afterError(lang)});
 	}
 }
 function doIt(c)
