@@ -109,6 +109,7 @@ svg.acjk path.visible:not([id])
 }
 </style>
 <title>AnimCJK Card</title>
+<link rel="icon" type="image/svg+xml" href="../animCJKIcon.svg">
 </head>
 <body>
 <h1>AnimCJK Card</h1>
@@ -148,6 +149,7 @@ svg.acjk path.visible:not([id])
 </footer>
 <script>
 let card={};
+let dicos={Ja:null,Ko:null,ZhHans:null,ZhHant:null}; // set by selectorAcjk.js
 function getLangAcjk()
 {
 	let e=document.querySelector('[name="lang"]:checked');
@@ -247,6 +249,7 @@ function updateInfo(s)
 }
 function buildDicoContent(r)
 {
+	if(!r) return "";
 	let c,dec,hex,dico="";
 	c=r.character; // assume r has the character property
 	dec=c.codePointAt(0);
@@ -262,10 +265,15 @@ function buildDicoContent(r)
 	if(Object.hasOwn(r,"acjks")) dico+="<dt>Acjks</dt><dd class=\"acjksDecomposition\">"+r.acjks+"</dd>";
 	return dico;
 }
-function run(j)
+function getOneFromDico(c,langLabel)
 {
-	let c,r=j[0];
-	let s=r.svg;
+	for(let e of dicos[langLabel])
+		if(e["character"]==c) return e;
+	return null;
+}
+function run(s)
+{
+	let c,r;
 	let f=document.querySelector('#card figure');
 	let d=document.querySelector('#card dl');
 	if(!s.match(/<svg/))
@@ -278,6 +286,7 @@ function run(j)
 	c=document.querySelector('[name="data"]').value;
 	s="<figcaption>"+c+" ("+getLanguage()+")</figcaption>"+s;
 	f.innerHTML=s;
+	r=getOneFromDico(c,getLangAcjk("lang"));
 	d.innerHTML=buildDicoContent(r);
 	initCard();
 	updateAll();
@@ -290,13 +299,16 @@ function doIt()
 	updateAll();
 	if(c)
 	{
-		let dec=c.codePointAt(0),lang=getLangAcjk(),langIso=getLangIso(),options;
+		let dec=c.codePointAt(0),lang=getLangAcjk();
 		e.value=String.fromCodePoint(dec);
-		options={method:"POST",body:JSON.stringify({lang:langIso,data:[dec]})};
-		fetch('_php/fetchData.php',options)
-		.then(r=>{if(!r.ok) throw r.statusText; return r.json();})
-		.then(j=>{run(j);return true;})
-		.catch(e=>document.querySelector('#card figcaption').innerHTML=e+' in svgs'+lang);
+		fetch('../svgs'+lang+'/'+dec+'.svg')
+		.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
+		.then(r=>{run(r);return true;})
+		.catch(e=>
+		{
+			document.querySelector("#card figcaption").innerHTML=e+' in svgs'+lang;
+			document.querySelector('#card dl').innerHTML="";
+		});
 	}
 }
 </script>

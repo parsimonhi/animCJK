@@ -6,7 +6,7 @@
 
 The purpose of this project is to display kanji and kana (Japanese characters), hanja (Korean characters) or hanzi (simplified and traditional Chinese characters) stroke by stroke.
 
-For a demo, see http://gooo.free.fr/animCJK/official
+For a demo, see https://parsimonhi.github.io/animCJK/
 
 For each character, there is one or several svg files in AnimCJK repository that contains paths defining its shape and some css code to animate it. The name of the svg is the decimal unicode of the character followed by the "svg" extension.
 
@@ -194,6 +194,10 @@ We used various sources to cross-check our data. In particular:
 - How SVG Line Animation Works, https://css-tricks.com/svg-line-animation-works/
 
 ## What is new?
+
+2025/10/03
+- remove usage of php in the demo
+- move the demo to https://parsimonhi.github.io/animCJK/
 
 2025/09/30
 - remove the version attribute from svg

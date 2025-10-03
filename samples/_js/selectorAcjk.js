@@ -30,6 +30,71 @@
 			map=JSON.stringify(charListMap);
 		}
 	}
+	function makeTitle(s)
+	{
+		if(s=="hiragana") return "Hiragana";
+		if(s=="katakana") return "Katakana";
+		if(s=="g1") return "Grade 1";
+		if(s=="g2") return "Grade 2";
+		if(s=="g3") return "Grade 3";
+		if(s=="g4") return "Grade 4";
+		if(s=="g5") return "Grade 5";
+		if(s=="g6") return "Grade 6";
+		if(s=="g7") return "Junior high school";
+		if(s=="g8") return "Jinmeiyō";
+		if(s=="g9") return "Hyōgai";
+		if(s=="gc") return "Components";
+		if(s=="gs") return "Strokes";
+		if(s=="hanja8") return "Hanja level 8";
+		if(s=="hanja7") return "Hanja level 7";
+		if(s=="hanja6") return "Hanja level 6";
+		if(s=="hanja5") return "Hanja level 5";
+		if(s=="hanja4") return "Hanja level 4";
+		if(s=="hanja3") return "Hanja level 3";
+		if(s=="hanja2") return "Hanja level 2";
+		if(s=="hanja1") return "Hanja level 1";
+		if(s=="hanja1800a") return "Hanja part 1";
+		if(s=="hanja1800b") return "Hanja part 2";
+		if(s=="ku") return "Uncommon hanja";
+		if(s=="kc") return "Components";
+		if(s=="hanguljamos") return "Jamo";
+		if(s=="hangulsyllables") return "Hangul";
+		if(s=="hsk31") return "HSK v3 level 1, simplified hanzi";
+		if(s=="hsk32") return "HSK v3 level 2, simplified hanzi";
+		if(s=="hsk33") return "HSK v3 level 3, simplified hanzi";
+		if(s=="hsk34") return "HSK v3 level 4, simplified hanzi";
+		if(s=="hsk35") return "HSK v3 level 5, simplified hanzi";
+		if(s=="hsk36") return "HSK v3 level 6, simplified hanzi";
+		if(s=="hsk37") return "HSK v3 level 7, simplified hanzi";
+		if(s=="hsk38") return "HSK v3 level 8, simplified hanzi";
+		if(s=="hsk39") return "HSK v3 level 9, simplified hanzi";
+		if(s=="frequentNotHsk3") return "Other frequent hanzi";
+		if(s=="commonNotHsk3NorFrequent") return "Other common hanzi";
+		if(s=="frequent2500") return "2500 frequent hanzi";
+		if(s=="lessFrequent1000") return "1000 less frequent hanzi";
+		if(s=="commonNotFrequent") return "3500 other common hanzi";
+		if(s=="common7000") return "7000 common hanzi";
+		if(s=="traditional") return "Traditional hanzi used in simplified Chinese";
+		if(s=="uncommon") return "Uncommon hanzi";
+		if(s=="component") return "Components";
+		if(s=="t31") return "HSK v3 level 1, traditional hanzi";
+		if(s=="t32") return "HSK v3 level 2, traditional hanzi";
+		if(s=="t33") return "HSK v3 level 3, traditional hanzi";
+		if(s=="t34") return "HSK v3 level 4, traditional hanzi";
+		if(s=="t35") return "HSK v3 level 5, traditional hanzi";
+		if(s=="t36") return "HSK v3 level 6, traditional hanzi";
+		if(s=="t37") return "HSK v3 level 7, traditional hanzi";
+		if(s=="t38") return "HSK v3 level 8, traditional hanzi";
+		if(s=="t39") return "HSK v3 level 9, traditional hanzi";
+		if(s=="taiwan4808") return "Taiwan 4808 traditional hanzi";
+		if(s=="t3NotTaiwan4808") return "HSK v3 traditional hanzi not in Taiwan 4808";
+		if(s=="taiwan4808NotT3") return "Taiwan 4808 traditional hanzi not in HSK v3";
+		if(s=="tu") return "Uncommon traditional hanzi";
+		if(s=="tc") return "Components";
+		if(s=="radicals") return "The 214 radicals";
+		if(s=="stroke") return "Strokes";
+		return s;
+	}
 	function makeLangIso(lang)
 	{
 		if(lang=="ZhHans") return "zh-Hans";
@@ -110,20 +175,38 @@
 				&&p.querySelector('[lang="zh-Hans"]')&&p.querySelector('[lang="zh-Hant"]'))
 				afterAddingChartSelector();
 	}
-	function addCharListSelectors(p,r)
-	{
-		// all in one, multilang
-		for(let s of r) addCharListSelector(p,s.r,s.lang);
-	}
+		
 	if(langSelector) addLangSelector(langSelector);
 	if(dataSelector) addCharSelector(dataSelector);
+	
 	if(charListSelector)
 	{
 		let url=new URL(document.currentScript.src),
-			path=url.pathname.replace("_js/selectorAcjk.js","")+'_php/';
-		let options={method:"POST",body:JSON.stringify({s:"all",map:map})};
-		fetch(path+'fetchCharList.php',options)
-		.then(r=>r.json())
-		.then(r=>addCharListSelectors(charListSelector,r));
+			path=url.pathname.replace("_js/selectorAcjk.js","")+'../',
+			charListMap2=JSON.parse(map);
+		for(let langLabel of ["Ja","Ko","ZhHans","ZhHant"])
+		{
+			if(charListMap2[langLabel])
+				fetch(path+'dictionary'+langLabel+'.txt')
+				.then(r=>r.text())
+				.then(d=>
+					{
+						let r=[];
+						d="["+d.replace(/\}\n\{/ug,"},{")+"]";
+						let dd=JSON.parse(d);
+						// store the dictionary in dicos if defined in the calling page
+						if(typeof dicos !== "undefined") dicos[langLabel]=dd;
+						for(let setLabel of charListMap2[langLabel])
+						{
+							let chars="";
+							for(let d1 of dd)
+								if(d1["set"][0]==setLabel) chars+=d1["character"];
+							if(chars) r.push({title:makeTitle(setLabel),chars:chars});
+						}
+						addCharListSelector(charListSelector,r,langLabel);
+					}
+				);
+		}
 	}
+
 })();

@@ -26,6 +26,7 @@ pre
 }
 </style>
 <title>AnimCJK Radical</title>
+<link rel="icon" type="image/svg+xml" href="../animCJKIcon.svg">
 </head>
 <body>
 <h1>AnimCJK Radical</h1>
@@ -51,6 +52,7 @@ pre
 </footer>
 <script src="_js/setRadical.js"></script>
 <script>
+let dicos={Ja:null,Ko:null,ZhHans:null,ZhHant:null}; // set by selectorAcjk.js
 function updateCodeTag()
 {
 	let e,s;
@@ -77,18 +79,20 @@ function updateInfo(s)
 	s=s.replace(/AnimCJK [0-9-]+/,"AnimCJK 2016-"+d);
 	return s;
 }
-function run(j)
+function getOneFromDico(c,langLabel)
 {
-	let a,list,n,d,r,s;
-	r=j[0];
-	d=r.acjks?r.acjks:r.acjk?r.acjk:"";
-	s=r.svg?r.svg:"";
+	for(let e of dicos[langLabel])
+		if(e["character"]==c) return e;
+	return null;
+}
+function run(s,d)
+{
 	if(!s.match(/<svg/))
 	{
 		document.querySelector('#a').innerHTML="Data not found!";
 		return;
 	}
-	s=updateInfo(r.svg);
+	s=updateInfo(s);
 	s=s.replace(/<style[^@]+@/,"<style"+">\n@");
 	s=s.replace(/}[^}]+\/style>/,"}\n<"+"/style>");
 	document.querySelector('#a').innerHTML=s;
@@ -98,19 +102,25 @@ function run(j)
 }
 function doIt()
 {
-  	let e=document.querySelector('[name="data"]'),c=e.value;
+  	let e=document.querySelector('[name="data"]'),c=[...e.value][0];
   	document.querySelector('#a').innerHTML="";
   	document.querySelector('#b').innerHTML="";
   	document.querySelector('.codeTag').innerHTML="";
 	if(c)
 	{
-		let dec=c.codePointAt(0),lang=getLangAcjk(),langIso=getLangIso(),options;
+		let dec=c.codePointAt(0),lang=getLangAcjk();
 		e.value=String.fromCodePoint(dec);
-		options={method:"POST",body:JSON.stringify({lang:langIso,data:[dec],special:"1"})};
-		fetch('_php/fetchData.php',options)
-		.then(r=>{if(!r.ok) throw r.statusText; return r.json();})
-		.then(r=>{run(r);return true;})
-		.catch(e=>document.querySelector('#a').innerHTML=e+' in svgs'+lang);
+		let oneDicoLine=getOneFromDico(c,lang);
+		if(oneDicoLine)
+		{
+			let special=oneDicoLine.acjks?1:0;
+			let d=oneDicoLine.acjks?oneDicoLine.acjks:oneDicoLine.acjk?oneDicoLine.acjk:"";
+			fetch('../svgs'+lang+(special?'Special':'')+'/'+dec+'.svg')
+			.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
+			.then(s=>{run(s,d);return true;})
+			.catch(e=>document.getElementById("a").innerHTML=e+' in svgs'+lang+(special?'Special':''));
+		}
+		else document.getElementById("a").innerHTML=c+' not found'+' in dictionary'+lang+".txt";
 	}
 }
 </script>
