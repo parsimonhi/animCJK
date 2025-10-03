@@ -100,7 +100,7 @@ For instance, using Anki card editor, select "Recto" field of a card's note, the
 
 Several samples are provided to show how to use AnimCJK.
 These samples are stored in the samples folder.
-See also http://gooo.free.fr/animCJK/official/samples
+See also https://parsimonhi.github.io/animCJK/samples
 
 Using php, javascript or any other languages, you can easily modify svg files in order to change size of characters, colors, animation duration, etc.
 - to insert several characters in the same page, see animeSeveral.html.
