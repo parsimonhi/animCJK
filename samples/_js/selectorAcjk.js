@@ -53,8 +53,9 @@
 		if(s=="hanja3") return "Hanja level 3";
 		if(s=="hanja2") return "Hanja level 2";
 		if(s=="hanja1") return "Hanja level 1";
-		if(s=="hanja1800a") return "Hanja part 1";
-		if(s=="hanja1800b") return "Hanja part 2";
+		if(s=="hanja1800a") return "1800 Hanja part 1";
+		if(s=="hanja1800b") return "1800 Hanja part 2";
+		if(s=="commonHanjaNotInHanja1800") return "Common Hanja not in 1800 Hanja";
 		if(s=="ku") return "Uncommon hanja";
 		if(s=="kc") return "Components";
 		if(s=="hanguljamos") return "Jamo";
@@ -179,33 +180,64 @@
 	if(langSelector) addLangSelector(langSelector);
 	if(dataSelector) addCharSelector(dataSelector);
 	
+	function buildFromDic(langLabel,charListMap2,path)
+	{
+		fetch(path+'dictionary'+langLabel+'.txt')
+		.then(r=>r.text())
+		.then(d=>
+			{
+				let r=[];
+				d="["+d.replace(/\}\n\{/ug,"},{")+"]";
+				let dd=JSON.parse(d);
+				console.log(dd);
+				// store the dictionary in dicos if defined in the calling page
+				if(typeof dicos !== "undefined") dicos[langLabel]=dd;
+				for(let setLabel of charListMap2[langLabel])
+				{
+					let chars="";
+					for(let d1 of dd)
+						if(d1["set"].includes(setLabel)) chars+=d1["character"];
+					if(chars) r.push({title:makeTitle(setLabel),chars:chars});
+				}
+				addCharListSelector(charListSelector,r,langLabel);
+			}
+		);
+	}
+	
+	function buildFromCharList(path)
+	{
+		let request=new Request(path+'samples/_php/fetchCharList.php',
+		{
+  			method:"POST",
+  			body:JSON.stringify({s:"all",map:map})
+  		});
+		fetch(request)
+		.then(r=>r.json())
+		.then(j=>
+			{
+				for(let a of j) addCharListSelector(charListSelector,a.r,a.lang);
+			}
+		);
+	}
+	
 	if(charListSelector)
 	{
 		let url=new URL(document.currentScript.src),
-			path=url.pathname.replace("_js/selectorAcjk.js","")+'../',
-			charListMap2=JSON.parse(map);
-		for(let langLabel of ["Ja","Ko","ZhHans","ZhHant"])
+			path=url.pathname.replace("_js/selectorAcjk.js","")+'../';
+		if((typeof charListType !== "undefined")&&(charListType=="fromCharList"))
+			buildFromCharList(path);
+		else
 		{
-			if(charListMap2[langLabel])
-				fetch(path+'dictionary'+langLabel+'.txt')
-				.then(r=>r.text())
-				.then(d=>
-					{
-						let r=[];
-						d="["+d.replace(/\}\n\{/ug,"},{")+"]";
-						let dd=JSON.parse(d);
-						// store the dictionary in dicos if defined in the calling page
-						if(typeof dicos !== "undefined") dicos[langLabel]=dd;
-						for(let setLabel of charListMap2[langLabel])
-						{
-							let chars="";
-							for(let d1 of dd)
-								if(d1["set"][0]==setLabel) chars+=d1["character"];
-							if(chars) r.push({title:makeTitle(setLabel),chars:chars});
-						}
-						addCharListSelector(charListSelector,r,langLabel);
-					}
-				);
+			let charListMap2=JSON.parse(map);
+			for(let langLabel of ["Ja","Ko","ZhHans","ZhHant"])
+			{
+				if(charListMap2[langLabel])
+				{
+					if((typeof charListType !== "undefined")&&(charListType=="fromCharList"))
+						buildFromCharList(langLabel,charListMap2,path);
+					else buildFromDic(langLabel,charListMap2,path);
+				}
+			}
 		}
 	}
 

@@ -18,7 +18,7 @@ The svgsJa folder contains svg files corresponding to the union of the Japanese 
 
 The svgsKana folder contains svg files corresponding to the Japanese "hiragana" (86 characters) and Japanese "katakana" (91 characters). As a result, svgsKana folder contains 177 characters.
 
-The svgsKo folder contains svg files corresponding to Korean "hanja level 8, 7, 6, 5", some of the level 4, and some other characters. In all, svgsKo folder contains 525 characters.
+The svgsKo folder contains svg files corresponding to Korean "hanja level 8, 7, 6, 5", some of the level 4, and some other characters. In all, svgsKo folder contains 535 characters.
 
 The svgsZhHans folder contains svg files corresponding to Chinese "commonly used simplified hanzi" (7000 characters), some "uncommon hanzi", some "traditional hanzi" (that can appear in a simplified hanzi text), some components and the 35 basic strokes. This set includes the "HSK hanzi" (2663 characters) and the "frequently used simplified hanzi" (3500 characters). In all, svgsZhHans folder contains 7672 characters.
 
@@ -194,6 +194,14 @@ We used various sources to cross-check our data. In particular:
 - How SVG Line Animation Works, https://css-tricks.com/svg-line-animation-works/
 
 ## What is new?
+
+2025/10/06
+- improve in svgsJa: 麩倝
+- improve in svgsZhHans: 倝溘
+- add to svgsJa: 𢦏𠙻
+- add to svgsKo: 境經警慶係故官求句究
+- add to svgsZhHans: 𢦏
+- various minor updates
 
 2025/10/03
 - remove usage of php in the demo
