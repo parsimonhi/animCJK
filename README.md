@@ -155,9 +155,9 @@ This project is derived from the remarquable Makemeahanzi project which is desig
 
 Even if character shapes have the same look in both Makemeahanzi and AnimCJK, the svg files are different: the css is different, the svg structure is different, the coordinate system is different, the stroke paths are different, the median paths are different. However, for people who would like to re-import characters from AnimCJK to Makemeahanzi, text files are provided (graphicsJa.txt, graphicsZhHans.txt, etc.) that have the same format as the graphics.txt file of Makemeahanzi. So it is easy to generate SVG files in the format used by Makemeahanzi using AnimCJK data.
 
-### Arphic PL KaitiM GB and Arphic PL UKai fonts
+### Arphic PL KaitiM GB and Arphic PL KaitiM Big5 fonts
 
-Makemeahanzi itself makes an extensive use of the Arphic PL KaitiM GB and Arphic PL UKai fonts generously provided by Arphic Technology.
+Makemeahanzi itself makes an extensive use of the Arphic PL KaitiM GB and Arphic PL KaitiM Big5 fonts generously provided by Arphic Technology.
 
 Many characters in AnimCJK are not present in these fonts (especially but not exclusively Japanese characters since these Arphic fonts are designed for Chinese). One used parts of other characters to design these missing characters and/or used various editors (mainly Inkscape and BBEdit) to modify their shape. One didn't use any other fonts to make these characters.
 
@@ -194,6 +194,22 @@ We used various sources to cross-check our data. In particular:
 - How SVG Line Animation Works, https://css-tricks.com/svg-line-animation-works/
 
 ## What is new?
+
+2026/01/26
+- change decomposition in ja: 愈貳𠔉
+- change decomposition in zhHans: 揄渝瑜蝓夬贏
+- change decomposition in zhHant: 贏
+- modify stroke order in svgsJa: 扁蔵威戉咸顚
+- modify stroke order in svgsZhHans: 啬墙嫱樯穑蔷
+- improve in svgsJa: 僉蛸戉咸范𢆉神祥社祉祈祐祖祝禎
+- improve in svgsKo: 缺
+- improve in svgsZhHans: 迩溟僉尔佶亳复弃怕脾聘苹歉敲缺仍賽舒戉咸鞋邀姨犹范蔬溠溥𢆉
+- improve in svgsZhHant: 怕牆缺裙仍舒鞋姨嘴
+- add to svgsJa:
+	𢼄畾㗊匽兪⺼⺝𠓛鈎亟 叹會弌弍弎迩溟栢尔玨 褱𥄳个佶穐丕亳夬丰复 刍兴俞兹矣曷匃亾乡弃 們拿瑪媽碼麼鬧爬怕胖
+	脾騙聘苹坡歉簽牆敲缺 裙仍賽衫稍售舒蔬嗽雖 抬疼溪銷鞋呀鑰邀姨犹 侈侏佻佩佯侘仟贏嶼怎 咋炸站找址賺嘴砿碕頴
+- add to svgsZhHans:
+	𢼄畾㗊匽⺼⺝弌弍弎玨褱𥄳匃亾
 
 2025/10/06
 - improve in svgsJa: 麩倝
