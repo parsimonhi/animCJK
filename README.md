@@ -195,7 +195,7 @@ We used various sources to cross-check our data. In particular:
 
 ## What is new?
 
-2026/01/06
+2026/02/06
 - change decomposition in ja:
 	嶼象包節卿櫛𠓜
 - change decomposition in zhHans:
