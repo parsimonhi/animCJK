@@ -43,7 +43,7 @@ several Japanese or Chinese characters using animCJK SVG files">
 </nav>
 <fieldset class="langSelector"></fieldset>
 <fieldset class="dataSelector"></fieldset>
-<p>Add some characters (up to 5) in the input field above
+<p>Add some characters (up to <span id="nmax">5</span>) in the input field above
 or click on some characters in the bottom list.</p>
 <ul id="output"></ul>
 <fieldset class="charListSelector"></fieldset>
@@ -55,7 +55,7 @@ or click on some characters in the bottom list.</p>
 </nav>
 </footer>
 <script>
-let ready,store;
+let ready,store,nmax=100;
 function getLangAcjk()
 {
 	let e=document.querySelector('[name="lang"]:checked');
@@ -97,12 +97,13 @@ function run(s,dec,n,kmax)
 function doIt()
 {
   	let e=document.querySelector('[name="data"]'),s=e.value;
-	for(let k=1;k<=5;k++)
+	for(let k=1;k<=nmax;k++)
 		document.querySelector('#output li:nth-of-type('+k+')').innerHTML="";
 	if(s)
 	{
 		let lang=getLangAcjk(),k,kmax;
-		s=s.replace(/^(.....)(.*)$/,"$1"); // max 5 chars
+		const re=new RegExp("^(.{"+nmax+"})(.*)$");
+		s=s.replace(re,"$1"); // no more than nmax chars
 		e.value=s;
 		k=0;
 		kmax=0;
@@ -130,8 +131,10 @@ function doIt()
 	}
 }
 window.addEventListener("load",function(){
+	let e=document.getElementById("nmax");
+	e.innerHTML=nmax;
 	let c=document.getElementById("output");
-	for(let k=0;k<5;k++) c.appendChild(document.createElement("li"));
+	for(let k=0;k<nmax;k++) c.appendChild(document.createElement("li"));
 });
 </script>
 <script src="_js/selectorAcjk.js"></script>
