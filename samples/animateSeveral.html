@@ -128,8 +128,8 @@ function doIt()
 			k++;
 			n=k;
 			if(dec)
-				fetch('../svgs'+lang+'/'+dec+'.svg',{cache:"no-store"}) // dev
-				// fetch('../svgs'+lang+'/'+dec+'.svg') // prod
+				// fetch('../svgs'+lang+'/'+dec+'.svg',{cache:"no-store"}) // dev
+				fetch('../svgs'+lang+'/'+dec+'.svg') // prod
 				.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
 				.then(r=>{
 					if(!r.match(/<svg[^>]+class="acjk"/))

@@ -521,7 +521,8 @@ function continueOk(c,lang,langLabel,dec,j)
 {
 	let dicoLine=getOneFromDico(c,langLabel);
 	if(dicoLine)
-		fetch('svgs'+langLabel+"/"+dec+".svg")
+		// fetch('svgs'+langLabel+"/"+dec+".svg",{cache:"no-store"}) // dev
+		fetch('svgs'+langLabel+"/"+dec+".svg") // prod
 		.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
 		.then(s=>{endOk(c,lang,dec,s,dicoLine);return true;})
 		.catch(e=>{console.log(e);endError(c,lang,dec)});
