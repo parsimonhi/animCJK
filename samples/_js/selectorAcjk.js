@@ -44,7 +44,6 @@
 		if(s=="g8") return "Jinmeiyō";
 		if(s=="g9") return "Hyōgai";
 		if(s=="gc") return "Components";
-		if(s=="gs") return "Strokes";
 		if(s=="hanja8") return "Hanja level 8";
 		if(s=="hanja7") return "Hanja level 7";
 		if(s=="hanja6") return "Hanja level 6";
@@ -189,7 +188,6 @@
 				let r=[];
 				d="["+d.replace(/\}\n\{/ug,"},{")+"]";
 				let dd=JSON.parse(d);
-				console.log(dd);
 				// store the dictionary in dicos if defined in the calling page
 				if(typeof dicos !== "undefined") dicos[langLabel]=dd;
 				for(let setLabel of charListMap2[langLabel])

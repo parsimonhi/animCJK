@@ -7,6 +7,17 @@
 several Japanese or Chinese characters using animCJK SVG files">
 <link rel="stylesheet" href="_css/withSelector.css" type="text/css">
 <style>
+input[name="data"]
+{
+	display:block;
+	box-sizing:border-box;
+	width:100%;
+	margin:0 0.5em 0 0;
+}
+button[name="run"]
+{
+	margin-left:0;
+}
 #output
 {
 	list-style-type:none;
@@ -43,7 +54,7 @@ several Japanese or Chinese characters using animCJK SVG files">
 </nav>
 <fieldset class="langSelector"></fieldset>
 <fieldset class="dataSelector"></fieldset>
-<p>Add some characters (up to <span id="nmax">5</span>) in the input field above
+<p>Add several characters in the input field above
 or click on some characters in the bottom list.</p>
 <ul id="output"></ul>
 <fieldset class="charListSelector"></fieldset>
@@ -102,8 +113,9 @@ function doIt()
 	if(s)
 	{
 		let lang=getLangAcjk(),k,kmax;
+		s=s.replace(/\s/g,''); // remove white space
 		const re=new RegExp("^(.{"+nmax+"})(.*)$");
-		s=s.replace(re,"$1"); // no more than nmax chars
+		s=s.replace(re,"$1"); // cut chars after the nmax-th
 		e.value=s;
 		k=0;
 		kmax=0;
@@ -116,7 +128,8 @@ function doIt()
 			k++;
 			n=k;
 			if(dec)
-				fetch('../svgs'+lang+'/'+dec+'.svg')
+				fetch('../svgs'+lang+'/'+dec+'.svg',{cache:"no-store"}) // dev
+				// fetch('../svgs'+lang+'/'+dec+'.svg') // prod
 				.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
 				.then(r=>{
 					if(!r.match(/<svg[^>]+class="acjk"/))
@@ -131,8 +144,9 @@ function doIt()
 	}
 }
 window.addEventListener("load",function(){
-	let e=document.getElementById("nmax");
-	e.innerHTML=nmax;
+	let e;
+	e=document.querySelector('label:has([name="data"])');
+	e.innerHTML=e.innerHTML.replace(" (one char only)"," (up to "+nmax+") ");
 	let c=document.getElementById("output");
 	for(let k=0;k<nmax;k++) c.appendChild(document.createElement("li"));
 });

@@ -14,13 +14,13 @@ For each character, there is one or several svg files in AnimCJK repository that
 
 SVG files are stored in several folders.
 
-The svgsJa folder contains svg files corresponding to the union of the Japanese "jōyō kanji" (2136 characters), the Japanese "jinmeyō Kanji" (863 characters), some Japanese "hyōgai Kanji", some components, and the 35 basic strokes. In all, svgsJa folder contains 4477 characters.
+The svgsJa folder contains svg files corresponding to the union of the Japanese "jōyō kanji" (2136 characters), the Japanese "jinmeyō Kanji" (863 characters), some Japanese "hyōgai Kanji", some components, and the 35 basic strokes. In all, svgsJa folder contains 5453 characters.
 
 The svgsKana folder contains svg files corresponding to the Japanese "hiragana" (86 characters) and Japanese "katakana" (91 characters). As a result, svgsKana folder contains 177 characters.
 
 The svgsKo folder contains svg files corresponding to Korean "hanja level 8, 7, 6, 5", some of the level 4, and some other characters. In all, svgsKo folder contains 535 characters.
 
-The svgsZhHans folder contains svg files corresponding to Chinese "commonly used simplified hanzi" (7000 characters), some "uncommon hanzi", some "traditional hanzi" (that can appear in a simplified hanzi text), some components and the 35 basic strokes. This set includes the "HSK hanzi" (2663 characters) and the "frequently used simplified hanzi" (3500 characters). In all, svgsZhHans folder contains 7692 characters.
+The svgsZhHans folder contains svg files corresponding to Chinese "commonly used simplified hanzi" (7000 characters), some "uncommon hanzi", some "traditional hanzi" (that can appear in a simplified hanzi text), some components and the 35 basic strokes. This set includes the "HSK hanzi" (2663 characters) and the "frequently used simplified hanzi" (3500 characters). In all, svgsZhHans folder contains 7704 characters.
 
 The svgsZhHant folder contains svg files corresponding to Chinese "HSK v3 level 1 to 3 traditional hanzi" (907 characters) and some other characters. Note that some simplified characters have more than one corresponding traditional character. In all, svgsZhHant folder contains 1014 characters.
 
@@ -195,6 +195,63 @@ We used various sources to cross-check our data. In particular:
 - How SVG Line Animation Works, https://css-tricks.com/svg-line-animation-works/
 
 ## What is new?
+
+2026/03/01
+- change decomposition in ja
+	函塲尨屬摩氺犀磨磨竈縻翏翟翫翰脊魔麼麼黃黄𦥔
+- change decomposition in ko
+	黃
+- change decomposition in zhHans
+	噢屬忝懊摩氺澳燠爨磨磨縻羸脊臧興舉蠃靡魔麼麼麽麾黃黄嬴
+- change decomposition in zhHant
+	麼黃屬
+- modify stroke order in svgsJa
+	鵠
+- modify stroke order in svgsZhHans
+	夔聯關
+- modify glyph in svgsJa
+	傑函喰嘛囑屬犀琴聯脊裟誹靠餐
+- modify glyph in svgsZhHans
+	屬
+- modify glyph in svgsZhHant
+	取聯職
+- improve in svgsJa
+	吶妄帖楢溢祁祇祕祿禪禮禰禱絆網胖蔦魅神祥福社祉祐祖禍禎視侈柑
+- improve in svgsKo
+	禮
+- improve in svgsZhHans
+	侈俏倜倻劓嘈塌夔媳孽嵋帖徉徜恁恬悃悛悸惘慷懿戛截戮扈抉拚挈捩掣揉揣搔搦摹撩擂擘擤攘攫斟旃旌晤晰暹曩朦
+	杆杠杪杳杼枋枳柑栲桕桫桷梃棘椽楂楣楮榕榧橇檄檫檬殪毳氤汞沮涮溻溽滓漓漳潦潭潸潺澎澹瀑瀛炒炳炷烝焙焜熄
+	燔燠燧燹牖牦牾猊猖瑙瑟璆畚疥痧痼瘤癜皎皴盂盥眷睇睥睨睾瞑瞠瞻瞽瞿矍矜硼碣碾磅磊磔磬磲祓秣稃稷窗窿竭笄
+	笊笏筮筵箜篆篦篷簇簟簧簪籀粤粮糅糗糵罅罔罨罩羯翩耄耘耦耻聆聯肆肓胝胭胯腱腴膀膂臀臧舂舐艨艾苞苟苡苣茫
+	茴茵荽莎莩莪菁菘菘菠菲菽萁萍萸葩蒡蓊蓍蓐蓖蓼蓿蕤蕺薹藉藐藕藜蘖蚋蚜蚰蛔蛞蛟蜃蜉蜊蜒蜓蜴蜿蝌蝤蝥螈螟螭
+	蟋蟒蠖蠹衍衾袍袤袱裔裨褊褓褥褪褫褶襁襞襦觚觜譬豁豌豺貂貅貉貔赭跣踵蹂蹇蹈蹊蹋蹲蹶躁逅逶邃酥酩醢醪醴醵
+	醺鏖隋隘隧霄霆霍霓霹霾靛靼餮馘馥髯髻鬟鬣麇麈麝麾黏黔黥
+- add to svgsJa
+	䏌乕乢你佾侌俏倏倘倜倻划剕劓匜吧呦咖啐啤嗉嘈嘻噢囊圳坷塌墩夔奶妛媳孽寔寳寽尅尠屓屶岶岻岼岾峅峩峪峺崋
+	崑崕崗崘崙崟崢嵋嵎嵜嵳嵶嶂嶄嶌弈彀徉徜忉忖忝忸忻忿怏怙怡怦怩怫恁恃恍恙恚恤恪恫恬悃悄悍悒悖悚悛悴悸惘
+	惶愎愕愧慊慥慷憔憺懈懦懿戛截戮扈扛扣扼抃抉抒抔抛拇拈拌拗拮拱拼挂挈捍捏捐捩掏掖掣揄揆揉插揣揶搏搔搦摧
+	摹撩撼擂擅擒擔擘據擤擧攀攘攫攸效數斛斟斫斷旃旆旌旒旱昵晤晰暹曩朦杆杞杠杪杳杼枉枋枘枳枷枸柃柒柝柞柢柩
+	柬柯柰栩栲框桎桕桫桴桷梃梏梭梳梵棍棕棘棠棣棹椒椽楂楔楝楞楣楫楮楸榀榕榜榧榨榴榻槁槐槭槲槿樓橄橇橛檄檐
+	檗檫檬歇殃殄殪殷毗毯毳氓氛氤汞汪汾沁沐沒沛沪沮沱沽沾泄泙泛泪泫洄洌洒洱洹浙浚浣涅涎涓涔涕涮涵涸淆淙淤
+	淦淬淮淹渊渝渣渫游渺湃湍湫湮湲溘溽滂滓滔滿漓漳潘潦潭潸潺澎澹濟瀑瀚瀛灌炒炙炬炮炯炳炷炻烘烙烝烟烽焙焜
+	煦熄熨熬燔燠燧燹爨牖牾犒犮犰狄狎狒狠狡狳狷猊猖猗猥猩猾獐獗獬玢玳珞珥瑕瑙瑜瑟瑰瑾璆璞瓠瓣瓤瓮瓷甄甍畚
+	當畸疆疔疚疝疣疥疱疳疵疸疽痂痍痒痞痣痤痧痰痼瘁瘙瘟瘠瘢瘤瘭瘰瘴癜皎皴盂盥眄眇眈眦眩眶眷睇睥睨睫睾瞑瞟
+	瞠瞰瞻瞽瞿矍矚矜砌砑砒砭砰硅确硼碌碣碰碾磅磊磔磬磲礇祀祆祓祗祚祟祠禊秕秣秧秭稃稠稷窈窕窖窗窘窠窿竦竭
+	竽笄笆笊笋笏笞笳筅筌筐筝筮筵箍箜箴篁篆篌篝篥篦篷簇簏簟簧簪簷籀粤粮粱粲粳粽糅糕糗糜糯糵紊絮經綮縻總纛
+	罅罐罔罨罩罹羌羔羝羯羸羹翅翕翡翩翳耄耘耜耦耨耻聆聲肆肓肛肭胄胙胚胛胝胭胯胱胳胼脉脯腋腑腓腥腦腭腮腱腴
+	膀膂膈膺膻膽臀臂臑臧臾舂舅舉舊舐舢舫舳舸艟艨艾芍芎芒芟芫芬芷苜苞苟苡苣苴茗茛茫茯茱茴茵茹荼荽莎莓莨莩
+	莪莽菀菁菇菘菝菠菲菽萁萃萍萸萼葜葩葫葭蒂蒟蒡蒴蒿蓊蓍蓐蓖蓼蓿蔗蔟蕈蕙蕤蕺薇薏薤薨薹藉藐藕藜藿蘋蘖蘘蘩
+	虔虬虱蚋蚌蚓蚜蚣蚩蚪蚯蚰蚶蛄蛆蛉蛑蛔蛞蛟蛩蛹蜀蜃蜈蜉蜊蜍蜒蜓蜚蜥蜩蜱蜴蜷蜻蜾蜿蝌蝎蝓蝗蝙蝠蝣蝤蝥蝮蝴
+	螂螈螟螠螫螭螯螳螽蟀蟆蟋蟒蟠蟾蠃蠊蠕蠖蠢蠹衄衍衙衢衲衽衾袂袍袒袗袢袤袱裔裘裨褊褓褥褪褫褶襁襞襦覺觀觚
+	觜詈證譫譬譽讀豁豇豉豌豬豺貂貅貉貔貘贍赧赭趺趾跆跋跌跏跑跚跛跣跪踉踝踞踵蹂蹇蹈蹊蹋蹙蹲蹶蹼躁躅躬辜辦
+	迤迸逅逍逑逡逶逾遏遑遲遽邂邃邈邊邯邱鄙酊酣酥酩醢醪醫醴醵醺錢鏖鐵關阡阮陋陌陟隋隍隗隘隧隨雉雍雎雒雕雞
+	雹霄霆霍霏霓霖霰霸霹霾靛靡靺靼鞅鞣鞨鞫鞴韆韶顏餮饕馗馘馥骰骶骼髀髑體髯髻鬚鬟鬣鬻魃魄魍魎魏魑鮃麇麈麋
+	麝麪麵麸麽麾黏黐黔黜黝點黠黥鼯鼹羽𠬝𤔔𦐇𦥑𧶠嬴𣎆吂䏎
+- add to svgsZhHans
+	⺽丱侌寽犮𠬝𢇇𤔔𦐇𣎆吂䏎
+- change in dictionaryJa.txt "gs" set to "stroke" set
+- various minor changes on scripts
 
 2026/02/10
 - change decomposition in svgsJa
