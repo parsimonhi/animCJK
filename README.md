@@ -14,19 +14,19 @@ For each character, there is one or several svg files in AnimCJK repository that
 
 SVG files are stored in several folders.
 
-The svgsJa folder contains svg files corresponding to the union of the Japanese "jōyō kanji" (2136 characters), the Japanese "jinmeyō Kanji" (863 characters), some Japanese "hyōgai Kanji", some components, and the 35 basic strokes. In all, svgsJa folder contains 5753 characters.
+The svgsJa folder contains svg files corresponding to the union of the Japanese "jōyō kanji" (2136 characters), the Japanese "jinmeyō Kanji" (863 characters), some Japanese "hyōgai Kanji", some components, and the 38 basic strokes. In all, the svgsJa folder contains 6358 characters.
 
-The svgsKana folder contains svg files corresponding to the Japanese "hiragana" (86 characters) and Japanese "katakana" (91 characters). In all, svgsKana folder contains 177 characters.
+The svgsKana folder contains svg files corresponding to the Japanese "hiragana" (86 characters) and Japanese "katakana" (91 characters). In all, the svgsKana folder contains 177 characters.
 
-The svgsKo folder contains svg files corresponding to Korean "hanja level 8, 7, 6, 5", some of the level 4, and some other characters. In all, svgsKo folder contains 535 characters.
+The svgsKo folder contains svg files corresponding to Korean "hanja level 8, 7, 6, 5", some of the level 4, and some other characters. In all, the svgsKo folder contains 535 characters.
 
-The svgsZhHans folder contains svg files corresponding to Chinese "commonly used simplified hanzi" (7000 characters), some "uncommon hanzi", some "traditional hanzi" (that can appear in a simplified hanzi text), some components and the 35 basic strokes. This set includes the "HSK hanzi" (2663 characters) and the "frequently used simplified hanzi" (3500 characters). In all, svgsZhHans folder contains 7726 characters.
+The svgsZhHans folder contains svg files corresponding to Chinese "commonly used simplified hanzi" (7000 characters), some "uncommon hanzi", some "traditional hanzi" (that can appear in a simplified hanzi text), some components and the 35 basic strokes. This set includes the "HSK version 3 hanzi" (2970 characters) and the "frequently used simplified hanzi" (3500 characters). In all, the svgsZhHans folder contains 7811 characters.
 
-The svgsZhHant folder contains svg files corresponding to Chinese "HSK v3 level 1 to 3 traditional hanzi" (907 characters) and some other characters. Note that some simplified characters have more than one corresponding traditional character. In all, svgsZhHant folder contains 1014 characters.
+The svgsZhHant folder contains svg files corresponding to Chinese "HSK v3 level 1 to 3 traditional hanzi" (907 characters) and some other characters. Note that some simplified characters have more than one corresponding traditional character. In all, the svgsZhHant folder contains 1014 characters.
 
-Be careful because the characters are not always the same in all languages even when they share the same unicode. For instance 勉 (21193.svg) in Japanese has not the same glyph as 勉 (21193.svg) in Chinese.
+Be careful because the characters are not always the same in all languages even when they share the same unicode. For instance 勉 (21193.svg) in Japanese has not the same glyph as 勉 (21193.svg) in simplified Chinese.
 
-Pay attention to compatibility characters such as 勉 (64051.svg) which has the same glyph in Japanese as 勉 (21193.svg) in Chinese, but does not have the same unicode.
+Pay attention to compatibility characters such as 勉 (64051.svg) which has the same glyph in Japanese as 勉 (21193.svg) in simplified Chinese, but does not have the same unicode.
 
 Each svg can be inserted as is in a web page, or with some modifications using for instance javascript.
 
@@ -36,7 +36,9 @@ First, you have to download animCJK somewhere on your computer (then evenly uplo
 
 ### Basic usage
 
-Just insert a svg file representing a character as is in a web page.
+The animCJK svg files representing a character can be used anywhere an image file can be used.
+
+You can insert an animCJK svg file representing a character as is in a web page.
 
 For instance, you can use php (assume that you moved or uploaded animCJK repository on a php server). Write the code below in a file called simple.php and store it in the samples folder of AnimCJK. Then run simple.php in a browser.
 ```
@@ -140,7 +142,7 @@ If a character has several possible decompositions, just concatenate them.
 
 A plugin for Wordpress to insert animated kanji in a webpage using BBCode can be downloaded at:
 
-http://gooo.free.fr/animCJK/animkanji_wp_plugin_page.php
+https://gooo.pages-perso.free.fr/animCJK/animkanji_wp_plugin_page.php
 
 ## Related works
 
@@ -195,6 +197,43 @@ We used various sources to cross-check our data. In particular:
 - How SVG Line Animation Works, https://css-tricks.com/svg-line-animation-works/
 
 ## What is new?
+
+2026/04/02
+- various decomposition changes
+- numerous median improvements
+- modify stroke order in svgsJa
+	晞虛黔
+- modify stroke order in svgsZhHans
+	裒
+- modify glyph in svgsJa
+	㇈栲墟裔膈慧囓禊甑筌叛祘
+- modify glyph in svgsZhHans
+	㇈澥圖契彗楔葜碶恝揳箓
+- improve in svgsJa
+	〇公漑朞掬陵鄙も斂畑 鬲桜楔瓶旡遵匡骨豸剳 𤰇備鞴
+- improve in svgsKo
+	〇公
+- improve in svgsZhHans
+	〇两滃姊公掬滇瀹纴陵 滍滏滗澌槊檠滟滹歃沚 泗羲潢滦渭昀昉钎帕侥 询妯擎拷诱辉酿澜鬲慧 旡直遵碘鳍黔皈皖厝亶
+	馏嗖睹碳碴婊嶓廙磷碚 囟磕搐擐碱碟碉禳癃鲨 骨豸鲳鲉鞒阇镭锗钿躇 跖貊蟊翥稂礴
+- improve in svgsZhHant
+	〇公瓶
+- add in svgsJa
+	杰枩枌枦枡枅枴柤柮枹 柎柆柧桍栫桙档桿梟梔 梹梠梺椏梍桾椁棊椈椢 椦棡椌棔棧椶㚇椄棗椥 棯椨椪椚椣椡棆楹楜楾
+	椹戝楙楡楪楴榁榑榱榲 榾榿槃槊槓槝槞槧槨槫 槹樅樌樒樔樛樢樮䙳樶 樸橢橦橲橸厲雚𨾴欮屰 檍檠檣檪檳檸檻櫁櫃櫑
+	櫚閭𦚏櫞櫟櫪櫺霝𠱠欅 襷獨權欒欖欟欷欸欹歃 歔歙歟歡歸歿𠬛殍殀殕 殘殞殤殫殯殱殼毓毟氈 汕汢汨汳沂沍沚沺泅泓
+	泗壳厽𠫯內敫皂查带显 离奋亩洼竞虽訇类丽汆 萑隽產戢戕羲鄉詹戾囱 誊泝泯泱洙臽洟洫洳洶 洽浤浹淅淇淒淕淞淪淺
+	耑欶喿疐𤴡啚渕浂渙渟 渤渭渮湎湟湶溂溏滄滌 滬滲滷滸漲漿潁睘垔㣺 ⺗𥁓貇潛潯澀歰澂澑畱 丣澣澤濆㇣㇤㇥乄濔濘
+	寜寍𬐘濛𠀐濬濱濳㬱濶 䦚濺賤㐮㕡䜭㕓濾瀁瀉 瀋瀝瀟蕭𤕰瀰瀲瀾灑灣 烋烱煕巸𦣞𦣝煖煢卂煥 煬熈熕熹熾戠𡕥𦭝⻀燉
+	燗燬燵爍爛爼牀牋牘牴 犁犂犇𥝢犖犢屮犧犲狃 狆狢猝猯獎獏獪獰獵獻 鬳珎珮珱珸琅琲琺⺻㓞 琿瑣𧴪瑩瑯璋璢瓏瓔瓧
+	瓩瓰瓱瓲瓸甅甃甎甓甕 甞甦甼畆畉畊畍畛畤畧 畩畭畴疂疇疉宐痃痊痙 痲𣏟痳痺痾痿瘉瘡瘧謔 瘻癆癈𡗞馮孨夆尌韱㦰
+	甹癘癡冘𥁕卌𦥯癢癧癨 癪癬癰皈皋皖皙皚皰皸 皹皺盖盞盪奞盻眛眤眥 睚睹瞋瞎瞞㒼瞶瞹矇矗 㐆㐌坒碚矼砠硴碆碪㐬
+	碯𡿺囟龱𠫝䏍厤秝丏㧜 斿㬎乑氿竘疌碵磆磑磚 磧礑礙礪礫㐫礬棥諛臿 㒸祺禝畟禧禳秡秬稈稘 稙稱爯稾穃穉穡穢穩𢚩
+	穽窩窰㚘窶竄竅竇竊竍 竏竓竕竚竝竡竢竰笂笘 笵笶筍筥筧筬筰筱筴筺 匤㞢㡭箚㓣箝箟篋匧篏 𣢟篩㢆㨨㫃㲎篳𠀗篶簀
+	簍簑簓簔簗簣簫籌籏籐 籔籖籘縢絭𣳾籥籬籵粃 粡㳟粢粨粫粭糀糂糒糘 糢糲糴糶籴粜糺紂紆紕 紜紮紲紵㸚叒桼昷昫厷
+- add in svgsZhHans
+	𨾴欮屰𦚏霝𠱠𠬛厽𠫯臽 啚睘垔㣺⺗𥁓㇣㇤㇥乄 𤕰巸𦣞𦣝卂戠𦭝⻀䶹盡 𡗞孨夆尌韱㦰甹冘𥁕卌 𦥯㒼㐆㐌坒㐬𡿺囟龱𠫝
+	䏍厤秝丏㧜斿㬎乑氿竘 疌㐫棥臿㒸畟爯㚘㞢㡭 𣢟㢆㨨㫃㲎𠀗𣳾㳟㸚叒 桼昷昫厷
 
 2026/03/09
 - several changes of decompositions in ja

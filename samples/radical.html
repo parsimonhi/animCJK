@@ -115,7 +115,9 @@ function doIt()
 		{
 			let special=oneDicoLine.acjks?1:0;
 			let d=oneDicoLine.acjks?oneDicoLine.acjks:oneDicoLine.acjk?oneDicoLine.acjk:"";
-			fetch('../svgs'+lang+(special?'Special':'')+'/'+dec+'.svg')
+			let o={}; // prod
+			if(window.location.hostname=="localhost") o.cache="no-store"; // dev
+			fetch('../svgs'+lang+(special?'Special':'')+'/'+dec+'.svg',o)
 			.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
 			.then(s=>{run(s,d);return true;})
 			.catch(e=>document.getElementById("a").innerHTML=e+' in svgs'+lang+(special?'Special':''));

@@ -249,12 +249,11 @@ acjkm.boardClass.prototype.startPoint=function(nStroke,xo,yo)
 	var x,y,dWest,dEast,dSouth,dNorth,dMax,edge,x1,y1,x2,y2,k,s;
 	x=xo;
 	y=yo;
-	
 	if (this.isEmpty(x,y))
 	{
 		// the point is outside the stroke shape (not normal but can happen)
 		if (acjkm.strangeStrokes) acjkm.strangeStrokes+=", ";
-		s=this.character+" stroke #"+(nStroke+1)+" (starting point outside stroke shape)";
+		s=this.character+" stroke #"+(nStroke+1)+" (starting point misplaced outside the stroke shape)";
 		acjkm.strangeStrokes+="<span class=\"strangeStroke\">"+s+"</span>";
 		k=0;
 		while (k<acjkm.d)
@@ -303,10 +302,84 @@ acjkm.boardClass.prototype.startPoint=function(nStroke,xo,yo)
 	y=yo;
 	
 	dMax=Math.max(dEast,dWest,dSouth,dNorth);
-	if (dMax==dEast) {edge=this.getMiniLocal(nStroke,[xo-dWest,yo],"W");}
-	else if (dMax==dWest) {edge=this.getMiniLocal(nStroke,[xo+dEast,yo],"E");}
-	else if (dMax==dSouth) {edge=this.getMiniLocal(nStroke,[xo,yo-dNorth],"N");}
-	else {edge=this.getMiniLocal(nStroke,[xo,yo+dSouth],"S");}
+	
+	// the start point should be on the west or on the north, never on the east or on the south
+	
+	if (dMax==dEast)
+	{
+		k=0;
+		xo=xo-dWest;
+		while (k<acjkm.d)
+		{
+			k++;
+			yo--;
+			if (this.isEmpty(xo,yo))
+			{
+				yo++;
+				xo--;
+				if (this.isEmpty(xo,yo)) {xo++;break;}
+			}
+		}
+		edge=this.getMiniLocal(nStroke,[xo,yo],"W");
+	}
+	else if (dMax==dSouth)
+	{
+		k=0;
+		yo=yo-dNorth;
+		while (k<acjkm.d)
+		{
+			k++;
+			xo--;
+			if (this.isEmpty(xo,yo))
+			{
+				xo++;
+				yo--;
+				if (this.isEmpty(xo,yo)) {yo++;break;}
+			}
+		}
+		edge=this.getMiniLocal(nStroke,[xo,yo],"N");
+	}
+	else if (dMax==dWest)
+	{
+		// the start point is misplaced on the east edge, try to correct it
+		if (acjkm.strangeStrokes) acjkm.strangeStrokes+=", ";
+		s=this.character+" stroke #"+(nStroke+1)+" (starting point misplaced on the east)";
+		acjkm.strangeStrokes+="<span class=\"strangeStroke\">"+s+"</span>";
+		k=0;
+		while (k<acjkm.d)
+		{
+			k++;
+			yo--;
+			if (this.isEmpty(xo,yo))
+			{
+				yo++;
+				xo--;
+				if (this.isEmpty(xo,yo)) {xo++;yo++;break;}
+			}
+		}
+		edge=this.startPoint(nStroke,xo,yo);
+	}
+	else if (dMax==dNorth)
+	{
+		// the start point is misplaced on the south edge, try to correct it
+		if (acjkm.strangeStrokes) acjkm.strangeStrokes+=", ";
+		s=this.character+" stroke #"+(nStroke+1)+" (starting point misplaced on the south)";
+		acjkm.strangeStrokes+="<span class=\"strangeStroke\">"+s+"</span>";
+		k=0;
+		while (k<acjkm.d)
+		{
+			k++;
+			xo--;
+			if (this.isEmpty(xo,yo))
+			{
+				xo++;
+				yo--;
+				if (this.isEmpty(xo,yo)) {yo++;break;}
+			}
+		}
+		edge=this.startPoint(nStroke,xo,yo);
+	}
+	else edge=[xo,yo]; // never in theory
 	
 	if (acjkm.startPointOn) this.drawBigPoint(edge[0],edge[1],"blue");
 	return edge;

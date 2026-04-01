@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -266,10 +265,8 @@ Japanese kana or kanji and simplified or traditional Chinese hanzi stroke by str
 "Jōyō kanji" (2136 characters), "Jinmeyō kanji" (863 characters) and some other characters ("Hyōgai kanji", "components" and "strokes").</p>
 <p>The Korean repository contains some "Hanja".</p>
 <p>The simplified Chinese repository contains "Commonly used hanzi" (7000 characters)
-and some other characters ("Uncommon hanzi", "Traditional hanzi used with simplified hanzi", "components" and "strokes").
-Note that "HSK hanzi" (2663 characters)
-and "Frequently used hanzi" (3500 characters) are subsets of "Commonly used hanzi".</p>
-<p>The traditional Chinese repository contains "HSK v3 level 1", "HSK v3 level 2" and some other traditional hanzi.</p>
+and some other characters ("Uncommon hanzi", "Traditional hanzi used with simplified hanzi", "components" and "strokes").</p>
+<p>The traditional Chinese repository contains "HSK v3 level 1", "HSK v3 level 2", "HSK v3 level 3" and some other traditional hanzi.</p>
 </section>
 
 <section id="jaSection" lang="ja"><h2>Kana</h2><details open><summary><h3 id='jaHiragana'>Hiragana</h3></summary>
@@ -517,12 +514,11 @@ function endOk(c,lang,dec,svg,dicoLine)
 	setNumbers(document.querySelector('[name="numbers"]').checked);
 	ul.scrollIntoView({block:"nearest"});
 }
-function continueOk(c,lang,langLabel,dec,j)
+function continueOk(c,lang,langLabel,dec,j,o)
 {
 	let dicoLine=getOneFromDico(c,langLabel);
 	if(dicoLine)
-		// fetch('svgs'+langLabel+"/"+dec+".svg",{cache:"no-store"}) // dev
-		fetch('svgs'+langLabel+"/"+dec+".svg") // prod
+		fetch('svgs'+langLabel+"/"+dec+".svg",o)
 		.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
 		.then(s=>{endOk(c,lang,dec,s,dicoLine);return true;})
 		.catch(e=>{console.log(e);endError(c,lang,dec)});
@@ -540,15 +536,17 @@ function ok()
 	if(c)
 	{
 		let kana,j,langLabel=langToDir(lang);
+		let o={}; // prod
+		if(window.location.hostname=="localhost") o.cache="no-store"; // dev
 		dec=c.codePointAt(0);
 		kana=(lang=="ja")&&(dec>=12353)&&(dec<=12540);
 		if(kana) 
-			fetch('svgs'+langLabel+"Kana/"+dec+".svg")
+			fetch('svgs'+langLabel+"Kana/"+dec+".svg",o)
 			.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
 			.then(s=>{endOk(c,lang,dec,s,{character:c});return true;})
 			.catch(e=>{console.log(e);endError(c,lang,dec)});
-		else if(j=dicos[langLabel]) continueOk(c,lang,langLabel,dec,j);
-		else fetch('dictionary'+langLabel+".txt")
+		else if(j=dicos[langLabel]) continueOk(c,lang,langLabel,dec,j,o);
+		else fetch('dictionary'+langLabel+".txt",o)
 			.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
 			.then(j=>
 				{

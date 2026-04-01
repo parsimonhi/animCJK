@@ -23,10 +23,14 @@ function setRadical(x,c1="#f90",c2="#06f")
 				else d=medians.length+"";
 			}
 			else d=medians.length+"";
-			d=d.replace(/[:]+/g,"");
-			d=d.replace(/[^.0-9]+/g," ").trim();
-			d=d.replace(/ +/g," ");
+			d=d.replace(/[:]+/gu,"");
+			d=d.replace(/[^.0-9]+/gu," ").trim();
+			d=d.replace(/ +/gu," ");
 			a=d.split(" ");
+			// assume the radical is always followed by a number preceded by a dot
+			// excepting if the whole character is a radical
+			// if a radical that is not the whole character has to be decomposed,
+			// add a dot to its components (rare)
 			if(a[0]==".")
 			{
 				// special cas: the character is a radical

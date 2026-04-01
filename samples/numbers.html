@@ -107,10 +107,15 @@ function doIt()
 	{
 		let dec=c.codePointAt(0),lang=getLangAcjk();
 		e.value=String.fromCodePoint(dec);
-		fetch('../svgs'+lang+'/'+dec+'.svg')
-		.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
-		.then(r=>{run(r);return true;})
-		.catch(e=>document.getElementById("a").innerHTML=e+' in svgs'+lang);
+		if(dec>=11904)
+		{
+			let o={}; // prod
+			if(window.location.hostname=="localhost") o.cache="no-store"; // dev
+			fetch('../svgs'+lang+'/'+dec+'.svg',o)
+			.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
+			.then(r=>{run(r);return true;})
+			.catch(e=>document.getElementById("a").innerHTML=e+' in svgs'+lang);
+		}
 	}
 }
 window.addEventListener("load",function(){

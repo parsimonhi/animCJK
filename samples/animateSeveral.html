@@ -72,6 +72,18 @@ function getLangAcjk()
 	let e=document.querySelector('[name="lang"]:checked');
 	return e?e.value:"Ja";
 }
+function cleanDataForAnimateSeveral(s)
+{
+	// remove chars after the nmax-th
+	// keep only chars from ⺀ (decimal unicode 11904)
+	let r="",k=0;
+	for (let c of s)
+	{
+		let dec=c.codePointAt(0);
+    	if(dec>=11904) {r+=c;k++;if(k>nmax) break;}
+	}
+	return r;
+}
 function cleanStore()
 {
 	for(let k=0;k<store.length;k++)
@@ -107,29 +119,27 @@ function run(s,dec,n,kmax)
 }
 function doIt()
 {
-  	let e=document.querySelector('[name="data"]'),s=e.value;
+  	let e=document.querySelector('[name="data"]'),s=cleanDataForAnimateSeveral(e.value);
+  	e.value=s;
 	for(let k=1;k<=nmax;k++)
 		document.querySelector('#output li:nth-of-type('+k+')').innerHTML="";
 	if(s)
 	{
-		let lang=getLangAcjk(),k,kmax;
-		s=s.replace(/\s/g,''); // remove white space
-		const re=new RegExp("^(.{"+nmax+"})(.*)$");
-		s=s.replace(re,"$1"); // cut chars after the nmax-th
-		e.value=s;
-		k=0;
-		kmax=0;
+		let lang=getLangAcjk(),k,kmax,a=[...s];
 		ready=0;
 		store=[];
-		for(let c of [...s]) kmax++;
-		for(let c of [...s])
+		k=0;
+		kmax=a.length;
+		for(let c of a)
 		{
 			let dec=c.codePointAt(0),n;
 			k++;
 			n=k;
 			if(dec)
-				fetch('../svgs'+lang+'/'+dec+'.svg',{cache:"no-store"}) // dev
-				//fetch('../svgs'+lang+'/'+dec+'.svg') // prod
+			{
+				let o={}; // prod
+				if(window.location.hostname=="localhost") o.cache="no-store"; // dev
+				fetch('../svgs'+lang+'/'+dec+'.svg',o)
 				.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
 				.then(r=>{
 					if(!r.match(/<svg[^>]+class="acjk"/))
@@ -140,6 +150,7 @@ function doIt()
 					run(e+' (no '+c+' in svgs'+lang+')',dec,n,kmax);
 					return false;
 				});
+			}
 		}
 	}
 }
