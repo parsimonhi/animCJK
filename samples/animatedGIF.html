@@ -66,7 +66,8 @@ function doIt()
 	{
 		let dec=c.codePointAt(0),lang=getLangAcjk();
 		e.value=String.fromCodePoint(dec);
-		fetch('../svgs'+lang+'/'+dec+'.svg')
+		let o={cache:"no-cache"};
+		fetch('../svgs'+lang+'/'+dec+'.svg',o)
 		.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
 		.then(r=>{run(r,dec);return true;})
 		.catch(e=>document.getElementById("a").innerHTML=e+' in svgs'+lang);

@@ -72,10 +72,11 @@
 		if(s=="commonNotHsk3NorFrequent") return "Other common hanzi";
 		if(s=="frequent2500") return "2500 frequent hanzi";
 		if(s=="lessFrequent1000") return "1000 less frequent hanzi";
-		if(s=="commonNotFrequent") return "3500 other common hanzi";
+		if(s=="commonNotFrequent3500") return "3500 other common hanzi";
 		if(s=="common7000") return "7000 common hanzi";
 		if(s=="traditional") return "Traditional hanzi used in simplified Chinese";
 		if(s=="uncommon") return "Uncommon hanzi";
+		if(s=="bopomofo") return "Bopomofo";
 		if(s=="component") return "Components";
 		if(s=="t31") return "HSK v3 level 1, traditional hanzi";
 		if(s=="t32") return "HSK v3 level 2, traditional hanzi";
@@ -91,7 +92,7 @@
 		if(s=="taiwan4808NotT3") return "Taiwan 4808 traditional hanzi not in HSK v3";
 		if(s=="tu") return "Uncommon traditional hanzi";
 		if(s=="tc") return "Components";
-		if(s=="radicals") return "The 214 radicals";
+		if(s=="radical") return "The 214 radicals";
 		if(s=="stroke") return "Strokes";
 		return s;
 	}
@@ -181,7 +182,8 @@
 	
 	function buildFromDic(langLabel,charListMap2,path)
 	{
-		fetch(path+'dictionary'+langLabel+'.txt')
+		let o={cache:"no-cache"};
+		fetch(path+'dictionary'+langLabel+'.txt',o)
 		.then(r=>r.text())
 		.then(d=>
 			{
@@ -207,7 +209,8 @@
 		let request=new Request(path+'samples/_php/fetchCharList.php',
 		{
   			method:"POST",
-  			body:JSON.stringify({s:"all",map:map})
+  			body:JSON.stringify({s:"all",map:map}),
+  			cache:"no-cache"
   		});
 		fetch(request)
 		.then(r=>r.json())

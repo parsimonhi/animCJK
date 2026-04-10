@@ -105,15 +105,17 @@ function cleanPathBeforeBrushing(d)
 	q=/([ML][0-9-]+\s[0-9-]+)\s/;
 	while (d.match(q)) d=d.replace(q,"$1L");
 	// if start point is different from end point, add a L at end
-	m=d.match(/^M([0-9-]+) ([0-9-]+).*[^0-9-]([0-9-]+) ([0-9-]+)Z$/);
+	// ignore if several M, possible with the "silage" primitive
+	m=d.match(/^M([0-9-]+) ([0-9-]+)[^Zz]*[^0-9-]([0-9-]+) ([0-9-]+)Z$/);
 	if (m&&((m[1]!=m[3])||(m[2]!=m[4]))) d=d.replace(/Z$/,"L"+m[1]+" "+m[2]+"Z");
 	// while there is a L just after M, move it to end
+	// ignore if several M, possible with the "silage" primitive
 	kmax=9; // just in case
 	k=0;
-	while ((k<kmax)&&(m=d.match(/^M([0-9 -]+)L([0-9 -]+)(.*)Z$/)))
+	while ((k<kmax)&&(m=d.match(/^M([0-9 -]+)L([0-9 -]+)([^Zz]*)Z$/)))
 	{
 		k++;
-		d=d.replace(/^M([0-9 -]+)L([0-9 -]+)(.*)Z$/,"M"+m[2]+m[3]+"L"+m[2]+"Z");
+		d=d.replace(/^M([0-9 -]+)L([0-9 -]+)([^Zz]*)Z$/,"M"+m[2]+m[3]+"L"+m[2]+"Z");
 	}
 	return d;
 }

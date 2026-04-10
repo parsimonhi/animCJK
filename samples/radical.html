@@ -115,8 +115,7 @@ function doIt()
 		{
 			let special=oneDicoLine.acjks?1:0;
 			let d=oneDicoLine.acjks?oneDicoLine.acjks:oneDicoLine.acjk?oneDicoLine.acjk:"";
-			let o={}; // prod
-			if(window.location.hostname=="localhost") o.cache="no-store"; // dev
+			let o={cache:"no-cache"};
 			fetch('../svgs'+lang+(special?'Special':'')+'/'+dec+'.svg',o)
 			.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
 			.then(s=>{run(s,d);return true;})

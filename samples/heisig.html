@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="Display Heisig primitives and corresponding AnimCJK SVG">
+<title>AnimCJK - Heisig primitives and AnimCJK SVG</title>
+<link rel="icon" type="image/svg+xml" href="../animCJKIcon.svg">
+<style>
+table
+{
+	margin:1em 0;
+	--size:5rem;
+	border-collapse:collapse;
+}
+table caption
+{
+	text-align:center;
+	padding:0 0.25em 1em 0.125em;
+}
+td,th
+{
+	border:1px solid grey;
+	text-align:center;
+	padding:0.25em;
+}
+td:nth-of-type(2),td:nth-of-type(3)
+{
+	font-family:"Noto sans cjk jp",sans-serif;
+	font-size:var(--size);
+}
+td:nth-of-type(4)
+{
+	word-break:break-all;
+}
+svg
+{
+	display:block;
+	width:var(--size);
+	height:auto;
+	margin:auto;
+	fill:crimson;
+}
+th:nth-of-type(2),
+td:nth-of-type(2)
+{
+	color:navy;
+}
+th:nth-of-type(3)
+{
+	color:crimson;
+}
+nav
+{
+	display:flex;
+	flex-wrap:wrap;
+	gap:0.5em;
+}
+a
+{
+	color:#000;
+}
+@media screen and (max-width: 30em)
+{
+	table
+	{
+		display:flex;
+		flex-direction:column;
+		gap:1em;
+	}
+	tr
+	{
+		display:grid;
+		grid-template-columns:1fr 1fr;
+	}
+	th,td
+	{
+		display:flex;
+		justify-content:center;
+		align-items:center;
+	}
+	th:not(:last-of-type),td:not(:last-of-type)
+	{
+		border-bottom:0;
+	}
+	th:nth-of-type(1),td:nth-of-type(1),
+	th:nth-of-type(4),td:nth-of-type(4)
+	{
+		grid-column:1 / -1;
+	}
+	th:nth-of-type(2),td:nth-of-type(2)
+	{
+		grid-column:1;
+		border-right:0;
+	}
+	th:nth-of-type(3),td:nth-of-type(3)
+	{
+		grid-column:2;
+	}
+}
+</style>
+</head>
+<body>
+<h1>Heisig primitives and AnimCJK SVG</h1>
+<nav class="link">
+<a href="https://github.com/parsimonhi/animCJK"><span>Download</span></a>
+<a href="./"><span>Sample selector</span></a>
+</nav>
+<main></main>
+<script>
+let n=0,nmax;
+function addToMain(table)
+{
+	let main=document.querySelector('main');
+	main.append(table);
+}
+function buildSvg(table,tr,td,s)
+{
+	let td2=document.createElement('td');
+	td.before(td2);
+	s=s.replace(/<!--[^£]*-->\n/,"");
+	s=s.replace(/<style[^£]*style>\n/,"");
+	s=s.replace(/<defs[^£]*defs>\n/,"");
+	s=s.replace(/<path style[^>]*>\n/g,"");
+	td2.innerHTML=s;
+	n++;
+	if(n>=nmax) addToMain(table); // all svg are loaded, ready to add table to main
+}
+function buildTd(table,tr,s)
+{
+	let td=document.createElement('td');
+	tr.append(td);
+	td.innerHTML=s;
+	if(s.match(/[.]svg$/))
+	{
+		let o={cache:"no-cache"};
+		fetch("../"+s,o)
+		.then(r=>r.text())
+		.then(r=>buildSvg(table,tr,td,r));
+	}
+}
+function buildTh(table,tr,s)
+{
+	let th=document.createElement('th');
+	tr.append(th);
+	th.innerHTML=s;
+}
+function buildTr(table,s)
+{
+	let tr=document.createElement('tr');
+	let a=s.split(";");
+	table.append(tr);
+	a.forEach(b=>buildTd(table,tr,b.trim()));
+}
+function buildTable(s)
+{
+	let table=document.createElement('table');
+	let tr=document.createElement('tr');
+	let a=s.split("\n");
+	a.shift();
+	nmax=a.length;
+	table.append(tr);
+	buildTh(table,tr,"Heisig name");
+	buildTh(table,tr,"Unicode char");
+	buildTh(table,tr,"AnimCJK SVG");
+	buildTh(table,tr,"AnimCJK SVG filename");
+	a.forEach(b=>buildTr(table,b.trim()));
+}
+window.addEventListener("load",function()
+{
+	let o={cache:"no-cache"};
+	fetch("_csv/heisig-animCJK-primitives.csv",o)
+	.then(r=>r.text())
+	.then(r=>buildTable(r.trim()));
+});
+</script>
+<footer>
+<nav class="link">
+<a href="#"><span>Top</span></a>
+<a href="./"><span>Sample selector</span></a>
+<a href="../licenses/COPYING.txt"><span>Licences</span></a>
+</nav>
+</footer>
+</body>
+</html>

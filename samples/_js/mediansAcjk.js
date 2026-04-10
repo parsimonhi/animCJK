@@ -909,6 +909,7 @@ acjkm.buildSvg2=function(a,n)
 	// do the merge only in the canvas to have a convenient mask for computation
 	for(let k=0;k<a.medians.length;k++)
 		if(a.medians[k].toString()==medianStr) stroke+=a.strokes[k];
+	// replace M by L in a stroke that has several M (rare case of some primitives)
 	s+="\t\t<path shape-rendering=\"optimizeSpeed\" id=\""+id+"-def-"+n+"\" d=\""+stroke+"\"/>\n";
 	s+="\t</defs>\n";
 	s+="\t<use href=\"#"+id+"-def-"+n+"\"/>\n";
@@ -1119,6 +1120,7 @@ acjkm.setNewSvgAsSvg=function(data)
 	acjkm.target.innerHTML=svgCode.replaceAll(svgId,"z"+dec);
 	// replace old medians by new ones
 	let list=acjkm.target.querySelectorAll("path[clip-path]");
+	let list2=acjkm.source.querySelectorAll("path[id]");
 	let k,km;
 	km=list.length;
 	for(k=0;k<km;k++)
@@ -1126,7 +1128,8 @@ acjkm.setNewSvgAsSvg=function(data)
 		let d="",k2,km2=a[k].length;
 		// todo: change y coordinates, see also getNewSvgAsSvg()
 		for(k2=0;k2<km2;k2++) d+=(!k2?"M":"L")+a[k][k2][0]+" "+(-a[k][k2][1]+900);
-		list[k].setAttribute("d",d);
+		// ignore change for stokes with more than one M (case of the "silage" primitive)
+		if(list2[k].getAttribute("d").match(/^M[^M]*Z$/)) list[k].setAttribute("d",d);
 	}
 }
 acjkm.run=function(p)

@@ -14,33 +14,66 @@ For each character, there is one or several svg files in AnimCJK repository that
 
 SVG files are stored in several folders.
 
-The svgsJa folder contains svg files corresponding to the union of the Japanese "jōyō kanji" (2136 characters), the Japanese "jinmeyō Kanji" (863 characters), some Japanese "hyōgai Kanji", some components, and the 38 basic strokes. In all, the svgsJa folder contains 6358 characters.
+### svgsJa
+The svgsJa folder contains svg files corresponding to the union of the Japanese "jōyō kanji" (2136 characters), the Japanese "jinmeyō Kanji" (863 characters), some Japanese "hyōgai Kanji", some components, and the 38 basic strokes. In all, the svgsJa folder contains 6431 characters.
 
-The svgsKana folder contains svg files corresponding to the Japanese "hiragana" (86 characters) and Japanese "katakana" (91 characters). In all, the svgsKana folder contains 177 characters.
+### svgsJaKana
+The svgsJaKana folder contains svg files corresponding to the Japanese "hiragana" (86 characters) and Japanese "katakana" (91 characters). In all, the svgsJaKana folder contains 177 characters.
 
+### svgsKo
 The svgsKo folder contains svg files corresponding to Korean "hanja level 8, 7, 6, 5", some of the level 4, and some other characters. In all, the svgsKo folder contains 535 characters.
 
-The svgsZhHans folder contains svg files corresponding to Chinese "commonly used simplified hanzi" (7000 characters), some "uncommon hanzi", some "traditional hanzi" (that can appear in a simplified hanzi text), some components and the 35 basic strokes. This set includes the "HSK version 3 hanzi" (2970 characters) and the "frequently used simplified hanzi" (3500 characters). In all, the svgsZhHans folder contains 7811 characters.
+### svgsZhHans
+The svgsZhHans folder contains svg files corresponding to Chinese "commonly used simplified hanzi" (7000 characters), some "uncommon hanzi", some "traditional hanzi" (that can appear in a simplified hanzi text), some components and the 35 basic strokes. This set includes the "HSK version 3 hanzi" (2970 characters) and the "frequently used simplified hanzi" (3500 characters). In all, the svgsZhHans folder contains 7907 characters.
 
-The svgsZhHant folder contains svg files corresponding to Chinese "HSK v3 level 1 to 3 traditional hanzi" (907 characters) and some other characters. Note that some simplified characters have more than one corresponding traditional character. In all, the svgsZhHant folder contains 1014 characters.
+### svgsZhHant
+The svgsZhHant folder contains svg files corresponding to Chinese "HSK v3 level 1 to 3 traditional hanzi" (907 characters) and some other characters. Note that some simplified characters have more than one corresponding traditional character. In all, the svgsZhHant folder contains 1013 characters.
 
+### Special folders
+These folders contain svg files for characters that have at least one stroke that belongs only partially to the radical.
+
+### Zoo folders
+They contain various characters, including Bopomofo and primitives that may not have a corresponding character in Unicode code charts.
+
+### Notes
 Be careful because the characters are not always the same in all languages even when they share the same unicode. For instance 勉 (21193.svg) in Japanese has not the same glyph as 勉 (21193.svg) in simplified Chinese.
 
 Pay attention to compatibility characters such as 勉 (64051.svg) which has the same glyph in Japanese as 勉 (21193.svg) in simplified Chinese, but does not have the same unicode.
-
-Each svg can be inserted as is in a web page, or with some modifications using for instance javascript.
 
 ## Usage
 
 First, you have to download animCJK somewhere on your computer (then evenly upload it on a webserver).
 
-### Basic usage
-
 The animCJK svg files representing a character can be used anywhere an image file can be used.
 
-You can insert an animCJK svg file representing a character as is in a web page.
+### Basic usage
 
-For instance, you can use php (assume that you moved or uploaded animCJK repository on a php server). Write the code below in a file called simple.php and store it in the samples folder of AnimCJK. Then run simple.php in a browser.
+A svg file can be used as the source of a html img tag. Write the code below in a file called simple1.html and store it in the samples folder of AnimCJK. Then run simple1.html in a browser.
+```
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="initial-scale=1.0,user-scalable=yes">
+<style>
+img
+{
+	width:256px;
+	height:256px;
+}
+</style>
+<title>Simple usage of AnimCJK</title>
+</head>
+<body>
+<h1>Simple usage of AnimCJK</h1>
+<img alt="Kanji for middle" src="../svgsJa/20013.svg">
+</body>
+</html>
+```
+
+A svg file can also be inserted as is in the html code of a web page.
+
+You can just copy the content of the svg in the html code or you can use for instance php (assume that you moved or uploaded animCJK repository on a php server). Write the code below in a file called simple2.php and store it in the samples folder of AnimCJK. Then run simple2.php in a browser.
 ```
 <!doctype html>
 <html>
@@ -64,7 +97,7 @@ include "../svgsJa/20013.svg"; // include Japanese 中
 </body>
 </html>
 ```
-Alternately, you can use HTML and Javascript. Write the code below in a file called simple.html and store it in the samples folder of AnimCJK. Then run simple.html in a browser.
+Alternately, you can use HTML and Javascript to insert a svg in a page. Write the code below in a file called simple3.html and store it in the samples folder of AnimCJK. Then run simple3.html in a browser.
 ```
 <!doctype html>
 <html>
@@ -98,6 +131,24 @@ You can insert svg files as HTML code in Anki card's note fields.
 
 For instance, using Anki card editor, select "Recto" field of a card's note, then click on the "hamburger" icon, select the menu that allows to modify the HTML and paste the content of any AnimCJK svg file representing a character anywhere in the HTML code.
 
+### Heisig
+
+In theory, all kanji of the Heisig RTK are in svgsJa.
+
+Most primitives are also in svgsJa, but some may be in other folders.
+
+Primitives that are also kana are in svgsJaKana.
+
+Primitives that look as a simplified Chinese character are in svgsZhHans.
+
+Primitives that are also a bopomofo character are in svgsZhHansZoo.
+
+Primitives that may not have a corresponding character in Unicode code charts are in svgsJaZoo.
+
+A correspondance table between primitive names and AnimCJK svg files can be found in samples/_csv/heisig-animCJK-primitives.csv.
+
+See also https://parsimonhi.github.io/animCJK/samples/heisig.html sample page.
+
 ### Other usages
 
 Several samples are provided to show how to use AnimCJK.
@@ -129,14 +180,18 @@ To display components of a character in different colors, a specific decompositi
 An "acjk" decomposition starts with a character, followed by its number of stroke (which indicates that the character is not decomposed), or followed by an ideographic description character (which indicates that the character is decomposed).
 The ideographic description character is followed by several component decompositions (3 for "⿲" and "⿳", 2 for ⿰","⿱","⿴","⿵","⿶","⿷","⿸","⿹","⿺" and "⿻).
 If a component has no corresponding character to represent it, its decomposition just starts with the ideographic description character.
-If a component has no corresponding character to represent it and no decomposition, its decomposition starts by a "?" followed by its number of stroke.
-A component may be represented by a character that has more strokes than it, followed by the decomposition of the component instead of the representing character.
+A component may be represented by a character that has a different stroke number.
 A component may be represented by a character that has a different glyph, but is semantically the same as the component.
 Special case 1: when a component is also the radical of the main character, a special mark is inserted just after the component character (actually a ".").
 Special case 2: sometimes, a component is split in several parts (when some strokes of other components are drawn "between" its parts). In such a case, each part is represented by a specific decomposition starting with the component character which is split, followed by a special mark (actually a ":"), followed by the decomposition of this part.
+Special case 3: sometimes, two components have a stroke in common. In this case,
+one splits both components, adding the split special mark after them. For the stroke they have in common,
+one puts the first component followed by the split special mark, then the second component followed by the split special mark, then the number 1.
 When there is more than one special mark, the radical special mark is inserted first.
-It is mandatory to decompose a component which contains the radical of the main character. It is optional to decompose other components.
-If a character has several possible decompositions, just concatenate them.
+It is mandatory to decompose a component containing the radical of the main character.
+It is desirable to decompose a component represented by a character that has a different glyph.
+It is optional to decompose other components.
+It is always possible to decompose a character or a component using strokes if necessary.
 
 ## Plugin for Wordpress
 
@@ -197,6 +252,30 @@ We used various sources to cross-check our data. In particular:
 - How SVG Line Animation Works, https://css-tricks.com/svg-line-animation-works/
 
 ## What is new?
+
+2026/04/11
+- modify stroke order in svgsZhHans
+	磙
+- change glyph in ja
+	條刹弑亲杂杀
+- improve in svgsJa
+	丩術磔択㬎
+- improve in svgsZhHans
+	礤礞礓丩𠫓礅缁甾磺碥 磙磔磋磉碹碲硪硷碛碜 碡缗㬎
+- improve in svgsZhHant
+	髒
+- add in svgsJa
+	䖒䖵紿絅絋絎絏絖絛絣 絨絲絳絽綉綏綛綟綢綣 綫綯莧萈綰綵綽⺶隺㝉 隕蟄輻贖躓鋏驢鮨鑿脛 躊靄躾邁饅𫩠𭤨⻖⻏⻗
+	𣪲亐敃毌豐珤緇甾廌叀 𤰔歨鈬緕緘緜緝緞緡昬 緤緲縅
+- add in svgsZhHans
+	䖒䖵劵尃𬀷畺賈憂異岡 倉貰𠅃尗耑欶喿疐臤㕡 厭壯冓𠀎䜭猒夗貫厓楙 畧婁喬阞狊豊僕麃糞堯 嗇𭚧夲仝収監縣纟羴氾
+	泙⺶隺𭤨⻖⻏⻗呑㥑脩 畕與冡𫔴缊頻兌𠀐毌豐 媷叀庫𤰔歨𥝢眔猋遷䙴 䙲𦍒軍辡耴兟豩䜌呉萠 咼昬冎𠠴囙圡
+- add in svgsJaZoo
+	various primitives that may not have a corresponding character in Unicode code charts
+- add in svgsZhHansZoo
+	ㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏㄐㄑㄒㄓㄔㄕㄖㄗㄘㄙㄚㄛㄜㄝㄞㄟㄠㄡㄢㄣㄤㄥㄦㄧㄨㄩ
+- add the Heisig sample
+- various modifications in the dictionaries
 
 2026/04/02
 - various decomposition changes
@@ -701,9 +780,9 @@ Note: there are many tiny differences (stroke order, glyph, ...) between the tra
 ## Licences
 
 In summary, you can freely redistribute and/or modify the files of this project under the terms of:
-- Arphic Public License (files prefixed by "graphics" and SVG files representing kanji or hanzi),
+- Arphic Public License (files prefixed by "graphics" and SVG files representing kanji, hanja and hanzi),
 - GNU Lesser General Public License (all other files).
 
-Note: SVG files representing Kana or strokes may be redistributed and/or modified under the GNU Lesser General Public License alone, since these SVG are not derived from Arphic fonts (no entry for these characters in Arphic fonts).
+Note: SVG files representing Kana or strokes may be redistributed and/or modified under the GNU Lesser General Public License, since these SVG are not derived from Arphic fonts (no entry for these characters in Arphic fonts).
 
 See https://github.com/parsimonhi/animCJK/blob/master/licenses/COPYING.txt for more details about licences concerning this project.

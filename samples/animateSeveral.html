@@ -66,7 +66,9 @@ or click on some characters in the bottom list.</p>
 </nav>
 </footer>
 <script>
-let ready,store,nmax=100;
+let ready,store,nmax;
+if(window.location.hostname=="localhost") nmax=1000;
+else nmax=10;
 function getLangAcjk()
 {
 	let e=document.querySelector('[name="lang"]:checked');
@@ -80,7 +82,7 @@ function cleanDataForAnimateSeveral(s)
 	for (let c of s)
 	{
 		let dec=c.codePointAt(0);
-    	if(dec>=11904) {r+=c;k++;if(k>nmax) break;}
+    	if(dec>=11904) {r+=c;k++;if(k>=nmax) break;}
 	}
 	return r;
 }
@@ -137,8 +139,7 @@ function doIt()
 			n=k;
 			if(dec)
 			{
-				let o={}; // prod
-				if(window.location.hostname=="localhost") o.cache="no-store"; // dev
+				let o={cache:"no-cache"};
 				fetch('../svgs'+lang+'/'+dec+'.svg',o)
 				.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
 				.then(r=>{

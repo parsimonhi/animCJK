@@ -151,8 +151,7 @@ function doIt()
 		e.value=String.fromCodePoint(dec);
 		if(dec>=11904)
 		{
-			let o={}; // prod
-			if(window.location.hostname=="localhost") o.cache="no-store"; // dev
+			let o={cache:"no-cache"};
 			fetch('../svgs'+lang+'/'+dec+'.svg',o)
 			.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
 			.then(r=>{run(r);return true;})
