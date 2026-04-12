@@ -5,15 +5,26 @@ Purpose: make graphicsXxx.txt from svgsXxx folder content
 Usage 1: run makeGraphicsFromSvgs.php in a browser
 Usage 2: run makeGraphicsFromSvgs.php?d=Xxx in a browser
 Usage 3: run makeGraphicsFromSvgs.php?d=Xxx&r=ppp in a browser
-(where ppp is a relative path between the directory of this script
-and the directory where svgsXxx are stored)
+(where ppp is a relative path between the directory that contains this script
+and the directory that contains svgsXxx)
 Xxx may be omitted or an empty string, and can contain only letters, number and minus sign
 Requirements: svgsXxx directory must exist, graphicsXxx.txt file must not exist
 Clean svg paths (remove decimal, replace "," by " ", ...)
 Does nothing if svgsXxx doesn't exist
 Does nothing if graphicsXxx.txt already exists
-Note: the server must be "localhost" or the server specified as value of $myServer below
+Note1: no dependencies
+Note2: the server must be "localhost"
 -->
+<?php
+// run only on localhost
+if ($_SERVER['SERVER_NAME']!="localhost")
+{
+	echo "<body>Can run only on localhost</body></html>\n";
+	exit(0);
+}
+mb_internal_encoding("UTF-8");
+mb_regex_encoding("UTF-8");
+?>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
@@ -24,32 +35,21 @@ footer a {text-align:center;color:#000;}
 </head>
 <body>
 <?php
-// if you want to use a server which is not "localhost"
-// replace the value of $myServer below by your server domain or ip
-// avoid to let $myServer set to a production server to avoid anybody runs this script
-$myServer="";
-if (isset($_GET["p"])&&(md5($_GET["p"]."acjk")=="897950b81d960d551df6a6e9e9df9be5"))
-{
-	$myServer="gooo.free.fr";
-	$pAcjk=1;
-}
-else $pAcjk=0;
 $version=(isset($_GET["d"])?$_GET["d"]:"");
 if (isset($_GET["r"])) $r=$_GET["r"]."/";
 else $r="";
 $version=ucfirst($version); // mandatory
 $dir=$r."svgs".$version;
 $target=$r."graphics".$version.".txt";
-
-include_once __DIR__."/samples/_php/getCharList.php";
-include_once __DIR__."/lib.php";
-
-if(isset($_GET["check"])) $check=intval($_GET["check"]);
-else $check=0;
 ?>
-<h1>Make graphics<?php echo $version;?>.txt file
-from svgs<?php echo $version;?> directory content</h1>
+<h1>Make graphics<?=$version;?>.txt from svgs<?=$version;?></h1>
 <?php
+function unichr($u)
+{
+	// return a char from its decimal unicode
+    return mb_convert_encoding('&#'.intval($u).';','UTF-8','HTML-ENTITIES');
+}
+
 function transformPathFromSvgs($p)
 {
 	//assume "-" never follows a number
@@ -93,21 +93,11 @@ function replaceVHbyL($p)
 
 function makeGraphics($dir,$target,$version)
 {
-	global $check;
-	if($check)
-	{
-		$listOfChar="";
-		if($version=="Ja") $listOfChar.=getCharList("Ja");
-		else if($version=="Ko") $listOfChar.=getCharList("Ko");
-		else if($version=="ZhHans") $listOfChar.=getCharList("ZhHans");
-		else if($version=="ZhHant") $listOfChar.=getCharList("ZhHant");
-		else $check=0;
-	}
 	if (file_exists($target)) unlink($target);
 	$a=scandir($dir);
 	natsort($a);
 	$k=0;
-	$badChars="";
+	// assume $dir contains only the svgs one wants
 	foreach ($a as $f)
 	{
 		if(preg_match("/^[0-9]+z?\.svg$/",$f))
@@ -115,18 +105,16 @@ function makeGraphics($dir,$target,$version)
 			
 			$dec=intVal($f);
 			$char=unichr($dec);
-			if(!$check||(mb_strpos($listOfChar,$char)!== false))
+			$handle=fopen($dir."/".$f,"r");
+			$s='{"character":"'.$char.'","strokes":[';
+			if ($handle)
 			{
-				$handle=fopen($dir."/".$f,"r");
-				$s='{"character":"'.$char.'","strokes":[';
-				if ($handle)
-				{
 				$k++;
 				echo $k.": ".unichr($dec)." ".$f."\n";
 				$n=0;
 				while (($line=fgets($handle))!==false)
 				{
-					$r='#<path[^>]+id="z[0-9]+d[0-9]+"[^>]+d="([^"]+)"[^>]+>#';
+					$r='#<path[^>]+id="z[0-9]+d[0-9]+[a-z]?"[^>]+d="([^"]+)"[^>]+>#';
 					if (preg_match($r,$line,$m))
 					{
 						if ($n) $s.=",";
@@ -201,26 +189,27 @@ function makeGraphics($dir,$target,$version)
 				echo " n=".$n."<br>\n";
 				fclose($handle);
 			}
-				else echo "Cannot open \"".$f."\"<br>\n";
-			}
-			else if($check) $badChars.=$char;
-			else echo $char." not in convenient set!<br>\n";
+			else echo "Cannot open \"".$f."\"<br>\n";
 		}
 	}
-	echo "Bad chars: ".$badChars."<br>\n";
 	echo "Target: ".$target."<br>\n";
 }
 
 echo "<p>Begin<br>\n";
-if (($_SERVER['SERVER_NAME']!="localhost")&&($_SERVER['SERVER_NAME']!=$myServer))
-	echo "Not a convenient server<br>\n";
-else if (!file_exists($dir)) echo "Error: ".$dir." directory not found<br>\n";
-else if (!$pAcjk&&file_exists($target))
+if (!file_exists($dir)) echo "Error: ".$dir." directory not found<br>\n";
+else if (file_exists($target))
 {
-	echo "Error: ".$target." file already exists<br>\n";
-	echo "Verify if the version is correct";
-	echo " (you specified ".($version?"\"".$version."\"":"an empty string")." as version)<br>\n";
-	echo "If the version is correct, rename or delete the existing ".$target." file before retrying<br>\n";
+	echo "<br>Error: ".$target." file already exists<br><br>\n";
+	echo "Verify if d parameter is correct";
+	echo " (you specified ".($version?"\"".$version."\"":"an empty string")." as d value)<br>\n";
+	echo "If d value is correct, rename or delete the existing ".$target." file before retrying<br><br>\n";
+	echo "Usage 1: run makeGraphicsFromSvgs.php in a browser<br>\n";
+	echo "Usage 2: run makeGraphicsFromSvgs.php?d=Xxx in a browser<br>\n";
+	echo "Usage 3: run makeGraphicsFromSvgs.php?d=Xxx&r=ppp in a browser<br><br>\n";
+	echo "ppp is a relative path between the directory that contains this script and the directory that contains svgsXxx<br>\n";
+	echo "Xxx may be omitted or an empty string, and can contain only letters, number and minus sign<br>\n";
+	echo "svgsXxx directory must exist, graphicsXxx.txt file must not exist<br><br>\n";
+	echo "Can run only on localhost<br><br>\n";
 }
 else makeGraphics($dir,$target,$version);
 echo "End</p>\n";
@@ -228,7 +217,7 @@ echo "End</p>\n";
 <footer>
 <a href="./">Home</a>
 - <a href="licenses/COPYING.txt">Licences</a><br>
-Copyright 2016-2025 - FM&SH
+Copyright 2016-2026 - FM&SH
 </footer>
 </body>
 </html>

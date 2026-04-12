@@ -141,7 +141,7 @@ Primitives that are also kana are in svgsJaKana.
 
 Primitives that look as a simplified Chinese character are in svgsZhHans.
 
-Primitives that are also a bopomofo character are in svgsZhHansZoo.
+Primitives that are also a Bopomofo character are in svgsZhHansZoo.
 
 Primitives that may not have a corresponding character in Unicode code charts are in svgsJaZoo.
 
@@ -252,6 +252,16 @@ We used various sources to cross-check our data. In particular:
 - How SVG Line Animation Works, https://css-tricks.com/svg-line-animation-works/
 
 ## What is new?
+
+2026/04/12
+- modify makeGraphicsFromSvgs.php (now can deal any folder containing animCJK svg files)
+- remove makeGraphicsFromSvgs4Kana.php (now makeGraphicsFromSvgs.php can do the job)
+- remove any other php files
+- modify index.html
+- modify selectorAcjk.js
+- modify mediansAcjk.js
+- minor other modifications
+- replace "z0" by "z99" in the svg files of svgsJaZoo
 
 2026/04/11
 - modify stroke order in svgsZhHans
@@ -783,6 +793,6 @@ In summary, you can freely redistribute and/or modify the files of this project 
 - Arphic Public License (files prefixed by "graphics" and SVG files representing kanji, hanja and hanzi),
 - GNU Lesser General Public License (all other files).
 
-Note: SVG files representing Kana or strokes may be redistributed and/or modified under the GNU Lesser General Public License, since these SVG are not derived from Arphic fonts (no entry for these characters in Arphic fonts).
+Note: SVG files representing Kana, Bopomofo and strokes may be redistributed and/or modified under the GNU Lesser General Public License, since these SVG are not derived from Arphic fonts (no entry for these characters in Arphic fonts).
 
 See https://github.com/parsimonhi/animCJK/blob/master/licenses/COPYING.txt for more details about licences concerning this project.

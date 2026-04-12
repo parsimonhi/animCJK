@@ -457,6 +457,12 @@ function scrollToOk()
 	if (window.innerHeight>(top+height)) window.scrollTo(0,0);
     else window.scrollTo(0,okTop-8);
 }
+function getStrokesFromAcjk(acjk)
+{
+	let a=acjk.split(/[^0-9]+/u),n=0;
+	a.forEach(b=>n+=-(-b));
+	return n;
+}
 function buildDicoContent(r)
 {
 	let c,dec,hex,dico="";
@@ -468,6 +474,7 @@ function buildDicoContent(r)
 	if(Object.hasOwn(r,"on")) dico+="<dt>On</dt><dd class=\"on\">"+(r.on+"").replace(/,([^ ])/g,", $1")+"</dd>";
 	if(Object.hasOwn(r,"kun")) dico+="<dt>Kun</dt><dd class=\"kun\">"+(r.kun+"").replace(/,([^ ])/g,", $1")+"</dd>";
 	if(Object.hasOwn(r,"definition")) dico+="<dt>Definition</dt><dd class=\"definition\">"+r.definition+"</dd>";
+	if(Object.hasOwn(r,"acjk")) dico+="<dt>Strokes</dt><dd class=\"strokes\">"+getStrokesFromAcjk(r.acjk)+"</dd>";
 	if(Object.hasOwn(r,"radical")) dico+="<dt>Radical</dt><dd class=\"radical\">"+r.radical+"</dd>";
 	if(Object.hasOwn(r,"decomposition")) dico+="<dt>Decomposition</dt><dd class=\"decomposition\">"+r.decomposition+"</dd>";
 	if(Object.hasOwn(r,"acjk")) dico+="<dt>Acjk</dt><dd class=\"acjkDecomposition\">"+r.acjk+"</dd>";
@@ -521,10 +528,13 @@ function continueOk(c,lang,langLabel,dec,j,o)
 {
 	let dicoLine=getOneFromDico(c,langLabel);
 	if(dicoLine)
-		fetch('svgs'+langLabel+"/"+dec+".svg",o)
+	{
+		let zoo=(Object.hasOwn(dicoLine,"set")&&dicoLine['set'].includes("bopomofo"))?1:0;
+		fetch('svgs'+langLabel+(zoo?"Zoo":"")+"/"+dec+".svg",o)
 		.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
 		.then(s=>{endOk(c,lang,dec,s,dicoLine);return true;})
 		.catch(e=>{console.log(e);endError(c,lang,dec)});
+	}
 	else endError(c,lang,dec);
 }
 function ok()
@@ -542,14 +552,8 @@ function ok()
 		let o={cache:"no-cache"};
 		dec=c.codePointAt(0);
 		kana=(langLabel=="Ja")&&(dec>=12353)&&(dec<=12540);
-		bopomofo=(langLabel=="ZhHans")&&(dec>=12549)&&(dec<=12591);
 		if(kana) 
 			fetch('svgs'+langLabel+"Kana/"+dec+".svg",o)
-			.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
-			.then(s=>{endOk(c,lang,dec,s,{character:c});return true;})
-			.catch(e=>{console.log(e);endError(c,lang,dec)});
-		else if(bopomofo)
-			fetch('svgs'+langLabel+"Zoo/"+dec+".svg",o)
 			.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
 			.then(s=>{endOk(c,lang,dec,s,{character:c});return true;})
 			.catch(e=>{console.log(e);endError(c,lang,dec)});
@@ -580,6 +584,7 @@ function initSection()
 	{
 		e.checked=true;
 		document.documentElement.lang=e.getAttribute("data-lang");
+		populateCharLists();
 	}
 }
 function initDico()
@@ -620,12 +625,15 @@ function initAll()
 }
 function changeSection()
 {
-	let e=document.querySelector('[name="section"]:checked'),section;
+	let e=document.querySelector('[name="section"]:checked'),
+		section,lang;
 	if(e)
 	{
 		section=e.value;
+		lang=e.getAttribute("data-lang");
 		localStorage.setItem("section",section);
-		document.documentElement.lang=e.getAttribute("data-lang");
+		document.documentElement.lang=lang;
+		populateCharLists();
 		ok();
 	}
 }
@@ -655,19 +663,6 @@ function changeSize()
 	let size=document.querySelector('[name="size"]').value;
 	localStorage.setItem("size", size);
 	document.querySelector(':root').style.setProperty('--size',size+"px");
-}
-function changeSection()
-{
-	let e=document.querySelector('[name="section"]:checked'),
-		section,lang;
-	if(e)
-	{
-		section=e.value;
-		lang=e.getAttribute("data-lang");
-		localStorage.setItem("section",section);
-		document.documentElement.lang=lang;
-		ok();
-	}
 }
 function magic(ev)
 {
@@ -743,8 +738,9 @@ function endPopulateChars(langLabel)
 }
 function populateCharLists()
 {
-	let langLabels=["Ja","Ko","ZhHans","ZhHant"];
-	langLabels.forEach(langLabel=>
+	let langLabel=localStorage.getItem("section")?localStorage.getItem("section"):"Ja";
+	// if(dicos[langLabel]) assume populateCharLists() was already done for langLabel
+	if(!dicos[langLabel])
 	{
 		let o={cache:"no-cache"};
 		fetch('dictionary'+langLabel+".txt",o)
@@ -758,11 +754,10 @@ function populateCharLists()
 				endPopulateChars(langLabel);return true;
 			})
 		.catch(e=>{console.log(e)}); // just in case
-	});
+	};
 }
 window.addEventListener("load",function()
 {
-	populateCharLists();
 	// add a handler to #data input to do something when the user hits the return key
 	document.getElementById("data").addEventListener("keyup",function(event)
 	{

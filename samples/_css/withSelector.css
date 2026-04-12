@@ -60,7 +60,7 @@ button[name="run"]
 	cursor:pointer;
 	font-size:1.25em;
 }
-html[lang="ja"] .charListSelector section:not([lang="ja"]){display:none;}
-html[lang="ko"] .charListSelector section:not([lang="ko"]){display:none;}
-html[lang="zh-Hans"] .charListSelector section:not([lang="zh-Hans"]){display:none;}
-html[lang="zh-Hant"] .charListSelector section:not([lang="zh-Hant"]){display:none;}
+body:has([type="Radio"][value="Ja"]:checked) .charListSelector section:not([lang="ja"]){display:none;}
+body:has([type="Radio"][value="Ko"]:checked) .charListSelector section:not([lang="ko"]){display:none;}
+body:has([type="Radio"][value="ZhHans"]:checked) .charListSelector section:not([lang="zh-Hans"]){display:none;}
+body:has([type="Radio"][value="ZhHant"]:checked) .charListSelector section:not([lang="zh-Hant"]){display:none;}

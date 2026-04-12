@@ -6,111 +6,88 @@
 // This function is executed:
 //	- when the user changes the lang using the lang selector
 //	- clicking on the "Run" button of the char selector
-// A afterAddingChartSelector may be defined in the calling page to execute something
-// just after adding the char list to the page
-// A charListMap object may be set in the calling page to indicate
+// A function called afterAddingChartSelector may be defined in the calling page
+// to execute something just after adding the char list to the page
+// A charList object may be set in the calling page to indicate
 // what the char list selector will contain
 (function()
 {
+	let url=new URL(document.currentScript.src);
+	let path=url.pathname.replace("_js/selectorAcjk.js","")+'../';
 	let langSelector=document.querySelector('.langSelector');
 	let dataSelector=document.querySelector('.dataSelector');
 	let charListSelector=document.querySelector('.charListSelector');
-	let map;
+	let charList2={};
 	if(charListSelector)
 	{
-		if(typeof charListMap !== "undefined") map=JSON.stringify(charListMap);
+		// in practice, only some experimental pages define their own charList
+		if(typeof charList !== "undefined") charList2=charList;
 		else
 		{
 			// default map (convenient for samples)
-			let charListMap={};
-			charListMap["Ja"]=["g1","g2","g3","g4","g5","g6","g7"];
-			charListMap["Ko"]=["hanja8","hanja7","hanja6","hanja5","hanja4","hanja3","hanja2","hanja1"];
-			charListMap["ZhHans"]=["hsk31","hsk32","hsk33","hsk34","hsk35","hsk36","hsk37","hsk38","hsk39"];
-			charListMap["ZhHant"]=["t31","t32","t33","t34","t35","t36","t37","t38","t39"];
-			map=JSON.stringify(charListMap);
+			charList2.type="fromDic";
+			charList2.map={};
+			for(let lang of ["Ja","Ko","ZhHans","ZhHant"]) charList2.map[lang]={};
+			charList2.map["Ja"]["Kanji"]=["g1","g2","g3","g4","g5","g6","g7"];
+			charList2.map["Ko"]["Hanja"]=["hanja8","hanja7","hanja6","hanja5","hanja4"/*,"hanja3","hanja2","hanja1"*/];
+			charList2.map["ZhHans"]["Simplified Hanzi"]=["hsk31","hsk32","hsk33","hsk34","hsk35","hsk36","hsk37","hsk38","hsk39"];
+			charList2.map["ZhHant"]["Traditional Hanzi"]=["t31","t32","t33"/*,"t34","t35","t36","t37","t38","t39"*/];
+			charList2.title={};
+			// Ja titles
+			charList2.title["hiragana"]="Hiragana";
+			charList2.title["katakana"]="Katakana";
+			for(let k=1;k<7;k++) charList2.title["g"+k]="Grade "+k;
+			charList2.title["g7"]="Junior high school";
+			charList2.title["g8"]="Jinmeiyō";
+			charList2.title["g9"]="Hyōgai";
+			charList2.title["gc"]="Components";
+			// Ko titles
+			charList2.title["hanguljamo"]="Jamo";
+			charList2.title["hangulsyllables"]="Hangul";
+			for(let k=8;k>0;k--) charList2.title["hanja"+k]="Hanja level "+k;
+			charList2.title["hanja1800a"]="1800 Hanja part 1";
+			charList2.title["hanja1800b"]="1800 Hanja part 2";
+			charList2.title["commonHanjaNotInHanja1800"]="Common Hanja not in the 1800";
+			charList2.title["ku"]="Some uncommon Hanja";
+			charList2.title["kc"]="Some components";
+			// ZhHans titles
+			for(let k=1;k<10;k++) charList2.title["hsk3"+k]="Hsk v3 level "+k+", simplified Hanzi";
+			charList2.title["frequent2500"]="2500 frequent simplified Hanzi";
+			charList2.title["lessFrequent1000"]="1000 less frequent simplified Hanzi";
+			charList2.title["commonNotFrequent3500"]="3500 common but not frequent simplified Hanzi";
+			charList2.title["common7000"]="7000 common simplified Hanzi";
+			charList2.title["traditional"]="Some traditional Hanzi";
+			charList2.title["bopomofo"]="Bopomofo";
+			// ZhHant titles
+			for(let k=1;k<10;k++) charList2.title["t3"+k]="Hsk v3 level "+k+", traditional Hanzi";
+			charList2.title["taiwan4808"]="4808 traditional Hanzi";
+			charList2.title["t3NotTaiwan4808"]="Some HSK v3 traditional hanzi not in the 4808";
+			charList2.title["taiwan4808NotT3"]="Some of the 4808 not in HSK v3";
+			charList2.title["tu"]="Some uncommon traditional Hanzi";
+			charList2.title["tc"]="Some components";
+			// All langs
+			charList2.title["radical"]="The 214 radicals";
+			charList2.title["stroke"]="Strokes";
 		}
 	}
-	function makeTitle(s)
+	
+	function makeLangIso(langAcjk)
 	{
-		if(s=="hiragana") return "Hiragana";
-		if(s=="katakana") return "Katakana";
-		if(s=="g1") return "Grade 1";
-		if(s=="g2") return "Grade 2";
-		if(s=="g3") return "Grade 3";
-		if(s=="g4") return "Grade 4";
-		if(s=="g5") return "Grade 5";
-		if(s=="g6") return "Grade 6";
-		if(s=="g7") return "Junior high school";
-		if(s=="g8") return "Jinmeiyō";
-		if(s=="g9") return "Hyōgai";
-		if(s=="gc") return "Components";
-		if(s=="hanja8") return "Hanja level 8";
-		if(s=="hanja7") return "Hanja level 7";
-		if(s=="hanja6") return "Hanja level 6";
-		if(s=="hanja5") return "Hanja level 5";
-		if(s=="hanja4") return "Hanja level 4";
-		if(s=="hanja3") return "Hanja level 3";
-		if(s=="hanja2") return "Hanja level 2";
-		if(s=="hanja1") return "Hanja level 1";
-		if(s=="hanja1800a") return "1800 Hanja part 1";
-		if(s=="hanja1800b") return "1800 Hanja part 2";
-		if(s=="commonHanjaNotInHanja1800") return "Common Hanja not in 1800 Hanja";
-		if(s=="ku") return "Uncommon hanja";
-		if(s=="kc") return "Components";
-		if(s=="hanguljamos") return "Jamo";
-		if(s=="hangulsyllables") return "Hangul";
-		if(s=="hsk31") return "HSK v3 level 1, simplified hanzi";
-		if(s=="hsk32") return "HSK v3 level 2, simplified hanzi";
-		if(s=="hsk33") return "HSK v3 level 3, simplified hanzi";
-		if(s=="hsk34") return "HSK v3 level 4, simplified hanzi";
-		if(s=="hsk35") return "HSK v3 level 5, simplified hanzi";
-		if(s=="hsk36") return "HSK v3 level 6, simplified hanzi";
-		if(s=="hsk37") return "HSK v3 level 7, simplified hanzi";
-		if(s=="hsk38") return "HSK v3 level 8, simplified hanzi";
-		if(s=="hsk39") return "HSK v3 level 9, simplified hanzi";
-		if(s=="frequentNotHsk3") return "Other frequent hanzi";
-		if(s=="commonNotHsk3NorFrequent") return "Other common hanzi";
-		if(s=="frequent2500") return "2500 frequent hanzi";
-		if(s=="lessFrequent1000") return "1000 less frequent hanzi";
-		if(s=="commonNotFrequent3500") return "3500 other common hanzi";
-		if(s=="common7000") return "7000 common hanzi";
-		if(s=="traditional") return "Traditional hanzi used in simplified Chinese";
-		if(s=="uncommon") return "Uncommon hanzi";
-		if(s=="bopomofo") return "Bopomofo";
-		if(s=="component") return "Components";
-		if(s=="t31") return "HSK v3 level 1, traditional hanzi";
-		if(s=="t32") return "HSK v3 level 2, traditional hanzi";
-		if(s=="t33") return "HSK v3 level 3, traditional hanzi";
-		if(s=="t34") return "HSK v3 level 4, traditional hanzi";
-		if(s=="t35") return "HSK v3 level 5, traditional hanzi";
-		if(s=="t36") return "HSK v3 level 6, traditional hanzi";
-		if(s=="t37") return "HSK v3 level 7, traditional hanzi";
-		if(s=="t38") return "HSK v3 level 8, traditional hanzi";
-		if(s=="t39") return "HSK v3 level 9, traditional hanzi";
-		if(s=="taiwan4808") return "Taiwan 4808 traditional hanzi";
-		if(s=="t3NotTaiwan4808") return "HSK v3 traditional hanzi not in Taiwan 4808";
-		if(s=="taiwan4808NotT3") return "Taiwan 4808 traditional hanzi not in HSK v3";
-		if(s=="tu") return "Uncommon traditional hanzi";
-		if(s=="tc") return "Components";
-		if(s=="radical") return "The 214 radicals";
-		if(s=="stroke") return "Strokes";
-		return s;
-	}
-	function makeLangIso(lang)
-	{
-		if(lang=="ZhHans") return "zh-Hans";
-		if(lang=="ZhHant") return "zh-Hant";
-		if(lang=="Ko") return "ko";
+		if(langAcjk=="ZhHans") return "zh-Hans";
+		if(langAcjk=="ZhHant") return "zh-Hant";
+		if(langAcjk=="Ko") return "ko";
 		return "ja";
 	}
 	function setLang(lang)
 	{
-		document.querySelector('html').setAttribute("lang",makeLangIso(lang));
+		localStorage.setItem("section",lang);
+		buildSections(lang,path);
 		if(!!window.doIt) doIt();
 	}
 	function addOneLangRadio(p,value,label,langIso)
 	{
-		let s="",e,checked=(value=="Ja"?" checked":"");
+		let lang=localStorage.getItem("section")?localStorage.getItem("section"):"Ja";
+		let s="",e,checked=(value==lang?" checked":"");
 		e=document.createElement('label');
 		s+="<input type=\"radio\" name=\"lang\"";
 		s+=" data-lang=\""+langIso+"\" value=\""+value+"\" "+checked+">";
@@ -127,7 +104,9 @@
 		addOneLangRadio(p,"ZhHans","Simplified Chinese","zh-Hans");
 		addOneLangRadio(p,"ZhHant","Traditional Chinese","zh-Hant");
 	}
-	function addCharSelector(p)
+	if(langSelector) addLangSelector(langSelector);
+	
+	function addDataSelector(p)
 	{
 		let s="",e;
 		s+="<label>Kanji, Hanja or Hanzi (one char only)<input name=\"data\"></label>";
@@ -136,6 +115,8 @@
 		e=p.querySelector('[name="run"]');
 		e.addEventListener('click',(!!window.doIt)?doIt:function(){alert("No doIt?")});
 	}
+	if(dataSelector) addDataSelector(dataSelector);
+
 	function click(ev)
 	{
 		let b=ev.target;
@@ -150,96 +131,114 @@
 		else alert("No doIt?");
 		b.classList.add="visited";
 	}
-	function addCharListSelector(p,r,lang)
+	function populateFieldset(fieldset,chars)
 	{
-		let section,list,s;
-		section=document.createElement('section');
-		if(lang=="ZhHans") s="<h2>Simplified hanzi</h2>";
-		else if(lang=="ZhHant") s="<h2>Traditional hanzi</h2>";
-		else if(lang=="Ko") s="<h2>Hanja</h2>";
-		else s="<h2>Kanji</h2>";
-		for(let a of r)
+		for(let c of [...chars])
 		{
-			s+="<details open><summary><h3>";
-			s+=a.title?a.title:"?";
-			s+="</h3></summary><fieldset>";
-			for(let c of [...a.chars]) s+='<button type="button">'+c+'</button>';
-			s+="</fieldset></details>";
+			let b=document.createElement("button");
+			b.setAttribute("type","button");
+			b.textContent=c;
+			fieldset.appendChild(b);
+			b.addEventListener("click",function(ev){click(ev);});
 		}
-		section.innerHTML=s;
-		section.setAttribute("lang",makeLangIso(lang));
-		p.appendChild(section);
-		list=section.querySelectorAll('button');
-		for(let b of list) b.addEventListener("click",function(ev){click(ev);});
-		if(!!window.afterAddingChartSelector)
-			if(p.querySelector('[lang="ja"]')&&p.querySelector('[lang="ko"]')
-				&&p.querySelector('[lang="zh-Hans"]')&&p.querySelector('[lang="zh-Hant"]'))
-				afterAddingChartSelector();
 	}
-		
-	if(langSelector) addLangSelector(langSelector);
-	if(dataSelector) addCharSelector(dataSelector);
-	
-	function buildFromDic(langLabel,charListMap2,path)
+	function buildFromList(section,lang)
 	{
-		let o={cache:"no-cache"};
-		fetch(path+'dictionary'+langLabel+'.txt',o)
-		.then(r=>r.text())
-		.then(d=>
-			{
-				let r=[];
-				d="["+d.replace(/\}\n\{/ug,"},{")+"]";
-				let dd=JSON.parse(d);
-				// store the dictionary in dicos if defined in the calling page
-				if(typeof dicos !== "undefined") dicos[langLabel]=dd;
-				for(let setLabel of charListMap2[langLabel])
-				{
-					let chars="";
-					for(let d1 of dd)
-						if(d1["set"].includes(setLabel)) chars+=d1["character"];
-					if(chars) r.push({title:makeTitle(setLabel),chars:chars});
-				}
-				addCharListSelector(charListSelector,r,langLabel);
-			}
-		);
-	}
-	
-	function buildFromCharList(path)
-	{
-		let request=new Request(path+'samples/_php/fetchCharList.php',
+		let fieldsets=section.querySelectorAll('section[data-lang="'+lang+'"] fieldset[data-set]');
+		for(let fieldset of fieldsets)
 		{
-  			method:"POST",
-  			body:JSON.stringify({s:"all",map:map}),
-  			cache:"no-cache"
-  		});
-		fetch(request)
-		.then(r=>r.json())
-		.then(j=>
-			{
-				for(let a of j) addCharListSelector(charListSelector,a.r,a.lang);
-			}
-		);
+			let setLabel=fieldset.getAttribute("data-set");
+			let chars=charList2.chars[setLabel];
+			populateFieldset(fieldset,chars);
+		}
+		if(!!window.afterAddingChartSelector) afterAddingChartSelector(lang,section.getAttribute("data-category"));
 	}
-	
-	if(charListSelector)
+	function buildFromDicContinue(section,lang,dd)
 	{
-		let url=new URL(document.currentScript.src),
-			path=url.pathname.replace("_js/selectorAcjk.js","")+'../';
-		if((typeof charListType !== "undefined")&&(charListType=="fromCharList"))
-			buildFromCharList(path);
+		
+		let fieldsets=section.querySelectorAll('fieldset[data-set]');
+		for(let fieldset of fieldsets)
+		{
+			let setLabel=fieldset.getAttribute("data-set");
+			let chars="";
+			for(let d1 of dd)
+				if(d1["set"].includes(setLabel)) chars+=d1["character"];
+			populateFieldset(fieldset,chars);
+		}
+		if(!!window.afterAddingChartSelector) afterAddingChartSelector(lang,section.getAttribute("data-category"));
+	}
+	function buildFromDic(section,lang,path)
+	{
+		if((typeof dicos !== "undefined")&&dicos[lang])
+		{
+			buildFromDicContinue(section,lang,dicos[lang]);
+		}
 		else
 		{
-			let charListMap2=JSON.parse(map);
-			for(let langLabel of ["Ja","Ko","ZhHans","ZhHant"])
-			{
-				if(charListMap2[langLabel])
+			let o={cache:"no-cache"};
+			fetch(path+'dictionary'+lang+'.txt',o)
+			.then(r=>r.text())
+			.then(d=>
 				{
-					if((typeof charListType !== "undefined")&&(charListType=="fromCharList"))
-						buildFromCharList(langLabel,charListMap2,path);
-					else buildFromDic(langLabel,charListMap2,path);
-				}
-			}
+					let r=[];
+					// dictionaries contain a list of JSON
+					// transform it in a global JSON 
+					d="["+d.replace(/\}\n\{/ug,"},{")+"]";
+					let dd=JSON.parse(d);
+					// store the dictionary in dicos if defined in the calling page
+					if(typeof dicos !== "undefined") dicos[lang]=dd;
+					buildFromDicContinue(section,lang,dd);
+				});
 		}
 	}
-
+	function buildSections(lang,path)
+	{
+		let categories=Object.getOwnPropertyNames(charList2.map[lang]);
+		let sections=[];
+		for(let category of categories)
+		{
+			let section=charListSelector.querySelector('.charListSelector section[data-lang="'+lang+'"][data-category="'+category+'"]');
+			if(section) return;
+			let section2=document.createElement('section');
+			sections.push(section2);
+			let h2=document.createElement('h2');
+			h2.textContent=category;
+			section2.appendChild(h2);
+			for(let setLabel of charList2.map[lang][category])
+			{
+				let details=document.createElement('details');
+				details.open=true;
+				let summary=document.createElement('summary');
+				let h3=document.createElement('h3');
+				h3.textContent=charList2.title[setLabel];
+				summary.appendChild(h3);
+				details.appendChild(summary);
+				let fieldset=document.createElement('fieldset');
+				fieldset.setAttribute("data-set",setLabel);
+				details.appendChild(fieldset);
+				section2.appendChild(details);
+			}
+			section2.setAttribute("data-lang",lang);
+			section2.setAttribute("lang",makeLangIso(lang));
+			section2.setAttribute("data-category",category);
+			charListSelector.appendChild(section2);
+			if(charList2.type=="fromList") buildFromList(section2,lang);
+			else buildFromDic(section2,lang,path);
+		}
+	}
+	if(charListSelector)
+	{
+		let langs=Object.getOwnPropertyNames(charList2.map);
+		if(langSelector)
+		{
+			let lang=localStorage.getItem("section")?localStorage.getItem("section"):langs[0];
+			buildSections(lang,path);
+		}
+		// if no langSelector, one cannot assume anything about the sections
+		// so build all
+		else for(let lang of langs)
+		{
+			buildSections(lang,path);
+		}
+	}
 })();

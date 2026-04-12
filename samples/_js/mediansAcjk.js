@@ -778,29 +778,11 @@ acjkm.boardClass.prototype.createNewSvg=function(nStroke,p1)
 		{
 			if (acjkm.allJsonLines) acjkm.allJsonLines+="\n";
 			acjkm.allJsonLines+=acjkm.newJsonLine;
-			if(acjkm.recordType=="jsonFile")
-			{
-				if (!(acjkm.data.length%100)||(acjkm.data.length==1))
-				{
-					acjkm.setNewSvgAsJsonFile(acjkm.allJsonLines);
-					acjkm.allJsonLines="";
-				}
-			}
-			else if(acjkm.recordType=="svg")
-			{
-				acjkm.setNewSvgAsSvg(acjkm.allJsonLines);
-				acjkm.allJsonLines="";
-			}
+			acjkm.setNewSvgAsSvg(acjkm.allJsonLines);
+			acjkm.allJsonLines="";
 		}
 		acjkm.data=acjkm.data.replace([...acjkm.data][0],"");
-		if (acjkm.data&&(acjkm.recordType=="jsonFile"))
-		{
-			acjkm.board=[];
-			acjkm.svg=[];
-			acjkm.p1List=[];
-			acjkm.getOldSvgAsJsonFile([...acjkm.data][0]);
-		}
-		else if (!acjkm.data)
+		if (!acjkm.data)
 		{
 			if(acjkm.after) acjkm.after();
 		}
@@ -897,10 +879,10 @@ acjkm.buildSvg2=function(a,n)
 	u=a.character.charCodeAt(0);
 	id="hvg"+u;
 	viewBox="viewBox=\"0 0 1024 1024\"";
-	xmlns="xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"";
-	width=" width=\""+acjkm.d+"px\"";
-	height=" height=\""+acjkm.d+"px\"";
-	s="<svg id=\""+id+"\" version=\"1.1\" "+width+" "+height+" "+viewBox+" "+xmlns+">\n";
+	xmlns="xmlns=\"http://www.w3.org/2000/svg\"";
+	width="width=\""+acjkm.d+"px\"";
+	height="height=\""+acjkm.d+"px\"";
+	s="<svg id=\""+id+"\" "+width+" "+height+" "+viewBox+" "+xmlns+">\n";
 	s+="<g transform=\"scale(1,-1) translate(0,-900)\">\n";
 	s+="\t<defs>\n";
 	let stroke="",medianStr=a.medians[n].toString();
@@ -965,88 +947,6 @@ acjkm.createCanvas=function(a)
 		acjkm.board[k].img.src="data:image/svg+xml;base64,"+btoa(acjkm.svg[k]);
 	}
 };
-acjkm.getOldSvgAsJsonFile=function(data)
-{
-	let xhr;
-	if (data)
-	{
-		xhr=new XMLHttpRequest();
-		xhr.onreadystatechange=function()
-		{
-			if ((xhr.readyState==4)&&(xhr.status==200))
-			{
-				if (!xhr.responseText)
-				{
-					if(acjkm.errorOutput)
-						acjkm.errorOutput.innerHTML+="Error when get "+data;
-				}
-				else if (xhr.responseText.match(/^Error:/))
-				{
-					if(acjkm.errorOutput)
-						acjkm.errorOutput.innerHTML+=xhr.responseText;
-				}
-				else
-				{
-					let a,r,s;
-					s=xhr.responseText;
-					acjkm.oldJsonLine=s;
-					a=JSON.parse(s);
-					acjkm.numOfStrokes=a.strokes.length;
-					acjkm.counter++;
-					if(acjkm.debugOutput)
-					{
-						let b;
-						b="#"+acjkm.counter+" character";
-						if(typeof acjkm.source==='string')
-							b+=" (read from "+acjkm.source+")";
-						b+=": "+data+"<br>";
-						b+="Num of strokes: "+a.strokes.length+"<br>";
-						b+="Old Json line:<br>"+s+"<br>";
-						acjkm.debugOutput.innerHTML=b;
-					}
-					for (let k=0;k<acjkm.numOfStrokes;k++)
-					{
-						r=acjkm.buildSvg2(a,k);
-						acjkm.svg.push(r.s);
-						acjkm.p1List.push(r.start);
-					}
-					acjkm.createCanvas(a);
-				}
-			}
-		};
-		// jsonGetLine.php gets json line of the current character from acjkm.source
-		// acjkm.source can be something like "graphicsXxx.txt"
-		let path=acjkm.url.pathname.replace("_js/mediansAcjk.js","")+'_php/';
-		xhr.open("POST",path+"jsonGetLine.php",true);
-		xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-		xhr.send("data="+encodeURIComponent(data)+"&source="+acjkm.source);
-	}
-	else if(acjkm.errorOutput) acjkm.errorOutput.innerHTML+="Error, no data";
-}
-acjkm.setNewSvgAsJsonFile=function(data)
-{
-	var xhr,s,r,a,k,km;
-	xhr=new XMLHttpRequest();
-	xhr.onreadystatechange=function()
-	{
-		if (!((xhr.readyState==4)&&(xhr.status==200)))
-		{
-			if(acjkm.finalResultOutput)
-				acjkm.finalResultOutput.innerHTML+="...";
-		}
-		else
-		{
-			if(acjkm.finalResultOutput)
-				acjkm.finalResultOutput.innerHTML+=xhr.responseText+"<br>";
-		}
-    };
-    // jsonSetLine.php appends new json lines to acjkm.target
-    // acjkm.target can be something like "graphicsXxx-new.txt"
-	let path=acjkm.url.pathname.replace("_js/mediansAcjk.js","")+'_php/';
-	xhr.open("POST",path+"jsonSetLine.php",true);
-	xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-	xhr.send("data="+encodeURIComponent(data)+"&target="+acjkm.target);
-}
 acjkm.transformYCoordinate=function(a)
 {
 	let k,km;
@@ -1089,7 +989,6 @@ acjkm.getOldSvgAsSvg=function(data)
 	a=acjkm.transformYCoordinate(a);
 	s=JSON.stringify(a);
 	acjkm.oldJsonLine=s;
-	// then process data as getOldSvgAsJsonFile() does
 	acjkm.numOfStrokes=a.strokes.length;
 	acjkm.counter++;
 	if(acjkm.debugOutput)
@@ -1134,24 +1033,14 @@ acjkm.setNewSvgAsSvg=function(data)
 }
 acjkm.run=function(p)
 {
-	// recordType: "jsonFile" (many files) or "svg" (only one svg record), default "jsonFile"
-	// if (recordType=="jsonFile") source and target should be graphics txt files
-	// if (recordType=="svg") source and target should be html elements
-	if(p.recordType) acjkm.recordType=p.recordType; // optional
-	else acjkm.recordType="jsonFile";
-	// data:
-	//   if (recordType=="svg") only one character
-	//   if (recordType=="jsonFile") a string of characters
+	// source and target should be html elements
+	// data: only one character
 	if(p.data) acjkm.data=p.data; // required
 	else {console.log("Error: no data provided to acjkm!");return;}
-	// source:
-	//   if (recordType=="svg") a html element (not the svg itself) than contains a svg
-	//   if (recordType=="jsonFile") a graphics txt file name such graphicsXxx.txt
+	// source: a html element (not the svg itself) than contains a svg
 	if(p.source) acjkm.source=p.source; // required
 	else {console.log("Error: no source provided to acjkm!");return;}
-	// target:
-	//   if (recordType=="svg") a html element than can contain a svg
-	//   if (recordType=="jsonFile") a graphics txt file name such graphicsXxx-new.txt
+	// target: a html element than can contain a svg
 	if(p.target) acjkm.target=p.target; // optional
 	else acjkm.target=null;
 	if(p.errorOutput) acjkm.errorOutput=p.errorOutput; // optional
@@ -1169,7 +1058,7 @@ acjkm.run=function(p)
 	if(acjkm.debugOutput) acjkm.debugOutput.innerHTML="";
 	if(acjkm.canvasContainer) acjkm.canvasContainer.innerHTML="";
 	if(acjkm.finalResultOutput) acjkm.finalResultOutput.innerHTML="";
-	acjkm.saveOn=p.saveOn&&p.target&&p.recordType; // optional
+	acjkm.saveOn=p.saveOn&&p.target; // optional
 	acjkm.strokeOn=p.strokeOn; // optional
 	acjkm.originOn=p.originOn; // optional
 	acjkm.extremaOn=p.extremaOn; // optional
@@ -1207,8 +1096,7 @@ acjkm.run=function(p)
 	if (acjkm.data)
 	{
 		acjkm.data=acjkm.data.replace(/\s/g,"");
-		if(acjkm.recordType=="svg") acjkm.getOldSvgAsSvg([...acjkm.data][0]);
-		else acjkm.getOldSvgAsJsonFile([...acjkm.data][0]);
+		acjkm.getOldSvgAsSvg([...acjkm.data][0]);
 	}
 	else if(acjkm.errorOutput) acjkm.errorOutput.innerHTML="No data to process!";
 };
