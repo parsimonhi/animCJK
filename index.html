@@ -252,7 +252,7 @@ body:has([name="xrays"]:checked) svg.acjk path[id] {fill:#6666;}
 <p class="important instruction"><span class="very-important">Enter only one character</span> in the data field above or
 <span class="very-important">click on a character</span> in the lists
 at the bottom of the page.</p>
-<button id="ok" type="button" onclick="ok()">Animate</button>
+<button id="ok" type="button">Animate</button>
 </fieldset>
 <ul id="output"></ul>
 <section class="description">
@@ -432,13 +432,13 @@ function lcFirst(s)
 }
 function cleanData(e)
 {
-	// don't use this function as a oninput handler because it disturbs asian language IME
+	// don't use this function as an input handler because it disturbs asian language IME
+	// remember \u200B (zero-length-space) is used in animCJK char lists
+	// keep only the 1st convenient character if any
+	// todo: keep also jamo
 	let data=e.value;
-	// \u200B-\u200D\uFEFF are the zero-length characters
-	data=data.replace(/[A-Za-z0-9+*.:,?!\s\u200B-\u200D\uFEFF]/g,'');
-	// keep only the 1st character
-	if (data.length) data=String.fromCodePoint(data.codePointAt(0));
-	e.value=data;
+	e.value="";
+	for(let c of data) if(c.codePointAt(0)>=11904) {e.value=c;break;}
 }
 function hideSvg()
 {
@@ -764,6 +764,8 @@ window.addEventListener("load",function()
 		event.preventDefault();
 		if (event.keyCode==13) ok();
 	});
+	// add a handler to #ok button to do something when the user hits it
+	document.getElementById("ok").addEventListener("click",ok);
 	// add other handlers
 	document.querySelector('[name="section"][value="Ja"]').addEventListener("change",changeSection);
 	document.querySelector('[name="section"][value="Ko"]').addEventListener("change",changeSection);

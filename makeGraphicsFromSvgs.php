@@ -1,30 +1,29 @@
 <!doctype html>
 <html>
+<?php
+// can run only on localhost
+if ($_SERVER['SERVER_NAME']!="localhost"){echo "Can run only on localhost";exit(0);}
+mb_internal_encoding("UTF-8");
+mb_regex_encoding("UTF-8");
+?>
 <!--
 Purpose: make graphicsXxx.txt from svgsXxx folder content
 Usage 1: run makeGraphicsFromSvgs.php in a browser
 Usage 2: run makeGraphicsFromSvgs.php?d=Xxx in a browser
 Usage 3: run makeGraphicsFromSvgs.php?d=Xxx&r=ppp in a browser
-(where ppp is a relative path between the directory that contains this script
-and the directory that contains svgsXxx)
-Xxx may be omitted or an empty string, and can contain only letters, number and minus sign
-Requirements: svgsXxx directory must exist, graphicsXxx.txt file must not exist
-Clean svg paths (remove decimal, replace "," by " ", ...)
+Xxx may be omitted or an empty string
+Xxx can contain only latin letters and numbers
+Xxx should start with a capital letter
+ppp is a relative path between this script and the directory that contains svgsXxx
+ppp can contain only latin letters, numbers, and ./_- characters
+svgsXxx directory must exist
+graphicsXxx.txt file must not exist
 Does nothing if svgsXxx doesn't exist
 Does nothing if graphicsXxx.txt already exists
+Clean svg paths (remove decimal, replace "," by " ", ...)
 Note1: no dependencies
 Note2: the server must be "localhost"
 -->
-<?php
-// run only on localhost
-if ($_SERVER['SERVER_NAME']!="localhost")
-{
-	echo "<body>Can run only on localhost</body></html>\n";
-	exit(0);
-}
-mb_internal_encoding("UTF-8");
-mb_regex_encoding("UTF-8");
-?>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
@@ -36,9 +35,10 @@ footer a {text-align:center;color:#000;}
 <body>
 <?php
 $version=(isset($_GET["d"])?$_GET["d"]:"");
-if (isset($_GET["r"])) $r=$_GET["r"]."/";
-else $r="";
+$version=preg_replace("/[^A-Za-z0-9]/","",$version);
 $version=ucfirst($version); // mandatory
+$r=(isset($_GET["r"])?$_GET["r"]."/":"");
+$r=preg_replace("/[^A-Za-z0-9.\/_-]/","",$r);
 $dir=$r."svgs".$version;
 $target=$r."graphics".$version.".txt";
 ?>
@@ -93,11 +93,11 @@ function replaceVHbyL($p)
 
 function makeGraphics($dir,$target,$version)
 {
-	if (file_exists($target)) unlink($target);
+	// assume $target does not exist
 	$a=scandir($dir);
 	natsort($a);
 	$k=0;
-	// assume $dir contains only the svgs one wants
+	// assume $dir contains only the convenient svgs
 	foreach ($a as $f)
 	{
 		if(preg_match("/^[0-9]+z?\.svg$/",$f))
@@ -171,7 +171,6 @@ function makeGraphics($dir,$target,$version)
 						while (preg_match($q,$m2)) $m2=preg_replace($q,"$1L",$m2);
 						// replace V and H by L
 						$m2=replaceVHbyL($m2);
-						//echo $m2."<br>\n";
 						if (!isset($_GET["t"])||($_GET["t"]==1)) $m2=transformPathFromSvgs($m2);
 						$m2=preg_replace("/\s+/",",",$m2);
 						$m2=preg_replace("/L/",",",$m2);
@@ -179,7 +178,6 @@ function makeGraphics($dir,$target,$version)
 						$m2=preg_replace("/([0-9-]+,[0-9-]+),/","$1],[",$m2);
 						$m2.="]]";
 						$s.=$m2;
-						//echo $m2."<br>\n";
 						$n++;
 					}
 				}
@@ -206,8 +204,9 @@ else if (file_exists($target))
 	echo "Usage 1: run makeGraphicsFromSvgs.php in a browser<br>\n";
 	echo "Usage 2: run makeGraphicsFromSvgs.php?d=Xxx in a browser<br>\n";
 	echo "Usage 3: run makeGraphicsFromSvgs.php?d=Xxx&r=ppp in a browser<br><br>\n";
+	echo "Xxx may be omitted or an empty string, can contain only latin letters and numbers and should start with a capital letter<br>\n";
 	echo "ppp is a relative path between the directory that contains this script and the directory that contains svgsXxx<br>\n";
-	echo "Xxx may be omitted or an empty string, and can contain only letters, number and minus sign<br>\n";
+	echo "ppp can contains only latin letters, numbers and ./_- characters<br>";
 	echo "svgsXxx directory must exist, graphicsXxx.txt file must not exist<br><br>\n";
 	echo "Can run only on localhost<br><br>\n";
 }
@@ -216,8 +215,9 @@ echo "End</p>\n";
 ?>
 <footer>
 <a href="./">Home</a>
+- <a href="javascript:history.back()">Back</a>
 - <a href="licenses/COPYING.txt">Licences</a><br>
-Copyright 2016-2026 - FM&SH
+Copyright 2016-<?=date("Y")?> - FM&SH
 </footer>
 </body>
 </html>

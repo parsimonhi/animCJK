@@ -253,6 +253,29 @@ We used various sources to cross-check our data. In particular:
 
 ## What is new?
 
+2026/04/24
+- improve makeGraphicsFromSvgs.php which can generate a graphicsXxx.txt from a svg folder
+- add makeSvgsFromGraphics.php which can generate a svg folder from a graphicsXxx.txt file
+- add "The 214 radicals" sample
+- modify glyph in svgsJa
+	鼈牘犢竇黷
+- improve in svgsJaKana
+	きぎつづさざな
+- improve in svgsJa
+	戶𦆕竹森木知海科点語台姉帰身歯物庫帳濃貘舶毎角晴書東遠
+- improve in svgsKo
+	木知科語身物書東
+- improve in svgsZhHans
+	戶竹森木知科点語台身物庫貘晴書東遠
+- improve in svgsZhHant
+	木知科語台身物晴書東
+- add in svgsJa
+	毚孖𤕻昚𡗜厈雔縉縊㲋 𠮥縋臍縟縡縲縵縷縹𡉀 縺繃繆𣪊𢛳𢾰繖繙繚繝 繦繧繩繪繹繻繼繽强𢖻 繿纃纈纉續頡䧹𠠵𡿪圼
+	蝟
+- add in svgsZhHans
+	毚孖𤕻昚𡗜厈雔㲋𠮥𡉀 𣪊𢛳𢾰𢖻䧹𠠵𡿪圼
+- various minor changes
+
 2026/04/12
 - modify makeGraphicsFromSvgs.php (now can deal any folder containing animCJK svg files)
 - remove makeGraphicsFromSvgs4Kana.php (now makeGraphicsFromSvgs.php can do the job)
@@ -260,8 +283,8 @@ We used various sources to cross-check our data. In particular:
 - modify index.html
 - modify selectorAcjk.js
 - modify mediansAcjk.js
-- minor other modifications
 - replace "z0" by "z99" in the svg files of svgsJaZoo
+- minor other modifications
 
 2026/04/11
 - modify stroke order in svgsZhHans

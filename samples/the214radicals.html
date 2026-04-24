@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="Display the 214 radicals using AnimCJK SVG">
+<title>AnimCJK - The 214 radicals</title>
+<link rel="icon" type="image/svg+xml" href="../animCJKIcon.svg">
+<style>
+table
+{
+	margin:1rem 0;
+	--size:5rem;
+	border-collapse:collapse;
+}
+table caption
+{
+	text-align:center;
+	padding:0 0.25rem 1rem 0.125rem;
+}
+td,th
+{
+	border:1px solid grey;
+	text-align:center;
+	padding:0.25rem;
+}
+svg
+{
+	display:block;
+	width:var(--size);
+	height:auto;
+	margin:auto;
+	fill:crimson;
+}
+th.C,
+td.C
+{
+	color:navy;
+}
+td.C
+{
+	font-size:var(--size);
+	font-family:serif;
+}
+th.A
+{
+	color:crimson;
+}
+nav
+{
+	display:flex;
+	flex-wrap:wrap;
+	gap:0.5rem;
+}
+a
+{
+	color:#000;
+}
+@media screen and (max-width: 20em)
+{
+	.N,.C {display:none;}
+}
+</style>
+</head>
+<body>
+<h1>The 214 radicals</h1>
+<p>zh-Hans version</p>
+<nav class="link">
+<a href="https://github.com/parsimonhi/animCJK"><span>Download</span></a>
+<a href="./"><span>Sample selector</span></a>
+</nav>
+<main></main>
+<script>
+let n=0,nmax;
+function addToMain(table)
+{
+	let main=document.querySelector('main');
+	main.append(table);
+}
+function buildSvg(table,tr,td,s)
+{
+	s=s.replace(/<!--[^£]*-->\n/,"");
+	s=s.replace(/<style[^£]*style>\n/,"");
+	s=s.replace(/<defs[^£]*defs>\n/,"");
+	s=s.replace(/<path style[^>]*>\n/g,"");
+	td.innerHTML=s;
+	n++;
+	if(n>=nmax) addToMain(table); // all svg are loaded, ready to add table to main
+}
+function buildTd(table,tr,s)
+{
+	let td=document.createElement('td');
+	tr.append(td);
+	if(s.match(/[.]svg$/))
+	{
+		td.classList.add("A");
+		let o={cache:"no-cache"};
+		fetch("../"+s,o)
+		.then(r=>r.text())
+		.then(r=>buildSvg(table,tr,td,r));
+	}
+	else
+	{
+		td.textContent=s;
+		if(s.match(/^[0-9]+$/)) td.classList.add("N");
+		else if(s.match(/^\p{sc=Han}$/u)) td.classList.add("C");
+		else td.classList.add("M");
+	}
+}
+function buildTh(table,tr,s)
+{
+	let th=document.createElement('th');
+	tr.append(th);
+	th.innerHTML=s;
+	th.classList.add(s.charAt(0));
+}
+function buildTr(table,s)
+{
+	let tr=document.createElement('tr');
+	let a=s.split(";");
+	table.append(tr);
+	a.forEach(b=>buildTd(table,tr,b.trim()));
+}
+function buildTable(s)
+{
+	let table=document.createElement('table');
+	let tr=document.createElement('tr');
+	s="["+s.trim().replace(/\}\s+\{/gu,"},{")+"]";
+	a=JSON.parse(s);
+	let r=[];
+	let n=0;
+	a.forEach(b=>
+	{
+		if(b["set"].includes("radical"))
+		{
+			let c=b["character"];
+			let dec=c.codePointAt(0);
+			let def=b["definition"].replace(/^([^,;]+).*$/,"$1");
+			n++;
+			r.push(n+";"+def+";"+c+";svgsZhHans/"+dec+".svg");
+		}
+	});
+	nmax=r.length;
+	table.append(tr);
+	buildTh(table,tr,"N°");
+	buildTh(table,tr,"Meaning");
+	buildTh(table,tr,"Character");
+	buildTh(table,tr,"AnimCJK SVG");
+	r.forEach(b=>buildTr(table,b));
+}
+window.addEventListener("load",function()
+{
+	let o={cache:"no-cache"};
+	fetch("../dictionaryZhHans.txt",o)
+	.then(r=>r.text())
+	.then(r=>buildTable(r.trim()));
+});
+</script>
+<footer>
+<nav class="link">
+<a href="#"><span>Top</span></a>
+<a href="./"><span>Sample selector</span></a>
+<a href="../licenses/COPYING.txt"><span>Licences</span></a>
+</nav>
+</footer>
+</body>
+</html>

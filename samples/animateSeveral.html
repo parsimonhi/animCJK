@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="description" content="Demo to animate
-several Japanese or Chinese characters using animCJK SVG files">
+several Chinese, Japanese or Korean characters using animCJK SVG files">
 <link rel="stylesheet" href="_css/withSelector.css" type="text/css">
 <style>
 input[name="data"]
@@ -20,18 +20,23 @@ button[name="run"]
 }
 #output
 {
+	display:flex;
+	flex-wrap:wrap;
 	list-style-type:none;
 	margin:0;
 	padding:0;
+	gap:0.125em;
 }
 #output li
 {
-	display:inline-block;
+	display:inline-flex;
 	width:16em;
 	height:16em;
 	border:1px solid #ccc;
-	margin:0.125em;
+	margin:0;
 	padding:0;
+	justify-content:center;
+	align-items:center;
 	vertical-align:top;
 }
 #output li:empty:not(:first-of-type)
@@ -74,7 +79,7 @@ function getLangAcjk()
 	let e=document.querySelector('[name="lang"]:checked');
 	return e?e.value:"Ja";
 }
-function cleanDataForAnimateSeveral(s)
+function cleanDataForSeveral(s)
 {
 	// remove chars after the nmax-th
 	// keep only chars from ⺀ (decimal unicode 11904)
@@ -86,79 +91,69 @@ function cleanDataForAnimateSeveral(s)
 	}
 	return r;
 }
-function cleanStore()
+function displayAll()
 {
+	// add a suffix to the ids in case a char appears multiple times in the data
 	for(let k=0;k<store.length;k++)
 	{
-		let s=store[k],m,id;
-		m=s.match(/id="(z[0-9]+)"/);
-		if(m)
-		{
-			id=m[1]+"-"+(k+1);
-			s=s.replace(/z[0-9]+/g,id);
-			store[k]=s;
-		}
+		let s=store[k],m=s.match(/id="(z[0-9]+)"/);
+		if(m) store[k]=s.replace(/z[0-9]+/g,m[1]+"-"+(k+1));
+	}
+	// add the svgs
+	for(let k=0;k<store.length;k++)
+	{
+		let e=document.querySelector('#output li:nth-of-type('+(k+1)+')');
+		e.innerHTML=store[k];
+	}
+	// modify the delays
+	// work also for special characters or kana with overlapping strokes
+	let list=document.querySelectorAll('#output path[clip-path]'),n=0;
+	for(let e of list)
+	{
+		let a=e.getAttribute("clip-path");
+		if(!a.match(/z[0-9-]+c[0-9]+[b-z]/)) n++;
+		e.setAttribute("style","--d:"+n+"s;");
 	}
 }
-function run(s,dec,n,kmax)
+function run(s,c,dir,k,kmax)
 {
-	// assume no special characters nor kana with overlapping strokes
-	store[n-1]=s;
+	// if s is not an animCJK svg, display an error message
+	if(!s.match(/<svg[^>]+class="acjk"/)) s=c+" not found in "+dir;
+	store[k]=s;
 	ready++;
-	if(ready==kmax)
-	{
-		let list;
-		cleanStore();
-		for(let k=0;k<kmax;k++)
-		{
-			let e=document.querySelector('#output li:nth-of-type('+(k+1)+')');
-			e.innerHTML=store[k];
-		}
-		list=document.querySelectorAll('#output path[clip-path]');
-		for(let k=0;k<list.length;k++)
-			list[k].setAttribute("style","--d:"+(k+1)+"s;");
-	}
+	// display svgs once they are all fetched
+	if(ready==kmax) displayAll();
 }
 function doIt()
 {
-  	let e=document.querySelector('[name="data"]'),s=cleanDataForAnimateSeveral(e.value);
+  	let e=document.querySelector('[name="data"]'),s=cleanDataForSeveral(e.value);
   	e.value=s;
-	for(let k=1;k<=nmax;k++)
-		document.querySelector('#output li:nth-of-type('+k+')').innerHTML="";
+  	let list=document.querySelectorAll('#output li');
+  	for(let e2 of list) e2.innerHTML="";
 	if(s)
 	{
-		let lang=getLangAcjk(),k,kmax,a=[...s];
+		let lang=getLangAcjk(),a=[...s],kmax=a.length,n=0;
 		ready=0;
 		store=[];
-		k=0;
-		kmax=a.length;
 		for(let c of a)
 		{
-			let dec=c.codePointAt(0),n;
-			k++;
-			n=k;
+			let dec=c.codePointAt(0);
 			if(dec)
 			{
-				let o={cache:"no-cache"};
-				fetch('../svgs'+lang+'/'+dec+'.svg',o)
+				let o={cache:"no-cache"},k=n++,dir="svgs"+lang;
+				if((lang=="Ja")&&c.match(/^[ぁ-ゟァ-ヿ]$/u)) dir+="Kana";
+				fetch('../'+dir+'/'+dec+'.svg',o)
 				.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
-				.then(r=>{
-					if(!r.match(/<svg[^>]+class="acjk"/))
-						r=c+" not found in svgs"+lang;
-					run(r,dec,n,kmax);return true;
-				})
-				.catch(e=>{
-					run(e+' (no '+c+' in svgs'+lang+')',dec,n,kmax);
-					return false;
-				});
+				.then(r=>run(r,c,dir,k,kmax))
+				.catch(e=>run(e,c,dir,k,kmax));
 			}
 		}
 	}
 }
 window.addEventListener("load",function(){
-	let e;
+	let e,dataLabel="Kana, Kanji, Hanja or Hanzi (up to "+nmax+")";
 	e=document.querySelector('label:has([name="data"])');
-	e.innerHTML=e.innerHTML.replace(" (one char only)"," (up to "+nmax+") ");
+	e.innerHTML=e.innerHTML.replace(/^[^)]+[)]/,dataLabel);
 	let c=document.getElementById("output");
 	for(let k=0;k<nmax;k++) c.appendChild(document.createElement("li"));
 });

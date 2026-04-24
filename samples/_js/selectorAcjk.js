@@ -1,12 +1,14 @@
 // Create a lang selector in the tag having .langSelector as class if any.
-// Create a char selector in the tag having .dataSelector as class if any.
+// Create a data selector in the tag having .dataSelector as class if any.
 // Create a char list selector in the tag having .charListSelector as class if any.
-// A doIt() function should be defined in the calling page if a tag having .dataSelector
-// as class is present.
-// This function is executed:
-//	- when the user changes the lang using the lang selector
-//	- clicking on the "Run" button of the char selector
-// A function called afterAddingChartSelector may be defined in the calling page
+// A doIt() function should be defined in the calling page
+// This function is executed as doIt(o) where o={lang:lang}
+//	when the user changes the lang using the lang selector
+// This function is executed as doIt()
+//	clicking on the "Run" button of the data selector
+// This function is executed as doIt(o) where o={c:c}
+//	when the user clicks on a character in the char list selector
+// A function called afterBuildingCharList may be defined in the calling page
 // to execute something just after adding the char list to the page
 // A charList object may be set in the calling page to indicate
 // what the char list selector will contain
@@ -28,6 +30,7 @@
 			charList2.type="fromDic";
 			charList2.map={};
 			for(let lang of ["Ja","Ko","ZhHans","ZhHant"]) charList2.map[lang]={};
+			charList2.map["Ja"]["Kana"]=["hiragana","katakana"];
 			charList2.map["Ja"]["Kanji"]=["g1","g2","g3","g4","g5","g6","g7"];
 			charList2.map["Ko"]["Hanja"]=["hanja8","hanja7","hanja6","hanja5","hanja4"/*,"hanja3","hanja2","hanja1"*/];
 			charList2.map["ZhHans"]["Simplified Hanzi"]=["hsk31","hsk32","hsk33","hsk34","hsk35","hsk36","hsk37","hsk38","hsk39"];
@@ -81,8 +84,8 @@
 	function setLang(lang)
 	{
 		localStorage.setItem("section",lang);
-		buildSections(lang,path);
-		if(!!window.doIt) doIt();
+		if(charListSelector) buildSections(lang,path);
+		if(!!window.doIt) doIt({lang:lang});
 	}
 	function addOneLangRadio(p,value,label,langIso)
 	{
@@ -113,7 +116,7 @@
 		s+="<button type=\"button\" name=\"run\">Run</button>";
 		p.innerHTML=s;
 		e=p.querySelector('[name="run"]');
-		e.addEventListener('click',(!!window.doIt)?doIt:function(){alert("No doIt?")});
+		if(!!window.doIt) e.addEventListener('click',doIt);
 	}
 	if(dataSelector) addDataSelector(dataSelector);
 
@@ -122,13 +125,12 @@
 		let b=ev.target;
 		let c=b.innerHTML;
 		let d=document.querySelector('[name="data"]');
-		let o=document.querySelector('[name="run"]');
+		let r=document.querySelector('[name="run"]');
 		if(d) d.value=c+d.value; // able to deal several characters
-		if(o) o.focus(); // otherwise mobiles may show keyboard
+		if(r) r.focus(); // otherwise mobiles may show keyboard
 		window.scrollTo(0,0);
-		if(o) o.dispatchEvent(new Event('click'));
-		else if(!!window.doIt) doIt(c);
-		else alert("No doIt?");
+		if(r) r.dispatchEvent(new Event('click'));
+		else if(!!window.doIt) doIt({c:c});
 		b.classList.add="visited";
 	}
 	function populateFieldset(fieldset,chars)
@@ -151,7 +153,7 @@
 			let chars=charList2.chars[setLabel];
 			populateFieldset(fieldset,chars);
 		}
-		if(!!window.afterAddingChartSelector) afterAddingChartSelector(lang,section.getAttribute("data-category"));
+		if(!!window.afterBuildingCharList) afterBuildingCharList(lang,section.getAttribute("data-category"));
 	}
 	function buildFromDicContinue(section,lang,dd)
 	{
@@ -165,7 +167,7 @@
 				if(d1["set"].includes(setLabel)) chars+=d1["character"];
 			populateFieldset(fieldset,chars);
 		}
-		if(!!window.afterAddingChartSelector) afterAddingChartSelector(lang,section.getAttribute("data-category"));
+		if(!!window.afterBuildingCharList) afterBuildingCharList(lang,section.getAttribute("data-category"));
 	}
 	function buildFromDic(section,lang,path)
 	{

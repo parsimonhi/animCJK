@@ -5,6 +5,8 @@
 // the tag should be the first to have such a class in the svg parent or grandParent
 function setRadical(x,c1="#f90",c2="#06f")
 {
+	// set svg attribute instead of style to let apply global css if any
+	let s1="\tfill:none;\n",s2="\tstroke:#000;\n";
 	let svgs=document.querySelectorAll('svg.acjk');
 	for(let i=0;i<svgs.length;i++)
 	{
@@ -33,21 +35,24 @@ function setRadical(x,c1="#f90",c2="#06f")
 			// add a dot to its components (rare)
 			if(a[0]==".")
 			{
-				// special cas: the character is a radical
-				for(let j=0;j<medians.length;j++) medians[j].style.stroke=c1;
+				// special case: the character is a radical
+				for(let j=0;j<medians.length;j++)
+					medians[j].setAttributeNS(null,"stroke",c1);
 			}
 			else for(let b of a)
 			{
 				let p=b.match(/\./),km=-(-b.replace(".",""));
-				for(let k=0;k<km;k++)
-					if(p) medians[k+n].style.stroke=c1;
-					else medians[k+n].style.stroke=c2;
+				for(let k=0;k<km;k++)  
+					if(p) medians[k+n].setAttributeNS(null,"stroke",c1);
+					else medians[k+n].setAttributeNS(null,"stroke",c2);
 				n+=km;
 			}
+			svgs[i].innerHTML=svgs[i].innerHTML.replace(s2,"");
 		}
-		else for(let j=0;j<medians.length;j++)
+		else
 		{
-			medians[j].style.stroke="";
+			for(let j=0;j<medians.length;j++) medians[j].removeAttributeNS(null,"stroke");
+			svgs[i].innerHTML=svgs[i].innerHTML.replace(s1+"}",s1+s2+"}");
 		}
 	}
 }

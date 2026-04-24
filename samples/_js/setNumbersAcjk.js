@@ -20,7 +20,7 @@ function setNumbers(x)
 			// these paths can be in special characters or kana with overlapping strokes
 			if (list[k].getAttribute('clip-path').match(/c[0-9]+a?\)$/))
 			{
-				let a,c,d,e,cx,cy,cx1,cy1,cx2,cy2,m,s;
+				let a,c,d,e,cx,cy,cx1,cy1,cx2,cy2,m,s,p;
 				let color1="#000",color2="#fff",color3="#000",fs=40;
 				l++;
 				a=list[k].getAttributeNS(null,"d");
@@ -54,12 +54,8 @@ function setNumbers(x)
 					e.setAttributeNS(null,"stroke",color1);
 					e.setAttributeNS(null,"fill",color2);
 					e.setAttributeNS(null,"stroke-width",Math.max(1,fs>>3));
-					s=list[k].getAttribute("style");
-					if(s)
-					{
-						m=s.match(/--d:[0-9.]+s/);
-						if(m) e.style=m[0];
-					}
+					p=list[k].style.getPropertyValue("--d");
+					if(p) e.style.setProperty("--d",p);
 					g.appendChild(e);
 					e=document.createElementNS('http://www.w3.org/2000/svg','text');
 					e.setAttributeNS(null,"x",cx);
@@ -70,12 +66,7 @@ function setNumbers(x)
 					e.setAttributeNS(null,"fill",color3);
 					e.setAttributeNS(null,"font-size",(fs>>1)*3);
 					e.textContent=l;
-					s=list[k].getAttribute("style");
-					if(s)
-					{
-						m=s.match(/--d:[0-9.]+s/);
-						if(m) e.style=m[0];
-					}
+					if(p) e.style.setProperty("--d",p);
 					g.appendChild(e);
 				}
 			}

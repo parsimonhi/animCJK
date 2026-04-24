@@ -44,7 +44,7 @@ pre
 <fieldset class="langSelector"></fieldset>
 <fieldset class="dataSelector"></fieldset>
 <fieldset class="specificSelector">
-<label>Colorize: <input type="checkbox" name="red"></label>
+<label>Make blush: <input type="checkbox" name="red"></label>
 </fieldset>
 <figure id="a"></figure>
 <details>
@@ -92,19 +92,38 @@ function computeRedFinalColor(c,k,km)
 }
 function colorizeStrokesInRed(x)
 {
-	let k,km,list,c;
-	list=document.querySelectorAll("svg.acjk path[clip-path]");
+	// set svg attribute instead of style to let apply global css if any
+	let km,list,s1="\tfill:none;\n",s2="\tstroke:#000;\n";
+	let svg=document.querySelector('#a svg.acjk');
+	list=svg.querySelectorAll("path[clip-path]");
 	if(list)
 	{
-		km=list.length;
 		if (x)
 		{
 			// c is the color of the last stroke
 			// can be replaced by any other color, including color with transparency
-			c={r:255,g:0,b:0,a:1};
-			for (k=0;k<km;k++) list[k].style.stroke=computeRedFinalColor(c,k,km-1);
+			let c={r:255,g:0,b:0,a:1},c2,km=list.length,l,lm=0,ms=[];
+			// in case of the svg is special, on has to compute the actual stroke number
+			for (let k=0;k<km;k++)
+			{
+				let v=list[k].getAttribute("clip-path");
+				let m=v.match(/z[0-9-]+c[0-9]+[b-z]/);
+				ms[k]=m;
+				if(!m) lm++;
+			}
+			l=0;
+			for (let k=0;k<km;k++)
+			{
+				if(!ms[k]) {c2=computeRedFinalColor(c,l,lm-1);l++;}
+				list[k].setAttributeNS(null,"stroke",c2);
+			}
+			svg.innerHTML=svg.innerHTML.replace(s2,"");
 		}
-		else for (k=0;k<km;k++) list[k].style.stroke="";
+		else
+		{
+			for (let e of list) e.removeAttributeNS(null,"stroke");
+			svg.innerHTML=svg.innerHTML.replace(s1+"}",s1+s2+"}");
+		}
 	}
 }
 function switchRed()
@@ -118,18 +137,21 @@ function updateInfo(s)
 	s=s.replace(/AnimCJK [0-9-]+/,"AnimCJK 2016-"+d);
 	return s;
 }
-function run(s)
+function run(s,c,dir)
 {
-	if(!s.match(/<svg/))
+	if(s.match(/<svg[^>]+class="acjk"/))
 	{
-		document.getElementById("a").innerHTML="Data not found!";
-		return;
+		s=updateInfo(s);
+		s=s.replace(/<style[^@]+@/,"<style"+">\n@");
+		s=s.replace(/}[^}]+\/style>/,"}\n<"+"/style>");
+		document.getElementById("a").innerHTML=s;
+		switchRed();
 	}
-	s=updateInfo(s);
-	s=s.replace(/<style[^@]+@/,"<style"+">\n@");
-	s=s.replace(/}[^}]+\/style>/,"}\n<"+"/style>");
-	document.getElementById("a").innerHTML=s;
-	switchRed();
+	else
+	{
+		s=c+" not found in "+dir;
+		document.getElementById("a").innerHTML=s;
+	}
 }
 function doIt()
 {
@@ -138,15 +160,16 @@ function doIt()
   	document.querySelector('.codeTag').innerHTML="";
 	if(c)
 	{
-		let dec=c.codePointAt(0),lang=getLangAcjk();
-		e.value=String.fromCodePoint(dec);
+		let dec=c.codePointAt(0);
+		e.value=c=String.fromCodePoint(dec);
 		if(dec>=11904)
 		{
-			let o={cache:"no-cache"};
-			fetch('../svgs'+lang+'/'+dec+'.svg',o)
+			let lang=getLangAcjk(),dir='svgs'+lang;
+			if((lang=="Ja")&&c.match(/^[ぁ-ゟァ-ヿ]$/u)) dir+="Kana";
+			fetch('../'+dir+'/'+dec+'.svg',{cache:"no-cache"})
 			.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
-			.then(r=>{run(r);return true;})
-			.catch(e=>document.getElementById("a").innerHTML=e+' in svgs'+lang);
+			.then(r=>run(r,c,dir))
+			.catch(e=>run(e,c,dir));
 		}
 	}
 }

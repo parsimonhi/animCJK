@@ -4,15 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="description" content="Demo to animate
-one Japanese or Chinese character using animCJK SVG files">
+one Chinese, Japanese or Korean character using animCJK SVG files">
 <link rel="stylesheet" href="_css/withSelector.css" type="text/css">
 <style>
 #a
 {
+	display:flex;
+	justify-content:center;
+	align-items:center;
 	width:16em;
 	height:16em;
 	border:1px solid #ccc;
-	margin:0.5em 0 0 0;
+	margin:0.5em 0;
+	padding:0;
 }
 #a svg
 {
@@ -45,13 +49,9 @@ function getLangAcjk()
 	let e=document.querySelector('[name="lang"]:checked');
 	return e?e.value:"Ja";
 }
-function run(s)
+function run(s,c,dir)
 {
-	if(!s.match(/<svg/))
-	{
-		document.getElementById("a").innerHTML="Data not found!";
-		return;
-	}
+	if(!s.match(/<svg[^>]+class="acjk"/)) s=c+" not found in "+dir;
 	document.getElementById("a").innerHTML=s;
 }
 function doIt()
@@ -60,15 +60,16 @@ function doIt()
   	document.getElementById("a").innerHTML="";
 	if(c)
 	{
-		let dec=c.codePointAt(0),lang=getLangAcjk();
-		e.value=String.fromCodePoint(dec); // keep only one char
+		let dec=c.codePointAt(0);
+		e.value=c=String.fromCodePoint(dec);
 		if(dec>=11904)
 		{
-			let o={cache:"no-cache"};
-			fetch('../svgs'+lang+'/'+dec+'.svg',o)
+			let lang=getLangAcjk(),dir='svgs'+lang;
+			if((lang=="Ja")&&c.match(/^[ぁ-ゟァ-ヿ]$/u)) dir+="Kana";
+			fetch('../'+dir+'/'+dec+'.svg',{cache:"no-cache"})
 			.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
-			.then(r=>{run(r);return true;})
-			.catch(e=>document.getElementById("a").innerHTML=e+' in svgs'+lang);
+			.then(r=>run(r,c,dir))
+			.catch(e=>run(e,c,dir));
 		}
 	}
 }

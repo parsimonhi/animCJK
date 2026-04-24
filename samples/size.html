@@ -7,6 +7,7 @@
 of a Japanese or Chinese character displayed with an animCJK svg file">
 <link rel="stylesheet" href="_css/withSelector.css" type="text/css">
 <style>
+:root {--size:256;}
 .specificSelector
 {
 	margin:0.5em 0;
@@ -15,13 +16,17 @@ of a Japanese or Chinese character displayed with an animCJK svg file">
 }
 #a
 {
-	width:max-content;
-	border:1px solid #ccc;
-	margin:0.5em 0 0 0;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	margin:0.5em 0;
+	padding:0;
 }
-#a:empty
+#a:not(:empty)
 {
-	border:0;
+	width:calc(var(--size) * 1px);
+	height:calc(var(--size) * 1px);
+	border:1px solid #ccc;
 }
 #a svg
 {
@@ -66,7 +71,7 @@ pre
 <fieldset class="specificSelector">
 <label>
 <span>Size:</span>
-<input autocomplete="off" name="size" type="range" list="sizeMarks" onclick="switchSize()" value="256" step="64" min="64" max="960">
+<input autocomplete="off" name="size" type="range" list="sizeMarks" value="256" step="64" min="64" max="960">
 </label>
 <datalist id="sizeMarks">
 <option value="128" label="128"></option>
@@ -109,16 +114,22 @@ function getLangAcjk()
 }
 function setSize(v)
 {
-	let svg=document.querySelector('#a svg');
+	let svg=document.querySelector('#a svg.acjk');
 	if(svg)
 	{
+		// not necessary since one also sets the container width and height
+		// but set them in case on uses the svg alone later
 		svg.setAttribute("width",v);
 		svg.setAttribute("height",v);
 	}
+	// set --size since one needs to set width and height of the container
+	// in case of an error message is displayed inside it
+	document.documentElement.style.setProperty("--size",v);
 }
 function switchSize()
 {
-	setSize(document.querySelector('[name="size"]').value);
+	let size=document.querySelector('[name="size"]').value;
+	setSize(size);
 	updateCodeTag();
 }
 function updateInfo(s)
@@ -127,18 +138,21 @@ function updateInfo(s)
 	s=s.replace(/AnimCJK [0-9-]+/,"AnimCJK 2016-"+d);
 	return s;
 }
-function run(s)
+function run(s,c,dir)
 {
-	if(!s.match(/<svg/))
+	if(s.match(/<svg[^>]+class="acjk"/))
 	{
-		document.getElementById("a").innerHTML="Data not found!";
-		return;
+		s=updateInfo(s);
+		s=s.replace(/<style[^@]+@/,"<style"+">\n@");
+		s=s.replace(/}[^}]+\/style>/,"}\n<"+"/style>");
+		document.getElementById("a").innerHTML=s;
+		switchSize();
 	}
-	s=updateInfo(s);
-	s=s.replace(/<style[^@]+@/,"<style"+">\n@");
-	s=s.replace(/}[^}]+\/style>/,"}\n<"+"/style>");
-	document.getElementById("a").innerHTML=s;
-	switchSize();
+	else
+	{
+		s=c+" not found in "+dir;
+		document.getElementById("a").innerHTML=s;
+	}
 }
 function doIt()
 {
@@ -147,21 +161,22 @@ function doIt()
   	document.querySelector('.codeTag').innerHTML="";
 	if(c)
 	{
-		let dec=c.codePointAt(0),lang=getLangAcjk();
-		e.value=String.fromCodePoint(dec);
+		let dec=c.codePointAt(0);
+		e.value=c=String.fromCodePoint(dec);
 		if(dec>=11904)
 		{
-			let o={cache:"no-cache"};
-			fetch('../svgs'+lang+'/'+dec+'.svg',o)
+			let lang=getLangAcjk(),dir='svgs'+lang;
+			if((lang=="Ja")&&c.match(/^[ぁ-ゟァ-ヿ]$/u)) dir+="Kana";
+			fetch('../'+dir+'/'+dec+'.svg',{cache:"no-cache"})
 			.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
-			.then(r=>{run(r);return true;})
-			.catch(e=>document.getElementById("a").innerHTML=e+' in svgs'+lang);
+			.then(r=>run(r,c,dir))
+			.catch(e=>run(e,c,dir));
 		}
 	}
 }
 window.addEventListener("load",function(){
 	let e=document.querySelector('[name="size"]');
-	e.addEventListener("click",switchSize);
+	if(e) e.addEventListener("change",switchSize);
 });
 </script>
 <script src="_js/selectorAcjk.js"></script>

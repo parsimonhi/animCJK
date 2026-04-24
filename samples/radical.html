@@ -4,15 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="description" content="Demo to show the radical
-of a Japanese or Chinese character using animCJK svg files">
+of a Chinese, Japanese or Korean character using animCJK svg files">
 <link rel="stylesheet" href="_css/withSelector.css" type="text/css">
 <style>
 #a
 {
+	display:flex;
+	justify-content:center;
+	align-items:center;
 	width:16em;
 	height:16em;
 	border:1px solid #ccc;
-	margin:0.5em 0 0 0;
+	margin:0.5em 0;
+	padding:0;
 }
 #a svg
 {
@@ -24,6 +28,7 @@ pre
 	padding:0.125em;
 	white-space:pre-wrap;
 }
+[data-category="Kana"] {display:none;}
 </style>
 <title>AnimCJK Radical</title>
 <link rel="icon" type="image/svg+xml" href="../animCJKIcon.svg">
@@ -85,20 +90,23 @@ function getOneFromDico(c,langLabel)
 		if(e["character"]==c) return e;
 	return null;
 }
-function run(s,d)
+function run(s,d,c,dir)
 {
-	if(!s.match(/<svg/))
+	if(s.match(/<svg[^>]+class="acjk"/))
 	{
-		document.querySelector('#a').innerHTML="Data not found!";
-		return;
+		s=updateInfo(s);
+		s=s.replace(/<style[^@]+@/,"<style"+">\n@");
+		s=s.replace(/}[^}]+\/style>/,"}\n<"+"/style>");
+		document.querySelector('#a').innerHTML=s;
+		document.querySelector('#b').innerHTML=d;
+		setRadical(1);
+		updateCodeTag();
 	}
-	s=updateInfo(s);
-	s=s.replace(/<style[^@]+@/,"<style"+">\n@");
-	s=s.replace(/}[^}]+\/style>/,"}\n<"+"/style>");
-	document.querySelector('#a').innerHTML=s;
-	document.querySelector('#b').innerHTML=d;
-	setRadical(1);
-	updateCodeTag();
+	else
+	{
+		s=c+" not found in "+dir;
+		document.getElementById("a").innerHTML=s;
+	}
 }
 function doIt()
 {
@@ -109,17 +117,17 @@ function doIt()
 	if(c)
 	{
 		let dec=c.codePointAt(0),lang=getLangAcjk();
-		e.value=String.fromCodePoint(dec);
+		e.value=c=String.fromCodePoint(dec);
 		let oneDicoLine=getOneFromDico(c,lang);
 		if(oneDicoLine)
 		{
-			let special=oneDicoLine.acjks?1:0;
+			let special=oneDicoLine.acjks?1:0,dir='svgs'+lang+(special?'Special':'');
 			let d=oneDicoLine.acjks?oneDicoLine.acjks:oneDicoLine.acjk?oneDicoLine.acjk:"";
-			let o={cache:"no-cache"};
-			fetch('../svgs'+lang+(special?'Special':'')+'/'+dec+'.svg',o)
+			// do not try to display Kana since they don't have a radical
+			fetch('../'+dir+'/'+dec+'.svg',{cache:"no-cache"})
 			.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
-			.then(s=>{run(s,d);return true;})
-			.catch(e=>document.getElementById("a").innerHTML=e+' in svgs'+lang+(special?'Special':''));
+			.then(s=>run(s,d,c,dir))
+			.catch(e=>run(e,d,c,dir));
 		}
 		else document.getElementById("a").innerHTML=c+' not found'+' in dictionary'+lang+".txt";
 	}

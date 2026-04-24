@@ -15,10 +15,14 @@ a Japanese or Chinese character using AnimCJK SVG files">
 }
 #a
 {
+	display:flex;
+	justify-content:center;
+	align-items:center;
 	width:16em;
 	height:16em;
 	border:1px solid #ccc;
-	margin:0.5em 0 0 0;
+	margin:0.5em 0;
+	padding:0;
 }
 #a svg
 {
@@ -98,34 +102,52 @@ function randomColor(k,km,n)
 	}
 	return "rgb("+r+","+g+","+b+")";
 }
-function colorizeStrokes(x)
+function colorizeStrokes(x,y)
 {
-	let k,km,list,c,e;
-	list=document.querySelectorAll('svg.acjk path:not([id])');
-	if(!list) return;
-	km=list.length;
+	// set svg attribute instead of style to let apply global css if any
+	let c,s1="\tfill:none;\n",s2="\tstroke:#000;\n";
+	let svg=document.querySelector('#a svg.acjk');
+	let medians,circles,texts;
+	medians=svg.querySelectorAll('svg.acjk path[clip-path]');
+	if(y)
+	{
+		circles=svg.querySelectorAll('svg.acjk circle');
+		texts=svg.querySelectorAll('svg.acjk text');
+	}
 	if (x)
 	{
-		let n=random(3);
-		for (k=0;k<km;k++)
-			for (k=0;k<km;k++)
+		let n=random(6),km=medians.length,l,lm=0,ms=[];
+		// in case of the svg is special, on has to compute the actual stroke number
+		for (let k=0;k<km;k++)
+		{
+			let v=medians[k].getAttribute("clip-path");
+			let m=v.match(/z[0-9-]+c[0-9]+[b-z]/);
+			ms[k]=m;
+			if(!m) lm++;
+		}
+		l=0;
+		for (let k=0;k<km;k++)
+		{
+			if(!ms[k]) {c=randomColor(l,lm,n);l++;}
+			medians[k].setAttributeNS(null,"stroke",c);
+			if(y)
 			{
-				c=randomColor(k,km,n);
-				list[k].setAttributeNS(null,"stroke",c);
-				e=document.querySelector('circle:nth-of-type('+(k+1)+')');
-				if(e) e.setAttributeNS(null,"stroke",c);
-				e=document.querySelector('text:nth-of-type('+(k+1)+')');
-				if(e) e.setAttributeNS(null,"fill",c);
+				circles[k].setAttributeNS(null,"stroke",c);
+				texts[k].setAttributeNS(null,"fill",c);
 			}
+		}
+		svg.innerHTML=svg.innerHTML.replace(s2,"");
 	}
-	else for (k=0;k<km;k++)
+	else
 	{
 		c="#000";
-		list[k].setAttributeNS(null,"stroke",c);
-		e=document.querySelector('circle:nth-of-type('+(k+1)+')');
-		if(e) e.setAttributeNS(null,"stroke",c);
-		e=document.querySelector('text:nth-of-type('+(k+1)+')');
-		if(e) e.setAttributeNS(null,"fill",c);
+		for (let e of medians) e.removeAttributeNS(null,"stroke");
+		if(y)
+		{
+			for (let e of circles) e.setAttributeNS(null,"stroke",c);
+			for (let e of texts) e.setAttributeNS(null,"fill",c);
+		}
+		svg.innerHTML=svg.innerHTML.replace(s1+"}",s1+s2+"}");
 	}
 }
 function restartAnime()
@@ -142,8 +164,10 @@ function restartAnime()
 }
 function switchAll()
 {
-	setNumbers(document.querySelector('[name="numbers"]').checked);
-	colorizeStrokes(document.querySelector('[name="colorize"]').checked);
+	let x=document.querySelector('[name="colorize"]').checked;
+	let y=document.querySelector('[name="numbers"]').checked;
+	setNumbers(y);
+	colorizeStrokes(x,y);
 	updateCodeTag();
 }
 function updateInfo(s)
@@ -152,51 +176,24 @@ function updateInfo(s)
 	s=s.replace(/AnimCJK [0-9-]+/,"AnimCJK 2016-"+d);
 	return s;
 }
-function run(s)
+function run(s,c,dir)
 {
-	if(!s.match(/<svg/))
+	if(s.match(/<svg[^>]+class="acjk"/))
 	{
-		document.getElementById("a").innerHTML="Data not found!";
-		return;
+		s=updateInfo(s);
+		let s1="@keyframes zk {\n\tto {\n\t\tstroke-dashoffset:0;\n\t}\n}\n";
+		let s2="@keyframes zzk {\n\tto {\n\t\topacity:1;\n\t}\n}\n";
+		let s3="svg.acjk circle, svg.acjk text {\n";
+		s3+="\topacity:0;\n\tanimation:zzk 0.01s linear forwards var(--d);\n}\n";
+		s=s.replace(s1,s1+s2+s3);
+		document.getElementById("a").innerHTML=s;
+		switchAll();
 	}
-	let style="";
-	s=updateInfo(s);
-	style+="<style";
-	style+=">\n";
-	style+="@keyframes zk {";
-	style+="to {";
-	style+="stroke-dashoffset:0;";
-	style+="}";
-	style+="}\n";
-	style+="@keyframes zz {";
-	style+="to {";
-	style+="opacity:1;";
-	style+="}";
-	style+="}\n";
-	style+="svg.acjk path[clip-path] {";
-	style+="--t:0.8s;";
-	style+="animation:zk var(--t) linear forwards var(--d);";
-	style+="stroke-dasharray:3337;";
-	style+="stroke-dashoffset:3339;";
-	style+="stroke-width:128;";
-	style+="stroke-linecap:round;";
-	style+="fill:none;";
-	style+="}\n";
-	style+="svg.acjk path[id] {fill:#ccc;}\n";
-	style+="svg.acjk circle, svg.acjk text {";
-	style+="opacity:0;";
-	style+="animation:zz 0.01s linear forwards var(--d);";
-	style+="}\n";
-	style+="svg.acjk text {";
-	style+="text-anchor:middle;";
-	style+="font-family:arial,sans-serif;";
-	style+="font-weight:normal;";
-	style+="}\n";
-	style+="<";
-	style+="/style>";
-	s=s.replace(/<style[^£]+\/style>/,style);
-	document.getElementById("a").innerHTML=s;
-	switchAll();
+	else
+	{
+		s=c+" not found in "+dir;
+		document.getElementById("a").innerHTML=s;
+	}
 }
 function doIt()
 {
@@ -205,15 +202,16 @@ function doIt()
   	document.querySelector('.codeTag').innerHTML="";
 	if(c)
 	{
-		let dec=c.codePointAt(0),lang=getLangAcjk();
-		e.value=String.fromCodePoint(dec);
+		let dec=c.codePointAt(0);
+		e.value=c=String.fromCodePoint(dec);
 		if(dec>=11904)
 		{
-			let o={cache:"no-cache"};
-			fetch('../svgs'+lang+'/'+dec+'.svg',o)
+			let lang=getLangAcjk(),dir='svgs'+lang;
+			if((lang=="Ja")&&c.match(/^[ぁ-ゟァ-ヿ]$/u)) dir+="Kana";
+			fetch('../'+dir+'/'+dec+'.svg',{cache:"no-cache"})
 			.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
-			.then(r=>{run(r);return true;})
-			.catch(e=>document.getElementById("a").innerHTML=e+' in svgs'+lang);
+			.then(r=>run(r,c,dir))
+			.catch(e=>run(e,c,dir));
 		}
 	}
 }

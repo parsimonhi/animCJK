@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="description" content="Demo to add a number on each stroke of
-a Japanese or Chinese character using animCJK svg files">
+a Chinese, Japanese or Korean character using animCJK svg files">
 <link rel="stylesheet" href="_css/withSelector.css" type="text/css">
 <style>
 .specificSelector
@@ -15,10 +15,14 @@ a Japanese or Chinese character using animCJK svg files">
 }
 #a
 {
+	display:flex;
+	justify-content:center;
+	align-items:center;
 	width:16em;
 	height:16em;
 	border:1px solid #ccc;
-	margin:0.5em 0 0 0;
+	margin:0.5em 0;
+	padding:0;
 }
 #a svg
 {
@@ -85,18 +89,20 @@ function updateInfo(s)
 	s=s.replace(/AnimCJK [0-9-]+/,"AnimCJK 2016-"+d);
 	return s;
 }
-function run(s)
+function run(s,c,dir)
 {
-	if(!s.match(/<svg/))
+	if(s.match(/<svg[^>]+class="acjk"/))
 	{
-		document.getElementById("a").innerHTML="Data not found!";
-		updateCodeTag();
-		return;
+		s=updateInfo(s);
+		s=s.replace(/<style[^£]+\/style>\s/,"");
+		document.getElementById("a").innerHTML=s;
+		switchNumbers();
+	} 
+	else
+	{
+		s=c+" not found in "+dir;
+		document.getElementById("a").innerHTML=s;
 	}
-	s=updateInfo(s);
-	s=s.replace(/<style[^£]+\/style>\s/,"");
-	document.getElementById("a").innerHTML=s;
-	switchNumbers(); 
 }
 function doIt()
 {
@@ -105,15 +111,16 @@ function doIt()
   	document.querySelector('.codeTag').innerHTML="";
 	if(c)
 	{
-		let dec=c.codePointAt(0),lang=getLangAcjk();
-		e.value=String.fromCodePoint(dec);
+		let dec=c.codePointAt(0);
+		e.value=c=String.fromCodePoint(dec);
 		if(dec>=11904)
 		{
-			let o={cache:"no-cache"};
-			fetch('../svgs'+lang+'/'+dec+'.svg',o)
+			let lang=getLangAcjk(),dir='svgs'+lang;
+			if((lang=="Ja")&&c.match(/^[ぁ-ゟァ-ヿ]$/u)) dir+="Kana";
+			fetch('../'+dir+'/'+dec+'.svg',{cache:"no-cache"})
 			.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
-			.then(r=>{run(r);return true;})
-			.catch(e=>document.getElementById("a").innerHTML=e+' in svgs'+lang);
+			.then(r=>run(r,c,dir))
+			.catch(e=>run(e,c,dir));
 		}
 	}
 }
