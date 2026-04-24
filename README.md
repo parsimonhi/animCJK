@@ -15,7 +15,7 @@ For each character, there is one or several svg files in AnimCJK repository that
 SVG files are stored in several folders.
 
 ### svgsJa
-The svgsJa folder contains svg files corresponding to the union of the Japanese "jōyō kanji" (2136 characters), the Japanese "jinmeyō Kanji" (863 characters), some Japanese "hyōgai Kanji", some components, and the 38 basic strokes. In all, the svgsJa folder contains 6431 characters.
+The svgsJa folder contains svg files corresponding to the union of the Japanese "jōyō kanji" (2136 characters), the Japanese "jinmeyō Kanji" (863 characters), some Japanese "hyōgai Kanji", some components, and the 38 basic strokes. In all, the svgsJa folder contains 6482 characters.
 
 ### svgsJaKana
 The svgsJaKana folder contains svg files corresponding to the Japanese "hiragana" (86 characters) and Japanese "katakana" (91 characters). In all, the svgsJaKana folder contains 177 characters.
@@ -24,7 +24,7 @@ The svgsJaKana folder contains svg files corresponding to the Japanese "hiragana
 The svgsKo folder contains svg files corresponding to Korean "hanja level 8, 7, 6, 5", some of the level 4, and some other characters. In all, the svgsKo folder contains 535 characters.
 
 ### svgsZhHans
-The svgsZhHans folder contains svg files corresponding to Chinese "commonly used simplified hanzi" (7000 characters), some "uncommon hanzi", some "traditional hanzi" (that can appear in a simplified hanzi text), some components and the 35 basic strokes. This set includes the "HSK version 3 hanzi" (2970 characters) and the "frequently used simplified hanzi" (3500 characters). In all, the svgsZhHans folder contains 7907 characters.
+The svgsZhHans folder contains svg files corresponding to Chinese "commonly used simplified hanzi" (7000 characters), some "uncommon hanzi", some "traditional hanzi" (that can appear in a simplified hanzi text), some components and the 35 basic strokes. This set includes the "HSK version 3 hanzi" (2970 characters) and the "frequently used simplified hanzi" (3500 characters). In all, the svgsZhHans folder contains 7925 characters.
 
 ### svgsZhHant
 The svgsZhHant folder contains svg files corresponding to Chinese "HSK v3 level 1 to 3 traditional hanzi" (907 characters) and some other characters. Note that some simplified characters have more than one corresponding traditional character. In all, the svgsZhHant folder contains 1013 characters.
@@ -816,6 +816,6 @@ In summary, you can freely redistribute and/or modify the files of this project 
 - Arphic Public License (files prefixed by "graphics" and SVG files representing kanji, hanja and hanzi),
 - GNU Lesser General Public License (all other files).
 
-Note: SVG files representing Kana, Bopomofo and strokes may be redistributed and/or modified under the GNU Lesser General Public License, since these SVG are not derived from Arphic fonts (no entry for these characters in Arphic fonts).
+Note: SVG files representing Kana, Bopomofo and strokes may be redistributed and/or modified under the GNU Lesser General Public License, since these SVG are not derived from Arphic fonts.
 
 See https://github.com/parsimonhi/animCJK/blob/master/licenses/COPYING.txt for more details about licences concerning this project.
