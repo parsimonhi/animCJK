@@ -260,7 +260,7 @@ We used various sources to cross-check our data. In particular:
 - modify glyph in svgsJa
 	鼈牘犢竇黷
 - improve in svgsJaKana
-	きぎつづさざな
+	きぎつづさざなはばぱふぶぷぽょ
 - improve in svgsJa
 	戶𦆕竹森木知海科点語台姉帰身歯物庫帳濃貘舶毎角晴書東遠
 - improve in svgsKo
