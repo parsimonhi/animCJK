@@ -20,6 +20,7 @@
 	let dataSelector=document.querySelector('.dataSelector');
 	let charListSelector=document.querySelector('.charListSelector');
 	let charList2={};
+	let dicos2={Ja:null,Ko:null,ZhHans:null,ZhHant:null};
 	if(charListSelector)
 	{
 		// in practice, only some experimental pages define their own charList
@@ -64,7 +65,7 @@
 			// ZhHant titles
 			for(let k=1;k<10;k++) charList2.title["t3"+k]="Hsk v3 level "+k+", traditional Hanzi";
 			charList2.title["taiwan4808"]="4808 traditional Hanzi";
-			charList2.title["t3NotTaiwan4808"]="Some HSK v3 traditional hanzi not in the 4808";
+			charList2.title["t3NotTaiwan4808"]="Some HSK v3 traditional Hanzi not in the 4808";
 			charList2.title["taiwan4808NotT3"]="Some of the 4808 not in HSK v3";
 			charList2.title["tu"]="Some uncommon traditional Hanzi";
 			charList2.title["tc"]="Some components";
@@ -84,8 +85,8 @@
 	function setLang(lang)
 	{
 		localStorage.setItem("section",lang);
-		if(charListSelector) buildSections(lang,path);
-		if(!!window.doIt) doIt({lang:lang});
+		if(charListSelector) buildSections(lang,path,1);
+		else if(!!window.doIt) doIt({lang:lang});
 	}
 	function addOneLangRadio(p,value,label,langIso)
 	{
@@ -155,9 +156,9 @@
 		}
 		if(!!window.afterBuildingCharList) afterBuildingCharList(lang,section.getAttribute("data-category"));
 	}
-	function buildFromDicContinue(section,lang,dd)
+	function buildFromDic(section,lang,path)
 	{
-		
+		let dd=dicos2[lang];
 		let fieldsets=section.querySelectorAll('fieldset[data-set]');
 		for(let fieldset of fieldsets)
 		{
@@ -169,38 +170,18 @@
 		}
 		if(!!window.afterBuildingCharList) afterBuildingCharList(lang,section.getAttribute("data-category"));
 	}
-	function buildFromDic(section,lang,path)
-	{
-		if((typeof dicos !== "undefined")&&dicos[lang])
-		{
-			buildFromDicContinue(section,lang,dicos[lang]);
-		}
-		else
-		{
-			let o={cache:"no-cache"};
-			fetch(path+'dictionary'+lang+'.txt',o)
-			.then(r=>r.text())
-			.then(d=>
-				{
-					let r=[];
-					// dictionaries contain a list of JSON
-					// transform it in a global JSON 
-					d="["+d.replace(/\}\n\{/ug,"},{")+"]";
-					let dd=JSON.parse(d);
-					// store the dictionary in dicos if defined in the calling page
-					if(typeof dicos !== "undefined") dicos[lang]=dd;
-					buildFromDicContinue(section,lang,dd);
-				});
-		}
-	}
-	function buildSections(lang,path)
+	function buildSectionsContinue(lang,path,doItAtEnd=0)
 	{
 		let categories=Object.getOwnPropertyNames(charList2.map[lang]);
 		let sections=[];
 		for(let category of categories)
 		{
 			let section=charListSelector.querySelector('.charListSelector section[data-lang="'+lang+'"][data-category="'+category+'"]');
-			if(section) return;
+			if(section)
+			{
+				if(doItAtEnd&&!!window.doIt) doIt({lang:lang});
+				return;
+			}
 			let section2=document.createElement('section');
 			sections.push(section2);
 			let h2=document.createElement('h2');
@@ -227,6 +208,30 @@
 			if(charList2.type=="fromList") buildFromList(section2,lang);
 			else buildFromDic(section2,lang,path);
 		}
+		if(doItAtEnd&&!!window.doIt) doIt({lang:lang});
+	}
+	function buildSections(lang,path,doItAtEnd=0)
+	{
+		if((charList2.type=="fromList")||dicos2[lang])
+			buildSectionsContinue(lang,path,doItAtEnd);
+		else
+		{
+			let o={cache:"no-cache"};
+			fetch(path+'dictionary'+lang+'.txt',o)
+			.then(r=>r.text())
+			.then(d=>
+				{
+					let r=[];
+					// dictionaries contain a list of JSON
+					// transform it in a global JSON 
+					d="["+d.replace(/\}\n\{/ug,"},{")+"]";
+					let dd=JSON.parse(d);
+					// store the dictionary in dicos if defined in the calling page
+					if(typeof dicos !== "undefined") dicos[lang]=dd;
+					dicos2[lang]=dd;
+					buildSectionsContinue(lang,path,doItAtEnd);
+				});
+		}
 	}
 	if(charListSelector)
 	{
@@ -234,13 +239,13 @@
 		if(langSelector)
 		{
 			let lang=localStorage.getItem("section")?localStorage.getItem("section"):langs[0];
-			buildSections(lang,path);
+			buildSections(lang,path,0);
 		}
 		// if no langSelector, one cannot assume anything about the sections
 		// so build all
 		else for(let lang of langs)
 		{
-			buildSections(lang,path);
+			buildSections(lang,path,0);
 		}
 	}
 })();

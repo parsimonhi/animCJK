@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="description" content="To draw kana, kanji, hanja and hanzi
+<meta name="description" content="To draw Kana, Kanji, Hanja and Hanzi
 stroke by stroke using AnimCJK SVG files">
 <style>
 :root
@@ -127,9 +127,10 @@ input[type="checkbox"] {margin:0 0.25rem;}
 }
 #output li
 {
-	max-width:calc(var(--size) + 2px);
 	margin:0.5rem auto;
 	padding:0;
+	max-width:calc(var(--size) + 2px);
+	min-width:min-content;
 }
 #output li.error
 {
@@ -139,6 +140,7 @@ input[type="checkbox"] {margin:0 0.25rem;}
 {
 	margin:0;
 	padding:0;
+	min-width:min-content;
 }
 #output svg
 {
@@ -197,6 +199,11 @@ body:has([name="dico"]:checked) #output dt:not(:first-of-type)::after
 		stroke-dashoffset:0;
 		stroke:#000;
 	}
+}
+svg.acjk
+{
+	width:calc(var(--size));
+	height:auto;
 }
 svg.acjk path[clip-path]
 {
@@ -259,14 +266,14 @@ at the bottom of the page.</p>
 <h2>Description</h2>
 <p>
 AnimCJK contains SVG files to draw 
-Japanese kana or kanji and simplified or traditional Chinese hanzi stroke by stroke.
+Japanese Kana or Kanji, Korean Hanja and simplified or traditional Chinese Hanzi stroke by stroke.
 </p>
 <p>The Japanese repository contains "Kana" (177 characters),
-"Jōyō kanji" (2136 characters), "Jinmeyō kanji" (863 characters) and some other characters ("Hyōgai kanji", "Components" and "Strokes").</p>
+"Jōyō Kanji" (2136 characters), "Jinmeyō Kanji" (863 characters) and some other characters ("Hyōgai Kanji", "Components" and "Strokes").</p>
 <p>The Korean repository contains some "Hanja".</p>
-<p>The simplified Chinese repository contains "Commonly used hanzi" (7000 characters)
-and some other characters ("Uncommon hanzi", "Traditional hanzi used with simplified hanzi", "Components", "Bopomofo" and "Strokes").</p>
-<p>The traditional Chinese repository contains "HSK v3 level 1", "HSK v3 level 2", "HSK v3 level 3" and some other traditional hanzi.</p>
+<p>The simplified Chinese repository contains "Commonly used Hanzi" (7000 characters)
+and some other characters ("Uncommon Hanzi", "Traditional Hanzi used with simplified Hanzi", "Components", "Bopomofo" and "Strokes").</p>
+<p>The traditional Chinese repository contains "HSK v3 level 1", "HSK v3 level 2", "HSK v3 level 3" and some other traditional Hanzi.</p>
 </section>
 
 <section id="jaSection" lang="ja"><h2>Kana</h2><details open><summary><h3 id='jaHiragana'>Hiragana</h3></summary>
@@ -307,37 +314,37 @@ and some other characters ("Uncommon hanzi", "Traditional hanzi used with simpli
 <nav><a href="#koHanja8">Level 8</a><a href="#koHanja7">Level 7</a><a href="#koHanja6">Level 6</a><a href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a><a href="#">Top</a><a href="#bottom">Bottom</a></nav>
 </details><details open><summary><h3 id='koHanja4'>Hanja level 4</h3></summary>
 <nav><a href="#koHanja8">Level 8</a><a href="#koHanja7">Level 7</a><a href="#koHanja6">Level 6</a><a href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a><a href="#">Top</a><a href="#bottom">Bottom</a></nav>
-</details><details open><summary><h3 id='koKu'>Some uncommon hanja</h3></summary>
+</details><details open><summary><h3 id='koKu'>Some uncommon Hanja</h3></summary>
 <nav><a href="#koHanja8">Level 8</a><a href="#koHanja7">Level 7</a><a href="#koHanja6">Level 6</a><a href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a><a href="#">Top</a><a href="#bottom">Bottom</a></nav>
 </details><details open><summary><h3 id='koKc'>Some components</h3></summary>
 <nav><a href="#koHanja8">Level 8</a><a href="#koHanja7">Level 7</a><a href="#koHanja6">Level 6</a><a href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a><a href="#">Top</a><a href="#bottom">Bottom</a></nav>
 </details></section>
 
-<section id="zhHansSection" lang="zh-Hans"><h2>HSK v3 (zh-Hans)</h2><details open><summary><h3 id='zhHansHsk31'>HSK v3 level 1, simplified hanzi</h3></summary>
+<section id="zhHansSection" lang="zh-Hans"><h2>HSK v3 (zh-Hans)</h2><details open><summary><h3 id='zhHansHsk31'>HSK v3 level 1, simplified Hanzi</h3></summary>
 <nav><a href="#zhHansHsk31">HSK 1</a><a href="#zhHansHsk32">HSK 2</a><a href="#zhHansHsk33">HSK 3</a><a href="#zhHansHsk34">HSK 4</a><a href="#zhHansHsk35">HSK 5</a><a href="#zhHansHsk36">HSK 6</a><a href="#zhHansHsk37">HSK 7</a><a href="#zhHansHsk38">HSK 8</a><a href="#zhHansHsk39">HSK 9</a><a href="#zhHansFrequentNotHsk3">Frequent</a><a href="#zhHansCommonNotHsk3NorFrequent">Common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a><a href="#">Top</a><a href="#bottom">Bottom</a></nav>
-</details><details open><summary><h3 id='zhHansHsk32'>HSK v3 level 2, simplified hanzi</h3></summary>
+</details><details open><summary><h3 id='zhHansHsk32'>HSK v3 level 2, simplified Hanzi</h3></summary>
 <nav><a href="#zhHansHsk31">HSK 1</a><a href="#zhHansHsk32">HSK 2</a><a href="#zhHansHsk33">HSK 3</a><a href="#zhHansHsk34">HSK 4</a><a href="#zhHansHsk35">HSK 5</a><a href="#zhHansHsk36">HSK 6</a><a href="#zhHansHsk37">HSK 7</a><a href="#zhHansHsk38">HSK 8</a><a href="#zhHansHsk39">HSK 9</a><a href="#zhHansFrequentNotHsk3">Frequent</a><a href="#zhHansCommonNotHsk3NorFrequent">Common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a><a href="#">Top</a><a href="#bottom">Bottom</a></nav>
-</details><details open><summary><h3 id='zhHansHsk33'>HSK v3 level 3, simplified hanzi</h3></summary>
+</details><details open><summary><h3 id='zhHansHsk33'>HSK v3 level 3, simplified Hanzi</h3></summary>
 <nav><a href="#zhHansHsk31">HSK 1</a><a href="#zhHansHsk32">HSK 2</a><a href="#zhHansHsk33">HSK 3</a><a href="#zhHansHsk34">HSK 4</a><a href="#zhHansHsk35">HSK 5</a><a href="#zhHansHsk36">HSK 6</a><a href="#zhHansHsk37">HSK 7</a><a href="#zhHansHsk38">HSK 8</a><a href="#zhHansHsk39">HSK 9</a><a href="#zhHansFrequentNotHsk3">Frequent</a><a href="#zhHansCommonNotHsk3NorFrequent">Common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a><a href="#">Top</a><a href="#bottom">Bottom</a></nav>
-</details><details open><summary><h3 id='zhHansHsk34'>HSK v3 level 4, simplified hanzi</h3></summary>
+</details><details open><summary><h3 id='zhHansHsk34'>HSK v3 level 4, simplified Hanzi</h3></summary>
 <nav><a href="#zhHansHsk31">HSK 1</a><a href="#zhHansHsk32">HSK 2</a><a href="#zhHansHsk33">HSK 3</a><a href="#zhHansHsk34">HSK 4</a><a href="#zhHansHsk35">HSK 5</a><a href="#zhHansHsk36">HSK 6</a><a href="#zhHansHsk37">HSK 7</a><a href="#zhHansHsk38">HSK 8</a><a href="#zhHansHsk39">HSK 9</a><a href="#zhHansFrequentNotHsk3">Frequent</a><a href="#zhHansCommonNotHsk3NorFrequent">Common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a><a href="#">Top</a><a href="#bottom">Bottom</a></nav>
-</details><details open><summary><h3 id='zhHansHsk35'>HSK v3 level 5, simplified hanzi</h3></summary>
+</details><details open><summary><h3 id='zhHansHsk35'>HSK v3 level 5, simplified Hanzi</h3></summary>
 <nav><a href="#zhHansHsk31">HSK 1</a><a href="#zhHansHsk32">HSK 2</a><a href="#zhHansHsk33">HSK 3</a><a href="#zhHansHsk34">HSK 4</a><a href="#zhHansHsk35">HSK 5</a><a href="#zhHansHsk36">HSK 6</a><a href="#zhHansHsk37">HSK 7</a><a href="#zhHansHsk38">HSK 8</a><a href="#zhHansHsk39">HSK 9</a><a href="#zhHansFrequentNotHsk3">Frequent</a><a href="#zhHansCommonNotHsk3NorFrequent">Common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a><a href="#">Top</a><a href="#bottom">Bottom</a></nav>
-</details><details open><summary><h3 id='zhHansHsk36'>HSK v3 level 6, simplified hanzi</h3></summary>
+</details><details open><summary><h3 id='zhHansHsk36'>HSK v3 level 6, simplified Hanzi</h3></summary>
 <nav><a href="#zhHansHsk31">HSK 1</a><a href="#zhHansHsk32">HSK 2</a><a href="#zhHansHsk33">HSK 3</a><a href="#zhHansHsk34">HSK 4</a><a href="#zhHansHsk35">HSK 5</a><a href="#zhHansHsk36">HSK 6</a><a href="#zhHansHsk37">HSK 7</a><a href="#zhHansHsk38">HSK 8</a><a href="#zhHansHsk39">HSK 9</a><a href="#zhHansFrequentNotHsk3">Frequent</a><a href="#zhHansCommonNotHsk3NorFrequent">Common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a><a href="#">Top</a><a href="#bottom">Bottom</a></nav>
-</details><details open><summary><h3 id='zhHansHsk37'>HSK v3 level 7, simplified hanzi</h3></summary>
+</details><details open><summary><h3 id='zhHansHsk37'>HSK v3 level 7, simplified Hanzi</h3></summary>
 <nav><a href="#zhHansHsk31">HSK 1</a><a href="#zhHansHsk32">HSK 2</a><a href="#zhHansHsk33">HSK 3</a><a href="#zhHansHsk34">HSK 4</a><a href="#zhHansHsk35">HSK 5</a><a href="#zhHansHsk36">HSK 6</a><a href="#zhHansHsk37">HSK 7</a><a href="#zhHansHsk38">HSK 8</a><a href="#zhHansHsk39">HSK 9</a><a href="#zhHansFrequentNotHsk3">Frequent</a><a href="#zhHansCommonNotHsk3NorFrequent">Common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a><a href="#">Top</a><a href="#bottom">Bottom</a></nav>
-</details><details open><summary><h3 id='zhHansHsk38'>HSK v3 level 8, simplified hanzi</h3></summary>
+</details><details open><summary><h3 id='zhHansHsk38'>HSK v3 level 8, simplified Hanzi</h3></summary>
 <nav><a href="#zhHansHsk31">HSK 1</a><a href="#zhHansHsk32">HSK 2</a><a href="#zhHansHsk33">HSK 3</a><a href="#zhHansHsk34">HSK 4</a><a href="#zhHansHsk35">HSK 5</a><a href="#zhHansHsk36">HSK 6</a><a href="#zhHansHsk37">HSK 7</a><a href="#zhHansHsk38">HSK 8</a><a href="#zhHansHsk39">HSK 9</a><a href="#zhHansFrequentNotHsk3">Frequent</a><a href="#zhHansCommonNotHsk3NorFrequent">Common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a><a href="#">Top</a><a href="#bottom">Bottom</a></nav>
-</details><details open><summary><h3 id='zhHansHsk39'>HSK v3 level 9, simplified hanzi</h3></summary>
+</details><details open><summary><h3 id='zhHansHsk39'>HSK v3 level 9, simplified Hanzi</h3></summary>
 <nav><a href="#zhHansHsk31">HSK 1</a><a href="#zhHansHsk32">HSK 2</a><a href="#zhHansHsk33">HSK 3</a><a href="#zhHansHsk34">HSK 4</a><a href="#zhHansHsk35">HSK 5</a><a href="#zhHansHsk36">HSK 6</a><a href="#zhHansHsk37">HSK 7</a><a href="#zhHansHsk38">HSK 8</a><a href="#zhHansHsk39">HSK 9</a><a href="#zhHansFrequentNotHsk3">Frequent</a><a href="#zhHansCommonNotHsk3NorFrequent">Common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a><a href="#">Top</a><a href="#bottom">Bottom</a></nav>
-</details><h2>Others (zh-Hans)</h2><details open><summary><h3 id='zhHansFrequentNotHsk3'>Other frequently used hanzi</h3></summary>
+</details><h2>Others (zh-Hans)</h2><details open><summary><h3 id='zhHansFrequentNotHsk3'>Other frequently used Hanzi</h3></summary>
 <nav><a href="#zhHansHsk31">HSK 1</a><a href="#zhHansHsk32">HSK 2</a><a href="#zhHansHsk33">HSK 3</a><a href="#zhHansHsk34">HSK 4</a><a href="#zhHansHsk35">HSK 5</a><a href="#zhHansHsk36">HSK 6</a><a href="#zhHansHsk37">HSK 7</a><a href="#zhHansHsk38">HSK 8</a><a href="#zhHansHsk39">HSK 9</a><a href="#zhHansFrequentNotHsk3">Frequent</a><a href="#zhHansCommonNotHsk3NorFrequent">Common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a><a href="#">Top</a><a href="#bottom">Bottom</a></nav>
-</details><details open><summary><h3 id='zhHansCommonNotHsk3NorFrequent'>Other commonly used hanzi</h3></summary>
+</details><details open><summary><h3 id='zhHansCommonNotHsk3NorFrequent'>Other commonly used Hanzi</h3></summary>
 <nav><a href="#zhHansHsk31">HSK 1</a><a href="#zhHansHsk32">HSK 2</a><a href="#zhHansHsk33">HSK 3</a><a href="#zhHansHsk34">HSK 4</a><a href="#zhHansHsk35">HSK 5</a><a href="#zhHansHsk36">HSK 6</a><a href="#zhHansHsk37">HSK 7</a><a href="#zhHansHsk38">HSK 8</a><a href="#zhHansHsk39">HSK 9</a><a href="#zhHansFrequentNotHsk3">Frequent</a><a href="#zhHansCommonNotHsk3NorFrequent">Common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a><a href="#">Top</a><a href="#bottom">Bottom</a></nav>
-</details><details open><summary><h3 id='zhHansUncommon'>Some uncommon hanzi</h3></summary>
+</details><details open><summary><h3 id='zhHansUncommon'>Some uncommon Hanzi</h3></summary>
 <nav><a href="#zhHansHsk31">HSK 1</a><a href="#zhHansHsk32">HSK 2</a><a href="#zhHansHsk33">HSK 3</a><a href="#zhHansHsk34">HSK 4</a><a href="#zhHansHsk35">HSK 5</a><a href="#zhHansHsk36">HSK 6</a><a href="#zhHansHsk37">HSK 7</a><a href="#zhHansHsk38">HSK 8</a><a href="#zhHansHsk39">HSK 9</a><a href="#zhHansFrequentNotHsk3">Frequent</a><a href="#zhHansCommonNotHsk3NorFrequent">Common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a><a href="#">Top</a><a href="#bottom">Bottom</a></nav>
-</details><details open><summary><h3 id='zhHansTraditional'>Some traditional hanzi when used with simplified hanzi</h3></summary>
+</details><details open><summary><h3 id='zhHansTraditional'>Some traditional Hanzi when used with simplified Hanzi</h3></summary>
 <nav><a href="#zhHansHsk31">HSK 1</a><a href="#zhHansHsk32">HSK 2</a><a href="#zhHansHsk33">HSK 3</a><a href="#zhHansHsk34">HSK 4</a><a href="#zhHansHsk35">HSK 5</a><a href="#zhHansHsk36">HSK 6</a><a href="#zhHansHsk37">HSK 7</a><a href="#zhHansHsk38">HSK 8</a><a href="#zhHansHsk39">HSK 9</a><a href="#zhHansFrequentNotHsk3">Frequent</a><a href="#zhHansCommonNotHsk3NorFrequent">Common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a><a href="#">Top</a><a href="#bottom">Bottom</a></nav>
 </details><details open><summary><h3 id='zhHansComponent'>Some components</h3></summary>
 <nav><a href="#zhHansHsk31">HSK 1</a><a href="#zhHansHsk32">HSK 2</a><a href="#zhHansHsk33">HSK 3</a><a href="#zhHansHsk34">HSK 4</a><a href="#zhHansHsk35">HSK 5</a><a href="#zhHansHsk36">HSK 6</a><a href="#zhHansHsk37">HSK 7</a><a href="#zhHansHsk38">HSK 8</a><a href="#zhHansHsk39">HSK 9</a><a href="#zhHansFrequentNotHsk3">Frequent</a><a href="#zhHansCommonNotHsk3NorFrequent">Common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a><a href="#">Top</a><a href="#bottom">Bottom</a></nav>
@@ -345,13 +352,13 @@ and some other characters ("Uncommon hanzi", "Traditional hanzi used with simpli
 <nav><a href="#zhHansHsk31">HSK 1</a><a href="#zhHansHsk32">HSK 2</a><a href="#zhHansHsk33">HSK 3</a><a href="#zhHansHsk34">HSK 4</a><a href="#zhHansHsk35">HSK 5</a><a href="#zhHansHsk36">HSK 6</a><a href="#zhHansHsk37">HSK 7</a><a href="#zhHansHsk38">HSK 8</a><a href="#zhHansHsk39">HSK 9</a><a href="#zhHansFrequentNotHsk3">Frequent</a><a href="#zhHansCommonNotHsk3NorFrequent">Common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a><a href="#">Top</a><a href="#bottom">Bottom</a></nav>
 </details><details open><summary><h3 id='zhHansStroke'>Strokes</h3></summary>
 <nav><a href="#zhHansHsk31">HSK 1</a><a href="#zhHansHsk32">HSK 2</a><a href="#zhHansHsk33">HSK 3</a><a href="#zhHansHsk34">HSK 4</a><a href="#zhHansHsk35">HSK 5</a><a href="#zhHansHsk36">HSK 6</a><a href="#zhHansHsk37">HSK 7</a><a href="#zhHansHsk38">HSK 8</a><a href="#zhHansHsk39">HSK 9</a><a href="#zhHansFrequentNotHsk3">Frequent</a><a href="#zhHansCommonNotHsk3NorFrequent">Common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a><a href="#">Top</a><a href="#bottom">Bottom</a></nav>
-</details></section><section id="zhHantSection" lang="zh-Hant"><h2>HSK v3 traditional hanzi (zh-Hant)</h2><details open><summary><h3 id='zhHantT31'>HSK v3 level 1, traditional hanzi</h3></summary>
+</details></section><section id="zhHantSection" lang="zh-Hant"><h2>HSK v3 traditional Hanzi (zh-Hant)</h2><details open><summary><h3 id='zhHantT31'>HSK v3 level 1, traditional Hanzi</h3></summary>
 <nav><a href="#zhHantTraditional1">HSK 1 traditional</a><a href="#zhHantTraditional2">HSK 2 traditional</a><a href="#zhHantTraditionalu">Uncommon traditional</a><a href="#">Top</a><a href="#bottom">Bottom</a></nav>
-</details><details open><summary><h3 id='zhHantT32'>HSK v3 level 2, traditional hanzi</h3></summary>
+</details><details open><summary><h3 id='zhHantT32'>HSK v3 level 2, traditional Hanzi</h3></summary>
 <nav><a href="#zhHantTraditional1">HSK 1 traditional</a><a href="#zhHantTraditional2">HSK 2 traditional</a><a href="#zhHantTraditionalu">Uncommon traditional</a><a href="#">Top</a><a href="#bottom">Bottom</a></nav>
-</details><details open><summary><h3 id='zhHantT33'>HSK v3 level 3, traditional hanzi</h3></summary>
+</details><details open><summary><h3 id='zhHantT33'>HSK v3 level 3, traditional Hanzi</h3></summary>
 <nav><a href="#zhHantTraditional1">HSK 1 traditional</a><a href="#zhHantTraditional2">HSK 2 traditional</a><a href="#zhHantTraditionalu">Uncommon traditional</a><a href="#">Top</a><a href="#bottom">Bottom</a></nav>
-</details><h2>Others (zh-Hant)</h2><details open><summary><h3 id='zhHantTu'>Some other traditional hanzi</h3></summary>
+</details><h2>Others (zh-Hant)</h2><details open><summary><h3 id='zhHantTu'>Some other traditional Hanzi</h3></summary>
 <nav><a href="#zhHantTraditional1">HSK 1 traditional</a><a href="#zhHantTraditional2">HSK 2 traditional</a><a href="#zhHantTraditionalu">Uncommon traditional</a><a href="#">Top</a><a href="#bottom">Bottom</a></nav>
 </details><details open><summary><h3 id='zhHantTc'>Some components</h3></summary>
 <nav><a href="#zhHantTraditional1">HSK 1 traditional</a><a href="#zhHantTraditional2">HSK 2 traditional</a><a href="#zhHantTraditionalu">Uncommon traditional</a><a href="#">Top</a><a href="#bottom">Bottom</a></nav>
@@ -388,38 +395,38 @@ qi["Ko"]=[
 	//["hanja3","Hanja level 3"],
 	//["hanja2","Hanja level 2"],
 	//["hanja1","Hanja level 1"],
-	["ku","Some uncommon hanja"],
+	["ku","Some uncommon Hanja"],
 	["kc","Some components"]
 	];
 qi["ZhHans"]=[
-	["hsk31","HSK v3 level 1, simplified hanzi"],
-	["hsk32","HSK v3 level 2, simplified hanzi"],
-	["hsk33","HSK v3 level 3, simplified hanzi"],
-	["hsk34","HSK v3 level 4, simplified hanzi"],
-	["hsk35","HSK v3 level 5, simplified hanzi"],
-	["hsk36","HSK v3 level 6, simplified hanzi"],
-	["hsk37","HSK v3 level 7, simplified hanzi"],
-	["hsk38","HSK v3 level 8, simplified hanzi"],
-	["hsk39","HSK v3 level 9, simplified hanzi"],
-	["frequentNotHsk3","Other frequently used hanzi"],
-	["commonNotHsk3NorFrequent","Other commonly used hanzi"],
-	["uncommon","Some uncommon hanzi"],
-	["traditional","Some traditional hanzi when used with simplified hanzi"],
+	["hsk31","HSK v3 level 1, simplified Hanzi"],
+	["hsk32","HSK v3 level 2, simplified Hanzi"],
+	["hsk33","HSK v3 level 3, simplified Hanzi"],
+	["hsk34","HSK v3 level 4, simplified Hanzi"],
+	["hsk35","HSK v3 level 5, simplified Hanzi"],
+	["hsk36","HSK v3 level 6, simplified Hanzi"],
+	["hsk37","HSK v3 level 7, simplified Hanzi"],
+	["hsk38","HSK v3 level 8, simplified Hanzi"],
+	["hsk39","HSK v3 level 9, simplified Hanzi"],
+	["frequentNotHsk3","Other frequently used Hanzi"],
+	["commonNotHsk3NorFrequent","Other commonly used Hanzi"],
+	["uncommon","Some uncommon Hanzi"],
+	["traditional","Some traditional Hanzi when used with simplified Hanzi"],
 	["component","Some components"],
 	["bopomofo","Bopomofo"],
 	["stroke","Strokes"]
 	];
 qi["ZhHant"]=[
-	["t31","HSK v3 level 1, traditional hanzi"],
-	["t32","HSK v3 level 2, traditional hanzi"],
-	["t33","HSK v3 level 3, traditional hanzi"],
-	//["t34","HSK v3 level 4, traditional hanzi"],
-	//["t35","HSK v3 level 5, traditional hanzi"],
-	//["t36","HSK v3 level 6, traditional hanzi"],
-	//["t37","HSK v3 level 7, traditional hanzi"],
-	//["t38","HSK v3 level 8, traditional hanzi"],
-	//["t39","HSK v3 level 9, traditional hanzi"],
-	["tu","Some other traditional hanzi"],
+	["t31","HSK v3 level 1, traditional Hanzi"],
+	["t32","HSK v3 level 2, traditional Hanzi"],
+	["t33","HSK v3 level 3, traditional Hanzi"],
+	//["t34","HSK v3 level 4, traditional Hanzi"],
+	//["t35","HSK v3 level 5, traditional Hanzi"],
+	//["t36","HSK v3 level 6, traditional Hanzi"],
+	//["t37","HSK v3 level 7, traditional Hanzi"],
+	//["t38","HSK v3 level 8, traditional Hanzi"],
+	//["t39","HSK v3 level 9, traditional Hanzi"],
+	["tu","Some other traditional Hanzi"],
 	["tc","Some components"]
 	];
 function ucFirst(s)

@@ -267,8 +267,9 @@ function buildDicoContent(r)
 }
 function getOneFromDico(c,langLabel)
 {
-	for(let e of dicos[langLabel])
-		if(e["character"]==c) return e;
+	if(dicos[langLabel])
+		for(let e of dicos[langLabel])
+			if(e["character"]==c) return e;
 	return null;
 }
 function run(s)

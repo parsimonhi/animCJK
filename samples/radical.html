@@ -12,6 +12,7 @@ of a Chinese, Japanese or Korean character using animCJK svg files">
 	display:flex;
 	justify-content:center;
 	align-items:center;
+	text-align:center;
 	width:16em;
 	height:16em;
 	border:1px solid #ccc;
@@ -73,6 +74,13 @@ function getLangAcjk()
 	let e=document.querySelector('[name="lang"]:checked');
 	return e?e.value:"Ja";
 }
+function cleanDataForOne(s)
+{
+	// keep only the first char
+	// keep only chars from ⺀ (decimal unicode 11904)
+	for (let c of s) if(c.codePointAt(0)>=11904) return c;
+	return "";
+}
 function getLangIso()
 {
 	let e=document.querySelector('[name="lang"]:checked');
@@ -86,8 +94,9 @@ function updateInfo(s)
 }
 function getOneFromDico(c,langLabel)
 {
-	for(let e of dicos[langLabel])
-		if(e["character"]==c) return e;
+	if(dicos[langLabel])
+		for(let e of dicos[langLabel])
+			if(e["character"]==c) return e;
 	return null;
 }
 function run(s,d,c,dir)
@@ -108,9 +117,9 @@ function run(s,d,c,dir)
 		document.getElementById("a").innerHTML=s;
 	}
 }
-function doIt()
+function doIt(tried=0)
 {
-  	let e=document.querySelector('[name="data"]'),c=[...e.value][0];
+  	let e=document.querySelector('[name="data"]'),c=cleanDataForOne(e.value);
   	document.querySelector('#a').innerHTML="";
   	document.querySelector('#b').innerHTML="";
   	document.querySelector('.codeTag').innerHTML="";
@@ -129,7 +138,9 @@ function doIt()
 			.then(s=>run(s,d,c,dir))
 			.catch(e=>run(e,d,c,dir));
 		}
-		else document.getElementById("a").innerHTML=c+' not found'+' in dictionary'+lang+".txt";
+		else if(dicos[lang])
+			document.getElementById("a").innerHTML=c+' not found'+' in dictionary'+lang+'.txt';
+		else document.getElementById("a").innerHTML='Click on "Run" button';
 	}
 }
 </script>

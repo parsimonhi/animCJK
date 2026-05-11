@@ -13,6 +13,8 @@ and colorize the stroke currently drawn in a different color">
 	display:flex;
 	justify-content:center;
 	align-items:center;
+	text-align:center;
+
 	width:16em;
 	height:16em;
 	border:1px solid #ccc;
@@ -65,6 +67,13 @@ function updateCodeTag()
 	s=s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 	document.querySelector('.codeTag').innerHTML=s;
 }
+function cleanDataForOne(s)
+{
+	// keep only the first char
+	// keep only chars from ⺀ (decimal unicode 11904)
+	for (let c of s) if(c.codePointAt(0)>=11904) return c;
+	return "";
+}
 function getLangAcjk()
 {
 	let e=document.querySelector('[name="lang"]:checked');
@@ -100,22 +109,19 @@ function run(s,c,dir)
 }
 function doIt()
 {
-  	let e=document.querySelector('[name="data"]'),c=e.value;
+  	let e=document.querySelector('[name="data"]'),c=cleanDataForOne(e.value);
   	document.getElementById("a").innerHTML="";
   	document.querySelector('.codeTag').innerHTML="";
 	if(c)
 	{
 		let dec=c.codePointAt(0);
 		e.value=c=String.fromCodePoint(dec);
-		if(dec>=11904)
-		{
-			let lang=getLangAcjk(),dir='svgs'+lang;
-			if((lang=="Ja")&&c.match(/^[ぁ-ゟァ-ヿ]$/u)) dir+="Kana";
-			fetch('../'+dir+'/'+dec+'.svg',{cache:"no-cache"})
-			.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
-			.then(r=>run(r,c,dir))
-			.catch(e=>run(e,c,dir));
-		}
+		let lang=getLangAcjk(),dir='svgs'+lang;
+		if((lang=="Ja")&&c.match(/^[ぁ-ゟァ-ヿ]$/u)) dir+="Kana";
+		fetch('../'+dir+'/'+dec+'.svg',{cache:"no-cache"})
+		.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
+		.then(r=>run(r,c,dir))
+		.catch(e=>run(e,c,dir));
 	}
 }
 </script>

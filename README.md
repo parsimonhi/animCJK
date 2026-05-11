@@ -8,14 +8,14 @@ The purpose of this project is to display kanji and kana (Japanese characters), 
 
 For a demo, see https://parsimonhi.github.io/animCJK/
 
-For each character, there is one or several svg files in AnimCJK repository that contains paths defining its shape and some css code to animate it. The name of the svg is the decimal unicode of the character followed by the "svg" extension.
+For each character of a given language, there is a svg file in AnimCJK repository that contains paths defining its shape and some css code to animate it. The name of the svg is the decimal unicode of the character followed by the "svg" extension.
 
 ## SVG files
 
 SVG files are stored in several folders.
 
 ### svgsJa
-The svgsJa folder contains svg files corresponding to the union of the Japanese "jōyō kanji" (2136 characters), the Japanese "jinmeyō Kanji" (863 characters), some Japanese "hyōgai Kanji", some components, and the 38 basic strokes. In all, the svgsJa folder contains 6482 characters.
+The svgsJa folder contains svg files corresponding to the union of the Japanese "jōyō kanji" (2136 characters), the Japanese "jinmeyō Kanji" (863 characters), some Japanese "hyōgai Kanji", some components, and the 38 basic strokes. In all, the svgsJa folder contains 7007 characters.
 
 ### svgsJaKana
 The svgsJaKana folder contains svg files corresponding to the Japanese "hiragana" (86 characters) and Japanese "katakana" (91 characters). In all, the svgsJaKana folder contains 177 characters.
@@ -24,16 +24,16 @@ The svgsJaKana folder contains svg files corresponding to the Japanese "hiragana
 The svgsKo folder contains svg files corresponding to Korean "hanja level 8, 7, 6, 5", some of the level 4, and some other characters. In all, the svgsKo folder contains 535 characters.
 
 ### svgsZhHans
-The svgsZhHans folder contains svg files corresponding to Chinese "commonly used simplified hanzi" (7000 characters), some "uncommon hanzi", some "traditional hanzi" (that can appear in a simplified hanzi text), some components and the 35 basic strokes. This set includes the "HSK version 3 hanzi" (2970 characters) and the "frequently used simplified hanzi" (3500 characters). In all, the svgsZhHans folder contains 7925 characters.
+The svgsZhHans folder contains svg files corresponding to Chinese "commonly used simplified hanzi" (7000 characters), some "uncommon hanzi", some "traditional hanzi" (that can appear in a simplified hanzi text), some components and the 38 basic strokes. This set includes the "HSK version 3 hanzi" (2970 characters) and the "frequently used simplified hanzi" (3500 characters). In all, the svgsZhHans folder contains 8014 characters.
 
 ### svgsZhHant
 The svgsZhHant folder contains svg files corresponding to Chinese "HSK v3 level 1 to 3 traditional hanzi" (907 characters) and some other characters. Note that some simplified characters have more than one corresponding traditional character. In all, the svgsZhHant folder contains 1013 characters.
 
 ### Special folders
-These folders contain svg files for characters that have at least one stroke that belongs only partially to the radical.
+These folders contain a "special" version of svg files for characters that have at least one stroke that belongs only partially to the radical. These "special" versions are useful only when one want to display the radical in a different color. Note that all these characters have also a "normal" version in svgsJa, svgsKo, svgsZhHans or svgsZhHant. 
 
 ### Zoo folders
-They contain various characters, including Bopomofo and primitives that may not have a corresponding character in Unicode code charts.
+They contain various characters such as primitives that may not have a corresponding character in Unicode code charts and Bopomofo characters.
 
 ### Notes
 Be careful because the characters are not always the same in all languages even when they share the same unicode. For instance 勉 (21193.svg) in Japanese has not the same glyph as 勉 (21193.svg) in simplified Chinese.
@@ -42,13 +42,13 @@ Pay attention to compatibility characters such as 勉 (64051.svg) which has the 
 
 ## Usage
 
-First, you have to download animCJK somewhere on your computer (then evenly upload it on a webserver).
+First, you have to download AnimCJK somewhere on your computer (then evenly upload it on a webserver).
 
-The animCJK svg files representing a character can be used anywhere an image file can be used.
+The AnimCJK svg files representing a character can be used anywhere an image file can be used.
 
 ### Basic usage
 
-A svg file can be used as the source of a html img tag. Write the code below in a file called simple1.html and store it in the samples folder of AnimCJK. Then run simple1.html in a browser.
+A svg file can be used as the source of a html img tag. Write the code below in a file called simple1.html and store it in the samples folder of AnimCJK. Then display simple1.html in a browser.
 ```
 <!doctype html>
 <html>
@@ -73,7 +73,7 @@ img
 
 A svg file can also be inserted as is in the html code of a web page.
 
-You can just copy the content of the svg in the html code or you can use for instance php (assume that you moved or uploaded animCJK repository on a php server). Write the code below in a file called simple2.php and store it in the samples folder of AnimCJK. Then run simple2.php in a browser.
+You can just copy the content of the svg in the html. Write the code below in a file called simple2.html and store it in the samples folder of AnimCJK. Then display simple2.html in a browser.
 ```
 <!doctype html>
 <html>
@@ -91,13 +91,48 @@ svg.acjk
 </head>
 <body>
 <h1>Simple usage of AnimCJK</h1>
-<?php
-include "../svgsJa/20013.svg"; // include Japanese 中
-?>
+<!-- beginning of the content of svgsJa/20013.svg -->
+<svg id="z20013" class="acjk" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+<style>
+<![CDATA[
+@keyframes zk {
+	to {
+		stroke-dashoffset:0;
+	}
+}
+svg.acjk path[clip-path] {
+	--t:0.8s;
+	animation:zk var(--t) linear forwards var(--d);
+	stroke-dasharray:3337;
+	stroke-dashoffset:3339;
+	stroke-width:128;
+	stroke-linecap:round;
+	fill:none;
+	stroke:#000;
+}
+svg.acjk path[id] {fill:#ccc;}
+]]>
+</style>
+<path id="z20013d1" d="M 254,304 C 240,297 228,292 209,291 199,290 188,291 185,295 180,300 181,307 189,320 214,368 237,432 254,516 258,539 267,559 282,576 305,600 309,583 310,557 310,544 308,531 306,519 298,477 273,372 267,344 Z"/>
+<path id="z20013d2" d="M 752,475 C 760,450 769,426 777,402 787,370 805,343 828,322 845,305 841,291 821,276 801,261 781,246 762,234 748,225 734,225 717,232 690,241 613,253 535,264 L 476,272 C 386,284 289,299 254,304 L 267,344 C 335,330 409,314 476,307 L 534,300 C 580,294 624,287 687,284 699,283 719,285 724,293 734,307 723,366 693,465 Z"/>
+<path id="z20013d3" d="M 530,530 C 596,522 674,518 764,514 772,513 776,509 778,503 778,497 770,487 752,475 L 693,465 C 635,475 580,483 530,491 L 475,499 C 415,507 358,513 306,519 L 310,557 C 325,559 419,542 475,536 Z"/>
+<path id="z20013d4" d="M 475,536 C 475,768 467,879 488,916 494,928 505,924 512,910 523,881 530,755 530,530 V 491 C 530,458 532,354 534,300 L 535,264 C 536,192 545,146 559,122 564,111 559,99 545,89 528,75 504,64 475,57 460,53 450,58 441,67 435,72 434,78 444,88 478,121 476,216 476,272 V 307 C 476,365 475,464 475,499 Z"/>
+<defs>
+	<clipPath id="z20013c1"><use href="#z20013d1"/></clipPath>
+	<clipPath id="z20013c2"><use href="#z20013d2"/></clipPath>
+	<clipPath id="z20013c3"><use href="#z20013d3"/></clipPath>
+	<clipPath id="z20013c4"><use href="#z20013d4"/></clipPath>
+</defs>
+<path style="--d:1s;" pathLength="3333" clip-path="url(#z20013c1)" d="M190 298L232 337L295 584"/>
+<path style="--d:2s;" pathLength="3333" clip-path="url(#z20013c2)" d="M262 311L738 260L784 305L716 468"/>
+<path style="--d:3s;" pathLength="3333" clip-path="url(#z20013c3)" d="M314 526L699 491L773 502"/>
+<path style="--d:4s;" pathLength="3333" clip-path="url(#z20013c4)" d="M445 72L515 120L497 914"/>
+</svg>
+<!-- end of the content of svgsJa/20013.svg -->
 </body>
 </html>
 ```
-Alternately, you can use HTML and Javascript to insert a svg in a page. Write the code below in a file called simple3.html and store it in the samples folder of AnimCJK. Then run simple3.html in a browser.
+Alternately, you can use Javascript to insert a svg in a HTML page. Write the code below in a file called simple3.html and store it in the samples folder of AnimCJK. Then display simple3.html in a browser (assuming that you moved the AnimCJK repository on a web server otherwise it will not work).
 ```
 <!doctype html>
 <html>
@@ -135,15 +170,11 @@ For instance, using Anki card editor, select "Recto" field of a card's note, the
 
 In theory, all kanji of the Heisig RTK are in svgsJa.
 
-Most primitives are also in svgsJa, but some may be in other folders.
+Most primitives are also in svgsJa, but some are in other folders.
 
 Primitives that are also kana are in svgsJaKana.
 
-Primitives that look as a simplified Chinese character are in svgsZhHans.
-
-Primitives that are also a Bopomofo character are in svgsZhHansZoo.
-
-Primitives that may not have a corresponding character in Unicode code charts are in svgsJaZoo.
+Primitives that may not have a corresponding character in Unicode code charts or are a variant of an existing character in Unicode are in svgsJaZoo.
 
 A correspondance table between primitive names and AnimCJK svg files can be found in samples/_csv/heisig-animCJK-primitives.csv.
 
@@ -175,23 +206,64 @@ Note: some characters have special versions stored in folders that have the "Spe
 
 ## Decomposition system
 
-To display components of a character in different colors, a specific decomposition system to AnimCJK called "acjk" can be used. "acjk" decompositions are stored in dictionaryJa.txt, dictionaryZhHans.txt, etc.
+To display components of a character in different colors, a specific decomposition system to AnimCJK called "acjk" can be used.
+"acjk" decompositions are stored in dictionaryJa.txt, dictionaryZhHans.txt, etc.
 
-An "acjk" decomposition starts with a character, followed by its number of stroke (which indicates that the character is not decomposed), or followed by an ideographic description character (which indicates that the character is decomposed).
-The ideographic description character is followed by several component decompositions (3 for "⿲" and "⿳", 2 for ⿰","⿱","⿴","⿵","⿶","⿷","⿸","⿹","⿺" and "⿻).
-If a component has no corresponding character to represent it, its decomposition just starts with the ideographic description character.
-A component may be represented by a character that has a different stroke number.
-A component may be represented by a character that has a different glyph, but is semantically the same as the component.
-Special case 1: when a component is also the radical of the main character, a special mark is inserted just after the component character (actually a ".").
-Special case 2: sometimes, a component is split in several parts (when some strokes of other components are drawn "between" its parts). In such a case, each part is represented by a specific decomposition starting with the component character which is split, followed by a special mark (actually a ":"), followed by the decomposition of this part.
-Special case 3: sometimes, two components have a stroke in common. In this case,
-one splits both components, adding the split special mark after them. For the stroke they have in common,
-one puts the first component followed by the split special mark, then the second component followed by the split special mark, then the number 1.
-When there is more than one special mark, the radical special mark is inserted first.
+An "acjk" decomposition starts with a character, followed by its number of stroke (which indicates that the character is not decomposed),
+or followed by an ideographic description character (which indicates that the character is decomposed).
+
+An ideographic description character is followed by several component decompositions
+(3 for "⿲" and "⿳", 2 for ⿰","⿱","⿴","⿵","⿶","⿷","⿸","⿹","⿺" and "⿻).
+
+If a component has no corresponding character to represent it,
+its decomposition just starts with an ideographic description character.
+
+A component can be represented by a character that has a different number of strokes or a glyph from this component,
+but which is semantically or graphically similar to this component.
+
+Special case 1: when a component is also the radical of the main character, a so-called "radical" mark is inserted just after the component character (actually a ".").
+Example: 村⿰木.4寸3 (one draws the four strokes of 木 which is also the radical, then the tree strokes of 寸)
+
+Special case 2: sometimes, a component is split in several parts (when some strokes of other components are drawn "between" its parts).
+In such a case, each part is represented by a specific decomposition starting with the component character which is split, followed by a so-called "split" mark (actually a ":"), followed by a number or the decomposition of this part.
+Example: 可⿹丁:1口.3丁:1 (one draws the first stroke of 丁, then the three strokes of 口 which is also the radical, then the second stroke of 丁)
+
+Special case 3: sometimes, two components have one or more strokes (or part of them) in common.
+In this case, one splits both components,
+adding the "split" mark after them. For the stroke they have in common,
+one puts the first component followed by the "split" mark,
+then the second component followed by the "split" mark, then the number of strokes they have in common.
+Example: 臼.⿱𠀉:3彐:2𠀉:彐:1 (the whole character is also the radical, the last stroke belongs to both 𠀉 and 彐)
+
+Special case 4: sometimes, in rare cases, one might want to represent a component in the decomposition
+by two characters, each of them representing the whole component
+(for example, when one of them represents the component semantically and the other graphically).
+In this case, we can add these two characters with a so-called "similar" mark (actually a "~") between them.
+The "similar" mark is always alone between the two characters
+since the other special marks (if any) can be inserted after the second one.
+Example: 舎⿱𠆢2舌~𠮷.6
+(Graphically, the bottom component of 舎 is 𠮷.
+But it could also be 舌, which is its radical.
+However, 舌 is graphically different from the component.
+So both characters are added in the decomposition with a "similar" mark between them)
+
+When there are more than one special mark, the "radical" mark is inserted first, then the "split" mark.
+Example: 四⿴囗.:2儿2囗.:1
+
 It is mandatory to decompose a component containing the radical of the main character.
-It is desirable to decompose a component represented by a character that has a different glyph.
+Example: 命⿱亼3叩⿰口.3卩2
+(The "short" decomposition of 命 is ⿱亼3叩5 and does not contain its radical.
+So we decompose 叩, which contains the radical of 命, which is 口)
+
+It is desirable to decompose a component represented by a character that has a glyph different from this component.
+Example: 夢⿳𦭝⿱艹3罒5冖2夕.3, Japanese version
+(when drawn alone in Japanese, the decomposition of 𦭝 is ⿱⻀4罒5, but in 夢, 𦭝 is 𦭝⿱艹3罒5.
+So one adds after 𦭝 (in the decomposition of 夢) its decomposition (as it appears in 夢).
+The decomposition of 夢 could also be ⿱⿳艹3⺫5冖2夕.3)
+
 It is optional to decompose other components.
-It is always possible to decompose a character or a component using strokes if necessary.
+
+A decomposition can contain errors, and that is what gives it its charm.
 
 ## Plugin for Wordpress
 
@@ -203,7 +275,7 @@ https://gooo.pages-perso.free.fr/animCJK/animkanji_wp_plugin_page.php
 
 ### Makemeahanzi
 
-This project is derived from the remarquable Makemeahanzi project which is designed to display Chinese characters. See https://github.com/skishore/makemeahanzi for more details. However many characters have been modified (or added) in animCJK for various reasons:
+This project is derived from the remarquable Makemeahanzi project which is designed to display Chinese characters. See https://github.com/skishore/makemeahanzi for more details. However many characters (nearly all) have been modified or added in AnimCJK for various reasons:
 - many Japanese and Korean characters have a different stroke order, or have a different glyph, or have a different stroke direction or are not commonly used in Chinese, and therefore are not in Makemeahanzi.
 - many Chinese traditional characters have a different stroke order, or have a different glyph, or have a different stroke direction or are not in Makemeahanzi.
 - many character shapes were just slightly modified to look prettier.
@@ -253,6 +325,45 @@ We used various sources to cross-check our data. In particular:
 
 ## What is new?
 
+2026/05/12
+- modify stroke order in svgsJa
+	盖斛瘠
+- modify stroke order in svgsZhHans
+	盖
+- modify glyph in svgsJa
+	艝鼕蜈蝙
+- modify glyph in svgsZhHans
+	𣳾溦
+- improve in svgsJa
+	漢県荷側𠂋刀家卆珤様 㐆奐獬衄姙豚
+- improve in svgsKo
+	家
+- improve in svgsZhHans
+	荷𠂋刀家莠薜㐆酱獬衄豚
+- improve in svgsZhHant
+	刀家
+- add in svgsJa
+	纎纐頝纒纓纔纜缸罌𣪠 𨊥旉仒昍匛刅羕矞𡬠𣥂 𡱒豙𠂢洰罍罕罘罟罧罸 羂羃羆羇䩭圂屚𤍾𡘽羈 䩻羣羮羶耋耙耡耿聒聟
+	叐訧巤𠤕砳殸𠂔囷𨊠𣬉 𤿺耤𣦼歺聢聨𢇂聳聹肄 肬脣腆腟膃膓膕膠膣膤 膩膰膸膾臈臘臙臠臻舁 舖艱艷苙苳苻茆茖茘刕
+	茣吳茲荐荳荵莅悤虖莇 莖莚莟莠莢莵菎菴菷菻 萇萋萓萢萪萵葆葢盇葮 葯葷葹蒄蒭蒻蓁蓆蓙蓚 𢇁𠤏𠃧𡩧蓴蔆淩蔔蔕蔡
+	蔘蕀蕁蕋歮蕕蕚蕣蕷薀 薈薊薐薑薔薜𩾏薺藪藹 藺蘂橤蘆蘊蘓蘗蘚蘢蘯 蘰虧雐閵穌汒駦巟𥘈迶 䩗𢧜臱𠳋𡱝遀𠙽䚯殹䡛
+	㞋斦𠁳𭷔虒𩵋𠣜縕蓺𤋱 𩐁甤皅魝𦔻忩𡵉𡩜𢆍軗 𠩵𤇾𣴎烕絜嘼㽞𠦂㳄𧆨 歲蚫蛬蛯蛻蜆蜑蝨蝪蝸 螢螻蟇蟐蟲蟶蟷蠅蠍蠎
+	
+	莾蠏蠑蠡蠣蠧蠱蠶蠻𥑟 衂衒衵袙袮袰袵袿裃裄 裲裴裼褂褄褝褞褸褻襃 襌襍襠襤襪襭襴覈𣁋覊 覓覘覡覦覩覬覯覲覿觝
+	觧觴觸訌訐訖訥訶詁詆 詒詛詬詭詼誂誄誅誑誚 誡誣誥誦誨諂諍諚諞諠 諡諢㿽諤諫諳諷謇謐𥁑 謌謖謗謚謦謨謫謾譁譌
+	譎譏譖譚譛譟譯譱譴讌 讎讒讙讚谿豎豢豼貊貎 貭𣂑貮貲貶貽賍賚賻贄 贅贇贊贐贓贔赱趁趙跂 跖跫跼跿踈踐踟踰踴蹌
+	蹐蹕蹠蹣蹤躄躋躑躔躙 躡躪躰躱軅軆軈軋軛軣 軫軻軼軾輅輊輌輒輓輕 輜輟輦輳輹輾轂轅轌轎 轗轜耴轢轣辭辮辷迚迢
+	迥迯迴逋逎逕逖逧逵逹 遉遐遒遖遘遞遨遯邇邉 邏邨邵郛郢郤鄂鄒鄲酖 酘酲酳醂醯釁釋釐𠩺釖 釛釟釡釵釶釼釿鈑鈔鈕
+	鈞鈩鈿鉅鉈鉉鉋鉐鉗鉚 鉞銓銕銖銛銜銹鋩鋺錏 錙錚錣錵錺
+- add in svgsZhHans
+	𣪠𨊥旉仒昍匛刅羕矞𡬠 𣥂𡱒豙𠂢洰圂屚𤍾𡘽叐 𠤕砳殸𠂔囷𨊠𣬉𤿺耤𣦼 歺悤虖𢇁𠤏𠃧𠩺敇𪧷汒 巟夵𠇍迶䩗𢧜臱𠳋遀鍂
+	𠖇䚯殹𠫤𬜯𣂑𠁳𭷔虒𩵋 𠣜𥁑蓺𰀢𩐁甤皅䖭皛𬶀 𢼸𡵂𠮦𫠣穵奐𫥎𡥉𢀛𦙲 圤酓㼌盙茾犾
+- dictionary entries sorted in unicode order
+- heisig primitives are now only in svgsja, svgsJaKana and svgsJaZoo
+- add a "similar" mark to the decomposition system
+- various decomposition changes
+- various minor changes
+
 2026/04/24
 - improve makeGraphicsFromSvgs.php which can generate a graphicsXxx.txt from a svg folder
 - add makeSvgsFromGraphics.php which can generate a svg folder from a graphicsXxx.txt file
@@ -277,7 +388,7 @@ We used various sources to cross-check our data. In particular:
 - various minor changes
 
 2026/04/12
-- modify makeGraphicsFromSvgs.php (now can deal any folder containing animCJK svg files)
+- modify makeGraphicsFromSvgs.php (now can deal any folder containing AnimCJK svg files)
 - remove makeGraphicsFromSvgs4Kana.php (now makeGraphicsFromSvgs.php can do the job)
 - remove any other php files
 - modify index.html
