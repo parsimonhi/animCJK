@@ -238,10 +238,10 @@ Example: 臼.⿱𠀉:3彐:2𠀉:彐:1 (the whole character is also the radical, 
 Special case 4: sometimes, in rare cases, one might want to represent a component in the decomposition
 by two characters, each of them representing the whole component
 (for example, when one of them represents the component semantically and the other graphically).
-In this case, we can add these two characters with a so-called "similar" mark (actually a "~") between them.
+In this case, we can add these two characters with a so-called "similar" mark (actually a "\~") between them.
 The "similar" mark is always alone between the two characters
 since the other special marks (if any) can be inserted after the second one.
-Example: 舎⿱𠆢2舌~𠮷.6
+Example: 舎⿱𠆢2舌\~𠮷.6
 (Graphically, the bottom component of 舎 is 𠮷.
 But it could also be 舌, which is its radical.
 However, 舌 is graphically different from the component.
