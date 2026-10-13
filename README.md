@@ -24,10 +24,10 @@ The svgsJaKana folder contains svg files corresponding to the Japanese "Hiragana
 The svgsKo folder contains svg files corresponding to Korean "Hanja level 8, 7, 6, 5", some of the level 4, and some other characters. In all, the svgsKo folder contains 535 characters.
 
 ### svgsZhHans
-The svgsZhHans folder contains svg files corresponding to Chinese "commonly used simplified Hanzi" (7000 characters), some "uncommon Hanzi", some "traditional Hanzi" (that can appear in a simplified Hanzi text), some components and the 38 basic strokes. This set includes the Hanzi of "HSK 2025" (3088 characters) and the "frequently used simplified Hanzi" (3500 characters). In all, the svgsZhHans folder contains 8188 characters.
+The svgsZhHans folder contains svg files corresponding to Chinese "commonly used simplified Hanzi" (7000 characters), some "uncommon Hanzi", some "traditional Hanzi" (that can appear in a simplified Hanzi text), some components and the 38 basic strokes. This set includes the Hanzi of "HSK 2025" (3088 characters) and the "frequently used simplified Hanzi" (3500 characters). In all, the svgsZhHans folder contains 8190 characters.
 
 ### svgsZhHant
-The svgsZhHant folder contains svg files corresponding to some of the 4808 commonly used Hanzi in Taiwan and some other characters. Note that some simplified characters have more than one corresponding traditional character. In all, the svgsZhHant folder contains 1423 characters.
+The svgsZhHant folder contains svg files corresponding to some of the 4808 commonly used Hanzi in Taiwan and some other characters. Note that some simplified characters have more than one corresponding traditional character. In all, the svgsZhHant folder contains 1425 characters.
 
 ### Special folders
 These folders contain a "special" version of svg files for characters that have at least one stroke that belongs only partially to the radical. These "special" versions are useful only when one want to display the radical in a different color. Note that all these characters have also a "normal" version in svgsJa, svgsKo, svgsZhHans or svgsZhHant. 
@@ -365,7 +365,7 @@ We used various sources to cross-check our data. In particular:
 - modify stroke number in svgsZhZoo
 	ㄖ
 - improve in svgsJa
-	咸縷廳彐強穿耒貝龜局畢壺壼縷鼇雚罐国乑镸龝榊皸鵜
+	咸縷廳彐強穿耒貝龜局畢壺壼縷鼇雚罐国乑镸龝榊皸鵜彈惱
 - improve in svgsKo
 	強局
 - improve in svgsZhHans
@@ -384,7 +384,7 @@ We used various sources to cross-check our data. In particular:
 	𱍸𡳾碼呒脫襪鹹嚐嚴圓夢妳灣唸廳廁廚鏡闆丟亞嘗帥孫濕蹟裏砲羣樑昇洩歎櫃歐彎則𠪚匱汙淺齋飩餉餒餘減溼𡌥漿
 	無餡餞畢餽簽餾統餅饅饉馭礦鍊駟馮駛駝駑駭壺縷鼇牠樁睏罐顴駱騁駢鵝騫驀驃騾驛驟驥驪贊髏齟髓臥鬆鬢鬍鬚貨
 	賠鎖鑰倆帳陸頤顆颱鬧鹽鬨齡鬩鬮魘勵𧴪奮魴鮓鮑鯊𫠤鯢鯤鯔鯡兇跡鰕鰓鰈鰒鰥眔鰲鰾鱧鱸鳧鴆鶯鴣奞盧𧆨鴟鴕鴒
-	鴿豔鵑鵲鶉鶇鵯鶚鶲鶻鷂鷙鷓鷸鷦鷯鸛鸞執
+	鴿豔鵑鵲鶉鶇鵯鶚鶲鶻鷂鷙鷓鷸鷦鷯鸛鸞執彈惱
 - add in svgsZhHant
 	吃妳姊真甚灣臺唸巴廳拜枝著濕楣檯繳崗枷潢艶鉅秘砲羣欸憋樑昇洩歎唇匱齋飩餉丑丕餒咸餡餞餽丞餾丫丸馭駟馮
 	駑駭縷鼇樁睏勸騁駢騫驀驃騾驛驥冀驪贊髏齟尹乍髭髯冉鬃髻鬆鬢鬨齡伶鮑鯊敖鰓鰥鰾鱸鴆鶯鴣鴕鴒鵑鵲鶉鷂鷓鸞
@@ -394,7 +394,7 @@ We used various sources to cross-check our data. In particular:
 	亞伯倍偷兄吉咳哇嗽嘗嚐嚴圓圾垃夢婆案染枕暑操摩搭授捷括拖折托惜律帥尺尤寒孫橘櫃歐汗汙池泉泡洲浴淺研皂
 	減溼漿炒炸烏無畢究笨簽統餅饅罐羞肥脖腐膏臥臭芒萄葡蚊貌貨賠逛野鎖鑰陪陸頤顆颱鬧鹽丙彎州餘枉析丁鍊駛牠
 	串之則仔王林未貼企厲令厲奮乖仗佛佳供依俊俗傲兇免兔凶刺跡勸鵝鬍倆帳勵丐丘礦駝壺凡駱酬丹乃驟髓髦乞乳予
-	于井亦仁仕伏鴿豔
+	于井亦仁仕伏鴿豔彈惱
 - various decomposition changes
 - various minor changes
 
