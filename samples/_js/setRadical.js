@@ -36,7 +36,7 @@ function setRadical(x,c1="#f90",c2="#06f")
 					// assume the radical is followed by a dot
 					// and its components if any are also followed by a dot
 					let a,n=0;
-					d=d.replace(/[~:]/gu,"").replace(/[^.0-9]+/gu," ");
+					d=d.replace(/[a-z~:]/gu,"").replace(/[^.0-9]+/gu," ");
 					a=d.trim().split(/ +/);
 					n=0;
 					for(let b of a)

@@ -15,7 +15,7 @@ For each character of a given language, there is a svg file in AnimCJK repositor
 SVG files are stored in several folders.
 
 ### svgsJa
-The svgsJa folder contains svg files corresponding to the union of the Japanese "jōyō kanji" (2136 characters), the Japanese "jinmeyō Kanji" (863 characters), some Japanese "hyōgai Kanji", some components, and the 38 basic strokes. In all, the svgsJa folder contains 7007 characters.
+The svgsJa folder contains svg files corresponding to the union of the Japanese "Jōyō Kanji" (2136 characters), the Japanese "Jinmeyō Kanji" (863 characters), the Japanese characters needed for the kanji Kentei test (6355 characters), some "Hyōgai Kanji", some components, and the 38 basic strokes. In all, the svgsJa folder contains 7335 characters.
 
 ### svgsJaKana
 The svgsJaKana folder contains svg files corresponding to the Japanese "hiragana" (86 characters) and Japanese "katakana" (91 characters). In all, the svgsJaKana folder contains 177 characters.
@@ -24,10 +24,10 @@ The svgsJaKana folder contains svg files corresponding to the Japanese "hiragana
 The svgsKo folder contains svg files corresponding to Korean "hanja level 8, 7, 6, 5", some of the level 4, and some other characters. In all, the svgsKo folder contains 535 characters.
 
 ### svgsZhHans
-The svgsZhHans folder contains svg files corresponding to Chinese "commonly used simplified hanzi" (7000 characters), some "uncommon hanzi", some "traditional hanzi" (that can appear in a simplified hanzi text), some components and the 38 basic strokes. This set includes the "HSK version 3 hanzi" (2970 characters) and the "frequently used simplified hanzi" (3500 characters). In all, the svgsZhHans folder contains 8014 characters.
+The svgsZhHans folder contains svg files corresponding to Chinese "commonly used simplified hanzi" (7000 characters), some "uncommon hanzi", some "traditional hanzi" (that can appear in a simplified hanzi text), some components and the 38 basic strokes. This set includes the hanzi of "HSK 2025" (3088 characters) and the "frequently used simplified hanzi" (3500 characters). In all, the svgsZhHans folder contains 8188 characters.
 
 ### svgsZhHant
-The svgsZhHant folder contains svg files corresponding to Chinese "HSK v3 level 1 to 3 traditional hanzi" (907 characters) and some other characters. Note that some simplified characters have more than one corresponding traditional character. In all, the svgsZhHant folder contains 1013 characters.
+The svgsZhHant folder contains svg files corresponding to some of the 4808 commonly used hanzi in Taiwan and some other characters. Note that some simplified characters have more than one corresponding traditional character. In all, the svgsZhHant folder contains 1423 characters.
 
 ### Special folders
 These folders contain a "special" version of svg files for characters that have at least one stroke that belongs only partially to the radical. These "special" versions are useful only when one want to display the radical in a different color. Note that all these characters have also a "normal" version in svgsJa, svgsKo, svgsZhHans or svgsZhHant. 
@@ -39,6 +39,8 @@ They contain various characters such as primitives that may not have a correspon
 Be careful because the characters are not always the same in all languages even when they share the same unicode. For instance 勉 (21193.svg) in Japanese has not the same glyph as 勉 (21193.svg) in simplified Chinese.
 
 Pay attention to compatibility characters such as 勉 (64051.svg) which has the same glyph in Japanese as 勉 (21193.svg) in simplified Chinese, but does not have the same unicode.
+
+Many traditional characters in svgsZhHans and svgsZhHant are different. The reason is that these characters can have a different glyph, stroke order or stroke direction in mainland China (ZhHans version) and in Taiwan (ZhHant version). For example, the stroke order of the radical 馬 in ZhHans and ZhHant is not the same: the first two strokes are swapped. And the radical 艹 has 3 strokes in ZhHans and 4 strokes in ZhHant. There are numerous other differences.
 
 ## Usage
 
@@ -228,6 +230,10 @@ Special case 2: sometimes, a component is split in several parts (when some stro
 In such a case, each part is represented by a specific decomposition starting with the component character which is split, followed by a so-called "split" mark (actually a ":"), followed by a number or the decomposition of this part.
 Example: 可⿹丁:1口.3丁:1 (one draws the first stroke of 丁, then the three strokes of 口 which is also the radical, then the second stroke of 丁)
 
+Sometimes, in rare cases, a split component can appear multiple times in the character.
+In such a case, add a Latin letter after the division marks of each component to tell them apart.
+Example: 眔⿱⺫.5⿻丨1⿱八:a1八:b1八:a1八:b1 (八 appears twice and is split, so add a "a" after the split marks of the first occurence of 八, and a "b" after the split marks of the second occurence of 八) 
+
 Special case 3: sometimes, two components have one or more strokes (or part of them) in common.
 In this case, one splits both components,
 adding the "split" mark after them. For the stroke they have in common,
@@ -238,10 +244,10 @@ Example: 臼.⿱𠀉:3彐:2𠀉:彐:1 (the whole character is also the radical, 
 Special case 4: sometimes, in rare cases, one might want to represent a component in the decomposition
 by two characters, each of them representing the whole component
 (for example, when one of them represents the component semantically and the other graphically).
-In this case, we can add these two characters with a so-called "similar" mark (actually a "~") between them.
+In this case, we can add these two characters with a so-called "similar" mark (actually a "\~") between them.
 The "similar" mark is always alone between the two characters
 since the other special marks (if any) can be inserted after the second one.
-Example: 舎⿱𠆢2舌~𠮷.6
+Example: 舎⿱𠆢2舌\~𠮷.6
 (Graphically, the bottom component of 舎 is 𠮷.
 But it could also be 舌, which is its radical.
 However, 舌 is graphically different from the component.
@@ -275,12 +281,12 @@ https://gooo.pages-perso.free.fr/animCJK/animkanji_wp_plugin_page.php
 
 ### Makemeahanzi
 
-This project is derived from the remarquable Makemeahanzi project which is designed to display Chinese characters. See https://github.com/skishore/makemeahanzi for more details. However many characters (nearly all) have been modified or added in AnimCJK for various reasons:
+This project is derived from the remarquable Makemeahanzi project which is designed to display Chinese characters. See https://github.com/skishore/makemeahanzi for more details. However nearly all characters have been modified or added in AnimCJK for various reasons:
 - many Japanese and Korean characters have a different stroke order, or have a different glyph, or have a different stroke direction or are not commonly used in Chinese, and therefore are not in Makemeahanzi.
 - many Chinese traditional characters have a different stroke order, or have a different glyph, or have a different stroke direction or are not in Makemeahanzi.
-- many character shapes were just slightly modified to look prettier.
 - some commonly used (but not frequently used) Chinese characters are not in Makemeahanzi.
-- some uncommon characters are not in Makemeahanzi.
+- many other characters present in AnimCJK are not in Makemeahanzi.
+- nearly all character shapes were just slightly modified to look prettier.
 
 Even if character shapes have the same look in both Makemeahanzi and AnimCJK, the svg files are different: the css is different, the svg structure is different, the coordinate system is different, the stroke paths are different, the median paths are different. However, for people who would like to re-import characters from AnimCJK to Makemeahanzi, text files are provided (graphicsJa.txt, graphicsZhHans.txt, etc.) that have the same format as the graphics.txt file of Makemeahanzi. So it is easy to generate SVG files in the format used by Makemeahanzi using AnimCJK data.
 
@@ -324,6 +330,73 @@ We used various sources to cross-check our data. In particular:
 - How SVG Line Animation Works, https://css-tricks.com/svg-line-animation-works/
 
 ## What is new?
+
+2026/10/13
+- all the 6355 Kanji needed for the kanji Kentei test are nom in animCJK
+- for zhHans, change the HSK 2021 char list to the HSK 2025 char list
+- for zhHant, simplify the char list
+- add in svgsZhHans (issue #57)
+	淽嬅
+- add in svgsJa and svgsZhHans (issue #58)
+	釒訁
+- add in svgsZhHans and svgsZhHant (issue #59)
+	鑽燙
+- improve 〇 (issue #62)
+- improve medians in svgsZhHans (issue #64)
+	豨镵
+- modify stroke order in svgsJa (issue #65)
+	臓透嘘
+- modify glyph in svgsJa (issue #65)
+	衷
+- add in svgsJa (issue #65)
+	饉頷
+- modify stroke order in svgsZhHans
+	髓蕻镸髡髦髫髭髹鬃鬈鬏鬓
+- modify stroke order in svgsZhHant
+	鬚體
+- modify glyph in svgsJa
+	酬麋麝衆聚跡亦変弯恋蛮迹湾彝號耴
+- modify glyph in svgsZhHans
+	豨廣酬彝銮
+- modify glyph in svgsZhHant
+	示緊糸炒涼孫察
+- modify stroke number in svgsZhHans
+	龜養
+- modify stroke number in svgsZhZoo
+	ㄖ
+- improve in svgsJa
+	咸縷廳彐強穿耒貝龜局畢壺壼縷鼇雚罐国乑镸龝榊皸鵜
+- improve in svgsKo
+	強局
+- improve in svgsZhHans
+	咸懑韵強貝局憋雚罐国乑鲊
+- improve in svgsZhHant
+	堅籃藍彆強發穿
+- add in svgsJa
+	錻鍄鍖鍜鍠鍮鍼鎔鎬鎰鎹鏃鏈鏐鏗鏘鏝鏤鏥鏨鐇鐐鐓鐔鐚鐡鐫鐶鐺鑁鑒鑚鑛鑞鑠鑢鑪鑵鑷鑼鑽鑾钁閂閇閊閖閘閙閠
+	閧閨閹閻閼閾闃闊闍闔闕闡闢闥阨阯陂陜陝㚒陞狊𡉼陦陲隰隱㥯隲𮤻隴隸霈霎霑霙霤霪霽靂靆靈靉靤靦靨靫靱靹鞁
+	鞆鞏鞐鞜鞦鞳韈韲韵頏𱍸頤頸丫頽顆顋顫顰顱顳顳顴颪颱颶飃飄秃飆猋𡳾飮齋齎齏飩飫餉餒餔餘餡餝餞餤餠幷餬麭
+	餽餾饂饐饋饑饌馭馼駟駛駝駘駑駭駮駱駲黌麑駻駸騁騏騅駢鵝騫驂驀驃騾驛驟驥驤驩驫驪骭髏髓髞髦髫鬆鬢髢髣髴
+	髱鹽鹹髷鬘鬨鬩鬪鬮魘魴鮓鮑鮖鮗鮟鮠鮴鯀鯊鮹鯆鯏鯑鯒鯣鯢鯤鯔鯡鰺鯲鯱鰕鰔鰉鰓鰌鰆鰈鰒鰊鰄鰮鰛鰥眔鰤鰡鰰
+	鱇鰲鱆鰾鱠鱧鱶鱸鳧鳬鳰鴈鳫𠌵鴃鴆鴪鶯鴣槪硏頻鴟鵄鴕鴒鵁鴿鴾鵆鵈喝褐豔免甁倂斲鬭鄕𠁁鵞鵤鵑鵐鵙鵲鶉鶇鶫
+	鵯鵺鶚鶤鶩鶲鷁鶻鶸鶺鷆鷏鷂鷙鷓鷸鷦鷭鷯鷽鸛鸞麁麌麕
+- add in svgsZhHans
+	𱍸𡳾碼呒脫襪鹹嚐嚴圓夢妳灣唸廳廁廚鏡闆丟亞嘗帥孫濕蹟裏砲羣樑昇洩歎櫃歐彎則𠪚匱汙淺齋飩餉餒餘減溼𡌥漿
+	無餡餞畢餽簽餾統餅饅饉馭礦鍊駟馮駛駝駑駭壺縷鼇牠樁睏罐顴駱騁駢鵝騫驀驃騾驛驟驥驪贊髏齟髓臥鬆鬢鬍鬚貨
+	賠鎖鑰倆帳陸頤顆颱鬧鹽鬨齡鬩鬮魘勵𧴪奮魴鮓鮑鯊𫠤鯢鯤鯔鯡兇跡鰕鰓鰈鰒鰥眔鰲鰾鱧鱸鳧鴆鶯鴣奞盧𧆨鴟鴕鴒
+	鴿豔鵑鵲鶉鶇鵯鶚鶲鶻鷂鷙鷓鷸鷦鷯鸛鸞執
+- add in svgsZhHant
+	吃妳姊真甚灣臺唸巴廳拜枝著濕楣檯繳崗枷潢艶鉅秘砲羣欸憋樑昇洩歎唇匱齋飩餉丑丕餒咸餡餞餽丞餾丫丸馭駟馮
+	駑駭縷鼇樁睏勸騁駢騫驀驃騾驛驥冀驪贊髏齟尹乍髭髯冉鬃髻鬆鬢鬨齡伶鮑鯊敖鰓鰥鰾鱸鴆鶯鴣鴕鴒鵑鵲鶉鷂鷓鸞
+	冂冖冫凵勹匚匸卩厶囗夂夊宀尢屮巛幺廴廾弋彐彡彳攴无殳气爿疒癶禸网艸虍襾豸辵釆隶隹靑髟鬯鹵黹黽乙匕卜士
+	夕寸尸巾弓戈戶斗曰欠歹毋氏爪爻犬玄玉瓦甘田疋皿矛矢禾穴竹糸缶羽耒聿臣臼舌舛舟艮虫虫谷豆豕貝赤辛辰邑酉
+	阜革韋韭骨鬥鬲鬼鹿麥黍鼎鼓鼠齒龜匙叉呀啦址堡宿寄局廁廚戴替棒治淇淋烤盒碼窗糖肚脫舍袋襪踏辣酸鏡鹹丟乘
+	亞伯倍偷兄吉咳哇嗽嘗嚐嚴圓圾垃夢婆案染枕暑操摩搭授捷括拖折托惜律帥尺尤寒孫橘櫃歐汗汙池泉泡洲浴淺研皂
+	減溼漿炒炸烏無畢究笨簽統餅饅罐羞肥脖腐膏臥臭芒萄葡蚊貌貨賠逛野鎖鑰陪陸頤顆颱鬧鹽丙彎州餘枉析丁鍊駛牠
+	串之則仔王林未貼企厲令厲奮乖仗佛佳供依俊俗傲兇免兔凶刺跡勸鵝鬍倆帳勵丐丘礦駝壺凡駱酬丹乃驟髓髦乞乳予
+	于井亦仁仕伏鴿豔
+- various decomposition changes
+- various minor changes
 
 2026/05/12
 - modify stroke order in svgsJa
@@ -924,9 +997,9 @@ Note: there are many tiny differences (stroke order, glyph, ...) between the tra
 ## Licences
 
 In summary, you can freely redistribute and/or modify the files of this project under the terms of:
-- Arphic Public License (files prefixed by "graphics" and SVG files representing kanji, hanja and hanzi),
+- Arphic Public License (files prefixed by "graphics" and SVG files),
 - GNU Lesser General Public License (all other files).
 
-Note: SVG files representing Kana, Bopomofo and strokes may be redistributed and/or modified under the GNU Lesser General Public License, since these SVG are not derived from Arphic fonts.
+SVG files representing Kana, Bopomofo and strokes can also (at your option) be redistributed and/or modified under the GNU Lesser General Public License, since these SVG are not derived from Arphic fonts.
 
 See https://github.com/parsimonhi/animCJK/blob/master/licenses/COPYING.txt for more details about licences concerning this project.

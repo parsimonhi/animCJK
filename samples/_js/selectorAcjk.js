@@ -34,8 +34,8 @@
 			charList2.map["Ja"]["Kana"]=["hiragana","katakana"];
 			charList2.map["Ja"]["Kanji"]=["g1","g2","g3","g4","g5","g6","g7"];
 			charList2.map["Ko"]["Hanja"]=["hanja8","hanja7","hanja6","hanja5","hanja4"/*,"hanja3","hanja2","hanja1"*/];
-			charList2.map["ZhHans"]["Simplified Hanzi"]=["hsk31","hsk32","hsk33","hsk34","hsk35","hsk36","hsk37","hsk38","hsk39"];
-			charList2.map["ZhHant"]["Traditional Hanzi"]=["t31","t32","t33"/*,"t34","t35","t36","t37","t38","t39"*/];
+			charList2.map["ZhHans"]["Simplified Hanzi"]=["hsk1","hsk2","hsk3","hsk4","hsk5","hsk6","hsk789"];
+			charList2.map["ZhHant"]["Traditional Hanzi"]=["taiwan4808"];
 			charList2.title={};
 			// Ja titles
 			charList2.title["hiragana"]="Hiragana";
@@ -55,7 +55,8 @@
 			charList2.title["ku"]="Some uncommon Hanja";
 			charList2.title["kc"]="Some components";
 			// ZhHans titles
-			for(let k=1;k<10;k++) charList2.title["hsk3"+k]="Hsk v3 level "+k+", simplified Hanzi";
+			for(let k=1;k<7;k++) charList2.title["hsk"+k]="Hsk 2025 level "+k+", simplified Hanzi";
+			charList2.title["hsk789"]="Hsk 2025 level 7-9 simplified Hanzi";
 			charList2.title["frequent2500"]="2500 frequent simplified Hanzi";
 			charList2.title["lessFrequent1000"]="1000 less frequent simplified Hanzi";
 			charList2.title["commonNotFrequent3500"]="3500 common but not frequent simplified Hanzi";
@@ -63,10 +64,10 @@
 			charList2.title["traditional"]="Some traditional Hanzi";
 			charList2.title["bopomofo"]="Bopomofo";
 			// ZhHant titles
-			for(let k=1;k<10;k++) charList2.title["t3"+k]="Hsk v3 level "+k+", traditional Hanzi";
-			charList2.title["taiwan4808"]="4808 traditional Hanzi";
-			charList2.title["t3NotTaiwan4808"]="Some HSK v3 traditional Hanzi not in the 4808";
-			charList2.title["taiwan4808NotT3"]="Some of the 4808 not in HSK v3";
+			for(let k=1;k<2;k++) charList2.title["tocflN"+k]="TOCFL Novice "+k;
+			for(let k=1;k<5;k++) charList2.title["tocflL"+k]="TOCFL Level "+k;
+			charList2.title["taiwan4808NotTocfl"]="Some other traditional Hanzi commonly used in Taiwan";
+			charList2.title["taiwan4808"]="Some traditional Hanzi commonly used in Taiwan";
 			charList2.title["tu"]="Some uncommon traditional Hanzi";
 			charList2.title["tc"]="Some components";
 			// All langs
