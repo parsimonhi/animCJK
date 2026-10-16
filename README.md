@@ -15,7 +15,7 @@ For each character of a given language, there is a svg file in AnimCJK repositor
 SVG files are stored in several folders.
 
 ### svgsJa
-The svgsJa folder contains svg files corresponding to the union of the Japanese "Jōyō Kanji" (2136 characters), the Japanese "Jinmeyō Kanji" (863 characters), the Japanese characters needed for the Kanji Kentei test (6355 characters), some "Hyōgai Kanji", some components, and the 38 basic strokes. In all, the svgsJa folder contains 7335 characters.
+The svgsJa folder contains svg files corresponding to the union of the Japanese "Jōyō Kanji" (2136 characters), the Japanese "Jinmeyō Kanji" (863 characters), the Japanese characters needed for the Kanji Kentei test (6355 characters), some "Hyōgai Kanji", some components, and the 38 basic strokes. In all, the svgsJa folder contains 7336 characters.
 
 ### svgsJaKana
 The svgsJaKana folder contains svg files corresponding to the Japanese "Hiragana" (86 characters) and Japanese "Katakana" (91 characters). In all, the svgsJaKana folder contains 177 characters.
@@ -24,10 +24,10 @@ The svgsJaKana folder contains svg files corresponding to the Japanese "Hiragana
 The svgsKo folder contains svg files corresponding to Korean "Hanja level 8, 7, 6, 5", some of the level 4, and some other characters. In all, the svgsKo folder contains 535 characters.
 
 ### svgsZhHans
-The svgsZhHans folder contains svg files corresponding to Chinese "commonly used simplified Hanzi" (7000 characters), some "uncommon Hanzi", some "traditional Hanzi" (that can appear in a simplified Hanzi text), some components and the 38 basic strokes. This set includes the Hanzi of "HSK 2025" (3088 characters) and the "frequently used simplified Hanzi" (3500 characters). In all, the svgsZhHans folder contains 8190 characters.
+The svgsZhHans folder contains svg files corresponding to Chinese "commonly used simplified Hanzi" (7000 characters), some "uncommon Hanzi", some "traditional Hanzi" (that can appear in a simplified Hanzi text), some components and the 38 basic strokes. This set includes the Hanzi of "HSK 2025" (3088 characters) and the "frequently used simplified Hanzi" (3500 characters). In all, the svgsZhHans folder contains 8244 characters.
 
 ### svgsZhHant
-The svgsZhHant folder contains svg files corresponding to some of the 4808 commonly used Hanzi in Taiwan and some other characters. Note that some simplified characters have more than one corresponding traditional character. In all, the svgsZhHant folder contains 1425 characters.
+The svgsZhHant folder contains svg files corresponding to some of the 4808 commonly used Hanzi in Taiwan and some other characters. Note that some simplified characters have more than one corresponding traditional character. In all, the svgsZhHant folder contains 1513 characters.
 
 ### Special folders
 These folders contain a "special" version of svg files for characters that have at least one stroke that belongs only partially to the radical. These "special" versions are useful only when one want to display the radical in a different color. Note that all these characters have also a "normal" version in svgsJa, svgsKo, svgsZhHans or svgsZhHant. 
@@ -330,6 +330,36 @@ We used various sources to cross-check our data. In particular:
 - How SVG Line Animation Works, https://css-tricks.com/svg-line-animation-works/
 
 ## What is new?
+
+2026/10/16
+- modify stroke order in svgsJa (issue #66)
+	鮪葵臍漑槪
+- improve in svgsJa
+	慮憶𠁁㐌賴懶晚勉勉輓毚揚剩有剪攝敗聑棄爾獲葉誠釋兌蛻驚
+- improve in svgsKo
+	有敗葉說
+- improve in svgsHans
+	㐌晚免勉毚剩有剪說
+- improve in svgsHant
+	晚免
+- modify stroke order in svgsJa
+	囿淆迶陏擠纃厩
+- modify glyph in svgsJa
+	翦
+- modify glyph in svgsZhHans
+	兌
+- modify glyph in svgsZhHant
+	前有靜骨散育熊髏髓體膏態能背精否說脫
+- add in svgsJa
+	潑
+- add in svgsZhHans
+	慮憶賴懶輓懷揚協擾攝敗聶聑暫棄潑斬爾獎獲碩競細羨葉詳誠誼諒譯質賀賺㳄斦購針釋鋼閱蛻項驕遞鍵驚冊凍刪嚇塗櫝
+	韁
+- add in svgsZhHant
+	慮憶賴懶勉輓懷揚協擾剩剪煎俞勇博卻攝敗聶暫棄厚厭潑斬含吸哎咬乏乒乓乩爾獎獲碩競細羨葉詳誠誼諒譯質賀賺云購
+	苗針釋鋼閱兌蛻項驕遞鍵驚冊凍刪哦哲唉喔嗨嗯嘛噢噪嚇赫坪域培堆塗填櫝韁
+- various decomposition changes
+- various minor changes
 
 2026/10/13
 - all the 6355 Kanji needed for the Kanji Kentei test are nom in animCJK
