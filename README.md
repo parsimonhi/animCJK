@@ -2,6 +2,8 @@
 
 ![nichi](samples/_img/日-jred.png)![zhong](samples/_img/中-jred.png)
 
+<p align="center"><img src="social-preview.png" width="75%" alt="animCJK social preview"></p>
+
 ## Description
 
 The purpose of this project is to display Kanji and Kana (Japanese characters), Hanja (Korean characters) or Hanzi (simplified and traditional Chinese characters) stroke by stroke.
