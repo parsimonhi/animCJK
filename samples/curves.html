@@ -1,34 +1,37 @@
 <!doctype html>
-<html lang="ja">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="Transform in curves the medians of an animCJK SVG
+representing a Chinese, Japanese or Korean character">
 <link rel="stylesheet" href="_css/withSelector.css" type="text/css">
+<link rel="stylesheet" href="_css/topBottom.css" type="text/css">
 <style>
 .strokeWidthSelector
 {
-	margin:0.5em 0;
+	margin:0.5rem 0;
 	padding:0;
 	border:0;
 }
 .strokeWidthSelector input[name="strokeWidth"]
 {
 	display:block;
-	width:14em;
+	width:min(14rem,80vw);
 }
 #c
 {
-	margin:0.5em 0 0 0;
+	margin:0.5rem 0 0 0;
 	list-style-type:none;
 	padding:0;
 }
 #c>*
 {
 	display:inline-block;
-	width:16em;
-	height:16em;
+	width:min(16rem,80vw);
+	height:min(16rem,80vw);
 	border:1px solid #ccc;
-	margin:0.125em;
+	margin:0.125rem;
 	vertical-align:top;
 }
 #r path[id]
@@ -44,23 +47,28 @@
 }
 pre {white-space: pre-wrap;}
 p a{margin:0;padding:0;}
+[data-category="Kana"] {display:none;}
 </style>
 <title>AnimCJK curves</title>
 <link rel="icon" type="image/svg+xml" href="../animCJKIcon.svg">
 </head>
-<body>
+<body id="top">
+<header>
 <h1>AnimCJK curves</h1>
+</header>
+<main>
 <nav class="link">
+<a href="#bottom"><span>Bottom</span></a>
 <a href="https://github.com/parsimonhi/animCJK"><span>Download</span></a>
 <a href="./"><span>Sample selector</span></a>
 <a href="../"><span>Home</span></a>
 </nav>
+<fieldset class="langSelector"></fieldset>
 <p>Transform the medians of a character in curved lines.
 The paths obtained can also be used as medians.
 See also <a href="https://towardsdatascience.com/b%C3%A9zier-interpolation-8033e9a262c2">Bézier Interpolation</a>
 and <a href="https://en.wikipedia.org/wiki/Tridiagonal_matrix_algorithm">Tridiagonal matrix algorithm</a>.
 </p>
-<fieldset class="langSelector"></fieldset>
 <fieldset class="dataSelector"></fieldset>
 <fieldset class="strokeWidthSelector">
 <label>Stroke-width:
@@ -74,11 +82,12 @@ and <a href="https://en.wikipedia.org/wiki/Tridiagonal_matrix_algorithm">Tridiag
 </ul>
 <p id="t"></p>
 <fieldset class="charListSelector"></fieldset>
-<footer>
+</main>
+<footer id="bottom">
 <nav class="link">
-<a href="#"><span>Top</span></a>
+<a href="#top"><span>Top</span></a>
 <a href="./"><span>Sample selector</span></a>
-<a href="../licenses/COPYING.txt"><span>Licences</span></a>
+<a href="../licenses/COPYING.txt"><span>Licenses</span></a>
 <a href="../"><span>Home</span></a>
 </nav>
 </footer>
@@ -176,6 +185,7 @@ function run(r)
 	svg+="</svg>";
 	document.getElementById("a").innerHTML=svg;
 	updateCode();
+	document.querySelector('.dataSelector').scrollIntoView();
 }
 
 function doIt()
@@ -188,12 +198,14 @@ function doIt()
 	if(c)
 	{
 		let dec=c.codePointAt(0),lang=getLangAcjk();
-		e.value=String.fromCodePoint(dec);
+		e.value=c=String.fromCodePoint(dec);
 		let o={cache:"no-cache"};
-		fetch('../svgs'+lang+'/'+dec+'.svg',o)
+		let dir='svgs'+lang;
+		// unable to deal kana at the moment
+		fetch('../'+dir+'/'+dec+'.svg',o)
 		.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
 		.then(r=>{run(r);return true;})
-		.catch(e=>document.getElementById("s").innerHTML=e+' in svgs'+lang);
+		.catch(e=>document.getElementById("s").innerHTML=e+' in '+dir);
 	}
 }
 </script>

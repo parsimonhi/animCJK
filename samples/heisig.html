@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ja">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="description" content="Display Heisig primitives and corresponding AnimCJK SVG">
 <title>AnimCJK - Heisig primitives and AnimCJK SVG</title>
-<link rel="icon" type="image/svg+xml" href="../animCJKIcon.svg">
+<link rel="stylesheet" href="_css/topBottom.css" type="text/css">
 <style>
 table
 {
@@ -99,15 +99,28 @@ a
 	}
 }
 </style>
+<link rel="icon" type="image/svg+xml" href="../animCJKIcon.svg">
 </head>
-<body>
+<body id="top">
+<header>
 <h1>Heisig primitives and AnimCJK SVG</h1>
+</header>
+<main>
 <nav class="link">
+<a href="#bottom"><span>Bottom</span></a>
 <a href="https://github.com/parsimonhi/animCJK"><span>Download</span></a>
 <a href="./"><span>Sample selector</span></a>
 <a href="../"><span>Home</span></a>
 </nav>
-<main></main>
+</main>
+<footer id="bottom">
+<nav class="link">
+<a href="#top"><span>Top</span></a>
+<a href="./"><span>Sample selector</span></a>
+<a href="../licenses/COPYING.txt"><span>Licenses</span></a>
+<a href="../"><span>Home</span></a>
+</nav>
+</footer>
 <script>
 let n=0,nmax;
 function addToMain(table)
@@ -119,10 +132,10 @@ function buildSvg(table,tr,td,s)
 {
 	let td2=document.createElement('td');
 	td.before(td2);
-	s=s.replace(/<!--[^£]*-->\n/,"");
-	s=s.replace(/<style[^£]*style>\n/,"");
-	s=s.replace(/<defs[^£]*defs>\n/,"");
-	s=s.replace(/<path style[^>]*>\n/g,"");
+	s=s.replace(/[<]!--[^£]*--[>]\n/,"");
+	s=s.replace(/[<]style[^£]*style[>]\n/,"");
+	s=s.replace(/[<]defs[^£]*defs[>]\n/,"");
+	s=s.replace(/[<]path style[^>]*[>]\n/g,"");
 	td2.innerHTML=s;
 	n++;
 	if(n>=nmax) addToMain(table); // all svg are loaded, ready to add table to main
@@ -130,8 +143,9 @@ function buildSvg(table,tr,td,s)
 function buildTd(table,tr,s)
 {
 	let td=document.createElement('td');
-	tr.append(td);
 	td.innerHTML=s;
+	if(s.match(/\p{sc=Han}/u)) td.setAttribute("lang","ja");
+	tr.append(td);
 	if(s.match(/[.]svg$/))
 	{
 		let o={cache:"no-cache"};
@@ -170,18 +184,10 @@ function buildTable(s)
 window.addEventListener("load",function()
 {
 	let o={cache:"no-cache"};
-	fetch("_csv/heisig-animCJK-primitives.csv",o)
+	fetch("_csv/heisigPrimitives.csv",o)
 	.then(r=>r.text())
 	.then(r=>buildTable(r.trim()));
 });
 </script>
-<footer>
-<nav class="link">
-<a href="#"><span>Top</span></a>
-<a href="./"><span>Sample selector</span></a>
-<a href="../licenses/COPYING.txt"><span>Licences</span></a>
-<a href="../"><span>Home</span></a>
-</nav>
-</footer>
 </body>
 </html>

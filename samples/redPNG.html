@@ -1,18 +1,19 @@
 <!doctype html>
-<html lang="ja">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="description" content="Demo to create red PNG image on the fly
 from AnimCJK SVG files">
 <link rel="stylesheet" href="_css/withSelector.css" type="text/css">
+<link rel="stylesheet" href="_css/topBottom.css" type="text/css">
 <style>
 #a
 {
-	width:16em;
-	height:16em;
+	width:min(16rem,80vw);
+	height:min(16rem,80vw);
 	border:1px solid #ccc;
-	margin:0.5em 0 0 0;
+	margin:0.5rem 0 0 0;
 	padding:0;
 }
 #a img
@@ -24,23 +25,28 @@ from AnimCJK SVG files">
 <title>AnimCJK Red PNG Demo</title>
 <link rel="icon" type="image/svg+xml" href="../animCJKIcon.svg">
 </head>
-<body>
-<h1 id="top">AnimCJK Red PNG Demo</h1>
+<body id="top">
+<header>
+<h1>AnimCJK Red PNG Demo</h1>
+</header>
+<main>
 <nav class="link">
+<a href="#bottom"><span>Bottom</span></a>
 <a href="https://github.com/parsimonhi/animCJK"><span>Download</span></a>
 <a href="./"><span>Sample selector</span></a>
 <a href="../"><span>Home</span></a>
 </nav>
 <fieldset class="langSelector"></fieldset>
-<fieldset class="dataSelector"></fieldset>
 <p id="p">PNG image generated on the fly from a SVG</p>
+<fieldset class="dataSelector"></fieldset>
 <figure id="a"></figure>
 <fieldset class="charListSelector"></fieldset>
-<footer>
+</main>
+<footer id="bottom">
 <nav class="link">
-<a href="#"><span>Top</span></a>
+<a href="#top"><span>Top</span></a>
 <a href="./"><span>Sample selector</span></a>
-<a href="../licenses/COPYING.txt"><span>Licences</span></a>
+<a href="../licenses/COPYING.txt"><span>Licenses</span></a>
 <a href="../"><span>Home</span></a>
 </nav>
 </footer>
@@ -57,6 +63,7 @@ function run(s)
 	let r;
 	r=generateRedPngFromSvg(s,300,"transparent");
 	document.getElementById("a").innerHTML="<img src=\""+r+"\">";
+	document.querySelector('.dataSelector').scrollIntoView();
 }
 function doIt()
 {
@@ -65,12 +72,14 @@ function doIt()
 	if(c)
 	{
 		let dec=c.codePointAt(0),lang=getRadioValue("lang");
-		e.value=String.fromCodePoint(dec);
+		e.value=c=String.fromCodePoint(dec);
 		let o={cache:"no-cache"};
-		fetch('../svgs'+lang+'/'+dec+'.svg',o)
+		let dir='svgs'+lang;
+		if((lang=="Ja")&&c.match(/^[ぁ-ゟァ-ヿ]$/u)) dir+="Kana";
+		fetch('../'+dir+'/'+dec+'.svg',o)
 		.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
 		.then(r=>{run(r);return true;})
-		.catch(e=>document.getElementById("a").innerHTML=e+' in svgs'+lang);
+		.catch(e=>document.getElementById("a").innerHTML=e+' in '+dir);
 	}
 }
 </script>

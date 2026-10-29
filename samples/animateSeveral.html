@@ -1,18 +1,19 @@
 <!doctype html>
-<html lang="ja">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="description" content="Demo to animate
 several Chinese, Japanese or Korean characters using animCJK SVG files">
 <link rel="stylesheet" href="_css/withSelector.css" type="text/css">
+<link rel="stylesheet" href="_css/topBottom.css" type="text/css">
 <style>
 input[name="data"]
 {
 	display:block;
 	box-sizing:border-box;
 	width:100%;
-	margin:0 0.5em 0 0;
+	margin:0 0.5rem 0 0;
 }
 button[name="run"]
 {
@@ -25,13 +26,13 @@ button[name="run"]
 	list-style-type:none;
 	margin:0;
 	padding:0;
-	gap:0.125em;
+	gap:0.125rem;
 }
 #output li
 {
 	display:inline-flex;
-	width:16em;
-	height:16em;
+	width:min(16rem,80vw);
+	height:min(16rem,80vw);
 	border:1px solid #ccc;
 	margin:0;
 	padding:0;	justify-content:center;
@@ -52,9 +53,13 @@ button[name="run"]
 <title>AnimCJK - Animate Several</title>
 <link rel="icon" type="image/svg+xml" href="../animCJKIcon.svg">
 </head>
-<body>
+<body id="top">
+<header>
 <h1>AnimCJK - Animate Several</h1>
+</header>
+<main>
 <nav class="link">
+<a href="#bottom"><span>Bottom</span></a>
 <a href="https://github.com/parsimonhi/animCJK"><span>Download</span></a>
 <a href="./"><span>Sample selector</span></a>
 <a href="../"><span>Home</span></a>
@@ -65,11 +70,12 @@ button[name="run"]
 or click on some characters in the bottom list.</p>
 <ul id="output"></ul>
 <fieldset class="charListSelector"></fieldset>
-<footer>
+</main>
+<footer id="bottom">
 <nav class="link">
-<a href="#"><span>Top</span></a>
+<a href="#top"><span>Top</span></a>
 <a href="./"><span>Sample selector</span></a>
-<a href="../licenses/COPYING.txt"><span>Licences</span></a>
+<a href="../licenses/COPYING.txt"><span>Licenses</span></a>
 <a href="../"><span>Home</span></a>
 </nav>
 </footer>
@@ -126,6 +132,7 @@ function run(s,c,dir,k,kmax)
 	ready++;
 	// display svgs once they are all fetched
 	if(ready==kmax) displayAll();
+	document.querySelector('.dataSelector').scrollIntoView();
 }
 function doIt()
 {

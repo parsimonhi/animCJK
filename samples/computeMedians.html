@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ja">
+<html lang="en">
 <!--
 Compute medians of a svg that draws a Japanese or Chinese character
 -->
@@ -7,14 +7,15 @@ Compute medians of a svg that draws a Japanese or Chinese character
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="description" content="Compute medians of an animCJK SVG
-representing a Japanese or Chinese character">
+representing a Chinese, Japanese or Korean character">
 <link rel="stylesheet" href="_css/withSelector.css" type="text/css">
+<link rel="stylesheet" href="_css/topBottom.css" type="text/css">
 <style>
 body
 {
-	min-width:19em;
-	--L1:min(16em,calc(100vw - 2px - 1em));
-	--L2:min(16em,calc(100vw - 2px - 1.5em));
+	min-width:19rem;
+	--L1:min(16rem,calc(100vw - 2px - 1rem));
+	--L2:min(16rem,calc(100vw - 2px - 1.5rem));
 }
 .error
 {
@@ -40,7 +41,7 @@ body
 .initial>:last-child p
 {
 	position:absolute;
-	margin:0.25em;
+	margin:0.25rem;
 	padding:0;
 }
 .initial svg, .medians svg
@@ -65,27 +66,32 @@ body
 {
 	display:inline-block;
 	border:1px solid #0003;
-	margin:0.25em;
+	margin:0.25rem;
 }
 .strokeContainer canvas
 {
 	width:var(--L2);
 	height:var(--L2);
 }
+[data-category="Kana"] {display:none;}
 </style>
 <title>AnimCJK Compute medians</title>
 <link rel="icon" type="image/svg+xml" href="../animCJKIcon.svg">
 </head>
-<body>
+<body id="top">
+<header>
 <h1>AnimCJK Compute medians</h1>
+</header>
+<main>
 <nav class="link">
+<a href="#bottom"><span>Bottom</span></a>
 <a href="https://github.com/parsimonhi/animCJK"><span>Download</span></a>
 <a href="./"><span>Sample selector</span></a>
 <a href="../"><span>Home</span></a>
 </nav>
+<fieldset class="langSelector"></fieldset>
 <p>Given a shape and a starting point for each stroke, compute their medians.</p>
 <fieldset class="dataSelector"></fieldset>
-<fieldset class="langSelector"></fieldset>
 <section class="initial">
 <h2>Initial</h2>
 <figure></figure>
@@ -103,11 +109,12 @@ body
 <p id="finalResultOutput"></p>
 </section>
 <fieldset class="charListSelector"></fieldset>
-<footer>
+</main>
+<footer id="bottom">
 <nav class="link">
-<a href="#"><span>Top</span></a>
+<a href="#top"><span>Top</span></a>
 <a href="./"><span>Sample selector</span></a>
-<a href="../licenses/COPYING.txt"><span>Licences</span></a>
+<a href="../licenses/COPYING.txt"><span>Licenses</span></a>
 <a href="../"><span>Home</span></a>
 </nav>
 </footer>
@@ -232,8 +239,11 @@ function run(r)
 	p.edge2edgeLeftOn=true;
 	p.edge2edgeRightOn=true;
 	p.mediansOn=true;
+	let e=document.querySelector('input[lang]');
+	if(e) p.langIso=document.querySelector('input[lang]').getAttribute("lang");
 	// run all
 	acjkm.run(p);
+	document.querySelector('.dataSelector').scrollIntoView();
 }
 
 function doIt()
@@ -246,12 +256,14 @@ function doIt()
 	if(c)
 	{
 		let dec=c.codePointAt(0),lang=getLangAcjk();
-		data.value=String.fromCodePoint(dec);
+		data.value=c=String.fromCodePoint(dec);
 		let o={cache:"no-cache"};
-		fetch('../svgs'+lang+'/'+dec+'.svg',o)
+		let dir='svgs'+lang;
+		// unable to deal kana at the moment
+		fetch('../'+dir+'/'+dec+'.svg',o)
 		.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
 		.then(r=>{run(r);return true;})
-		.catch(e=>document.querySelector('.initial>:last-child').innerHTML=e+' in svgs'+lang);
+		.catch(e=>document.querySelector('.initial>:last-child').innerHTML=e+' in '+dir);
 	}
 }
 </script>

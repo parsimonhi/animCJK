@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ja">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
@@ -7,28 +7,29 @@
 a Chinese, Japanese or Korean character using animCJK SVG files,
 displaying a card of the character with additional data as its description and radical">
 <link rel="stylesheet" href="_css/withSelector.css" type="text/css">
+<link rel="stylesheet" href="_css/topBottom.css" type="text/css">
 <style>
 #card
 {
 	display:block;
-	width:calc(16em + 2px);
-	margin:0.5em 0;
+	width:calc(min(16rem,80vw) + 2px);
+	margin:0.5rem 0;
 }
 #card figure
 {
-	margin:0 0 0.5em 0;
+	margin:0 0 0.5rem 0;
 	padding:0;
 }
 #card figcaption
 {
 	text-align:center;
-	margin:0 0 0.5em 0;
+	margin:0 0 0.5rem 0;
 	padding:0;
 }
 #card figure svg
 {
-	width:16em;
-	height:16em;
+	width:min(16rem,80vw);
+	height:min(16rem,80vw);
 	border:1px solid #ccc;
 }
 #card figure svg text
@@ -40,7 +41,7 @@ displaying a card of the character with additional data as its description and r
 	list-style-type:none;
 	display:flex;
 	justify-content:space-around;
-	margin:0 0 0.5em 0;
+	margin:0 0 0.5rem 0;
 	padding:0;
 }
 #card menu li
@@ -50,8 +51,8 @@ displaying a card of the character with additional data as its description and r
 }
 #card button
 {
-	margin:0.25em;
-	padding:0.25em 0.5em;
+	margin:0.25rem;
+	padding:0.25rem 0.5rem;
 }
 #card button:disabled
 {
@@ -60,8 +61,8 @@ displaying a card of the character with additional data as its description and r
 #card button svg
 {
 	display:block;
-	width:2em;
-	height:1em;
+	width:2rem;
+	height:1rem;
 }
 #card dl, #card dt, #card dd
 {
@@ -70,7 +71,7 @@ displaying a card of the character with additional data as its description and r
 }
 #card dt:not(:first-of-type)
 {
-	margin-right:0.5em;
+	margin-right:0.5rem;
 	float:left;
 }
 #card dd::after
@@ -111,9 +112,13 @@ svg.acjk path.visible:not([id])
 <title>AnimCJK Card</title>
 <link rel="icon" type="image/svg+xml" href="../animCJKIcon.svg">
 </head>
-<body>
+<body id="top">
+<header>
 <h1>AnimCJK Card</h1>
+</header>
+<main>
 <nav class="link">
+<a href="#bottom"><span>Bottom</span></a>
 <a href="https://github.com/parsimonhi/animCJK"><span>Download</span></a>
 <a href="./"><span>Sample selector</span></a>
 <a href="../"><span>Home</span></a>
@@ -141,17 +146,18 @@ svg.acjk path.visible:not([id])
 <dl></dl>
 </acjk-card>
 <fieldset class="charListSelector"></fieldset>
-<footer>
+</main>
+<footer id="bottom">
 <nav class="link">
-<a href="#"><span>Top</span></a>
+<a href="#top"><span>Top</span></a>
 <a href="./"><span>Sample selector</span></a>
-<a href="../licenses/COPYING.txt"><span>Licences</span></a>
+<a href="../licenses/COPYING.txt"><span>Licenses</span></a>
 <a href="../"><span>Home</span></a>
 </nav>
 </footer>
 <script>
 let card={};
-let dicos={Ja:null,Ko:null,ZhHans:null,ZhHant:null}; // set by selectorAcjk.js
+let dicos={ZhHans:null,Ja:null,Ko:null,ZhHant:null}; // set by selectorAcjk.js
 function getLangAcjk()
 {
 	let e=document.querySelector('[name="lang"]:checked');
@@ -166,8 +172,8 @@ function getLanguage()
 {
 	let lang=getLangAcjk("lang");
 	if(lang=="Ko") return "Korean";
-	if(lang=="ZhHans") return "Simplified Chinese";
-	if(lang=="ZhHant") return "Traditional Chinese";
+	if(lang=="ZhHans") return "Chinese";
+	if(lang=="ZhHant") return "Taiwanese";
 	return "Japanese";
 }
 function initCard()
@@ -176,6 +182,7 @@ function initCard()
 	if(list&&list.length) card.maxShown=list.length;
 	else card.maxShown=0;
 	card.lastShown=0;
+	card.list=list;
 }
 function disableBtn(name)
 {
@@ -187,7 +194,7 @@ function enableBtn(name)
 }
 function updateAll()
 {
-	let list=document.querySelectorAll('#card figure path:not([id])');
+	let list=card.list;
 	if(list)
 		for(let k=0;k<list.length;k++)
 		{
@@ -228,14 +235,32 @@ function doFirst()
 	card.lastShown=0;
 	updateAll();
 }
+function getStrokeIdSuffix(n)
+{
+	if((n>=0)&&(n<card.maxShown))
+		return card.list[n].getAttribute("clip-path").replace(/^.*\(\#z[0-9-]+c[0-9]+(.*)\)$/,"$1");
+	return "";
+}
 function doPred()
 {
-	if(card.lastShown>0) card.lastShown--;
+	let s;
+	if(card.lastShown>0)
+		// check if the stroke id has a latin suffix, such as the 3rd stroke of あ
+		// if yes, it means the stroke was divided in several sub-strokes
+		// to avoid an ugly side effect when a stroke overlaps on itself
+		// skip a stroke if its id has such a suffix and if it is not "a"
+		do {card.lastShown--;s=getStrokeIdSuffix(card.lastShown);} while(s&&(s!="a"));
 	updateAll();
 }
 function doNext()
 {
-	if(card.lastShown<card.maxShown) card.lastShown++;
+	let s;
+	if(card.lastShown<card.maxShown)
+		// check if the stroke id has a latin suffix, such as the 3rd stroke of あ
+		// if yes, it means the stroke was divided in several sub-strokes
+		// to avoid an ugly side effect when a stroke overlaps on itself
+		// skip a stroke if its id has such a suffix and if it is not "a"
+		do {card.lastShown++;s=getStrokeIdSuffix(card.lastShown);} while(s&&(s!="a"));
 	updateAll();
 }
 function doLast()
@@ -293,6 +318,7 @@ function run(s)
 	d.innerHTML=buildDicoContent(r);
 	initCard();
 	updateAll();
+	document.querySelector('.dataSelector').scrollIntoView();
 }
 function doIt()
 {
@@ -300,6 +326,18 @@ function doIt()
   	document.querySelector('#card figure').innerHTML="<figcaption></figcaption><svg></svg>";
 	initCard();
 	updateAll();
+	if(c)
+	{
+		let dec=c.codePointAt(0);
+		e.value=c=String.fromCodePoint(dec);
+		let lang=getLangAcjk(),dir='svgs'+lang;
+		if((lang=="Ja")&&c.match(/^[ぁ-ゟァ-ヿ]$/u)) dir+="Kana";
+		fetch('../'+dir+'/'+dec+'.svg',{cache:"no-cache"})
+		.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
+		.then(r=>run(r,c,dir))
+		.catch(e=>run(e,c,dir));
+	}
+	/*
 	if(c)
 	{
 		let dec=c.codePointAt(0),lang=getLangAcjk();
@@ -317,6 +355,7 @@ function doIt()
 			});
 		}
 	}
+	*/
 }
 </script>
 <script src="_js/selectorAcjk.js"></script>

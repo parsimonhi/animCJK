@@ -16,6 +16,53 @@ function colorize(k,km)
 	var r=255,g=0,b=0;
 	return "rgb("+computeOne(r,k,km)+","+computeOne(g,k,km)+","+computeOne(b,k,km)+")";
 }
+function replaceVHbyL(d)
+{
+	// assume "-" never follows a number
+	// assume no ,
+	// assume no space near a letter
+	// add V or H if omitted
+	q=/([VH])([0-9-]+)[\s]([0-9-]+)/;
+	while(d.match(q)) d=d.replace(q,"$1$2$1$3");
+	while(d.match(/[VH]/))
+	{
+		// replace V by L
+		q=/([0-9-]+)\s([0-9-]+)V([0-9-]+)/;
+		if(d.match(q)) d=d.replace(q,"$1 $2L$1 $3");
+		// replace H by L
+		q=/([0-9-]+)\s([0-9-]+)H([0-9-]+)/;
+		if(d.match(q)) d=d.replace(q,"$1 $2L$3 $2");
+	}
+	return d;
+}
+function cleanPath(d)
+{
+	let q;
+	// replace , by space
+	d=d.replace(/,/g," ");
+	// add space before -
+	d=d.replace(/([0-9])-/g,"$1 -");
+	// remove extra space
+	d=d.replace(/\s+/g," ");
+	// remove decimal
+	d=d.replace(/\.[0-9]+/g,"");
+	// replace z by Z
+	d=d.replace(/z/g,"Z");
+	// remove space before and after M, Q, C, L, H, V et Z
+	d=d.replace(/\s?([MQCLVHZ])\s?/g,"$1");
+	// add C if omitted
+	q=/(C([0-9-]+\s){5}[0-9-]+)\s/;
+	while(d.match(q)) d=d.replace(q,"$1C");
+	// add Q if omitted
+	q=/(Q([0-9-]+\s){3}[0-9-]+)\s/;
+	while(d.match(q)) d=d.replace(q,"$1Q");
+	// add L if omitted
+	q=/([ML][0-9-]+\s[0-9-]+)\s/;
+	while(d.match(q)) d=d.replace(q,"$1L");
+	// replace V and H by L
+	d=replaceVHbyL(d);
+	return d;
+}
 function generatePngFromSvg(paths,background,mmah,size)
 {
 	// paths is an array that contains a list of stroke d and fill attributes
@@ -39,7 +86,7 @@ function generatePngFromSvg(paths,background,mmah,size)
 		cx.beginPath();
 		x0=0;
 		y0=0;
-		while (m=r.exec(paths[k].d))
+		while (m=r.exec(cleanPath(paths[k].d)))
 		{
 			x1=parseInt(m[2]);
 			y1=parseInt(m[3]);
@@ -84,8 +131,11 @@ function generateRedPngFromSvg(s,size,background)
 	mmah=!s.match(/class="acjk"/);
 	// extract "d" attribute values
 	if (mmah) reg=/<path d=\"([^\"]*)\" fill=\"lightgray\"/g;
-	else reg=/<path id=\"[^\"]*\" d=\"([^\"]*)\"/g;
-	while (m=reg.exec(s)) paths.push({d:m[1]});
+	else reg=/<path id=\"([^\"]*)\" d=\"([^\"]*)\"/g;
+	while (m=reg.exec(s))
+		// concat multi-parts stroke d if any such as for the 3rd stroke of あ
+		if(m[1].match(/[b-z]$/)) paths[paths.length-1].d+=m[2];
+		else paths.push({d:m[2]});
 	km=paths.length;
 	// colorize "d"
 	for (k=0;k<km;k++) paths[k].fill=colorize(k+1,km);
@@ -207,9 +257,12 @@ function generateAnimatedGifFromSvg(s,size,background,delay,dec,show,save)
 	ghost=document.createElement("div");
 	// extract "d" attributes
 	if (mmah) reg=/<path d=\"([^\"]*)\" fill=\"lightgray\"/g;
-	else reg=/<path id=\"[^\"]*\" d=\"([^\"]*)\"/g;
+	else reg=/<path id=\"([^\"]*)\" d=\"([^\"]*)\"/g;
 	paths=[];
-	while (m=reg.exec(s)) paths.push({d:m[1]});
+	while (m=reg.exec(s))
+		// concat multi-parts stroke d if any such as for the 3rd stroke of あ
+		if(m[1].match(/[b-z]$/)) paths[paths.length-1].d+=m[2];
+		else paths.push({d:m[2]});
 	paths.reverse(); // draw last first in case of overlapping
 	km=paths.length;
 	if (km)

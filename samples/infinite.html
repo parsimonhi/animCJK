@@ -1,11 +1,12 @@
 <!doctype html>
-<html lang="ja">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="description" content="Demo to animate indefinitely
 a Chinese, Japanese or Korean character using animCJK SVG files">
 <link rel="stylesheet" href="_css/withSelector.css" type="text/css">
+<link rel="stylesheet" href="_css/topBottom.css" type="text/css">
 <style>
 #a
 {
@@ -13,30 +14,37 @@ a Chinese, Japanese or Korean character using animCJK SVG files">
 	justify-content:center;
 	align-items:center;
 	text-align:center;
-
-	width:16em;
-	height:16em;
+	width:min(16rem,80vw);
+	height:min(16rem,80vw);
 	border:1px solid #ccc;
-	margin:0.5em 0;
+	margin:0.5rem 0;
 	padding:0;
+	resize:both;
+	overflow:auto;
 }
 #a svg
 {
 	display:block;
+	max-width:100%;
+	max-height:100%;
 }
 pre
 {
 	border:1px solid #ccc;
-	padding:0.125em;
+	padding:0.125rem;
 	white-space:pre-wrap;
 }
 </style>
 <title>AnimCJK Infinite</title>
 <link rel="icon" type="image/svg+xml" href="../animCJKIcon.svg">
 </head>
-<body>
+<body id="top">
+<header>
 <h1>AnimCJK Infinite</h1>
+</header>
+<main>
 <nav class="link">
+<a href="#bottom"><span>Bottom</span></a>
 <a href="https://github.com/parsimonhi/animCJK"><span>Download</span></a>
 <a href="./"><span>Sample selector</span></a>
 <a href="../"><span>Home</span></a>
@@ -49,11 +57,12 @@ pre
 <pre class="codeTag"></pre>
 </details>
 <fieldset class="charListSelector"></fieldset>
-<footer>
+</main>
+<footer id="bottom">
 <nav class="link">
-<a href="#"><span>Top</span></a>
+<a href="#top"><span>Top</span></a>
 <a href="./"><span>Sample selector</span></a>
-<a href="../licenses/COPYING.txt"><span>Licences</span></a>
+<a href="../licenses/COPYING.txt"><span>Licenses</span></a>
 <a href="../"><span>Home</span></a>
 </nav>
 </footer>
@@ -88,7 +97,7 @@ function infinite()
 	e=document.querySelector('svg.acjk');
 	s=e.innerHTML;
 	n=(s.match(/--d:[0-9]+s/g)||[]).length;
-	setInterval(()=>{e.innerHTML="";e.innerHTML=s;},(n+1)*1000);
+	setInterval(()=>{e.innerHTML="";e.innerHTML=s;},(n+3)*1000);
 }
 function updateInfo(s)
 {
@@ -98,20 +107,22 @@ function updateInfo(s)
 }
 function run(s,c,dir)
 {
+	let e=document.getElementById("a");
 	if(s.match(/<svg[^>]+class="acjk"/))
 	{
 		s=updateInfo(s);
 		s=s.replace(/<style[^@]+@/,"<style"+">\n@");
 		s=s.replace(/}[^}]+\/style>/,"}\n<"+"/style>");
-		document.getElementById("a").innerHTML=s;
+		e.innerHTML=s;
 		infinite();
 		updateCodeTag();
 	}
 	else
 	{
 		s=c+" not found in "+dir;
-		document.getElementById("a").innerHTML=s;
+		e.innerHTML=s;
 	}
+	document.querySelector('.dataSelector').scrollIntoView();
 }
 function doIt()
 {

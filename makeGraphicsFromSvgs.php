@@ -216,7 +216,7 @@ echo "End</p>\n";
 <footer>
 <a href="./">Home</a>
 - <a href="javascript:history.back()">Back</a>
-- <a href="licenses/COPYING.txt">Licences</a><br>
+- <a href="licenses/COPYING.txt">Licenses</a><br>
 Copyright 2016-<?=date("Y")?> - FM&SH
 </footer>
 </body>

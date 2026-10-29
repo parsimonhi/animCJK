@@ -1,11 +1,12 @@
 <!doctype html>
-<html lang="ja">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="description" content="Demo to animate
-one Chinese, Japanese or Korean character using animCJK SVG files">
+a Chinese, Japanese or Korean character using animCJK SVG files">
 <link rel="stylesheet" href="_css/withSelector.css" type="text/css">
+<link rel="stylesheet" href="_css/topBottom.css" type="text/css">
 <style>
 #a
 {
@@ -13,24 +14,31 @@ one Chinese, Japanese or Korean character using animCJK SVG files">
 	justify-content:center;
 	align-items:center;
 	text-align:center;
-
-	width:16em;
-	height:16em;
+	width:min(16rem,80vw);
+	height:min(16rem,80vw);
 	border:1px solid #ccc;
-	margin:0.5em 0;
+	margin:0.5rem 0;
 	padding:0;
+	resize:both;
+	overflow:auto;
 }
 #a svg
 {
 	display:block;
+	max-width:100%;
+	max-height:100%;
 }
 </style>
 <title>AnimCJK Animate one</title>
 <link rel="icon" type="image/svg+xml" href="../animCJKIcon.svg">
 </head>
-<body>
+<body id="top">
+<header>
 <h1>AnimCJK Animate one</h1>
+</header>
+<main>
 <nav class="link">
+<a href="#bottom"><span>Bottom</span></a>
 <a href="https://github.com/parsimonhi/animCJK"><span>Download</span></a>
 <a href="./"><span>Sample selector</span></a>
 <a href="../"><span>Home</span></a>
@@ -39,11 +47,12 @@ one Chinese, Japanese or Korean character using animCJK SVG files">
 <fieldset class="dataSelector"></fieldset>
 <figure id="a"></figure>
 <fieldset class="charListSelector"></fieldset>
-<footer>
+</main>
+<footer id="bottom">
 <nav class="link">
-<a href="#"><span>Top</span></a>
+<a href="#top"><span>Top</span></a>
 <a href="./"><span>Sample selector</span></a>
-<a href="../licenses/COPYING.txt"><span>Licences</span></a>
+<a href="../licenses/COPYING.txt"><span>Licenses</span></a>
 <a href="../"><span>Home</span></a>
 </nav>
 </footer>
@@ -62,8 +71,10 @@ function cleanDataForOne(s)
 }
 function run(s,c,dir)
 {
+	let e=document.getElementById("a");
 	if(!s.match(/<svg[^>]+class="acjk"/)) s=c+" not found in "+dir;
-	document.getElementById("a").innerHTML=s;
+	e.innerHTML=s;
+	document.querySelector('.dataSelector').scrollIntoView();
 }
 function doIt()
 {

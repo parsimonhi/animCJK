@@ -1,18 +1,19 @@
 <!doctype html>
-<html lang="ja">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="description" content="Demo to generate an animated GIF image on the fly
 of a Japanese or Chinese character using animCJK SVG files">
 <link rel="stylesheet" href="_css/withSelector.css" type="text/css">
+<link rel="stylesheet" href="_css/topBottom.css" type="text/css">
 <style>
 #a
 {
-	width:16em;
-	height:16em;
+	width:min(16rem,80vw);
+	height:min(16rem,80vw);
 	border:1px solid #ccc;
-	margin:0.5em 0;
+	margin:0.5rem 0;
 	padding:0;
 }
 #a img
@@ -27,19 +28,22 @@ of a Japanese or Chinese character using animCJK SVG files">
 <body>
 <h1>AnimCJK Animated GIF</h1>
 <nav class="link">
+<a href="#bottom"><span>Bottom</span></a>
 <a href="https://github.com/parsimonhi/animCJK"><span>Download</span></a>
 <a href="./"><span>Sample selector</span></a>
+<a href="../"><span>Home</span></a>
 </nav>
 <fieldset class="langSelector"></fieldset>
-<fieldset class="dataSelector"></fieldset>
 <p id="p">Animated GIF image generated on the fly from a SVG</p>
+<fieldset class="dataSelector"></fieldset>
 <figure id="a"></figure>
 <fieldset class="charListSelector"></fieldset>
-<footer>
+<footer id="bottom">
 <nav class="link">
-<a href="#"><span>Top</span></a>
+<a href="#top"><span>Top</span></a>
 <a href="./"><span>Sample selector</span></a>
-<a href="../licenses/COPYING.txt"><span>Licences</span></a>
+<a href="../licenses/COPYING.txt"><span>Licenses</span></a>
+<a href="../"><span>Home</span></a>
 </nav>
 </footer>
 <script src="_js/Animated_GIF.js"></script>
@@ -57,6 +61,7 @@ function showAnimatedGif(image,background,dec)
 function run(s,dec)
 {
 	generateAnimatedGifFromSvg(s,300,"white",1000,dec,showAnimatedGif,"");
+	document.querySelector('.dataSelector').scrollIntoView();
 }
 function doIt()
 {
@@ -65,12 +70,14 @@ function doIt()
 	if(c)
 	{
 		let dec=c.codePointAt(0),lang=getLangAcjk();
-		e.value=String.fromCodePoint(dec);
+		e.value=c=String.fromCodePoint(dec);
 		let o={cache:"no-cache"};
-		fetch('../svgs'+lang+'/'+dec+'.svg',o)
+		let dir='svgs'+lang;
+		if((lang=="Ja")&&c.match(/^[ぁ-ゟァ-ヿ]$/u)) dir+="Kana";
+		fetch('../'+dir+'/'+dec+'.svg',o)
 		.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
 		.then(r=>{run(r,dec);return true;})
-		.catch(e=>document.getElementById("a").innerHTML=e+' in svgs'+lang);
+		.catch(e=>document.getElementById("a").innerHTML=e+' in '+dir);
 	}
 }
 </script>

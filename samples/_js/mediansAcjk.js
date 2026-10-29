@@ -773,6 +773,7 @@ acjkm.boardClass.prototype.createNewSvg=function(nStroke,p1)
 				acjkm.finalResultOutput.innerHTML+="Old median num total: "+acjkm.oldMedianNum+"<br>";
 			acjkm.finalResultOutput.innerHTML+="New median num total: "+acjkm.newMedianNum+"<br>";
 			acjkm.finalResultOutput.innerHTML+="Large strokes: "+(acjkm.largeStrokes?acjkm.largeStrokes:"none")+"<br>";
+			if(acjkm.langIso) acjkm.finalResultOutput.innerHTML=acjkm.addLangSpan(acjkm.finalResultOutput.innerHTML,acjkm.langIso);
 		}
 		if (acjkm.saveOn)
 		{
@@ -790,6 +791,10 @@ acjkm.boardClass.prototype.createNewSvg=function(nStroke,p1)
 	}
 };
 // methods of acjkm:
+acjkm.addLangSpan=function(s,langIso)
+{
+	return s.replace(/(\p{sc=Han}+)/gu,"<span lang=\""+langIso+"\">$1</span>");
+};
 acjkm.xy2k=function(x,y) {return (y*this.d+x)*4;};
 acjkm.drift=function(z2,z1,d,t) {return Math.ceil(z2-t/d/2*(z2-z1));};
 acjkm.angle=function(A,B,C)
@@ -999,6 +1004,7 @@ acjkm.getOldSvgAsSvg=function(data)
 		b+=": "+data+"<br>";
 		b+="Num of strokes: "+a.strokes.length+"<br>";
 		b+="Old Json line:<br>"+s+"<br>";
+		if(acjkm.langIso) b=acjkm.addLangSpan(b,acjkm.langIso);
 		acjkm.debugOutput.innerHTML=b;
 	}
 	for (k=0;k<acjkm.numOfStrokes;k++)
@@ -1068,6 +1074,7 @@ acjkm.run=function(p)
 	acjkm.edge2edgeLeftOn=p.edge2edgeLeftOn; // optional
 	acjkm.edge2edgeRightOn=p.edge2edgeRightOn; // optional
 	acjkm.mediansOn=p.mediansOn; // optional
+	acjkm.langIso=p.langIso?p.langIso:null; // optional
 	if(p.step) acjkm.step=p.step; // optional
 	else acjkm.step=14;
 	if(p.stepMax) acjkm.stepMax=p.stepMax; // optional

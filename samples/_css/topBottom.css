@@ -1,0 +1,47 @@
+html
+{
+	scroll-behavior:smooth;
+}
+@keyframes reveal{to{opacity:1;scale:1;}}
+@keyframes conceal{to{opacity:0;scale:0;}}
+@supports ((animation-timeline: scroll()) and (animation-range: 0% 100%))
+{
+	a[href="#bottom"],
+	a[href="#top"]
+	{
+		--ws:min(2.5vmin,1rem);
+		font-size:var(--ws);
+		position:fixed;
+		z-index:99;
+		right:var(--ws);
+		width:calc(4 * var(--ws));
+		height:calc(4 * var(--ws));
+		display:block;
+		border-radius:50%;
+		padding:0;
+		margin:0;
+		color:#0000;
+		background-color:#0003;
+		overflow:clip;
+	}
+	a[href="#bottom"]
+	{
+		background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12"><path fill="none" stroke="white" d="M6 3V9M3 5L6 9L9 5"/></svg>');
+		animation:conceal auto linear forwards;
+		animation-timeline:scroll(y);
+		animation-range:45% 50%;
+		scale:1;
+		opacity:1;
+		top:calc(50% - 2 * var(--ws));
+	}
+	a[href="#top"]
+	{
+		background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12"><path fill="none" stroke="white" d="M6 3V9M3 7L6 3L9 7"/></svg>');
+		animation:reveal auto linear forwards;
+		animation-timeline:scroll(y);
+		animation-range:50% 55%;
+		scale:0;
+		opacity:0;
+		bottom:calc(50% - 2 * var(--ws));
+	}
+}

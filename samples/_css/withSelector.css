@@ -1,24 +1,45 @@
+body
+{
+	font-family:Avenir,sans-serif;
+	background:#fff;
+	margin:0;
+	padding:min(0.5rem,5vw);
+	min-width:9rem;
+}
 :focus-visible
 {
 	outline:2px solid #07f7;
 	outline-offset:1px;
 }
-a {color:#000;}
-a {display:inline-block;margin:0.25em;padding:0.25em;}
+h1 {font-size:1.75rem;}
+h2 {font-size:1.50rem;}
+h2 {font-size:1.25rem;}
+a
+{
+	color:#000;
+	display:inline-block;
+	margin:0.25rem;
+	padding:0.25rem;
+}
 input[name="data"]
 {
 	display:inline-block;
-	width:5em;
+	width:5rem;
 	margin:0 0.5rem;
 }
 button[name="run"]
 {
 	display:inline-block;
-	font-size:1em;
+	font-size:1rem;
 	margin:0.25rem;
 }
-.langSelector label {display:block;max-width:max-content;}
-.langSelector, .dataSelector, .charListSelector
+.langSelector label
+{
+	display:block;
+	width:max-content;
+	max-width:100%;
+}
+.langSelector, .dataSelector, fieldset
 {
 	margin:0;
 	padding:0;
@@ -32,16 +53,27 @@ button[name="run"]
 	display:inline-block;
 	margin-right:0.25rem;
 }
+.langSelector label:not(:last-child) span
+{
+	display:inline-block;
+}
+.langSelector label:not(:last-child) span::first-letter
+{
+	color:#c00;
+}
 .charListSelector h2
 {
 	margin:0.5rem 0;
 	border-left:0.5rem solid #c00;
 	padding:0 0 0 0.75rem;
+	width:min(max-content,100%);
 }
 .charListSelector summary
 {
 	margin:0;
 	padding:0;
+	width:min(max-content,100%);
+	white-space:normal;
 }
 .charListSelector h3
 {
@@ -54,13 +86,14 @@ button[name="run"]
 	-webkit-appearance:none;
 	appearance:none;
 	border:0;
+	border-radius:0.25rem;
 	padding:0.25em;
 	margin:0.25em;
-	background:none;
 	cursor:pointer;
-	font-size:1.25em;
+	font-size:1.5rem;
+	background:#0000;
 }
-body:has([type="Radio"][value="Ja"]:checked) .charListSelector section:not([lang="ja"]){display:none;}
-body:has([type="Radio"][value="Ko"]:checked) .charListSelector section:not([lang="ko"]){display:none;}
-body:has([type="Radio"][value="ZhHans"]:checked) .charListSelector section:not([lang="zh-Hans"]){display:none;}
-body:has([type="Radio"][value="ZhHant"]:checked) .charListSelector section:not([lang="zh-Hant"]){display:none;}
+body:has([type="Radio"][value="ZhHans"]:checked) .charListSelector section:not([data-lang="ZhHans"]){display:none;}
+body:has([type="Radio"][value="Ja"]:checked) .charListSelector section:not([data-lang="Ja"]){display:none;}
+body:has([type="Radio"][value="Ko"]:checked) .charListSelector section:not([data-lang="Ko"]){display:none;}
+body:has([type="Radio"][value="ZhHant"]:checked) .charListSelector section:not([data-lang="ZhHant"]){display:none;}

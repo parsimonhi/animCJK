@@ -20,7 +20,7 @@
 	let dataSelector=document.querySelector('.dataSelector');
 	let charListSelector=document.querySelector('.charListSelector');
 	let charList2={};
-	let dicos2={Ja:null,Ko:null,ZhHans:null,ZhHant:null};
+	let dicos2={ZhHans:null,Ja:null,Ko:null,ZhHant:null};
 	if(charListSelector)
 	{
 		// in practice, only some experimental pages define their own charList
@@ -30,13 +30,22 @@
 			// default map (convenient for samples)
 			charList2.type="fromDic";
 			charList2.map={};
-			for(let lang of ["Ja","Ko","ZhHans","ZhHant"]) charList2.map[lang]={};
+			for(let lang of ["ZhHans","Ja","Ko","ZhHant"]) charList2.map[lang]={};
+			charList2.map["ZhHans"]["Simplified Hanzi"]=["hsk1","hsk2","hsk3","hsk4","hsk5","hsk6","hsk789"];
 			charList2.map["Ja"]["Kana"]=["hiragana","katakana"];
 			charList2.map["Ja"]["Kanji"]=["g1","g2","g3","g4","g5","g6","g7"];
 			charList2.map["Ko"]["Hanja"]=["hanja8","hanja7","hanja6","hanja5","hanja4"/*,"hanja3","hanja2","hanja1"*/];
-			charList2.map["ZhHans"]["Simplified Hanzi"]=["hsk1","hsk2","hsk3","hsk4","hsk5","hsk6","hsk789"];
 			charList2.map["ZhHant"]["Traditional Hanzi"]=["taiwan4808"];
 			charList2.title={};
+			// ZhHans titles
+			for(let k=1;k<7;k++) charList2.title["hsk"+k]="Hsk 2025 level "+k+", simplified Hanzi";
+			charList2.title["hsk789"]="Hsk 2025 level 7-9 simplified Hanzi";
+			charList2.title["frequent2500"]="2500 frequent simplified Hanzi";
+			charList2.title["lessFrequent1000"]="1000 less frequent simplified Hanzi";
+			charList2.title["commonNotFrequent3500"]="3500 common but not frequent simplified Hanzi";
+			charList2.title["common7000"]="7000 common simplified Hanzi";
+			charList2.title["traditional"]="Some traditional Hanzi";
+			charList2.title["bopomofo"]="Bopomofo";
 			// Ja titles
 			charList2.title["hiragana"]="Hiragana";
 			charList2.title["katakana"]="Katakana";
@@ -54,22 +63,13 @@
 			charList2.title["commonHanjaNotInHanja1800"]="Common Hanja not in the 1800";
 			charList2.title["ku"]="Some uncommon Hanja";
 			charList2.title["kc"]="Some components";
-			// ZhHans titles
-			for(let k=1;k<7;k++) charList2.title["hsk"+k]="Hsk 2025 level "+k+", simplified Hanzi";
-			charList2.title["hsk789"]="Hsk 2025 level 7-9 simplified Hanzi";
-			charList2.title["frequent2500"]="2500 frequent simplified Hanzi";
-			charList2.title["lessFrequent1000"]="1000 less frequent simplified Hanzi";
-			charList2.title["commonNotFrequent3500"]="3500 common but not frequent simplified Hanzi";
-			charList2.title["common7000"]="7000 common simplified Hanzi";
-			charList2.title["traditional"]="Some traditional Hanzi";
-			charList2.title["bopomofo"]="Bopomofo";
 			// ZhHant titles
 			for(let k=1;k<2;k++) charList2.title["tocflN"+k]="TOCFL Novice "+k;
 			for(let k=1;k<5;k++) charList2.title["tocflL"+k]="TOCFL Level "+k;
 			charList2.title["taiwan4808NotTocfl"]="Some other traditional Hanzi commonly used in Taiwan";
 			charList2.title["taiwan4808"]="Some traditional Hanzi commonly used in Taiwan";
-			charList2.title["tu"]="Some uncommon traditional Hanzi";
-			charList2.title["tc"]="Some components";
+			charList2.title["tu"]="Some uncommon traditional Hanzi as in Taiwan";
+			charList2.title["tc"]="Some components as in Taiwan";
 			// All langs
 			charList2.title["radical"]="The 214 radicals";
 			charList2.title["stroke"]="Strokes";
@@ -78,25 +78,30 @@
 	
 	function makeLangIso(langAcjk)
 	{
-		if(langAcjk=="ZhHans") return "zh-Hans";
+		if(langAcjk=="Ja") return "ja";
 		if(langAcjk=="ZhHant") return "zh-Hant";
 		if(langAcjk=="Ko") return "ko";
-		return "ja";
+		return "zh-Hans";
 	}
 	function setLang(lang)
 	{
 		localStorage.setItem("section",lang);
+		if(dataSelector) 
+		{
+			let e=dataSelector.querySelector('input');
+			e.setAttribute("lang",makeLangIso(lang));
+		}
 		if(charListSelector) buildSections(lang,path,1);
 		else if(!!window.doIt) doIt({lang:lang});
 	}
 	function addOneLangRadio(p,value,label,langIso)
 	{
-		let lang=localStorage.getItem("section")?localStorage.getItem("section"):"Ja";
+		let lang=localStorage.getItem("section")?localStorage.getItem("section"):"ZhHans";
 		let s="",e,checked=(value==lang?" checked":"");
 		e=document.createElement('label');
 		s+="<input type=\"radio\" name=\"lang\"";
 		s+=" data-lang=\""+langIso+"\" value=\""+value+"\" "+checked+">";
-		s+=label;
+		s+="<span>"+label+"</span>";
 		e.innerHTML=s;
 		p.appendChild(e);
 		e=p.querySelector('[value="'+value+'"]');
@@ -104,17 +109,19 @@
 	}
 	function addLangSelector(p)
 	{
+		addOneLangRadio(p,"ZhHans","Chinese","zh-Hans");
 		addOneLangRadio(p,"Ja","Japanese","ja");
 		addOneLangRadio(p,"Ko","Korean","ko");
-		addOneLangRadio(p,"ZhHans","Simplified Chinese","zh-Hans");
-		addOneLangRadio(p,"ZhHant","Traditional Chinese","zh-Hant");
+		addOneLangRadio(p,"ZhHant","Taiwanese","zh-Hant");
 	}
 	if(langSelector) addLangSelector(langSelector);
 	
 	function addDataSelector(p)
 	{
-		let s="",e;
-		s+="<label>Kanji, Hanja or Hanzi (one char only)<input name=\"data\"></label>";
+		let s="Hanzi, Kanji, or Hanja (one char only)",e;
+		let lang=localStorage.getItem("section")?localStorage.getItem("section"):"ZhHans";
+		let langIso=makeLangIso(lang);
+		s="<label>"+s+"<input lang=\""+langIso+"\" name=\"data\"></label>";
 		s+="<button type=\"button\" name=\"run\">Run</button>";
 		p.innerHTML=s;
 		e=p.querySelector('[name="run"]');
@@ -148,26 +155,30 @@
 	}
 	function buildFromList(section,lang)
 	{
+		let langIso=makeLangIso(lang);
 		let fieldsets=section.querySelectorAll('section[data-lang="'+lang+'"] fieldset[data-set]');
 		for(let fieldset of fieldsets)
 		{
 			let setLabel=fieldset.getAttribute("data-set");
+			fieldset.setAttribute("lang",langIso);
 			let chars=charList2.chars[setLabel];
-			populateFieldset(fieldset,chars);
+			populateFieldset(fieldset,chars,langIso);
 		}
 		if(!!window.afterBuildingCharList) afterBuildingCharList(lang,section.getAttribute("data-category"));
 	}
 	function buildFromDic(section,lang,path)
 	{
+		let langIso=makeLangIso(lang);
 		let dd=dicos2[lang];
 		let fieldsets=section.querySelectorAll('fieldset[data-set]');
 		for(let fieldset of fieldsets)
 		{
 			let setLabel=fieldset.getAttribute("data-set");
+			fieldset.setAttribute("lang",langIso);
 			let chars="";
 			for(let d1 of dd)
 				if(d1["set"].includes(setLabel)) chars+=d1["character"];
-			populateFieldset(fieldset,chars);
+			populateFieldset(fieldset,chars,langIso);
 		}
 		if(!!window.afterBuildingCharList) afterBuildingCharList(lang,section.getAttribute("data-category"));
 	}
@@ -203,7 +214,6 @@
 				section2.appendChild(details);
 			}
 			section2.setAttribute("data-lang",lang);
-			section2.setAttribute("lang",makeLangIso(lang));
 			section2.setAttribute("data-category",category);
 			charListSelector.appendChild(section2);
 			if(charList2.type=="fromList") buildFromList(section2,lang);

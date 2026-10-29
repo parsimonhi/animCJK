@@ -3,6 +3,7 @@
 // this tag should be a descendant of the svg parent or grandParent
 // this tag should have a acjkDecomposition or acjksDecomposition class
 // this tag should be the first to have such a class in the svg parent or grandParent
+// the decomposition is the value of the data-d attribute of the tag, or the innerHTML of the tag
 function setRadical(x,c1="#f90",c2="#06f")
 {
 	// set svg attribute instead of style to let apply global css if any
@@ -20,9 +21,11 @@ function setRadical(x,c1="#f90",c2="#06f")
 			if(!c) c=svgs[i].parentNode.parentNode.querySelector('.acjkDecomposition');
 			if(c)
 			{
-				let dec1=c.innerHTML.codePointAt(0);
+				let a=c.getAttribute("data-d");
+				a=a?a:c.innerHTML;
+				let dec1=a.codePointAt(0);
 				let dec2=svgs[i].id.replace(/^z([0-9]+).*$/,"$1");
-				if(dec1==dec2) d=c.innerHTML;
+				if(dec1==dec2) d=a;
 			}
 			if(d)
 			{
