@@ -12,15 +12,16 @@ stroke by stroke using AnimCJK SVG files">
 	--highlight-color:#c00;
 	--speed:1;
 	--size:256px;
+	--len:min(0.5rem,2.5vw);
 }
-* {max-width:100%;overflow-wrap:anywhere;caret:red bar;}
+* {max-width:100%;overflow-wrap:anywhere;}
 :focus-visible {outline:2px solid #07f7;outline-offset:1px;}
 body
 {
 	font-family:Avenir,sans-serif;
 	background:#fff;
 	margin:0;
-	padding:0.5rem;
+	padding:var(--len);
 }
 body:has(dialog[open])
 {
@@ -30,9 +31,25 @@ dialog::backdrop
 {
 	background-color:#3333;
 }
+dialog
+{
+	padding:calc(var(--len) * 2);
+}
 dialog h2[tabindex="0"]
 {
 	outline:0;
+}
+dialog h2 {font-size:1.5rem;margin:var(--len) 0;padding:0 var(--len);}
+dialog h3 {font-size:1.25rem;margin:0;padding:var(--len) 0;}
+dialog ul
+{
+	margin:calc(var(--len) * 2) 0;
+	padding:0 0 0 calc(var(--len) * 4);
+}
+dialog li
+{
+	margin:0;
+	padding:0;
 }
 a {color:#000;}
 a {display:inline-block;margin:0.25rem;padding:0.25rem;}
@@ -42,8 +59,8 @@ a {display:inline-block;margin:0.25rem;padding:0.25rem;}
 	background:#0000;
 	margin:0;
 	padding:0;
-	width:min(10vmin,4rem);
-	height:min(10vmin,4rem);
+	width:calc(var(--len) * 8);
+	height:calc(var(--len) * 8);
 	position:absolute;
 }
 #accessibilityBtn img
@@ -52,17 +69,14 @@ a {display:inline-block;margin:0.25rem;padding:0.25rem;}
 	width:100%;
 	height:100%;
 }
-h1 {margin:0;padding:0;}
-h1 {font-size:1.75rem;}
-h2 {font-size:1.50rem;}
-h3 {font-size:1.25rem;}
+h1 {font-size:1.75rem;margin:0;padding:var(--len) 0;}
+h2 {font-size:1.50rem;margin:var(--len) 0;padding:0 var(--len);}
+h3 {font-size:1.25rem;margin:0;padding:var(--len) 0;}
 h1,nav,fieldset,#a {text-align:center;}
-nav {margin:0.5rem 0;}
+nav {margin:var(--len) 0;}
 h2
 {
-	margin:0.5rem 0;
-	border-left:0.5rem solid #c00;
-	padding:0 0 0 0.75rem;
+	border-left:var(--len) solid #c00;
 }
 summary
 {
@@ -71,15 +85,15 @@ summary
 	width:max-content;
 	max-width:100%;
 }
-h3
+summary h3
 {
 	display:inline;
 	margin:0;
-	padding:0.5rem;
+	padding:var(--len);
 }
 .important {color:#000;}
 .very-important {color:#c00;}
-p.instruction {padding:0 0.5rem;}
+p.instruction {padding:0 var(--len);}
 [name="size"]
 {
 	font-size:1rem;
@@ -96,7 +110,7 @@ p.instruction {padding:0 0.5rem;}
 	justify-content:space-between;
 }
 #sizeMarks option:not([label]) {display:none;}
-#sizeMarks option {width:min(3rem,25%);text-align:center;margin:0;padding:0;}
+#sizeMarks option {width:min(3rem,25%);text-align:center;margin:0;padding:0;font-size:0.875rem;}
 
 #jaSection,
 #koSection,
@@ -106,13 +120,13 @@ body:has([name="section"][value="Ja"]:checked) #jaSection {display:block;}
 body:has([name="section"][value="Ko"]:checked) #koSection {display:block;}
 body:has([name="section"][value="ZhHans"]:checked) #zhHansSection {display:block;}
 body:has([name="section"][value="ZhHant"]:checked) #zhHantSection {display:block;}
-section.description p {margin:0.5rem;}
+section.description p {margin:var(--len);}
 .charList
 {
 	cursor:pointer;
 	color:#000;
-	padding:0.25em; /* em and not rem here since one has to compute the num of chars per line */
-	margin:0.5rem;
+	padding:var(--len);
+	margin:var(--len);
 	font-size:1.75rem;
 	border:1px solid #ccc;
 	text-align:left;
@@ -122,7 +136,7 @@ section.description p {margin:0.5rem;}
 	display:block;
 	text-align:center;
 	width:calc(min(16rem,100%) - 2px);
-	font-size:2rem;
+	font-size:1.75rem;
 	font-family:sans-serif;
 	height:3rem;
 	line-height:3rem;
@@ -134,8 +148,8 @@ section.description p {margin:0.5rem;}
 {
 	-webkit-appearance:none;
 	appearance:none;
-	margin-top:0.5rem;
-	padding:0 0.5rem;
+	margin-top:var(--len);
+	padding:0 var(--len);
 	font-size:1.5rem;
 	height:3.5rem;
 	line-height:3.5rem;
@@ -145,7 +159,7 @@ section.description p {margin:0.5rem;}
 	border-radius:0.5rem;
 }
 button:hover {cursor:pointer;}
-fieldset {border:0;margin:0.5rem;padding:0;}
+fieldset {border:0;margin:var(--len) 0;padding:0;}
 label {display:inline-block;margin:0;white-space:nowrap;}
 
 label:has([name="size"]){display:block;white-space:normal;}
@@ -158,13 +172,13 @@ label:not(:last-child) [name="section"]+span::first-letter {color:#c00;}
 {
 	list-style-type:none;
 	margin:0;
-	padding:0.5rem 0;
+	padding:var(--len) 0;
 }
 #output li
 {
-	margin:0.5rem auto;
+	margin:var(--len) auto;
 	padding:0;
-	max-width:calc(var(--size) + 2px);
+	max-width:min(100%,calc(var(--size) + 2px));
 	min-width:min-content;
 }
 #output li.error
@@ -181,6 +195,7 @@ label:not(:last-child) [name="section"]+span::first-letter {color:#c00;}
 {
 	display:block;
 	border:1px solid #0003;
+	max-width:calc(100% - 2px);
 }
 #output svg text
 {
@@ -262,12 +277,8 @@ nav:has(.skipper)
 	flex-wrap:wrap;
 }
 .skipper img {width:2rem;height:auto;}
-@media (max-width:20rem)
+@media (max-width:25rem)
 {
-	body {padding:2.5vw;}
-	p.instruction {padding:0 2.5vw;}
-	section.description p {margin:2.5vw;}
-	.charList {margin:2.5vw;}
 	#accessibilityBtn {position:initial;}
 }
 </style>
@@ -312,7 +323,7 @@ nav:has(.skipper)
 </datalist>
 </fieldset>
 <fieldset>
-<input autocomplete="off" id="data" type="text" value="" maxlength="2" placeholder="Enter data here">
+<input autocomplete="off" id="data" type="text" value="" maxlength="2" placeholder="Enter data">
 <p class="important instruction"><span class="very-important">Enter a character</span>
 in the data field above or <span class="very-important">click on a character</span>
 in the lists at the bottom of the page!</p>
