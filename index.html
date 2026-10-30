@@ -506,7 +506,7 @@ qi["ZhHant"]=[
 	["tu","Some other Hanzi as in Taiwan"],
 	["tc","Some components as in Taiwan"]
 	];
-let isJustFocused=0;
+let focusByKeyboard=0;
 function ucFirst(s)
 {
 	return s.charAt(0).toUpperCase()+s.slice(1);
@@ -767,12 +767,10 @@ function isStartingWithSurrogate(s)
 }
 function isStartingWithSpace(s)
 {
-	//return s.match(/^\u200b/);
 	return s.match(/^ /);
 }
 function isSpace(c)
 {
-	// return c=="\u200b";
 	return c==" ";
 }
 function getSAB(sel,tt)
@@ -822,15 +820,15 @@ function selectPredChar(ev,km)
 	let s=sab[0],a=sab[1],b=sab[2];
 	if((a==b)&&(a>tt.length-3))
 	{
-		// can happen when caret browsing
-		let st=0;
+		// happen when caret browsing
+		let st=0,sz;
 		while((a+st)>0)
 		{
 			if(isSpace(tt.charAt(a+st))) break;
 			else st--;
 		}
 		if(isSpace(tt.charAt(a+st))) st++;
-		sz=isStartingWithSurrogate(tt.charAt(a+st))?2:1;
+		sz=isStartingWithSurrogate(tt.substring(a+st))?2:1;
 		sel.setBaseAndExtent(t,a+st,t,a+st+sz);
 		ev.preventDefault();
 	}
@@ -845,7 +843,7 @@ function selectPredChar(ev,km)
 		if(st)
 		{
 			if(isSpace(tt.charAt(a+st))) st++;
-			sz=isStartingWithSurrogate(tt.charAt(a+st))?2:1;
+			sz=isStartingWithSurrogate(tt.substring(a+st))?2:1;
 			sel.setBaseAndExtent(t,a+st,t,a+st+sz);
 			scrollToSel();
 			ev.preventDefault();
@@ -860,13 +858,14 @@ function selectNextChar(ev,km)
 	// sel has at least one range here
 	let sab=getSAB(sel,tt);
 	let s=sab[0],a=sab[1],b=sab[2];
-	if((a==b)&&!a)
+	if((a==b)&&(a==0))
 	{
-		// can happen when caret browsing
-		sel.setBaseAndExtent(t,0,t,(isStartingWithSurrogate(tt)?2:1));
+		// happen when caret browsing
+		let sz=isStartingWithSurrogate(tt.substring(a))?2:1;
+		sel.setBaseAndExtent(t,a,t,a+sz);
 		ev.preventDefault();
 	}
-	else if(a<(tt.length-3))
+	else
 	{
 		let st=0,sz,k=0;
 		while(((a+st)<(tt.length-3))&&(k<km))
@@ -877,7 +876,7 @@ function selectNextChar(ev,km)
 		if(st)
 		{
 			if(isSpace(tt.charAt(a+st))) st++;
-			sz=isStartingWithSurrogate(tt.charAt(a+st))?2:1;
+			sz=isStartingWithSurrogate(tt.substring(a+st))?2:1;
 			sel.setBaseAndExtent(t,a+st,t,a+st+sz);
 			scrollToSel();
 			ev.preventDefault();
@@ -886,7 +885,7 @@ function selectNextChar(ev,km)
 }
 function doFocus(e)
 {
-  	if (isJustFocused)
+  	if (focusByKeyboard)
 	{
 		let t=e.childNodes[0],tt=t.textContent,sel=window.getSelection();
 		if(sel.anchorNode==t)
@@ -901,7 +900,7 @@ function doFocus(e)
 		// else select one char at the beginning of the char list
 		else sel.setBaseAndExtent(t,0,t,(isStartingWithSurrogate(tt)?2:1));
 		// does nothing, the target is not a char list
-		isJustFocused=0; // Reset flag immediately
+		focusByKeyboard=0; // Reset flag immediately
 		scrollToSel();
   	}
 }
@@ -921,7 +920,7 @@ function doBack()
 			let b=a.parentNode;
 			if (b.classList.contains("charList"))
 			{
-				isJustFocused=1;
+				focusByKeyboard=1;
 				if(b==document.activeElement)
 				{
 					// since b has the focus already, do manually scrollIntoView() and doFocus()
@@ -944,8 +943,8 @@ document.addEventListener('keydown',(ev)=>
 	if(ev.altKey||ev.ctrlKey||ev.metaKey) return;
 	if(ev.key==='Tab')
 	{ 
-		isJustFocused=1;
-		setTimeout(()=>(isJustFocused=0),100);
+		focusByKeyboard=1;
+		setTimeout(()=>(focusByKeyboard=0),100);
 	}
 	else if(ev.key==='a') {doAccessibility();}
 	else if(ev.key==='b') doBack();
@@ -1005,6 +1004,7 @@ function getNumOfCharsPerLine(e)
 		let p=document.createElement('p');
 		let nc=0;
 		p.classList.add("charList");
+		p.setAttribute("lang",e.getAttribute("lang"));
 		p.innerHTML='一 ';
 		e.after(p);
 		let poh=p.offsetHeight;
