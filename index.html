@@ -780,137 +780,157 @@ function isStartingWithSpace(s)
 {
 	return s.match(/^ /);
 }
-function isSpace(c)
+function isSpace(s)
 {
-	return c==" ";
+	return s==" ";
 }
-function getSAB(sel,tt)
+function isExactlyOneChar(s)
+{
+	let sz=isStartingWithSurrogate(s)?2:1;
+	return s.length==sz;
+}
+function getNearestChar(sel,tt)
 {
 	// sel has at least one range here
-	let a=sel.getRangeAt(0).startOffset,b=sel.getRangeAt(0).endOffset,d=b-a;
-	let s=tt.substring(a);
+	// get a string containing only one character that is not a space
+	// if sel contains more than one character, the character is on the right of the initial a 
+	// else if sel starts is a character that is not a space, the character is on the right of the initial a 
+	// else the character is on the left of the initial sel
+	let a=sel.getRangeAt(0).startOffset,b=sel.getRangeAt(0).endOffset,s=tt.substring(a);
 	if(a)
 	{
 		if(isStartingWithSpace(s))
 		{
-			if(a==b) {a--;d=0;} // the user clicks on the right part of a char
-			else if ((b-a)==1) {a--;d=0;} // the user selects only a space
+			if(a==b)
+			{
+				// the user clicks on the right part of a char or the left part of a space
+				// or move the caret on the left of a space
+				a--;
+			} 
+			else if ((b-a)==1)
+			{
+				// the user selects a space only (evenly the last of tt)
+				a--;
+			}
 			else a++; // the user selects at least a space and another char
-			s=tt.substring(a);
 		}
 	}
-	// deal surrogate chars if any
-	// look for a space preceding the selection or the the start of the list
-	if(a) do{a--;s=tt.substring(a);}while(a&&!isStartingWithSpace(s));
-	// skip the space
+	// look for a space preceding a or the start of the list
+	// a cannot be the position of a space here
+	if(a) do{a--;}while(a&&!isStartingWithSpace(tt.substring(a)));
+	// if(a), a is the position of a space here, thus skip the space forward
 	if(a) a++;
-	b=d?b:a; // force a null s if sel had a null length or was a space only
+	let sz=isStartingWithSurrogate(tt.substring(a))?2:1;
+	b=a+sz;
 	s=tt.substring(a,b);
 	return [s,a,b];
-	// now s starts with a char that is not a space nor the right part of a surrogate
+	// now s contains only one char that is not a space nor the right part of a surrogate
 }
 function scrollToSel()
 {
 	let sel=window.getSelection();
-	let ran=sel.getRangeAt(0);
-	if(ran)
+	let a=sel.anchorNode;
+	if(a)
 	{
-		let rec=ran.getBoundingClientRect();
-		let dh=document.documentElement.clientHeight;
-		let y=rec.y+scrollY;
-		scroll(0,y-0.1*dh);
+		if(a.parentNode.classList.contains("charList"))
+		{
+			let ran=sel.getRangeAt(0);
+			if(ran)
+			{
+				let vh=document.documentElement.clientHeight;
+				let rec=ran.getBoundingClientRect();
+				if((rec.top>0)&&(rec.bottom<vh)) return;
+				let y=rec.y+scrollY;
+				scroll(0,y-0.5*vh);
+			}
+		}
 	}
 }
 function selectPredChar(ev,km)
 {
+	// assume sel has at least one range here
 	let sel=window.getSelection();
 	let t=ev.target.childNodes[0];
 	let tt=t.textContent;
-	// sel has at least one range here
-	let sab=getSAB(sel,tt);
-	let s=sab[0],a=sab[1],b=sab[2];
-	if((a==b)&&(a>tt.length-3))
+	let a,b,s;
+	if(t!=sel.anchorNode)
 	{
-		// happen when caret browsing
-		let st=0,sz;
-		while((a+st)>0)
-		{
-			if(isSpace(tt.charAt(a+st))) break;
-			else st--;
-		}
-		if(isSpace(tt.charAt(a+st))) st++;
-		sz=isStartingWithSurrogate(tt.substring(a+st))?2:1;
-		sel.setBaseAndExtent(t,a+st,t,a+st+sz);
-		ev.preventDefault();
-	}
-	else if(a>0)
-	{
-		let st=0,sz,k=0;
-		while(((a+st)>0)&&(k<=km))
-		{
-			st--;
-			if(isSpace(tt.charAt(a+st))) k++;
-		}
-		if(st)
-		{
-			if(isSpace(tt.charAt(a+st))) st++;
-			sz=isStartingWithSurrogate(tt.substring(a+st))?2:1;
-			sel.setBaseAndExtent(t,a+st,t,a+st+sz);
-			scrollToSel();
-			ev.preventDefault();
-		}
-	}
-}
-function selectNextChar(ev,km)
-{
-	let sel=window.getSelection();
-	let t=ev.target.childNodes[0];
-	let tt=t.textContent;
-	// sel has at least one range here
-	let sab=getSAB(sel,tt);
-	let s=sab[0],a=sab[1],b=sab[2];
-	if((a==b)&&(a==0))
-	{
-		// happen when caret browsing
-		let sz=isStartingWithSurrogate(tt.substring(a))?2:1;
-		sel.setBaseAndExtent(t,a,t,a+sz);
-		ev.preventDefault();
+		// possible when the last char was selected and the user clicked on the right padding
+		a=b=tt.length;
+		s="";
 	}
 	else
 	{
-		let st=0,sz,k=0;
-		while(((a+st)<(tt.length-3))&&(k<km))
-		{
-			st++;
-			if(isSpace(tt.charAt(a+st))) k++;
-		}
-		if(st)
-		{
-			if(isSpace(tt.charAt(a+st))) st++;
-			sz=isStartingWithSurrogate(tt.substring(a+st))?2:1;
-			sel.setBaseAndExtent(t,a+st,t,a+st+sz);
-			scrollToSel();
-			ev.preventDefault();
-		}
+		a=sel.getRangeAt(0).startOffset;
+		b=sel.getRangeAt(0).endOffset;
+		s=tt.substring(a);
 	}
+	if(!a) return;
+	let st=0,sz,k=0;
+	if(isStartingWithSpace(s)) a++;
+	while(((a+st)>0)&&(k<=km))
+	{
+		st--;
+		if(isSpace(tt.charAt(a+st))) k++;
+	}
+	if(isSpace(tt.charAt(a+st))) st++;
+	sz=isStartingWithSurrogate(tt.substring(a+st))?2:1;
+	sel.setBaseAndExtent(t,a+st,t,a+st+sz);
+	scrollToSel();
+	ev.preventDefault();
+}
+function selectNextChar(ev,km)
+{
+	// assume sel has at least one range here
+	let sel=window.getSelection();
+	let t=ev.target.childNodes[0];
+	let tt=t.textContent;
+	let a,b,s,z=0;
+	if(t!=sel.anchorNode)
+	{
+		// possible when the first char was selected and the user clicked on the left padding
+		a=b=0;
+		s="";
+	}
+	else
+	{
+		a=sel.getRangeAt(0).startOffset;
+		b=sel.getRangeAt(0).endOffset;
+		s=tt.substring(a);
+	}
+	if(a>(tt.length-3)) return;
+	let st=0,sz,k=0;
+	if((a==b)&&!a&&(km==1)) k++;
+	else if(isStartingWithSpace(s)) a--;
+	while(((a+st)<(tt.length-3))&&(k<km))
+	{
+		st++;
+		if(isSpace(tt.charAt(a+st))) k++;
+	}
+	if(isSpace(tt.charAt(a+st))) st++;
+	sz=isStartingWithSurrogate(tt.substring(a+st))?2:1;
+	sel.setBaseAndExtent(t,a+st,t,a+st+sz);
+	scrollToSel();
+	ev.preventDefault();
 }
 function doFocus(e)
 {
-  	if (focusByKeyboard)
+	// assume e is a char list
+ 	if(focusByKeyboard)
 	{
 		let t=e.childNodes[0],tt=t.textContent,sel=window.getSelection();
 		if(sel.anchorNode==t)
 		{
-			// sel has at least one range here
-			let sab=getSAB(sel,tt);
-			let a=sab[1],b=sab[2];
-			if(a==b) // the selection has a null length, select only one char
-				sel.setBaseAndExtent(t,a,t,a+(isStartingWithSurrogate(tt.substring(a))?2:1));
+			let s=sel.toString();
+			if(!s)
+			{
+				let cab=getNearestChar(sel,tt);
+				sel.setBaseAndExtent(t,cab[1],t,cab[2]);
+			}
 			// else does nothing, a selection is already here
 		}
 		// else select one char at the beginning of the char list
 		else sel.setBaseAndExtent(t,0,t,(isStartingWithSurrogate(tt)?2:1));
-		// does nothing, the target is not a char list
 		focusByKeyboard=0; // Reset flag immediately
 		scrollToSel();
   	}
@@ -918,7 +938,6 @@ function doFocus(e)
 function doAccessibility()
 {
 	document.getElementById("accessibilityDialog").showModal();
-	console.log(document.activeElement);
 }
 function doBack()
 {
@@ -926,7 +945,7 @@ function doBack()
 	if(sel)
 	{
 		let a=sel.anchorNode;
-		if (a.nodeType===Node.TEXT_NODE)
+		if (a&&(a.nodeType===Node.TEXT_NODE))
 		{
 			let b=a.parentNode;
 			if (b.classList.contains("charList"))
@@ -957,6 +976,15 @@ document.addEventListener('keydown',(ev)=>
 		focusByKeyboard=1;
 		setTimeout(()=>(focusByKeyboard=0),100);
 	}
+	else if((ev.key=="ArrowUp")||(ev.key=="ArrowLeft")||(ev.key=="ArrowRight")||(ev.key=="ArrowDown"))
+	{
+		// caret browsing
+		if(!ev.shiftKey)
+		{
+			focusByKeyboard=1;
+			setTimeout(()=>(focusByKeyboard=0),100);
+		}
+	}
 	else if(ev.key==='a') {doAccessibility();}
 	else if(ev.key==='b') doBack();
 	else if(ev.key==='p') doPreferences();
@@ -966,47 +994,26 @@ document.addEventListener('keydown',(ev)=>
 // -------------
 function magic(ev,keyboardAction=0)
 {
+	// assume sel has at least one range
 	// ev.target is a char list
 	// at this point, ev.target is a char list in theory
 	// a char list is just text, not a list of buttons, to reduce the size of the html
 	// this function retrieves which character was clicked on the list
 	// sel.rangeCount cannot be 0 here
-	let sel=window.getSelection();
-	// sel has at least one range here
-	let a=sel.getRangeAt(0).startOffset,b=sel.getRangeAt(0).endOffset;
-	// b>=a in theory
-	if (!keyboardAction&&(a!=b))
-		// mouse click and already a selection, just return
-		// if the user clicks on a char, let the user to unselect the selection
-		// if the user tried to select something, let the user to select a selection
-		return;
+	let sel=window.getSelection(),s=sel.toString(),a,b;
+	// if only a space is selected, does nothing
+	if(s==" ") return;
+	// if already a selection of more than one char and click, does nothing
+	//	if the user clicks on a char, let the user to unselect the selection
+	//	if the user tried to select something, let the user to select something
+	if(s&&!isExactlyOneChar(s.trim())&&(ev.type=="click")) return;
+	// if no selection when using arrows, does nothing
+	if(!isExactlyOneChar(s.trim())&&(ev.type!="click")) return;
 	let t=ev.target.childNodes[0];
 	let tt=t.textContent;
-	let sab=getSAB(sel,tt);
-	let s=sab[0];
-	a=sab[1];
-	b=sab[2];
-	if(a)
-	{
-		if(isStartingWithSpace(s))
-		{
-			if(a==b) a--; // the user clicks on the right part of a char
-			else if ((b-a)==1) a--; // the user selects only a space
-			else a++; // the user selects at least a space and another char
-			s=tt.substring(a);
-		}
-	}
-	// deal surrogate chars if any
-	// look for a space preceding the selection or the start of the list
-	if(a) do{a--;s=tt.substring(a);}while(a&&!isStartingWithSpace(s));
-	// skip the space
-	if(a) a++;
-	s=tt.substring(a);
-	// now s starts with a char that is not a space nor the right part of a surrogate
-	let c;
-	if(isStartingWithSurrogate(s)) c=s.substring(0,2);
-	else c=s.substring(0,1);
-	doIt(c);
+	let cab=getNearestChar(sel,tt);
+	sel.setBaseAndExtent(t,cab[1],t,cab[2]);
+	doIt(cab[0]);
 }
 function getNumOfCharsPerLine(e)
 {
