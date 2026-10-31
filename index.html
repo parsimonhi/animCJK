@@ -287,7 +287,7 @@ nav:has(.skipper)
 </head>
 <body id="top">
 <header>
-<button type="button" id="accessibilityBtn" aria-label="Accessibility">
+<button type="button" id="accessibilityBtn" title="Accessibility">
 <img width="32" height="32" src="images/visual-impairments.svg">
 </button>
 <h1>AnimCJK Demo</h1>
@@ -1114,7 +1114,6 @@ function endPopulateChars(langLabel)
 				p.classList.add("charList");
 				p.setAttribute("tabindex","0");
 				p.setAttribute("lang",langIso);
-				p.setAttribute("aria-label","List of characters");
 				let s=getcharListFromDico(langLabel,qis[0]);
 				p.append(s);
 				nav.before(p);
