@@ -330,6 +330,8 @@ We used various sources to cross-check our data. In particular:
 - How SVG Line Animation Works, https://css-tricks.com/svg-line-animation-works/
 
 ## What is new?
+2026/10/31
+- various minor changes in home page and sample pages
 
 2026/10/29
 - improve in svgsJa

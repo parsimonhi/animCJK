@@ -1,15 +1,16 @@
-body
-{
-	font-family:Avenir,sans-serif;
-	background:#fff;
-	margin:0;
-	padding:min(0.5rem,5vw);
-	min-width:9rem;
-}
+:root {--len:min(0.5rem,2.5vw);}
+* {max-width:100%;overflow-wrap:anywhere;}
 :focus-visible
 {
 	outline:2px solid #07f7;
 	outline-offset:1px;
+}
+body
+{
+	font-family:sans-serif;
+	background:#fff;
+	margin:0;
+	padding:var(--len);
 }
 h1 {font-size:1.75rem;}
 h2 {font-size:1.50rem;}
@@ -24,14 +25,14 @@ a
 input[name="data"]
 {
 	display:inline-block;
-	width:5rem;
-	margin:0 0.5rem;
+	width:min(10rem,calc(100% - 5 * var(--len)));
+	margin:var(--len);
 }
 button[name="run"]
 {
 	display:inline-block;
 	font-size:1rem;
-	margin:0.25rem;
+	margin:var(--len);
 }
 .langSelector label
 {
@@ -41,7 +42,7 @@ button[name="run"]
 }
 .langSelector, .dataSelector, fieldset
 {
-	margin:0;
+	margin:var(--len) 0;
 	padding:0;
 }
 .langSelector, .dataSelector, .charListSelector, .charListSelector fieldset
@@ -51,7 +52,7 @@ button[name="run"]
 .langSelector input
 {
 	display:inline-block;
-	margin-right:0.25rem;
+	margin-right:calc(var(--len) / 2);
 }
 .langSelector label:not(:last-child) span
 {
@@ -63,9 +64,9 @@ button[name="run"]
 }
 .charListSelector h2
 {
-	margin:0.5rem 0;
-	border-left:0.5rem solid #c00;
-	padding:0 0 0 0.75rem;
+	margin:calc(var(--len) * 2) 0;
+	border-left:var(--len) solid #c00;
+	padding:0 0 0 var(--len);
 	width:min(max-content,100%);
 }
 .charListSelector summary
@@ -79,16 +80,16 @@ button[name="run"]
 {
 	display:inline;
 	margin:0;
-	padding:0.5rem;
+	padding:var(--len);
 }
 .charListSelector button
 {
 	-webkit-appearance:none;
 	appearance:none;
 	border:0;
-	border-radius:0.25rem;
-	padding:0.25em;
-	margin:0.25em;
+	border-radius:calc(var(--len) / 2);
+	padding:calc(var(--len) / 2);
+	margin:calc(var(--len) / 2);
 	cursor:pointer;
 	font-size:1.5rem;
 	background:#0000;

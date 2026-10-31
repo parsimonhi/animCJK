@@ -44,20 +44,19 @@ pre
 {
 	font-size:1rem;
 	display:block;
-	width:14rem;
+	width:min(14rem,100%);
 	margin:0;
 }
-.specificSelector #sizeMarks
+#sizeMarks
 {
 	font-size:1rem;
 	display:flex;
-	margin:0;
-	padding:0;
-	width:14rem;
+	margin:0 auto;
+	width:min(14rem,100%);
 	justify-content:space-between;
 }
-.specificSelector #sizeMarks option:not([label]) {display:none;}
-.specificSelector #sizeMarks option {width:3rem;text-align:center;margin:0;padding:0;}
+#sizeMarks option:not([label]) {display:none;}
+#sizeMarks option {width:min(3rem,25%);text-align:center;margin:0;padding:0;font-size:0.875rem;}
 </style>
 <title>AnimCJK Size</title>
 <link rel="icon" type="image/svg+xml" href="../animCJKIcon.svg">
@@ -170,7 +169,7 @@ function run(s,c,dir)
 		s=c+" not found in "+dir;
 		e.innerHTML=s;
 	}
-	document.querySelector('.dataSelector').scrollIntoView();
+	document.querySelector('[name="data"]').scrollIntoView();
 }
 function doIt()
 {

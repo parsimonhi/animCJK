@@ -13,17 +13,17 @@ displaying a card of the character with additional data as its description and r
 {
 	display:block;
 	width:calc(min(16rem,80vw) + 2px);
-	margin:0.5rem 0;
+	margin:var(--len) 0;
 }
 #card figure
 {
-	margin:0 0 0.5rem 0;
+	margin:0 0 var(--len) 0;
 	padding:0;
 }
 #card figcaption
 {
 	text-align:center;
-	margin:0 0 0.5rem 0;
+	margin:0 0 var(--len) 0;
 	padding:0;
 }
 #card figure svg
@@ -41,7 +41,7 @@ displaying a card of the character with additional data as its description and r
 	list-style-type:none;
 	display:flex;
 	justify-content:space-around;
-	margin:0 0 0.5rem 0;
+	margin:0 0 var(--len) 0;
 	padding:0;
 }
 #card menu li
@@ -51,8 +51,8 @@ displaying a card of the character with additional data as its description and r
 }
 #card button
 {
-	margin:0.25rem;
-	padding:0.25rem 0.5rem;
+	margin:0;
+	padding:calc(var(--len) / 2);
 }
 #card button:disabled
 {
@@ -61,8 +61,8 @@ displaying a card of the character with additional data as its description and r
 #card button svg
 {
 	display:block;
-	width:2rem;
-	height:1rem;
+	width:calc(var(--len) * 4);
+	height:calc(var(--len) * 2);
 }
 #card dl, #card dt, #card dd
 {
@@ -71,7 +71,7 @@ displaying a card of the character with additional data as its description and r
 }
 #card dt:not(:first-of-type)
 {
-	margin-right:0.5rem;
+	margin-right:var(--len);
 	float:left;
 }
 #card dd::after
@@ -318,7 +318,7 @@ function run(s)
 	d.innerHTML=buildDicoContent(r);
 	initCard();
 	updateAll();
-	document.querySelector('.dataSelector').scrollIntoView();
+	document.querySelector('[name="data"]').scrollIntoView();
 }
 function doIt()
 {

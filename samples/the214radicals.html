@@ -7,39 +7,53 @@
 <title>AnimCJK - The 214 radicals</title>
 <link rel="stylesheet" href="_css/topBottom.css" type="text/css">
 <style>
-html
+:root
 {
-	scroll-behavior:smooth;
+	--len:min(0.5rem,2.5vw);
+	--size:min(6.5rem,32.5vw);
 }
+* {max-width:100%;overflow-wrap:anywhere;}
+body{font-family:sans-serif;margin:0;padding:var(--len);}
+nav
+{
+	display:flex;
+	flex-wrap:wrap;
+	gap:var(--len);
+}
+a
+{
+	color:#000;
+}
+table,tr,th,td,caption{box-sizing:border-box;}
 table
 {
-	--size:min(20vw,8rem);
-	margin:1rem 0;
+	margin:calc(2 * var(--len)) 0;
+	padding:0;
 	border-collapse:collapse;
-	width:min(100%,33rem);
 }
 table caption
 {
 	text-align:left;
-	padding:0 0.25rem 1rem 0.125rem;
+	padding:0;
+	margin:0 0 calc(2 * var(--len)) 0;
 }
 td,th
 {
 	border:1px solid grey;
 	text-align:center;
-	padding:0.25rem;
+	padding:calc(0.25 * var(--len));
 }
 svg
 {
 	display:block;
-	width:var(--size);
+	width:100%;
 	height:auto;
 	margin:auto;
 	fill:crimson;
 }
 th.N, td.N
 {
-	width:2rem;
+	width:3rem;
 }
 th.C, td.C
 {
@@ -50,33 +64,30 @@ td.C
 	font-size:var(--size);
 	font-family:serif;
 }
-th.C, th.A
-{
-	box-sizing:border-box;
-	width:var(--size);
-}
-td.C, td.A
-{
-	width:var(--size);
-}
 th.A
 {
 	color:crimson;
 }
-nav
+th.M, td.M, th.C, td.C, th.A, td.A
 {
-	display:flex;
-	flex-wrap:wrap;
-	gap:0.5rem;
+	width:var(--size);
 }
-a
+@media screen and (max-width: 22.5rem)
 {
-	color:#000;
+	:root{--size:calc((100vw - var(--len) * 2) / 3);}
+	.N {display:none;}
 }
-@media screen and (max-width: 20em)
+@media screen and (max-width: 20rem)
 {
-	.N,.C {display:none;}
-	table {--size:20vw;}
+	:root{--size:calc((100vw - var(--len) * 2) / 2);}
+	.C {display:none;}
+}
+@media screen and (max-width: 15rem)
+{
+	:root{--size:calc((100vw - var(--len) * 2));}
+	tr{display:flex;flex-direction:column;margin-bottom:var(--len);}
+	th,td{padding:calc(0.25 * var(--len)) 0;}
+	th:not(:last-of-type),td:not(:last-of-type){border-bottom:0;}
 }
 </style>
 <link rel="icon" type="image/svg+xml" href="../animCJKIcon.svg">
@@ -136,12 +147,12 @@ function buildTd(table,tr,s)
 		else td.classList.add("M");
 	}
 }
-function buildTh(table,tr,s)
+function buildTh(table,tr,s,cls)
 {
 	let th=document.createElement('th');
-	tr.append(th);
 	th.innerHTML=s;
-	th.classList.add(s.charAt(0));
+	th.classList.add(cls);
+	tr.append(th);
 }
 function buildTr(table,s)
 {
@@ -166,10 +177,10 @@ function buildOneTable(a)
 	caption.innerText=a[0].ns+" stroke"+((a[0].ns>1)?"s":"");
 	table.append(caption);
 	table.append(tr);
-	buildTh(table,tr,"N°");
-	buildTh(table,tr,"Meaning");
-	buildTh(table,tr,"Character");
-	buildTh(table,tr,"AnimCJK SVG");
+	buildTh(table,tr,"N°","N");
+	buildTh(table,tr,"Meaning","M");
+	buildTh(table,tr,"Character","C");
+	buildTh(table,tr,"AnimCJK SVG","A");
 	a.forEach(b=>buildTr(table,b.csv));
 	addToMain(table);
 }

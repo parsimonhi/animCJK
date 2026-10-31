@@ -38,9 +38,15 @@ function changeDir(dir)
 function showAnimatedGif(image,background,dec)
 {
 	if(background=="transparent")
+	{
 		document.getElementById("d").innerHTML="<img src=\""+image+"\">";
+		document.getElementById("d").innerHTML+="<figcaption>Animated GIF without grey strokes</figcaption>";
+	}
 	else
+	{
 		document.getElementById("c").innerHTML="<img src=\""+image+"\">";
+		document.getElementById("c").innerHTML+="<figcaption>Animated GIF with grey strokes</figcaption>";
+	}
 }
 /*
 function setBrushing(s)
@@ -153,14 +159,17 @@ function ok()
 				// if((s.match(/<svg[^>]+class="acjk/))&&(s.match(/<path[^>]+id="[^>]+L/))) s=setBrushing(s);
 				sa=generateRedPngFromSvg(s,300,"transparent");
 				xhr.acjk.a.innerHTML="<img src=\""+sa+"\">";
+				xhr.acjk.a.innerHTML+="<figcaption>Transparent PNG</figcaption>";
 				// don't generate opaque png in this version
 				// sb=generateRedPngFromSvg(s,300,"white");
 				// xhr.acjk.b.innerHTML="<img src=\""+sb+"\">";
+				// xhr.acjk.a.innerHTML+="<figcaption>Not transparent PNG</figcaption>";
 				generateAnimatedGifFromSvg(s,300,"white",1000,xhr.acjk.dec,showAnimatedGif,"");
 				// don't generate animated gif without grey strokes in this version
 				// generateAnimatedGifFromSvg(s,300,"transparent",1000,xhr.acjk.dec,showAnimatedGif,"");
-				se=generateSequencePngFromSvg(s,110,"white");
+				se=generateSequencePngFromSvg(s,300,"white");
 				xhr.acjk.e.innerHTML="<img src=\""+se+"\">";
+				xhr.acjk.e.innerHTML+="<figcaption>Sequence PNG</figcaption>";
 				status("Svg file name: "+xhr.acjk.dec+".svg");
 			}
 			else status("Data not found in the selected svgs repository!");
@@ -173,66 +182,61 @@ function ok()
 }
 </script>
 <style>
-#a,#b,#c,#d
+:root {--len:min(0.5rem,2.5vw);}
+* {max-width:100%;overflow-wrap:anywhere;}
+:focus-visible
 {
-	width:16em;
-	height:16em;
-	position:relative;
+	outline:2px solid #07f7;
+	outline-offset:1px;
+}
+body
+{
+	font-family:sans-serif;
+	background:#fff;
+	margin:0;
+	padding:var(--len);
+}
+h1 {font-size:1.75rem;}
+h2 {font-size:1.50rem;}
+h2 {font-size:1.25rem;}
+nav
+{
+	display:flex;
+	flex-wrap:wrap;
+	gap:0.25rem;
+}
+a
+{
+	color:#000;
+}
+#data
+{
 	display:inline-block;
-	border:1px solid #ccc;
-	background:#eee;
-	margin:0 0 3em 0;
-	padding:0;
+	width:min(10rem,calc(100% - 5 * var(--len)));
+	margin:calc(var(--len) * 2) 0;
 }
-#e
-{
-	position:relative;
-	display:inline-block;
-	border:1px solid #ccc;
-	background:#eee;
-	margin-bottom:3em;
-	min-height:110px;
-	min-width:110px;
-	margin:0 0 3em 0;
-	padding:0;
-}
-#a:after
-{
-	position:absolute;
-	top:100%;
-	content:'Transparent PNG';
-}
-#b:after
-{
-	position:absolute;
-	top:100%;
-	content:'Not transparent PNG';
-}
-#c:after
-{
-	position:absolute;
-	top:100%;
-	content:'Animated GIF with grey strokes';
-}
-#d:after
-{
-	position:absolute;
-	top:100%;
-	content:'Animated GIF without grey strokes';
-}
-#e:after
-{
-	position:absolute;
-	top:100%;
-	content:'Sequence PNG';
-}
+#a,#b,#c,#d {width:min(100%,16em);}
+#e {width:min(100%,32em);}
 #a img,#b img,#c img,#d img,#e img {display:block; width:100%;}
+figure
+{
+	border:1px solid #ccc;
+	height:auto;
+	margin:0 0 calc(var(--len) * 2) 0;
+	padding:0;
+	position:relative;
+	display:inline-block;
+	background:#eee;
+}
+figure:empty{display:none;}
+body:has(figure:empty) #status+p{display:none;}
 #status {color:#c00;}
-input {font-size:1em;}
+input {font-size:1rem;}
 #base64codes:not(.showCodes) {display:none;}
-.dirSelector,.dataSelector {margin:0 0 1em 0; padding:0; border:0;}
+.dirSelector,.dataSelector {margin:0 0 calc(var(--len) * 2) 0; padding:0; border:0;}
 .dirSelector label,.dataSelector label {display:block;}
 </style>
+<link rel="icon" type="image/svg+xml" href="../animCJKIcon.svg">
 </head>
 <body>
 <header>
@@ -274,8 +278,8 @@ using a tool such as gifsicle -->
 </main>
 <footer id="bottom">
 <a href="./">Sample selector</a>
-- <a href="../licenses/COPYING.txt">Licenses</a>
-- <a href="../"><span>Home</span></a>
+<a href="../licenses/COPYING.txt">Licenses</a>
+<a href="../"><span>Home</span></a>
 </footer>
 </body>
 </html>

@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="description" content="Menu to select one of the animCJK samples">
 <style>
+:root
+{
+	--len:min(0.5rem,2.5vw);
+}
+* {max-width:100%;overflow-wrap:anywhere;}
 body {font-family:sans-serif;}
 h1 {font-size:1.75rem;}
 h2 {font-size:1.50rem;}
@@ -16,21 +21,21 @@ h1,footer
 h2
 {
 	max-width:32rem;
-	margin:0.5rem auto;
+	margin:var(--len) auto;
 	padding:0;
 }
 ul
 {
 	box-sizing:border-box;
 	border:1px solid #ccc;
-	margin:1rem auto;
-	padding:1rem;
-	padding-left:2rem;
+	margin:calc(2 * var(--len)) auto;
+	padding:calc(2 * var(--len));
+	padding-left:calc(4 * var(--len));
 	max-width:32rem;
 }
 li
 {
-	margin:0.5rem 0;
+	margin:calc(2 * var(--len));
 }
 a {color:#000;}
 a:visited {color:#666;}

@@ -17,6 +17,7 @@ of a Japanese or Chinese character displayed with an animCJK svg file">
 .specificSelector input[name="speed"]
 {
 	display:block;
+	width:min(14rem,100%);
 }
 #a
 {
@@ -173,7 +174,7 @@ function run(s,c,dir,msg)
 		s=c+" not found in "+dir;
 		e.innerHTML=s;
 	}
-	document.querySelector('.dataSelector').scrollIntoView();
+	document.querySelector('[name="data"]').scrollIntoView();
 }
 function doIt()
 {

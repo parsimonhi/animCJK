@@ -133,9 +133,15 @@ function generateRedPngFromSvg(s,size,background)
 	if (mmah) reg=/<path d=\"([^\"]*)\" fill=\"lightgray\"/g;
 	else reg=/<path id=\"([^\"]*)\" d=\"([^\"]*)\"/g;
 	while (m=reg.exec(s))
-		// concat multi-parts stroke d if any such as for the 3rd stroke of あ
-		if(m[1].match(/[b-z]$/)) paths[paths.length-1].d+=m[2];
-		else paths.push({d:m[2]});
+	{
+		if(mmah) paths.push({d:m[1]});
+		else
+		{
+			// concat multi-parts stroke d if any such as for the 3rd stroke of あ
+			if(m[1].match(/[b-z]$/)) paths[paths.length-1].d+=m[2];
+			else paths.push({d:m[2]});
+		}
+	}
 	km=paths.length;
 	// colorize "d"
 	for (k=0;k<km;k++) paths[k].fill=colorize(k+1,km);
@@ -260,9 +266,15 @@ function generateAnimatedGifFromSvg(s,size,background,delay,dec,show,save)
 	else reg=/<path id=\"([^\"]*)\" d=\"([^\"]*)\"/g;
 	paths=[];
 	while (m=reg.exec(s))
-		// concat multi-parts stroke d if any such as for the 3rd stroke of あ
-		if(m[1].match(/[b-z]$/)) paths[paths.length-1].d+=m[2];
-		else paths.push({d:m[2]});
+	{
+		if(mmah) paths.push({d:m[1]});
+		else
+		{
+			// concat multi-parts stroke d if any such as for the 3rd stroke of あ
+			if(m[1].match(/[b-z]$/)) paths[paths.length-1].d+=m[2];
+			else paths.push({d:m[2]});
+		}
+	}
 	paths.reverse(); // draw last first in case of overlapping
 	km=paths.length;
 	if (km)

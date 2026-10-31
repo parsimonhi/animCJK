@@ -74,7 +74,7 @@ function run(s,c,dir)
 	let e=document.getElementById("a");
 	if(!s.match(/<svg[^>]+class="acjk"/)) s=c+" not found in "+dir;
 	e.innerHTML=s;
-	document.querySelector('.dataSelector').scrollIntoView();
+	document.querySelector('[name="data"]').scrollIntoView();
 }
 function doIt()
 {

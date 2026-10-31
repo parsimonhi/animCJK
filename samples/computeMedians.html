@@ -11,11 +11,10 @@ representing a Chinese, Japanese or Korean character">
 <link rel="stylesheet" href="_css/withSelector.css" type="text/css">
 <link rel="stylesheet" href="_css/topBottom.css" type="text/css">
 <style>
-body
+:root
 {
-	min-width:19rem;
-	--L1:min(16rem,calc(100vw - 2px - 1rem));
-	--L2:min(16rem,calc(100vw - 2px - 1.5rem));
+	--L1:min(16rem,calc(100vw - 2px - calc(var(--len) * 2)));
+	--L2:min(16rem,calc(100vw - 2px - calc(var(--len) * 3)));
 }
 .error
 {
@@ -41,7 +40,7 @@ body
 .initial>:last-child p
 {
 	position:absolute;
-	margin:0.25rem;
+	margin:calc(var(--len) / 2);
 	padding:0;
 }
 .initial svg, .medians svg
@@ -62,11 +61,17 @@ body
 {
 	fill:#0006;
 }
+#canvasContainer
+{
+	margin:0;
+	padding:0;
+}
 .strokeContainer
 {
 	display:inline-block;
 	border:1px solid #0003;
-	margin:0.25rem;
+	margin:calc(var(--len) / 2);
+	padding:0;
 }
 .strokeContainer canvas
 {
@@ -243,7 +248,7 @@ function run(r)
 	if(e) p.langIso=document.querySelector('input[lang]').getAttribute("lang");
 	// run all
 	acjkm.run(p);
-	document.querySelector('.dataSelector').scrollIntoView();
+	document.querySelector('[name="data"]').scrollIntoView();
 }
 
 function doIt()

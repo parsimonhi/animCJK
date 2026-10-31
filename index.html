@@ -18,7 +18,7 @@ stroke by stroke using AnimCJK SVG files">
 :focus-visible {outline:2px solid #07f7;outline-offset:1px;}
 body
 {
-	font-family:Avenir,sans-serif;
+	font-family:sans-serif;
 	background:#fff;
 	margin:0;
 	padding:var(--len);
@@ -39,7 +39,7 @@ dialog h2[tabindex="0"]
 {
 	outline:0;
 }
-dialog h2 {font-size:1.5rem;margin:var(--len) 0;padding:0 var(--len);}
+dialog h2 {font-size:1.5rem;margin:calc(var(--len) *2) 0;padding:0 var(--len);}
 dialog h3 {font-size:1.25rem;margin:0;padding:var(--len) 0;}
 dialog ul
 {
@@ -70,7 +70,7 @@ a {display:inline-block;margin:0.25rem;padding:0.25rem;}
 	height:100%;
 }
 h1 {font-size:1.75rem;margin:0;padding:var(--len) 0;}
-h2 {font-size:1.50rem;margin:var(--len) 0;padding:0 var(--len);}
+h2 {font-size:1.50rem;margin:calc(var(--len) *2) 0;padding:0 var(--len);}
 h3 {font-size:1.25rem;margin:0;padding:var(--len) 0;}
 h1,nav,fieldset,#a {text-align:center;}
 nav {margin:var(--len) 0;}
@@ -287,8 +287,8 @@ nav:has(.skipper)
 </head>
 <body id="top">
 <header>
-<button type="button" id="accessibilityBtn" title="Accessibility">
-<img width="32" height="32" src="images/visual-impairments.svg">
+<button type="button" id="accessibilityBtn">
+<img alt="Accessibility" width="32" height="32" src="images/visual-impairments.svg">
 </button>
 <h1>AnimCJK Demo</h1>
 <nav>
@@ -392,33 +392,33 @@ and other characters ("Uncommon Hanzi", "Traditional Hanzi as in China", "Compon
 <section id="zhHansSection">
 <h2>HSK 2025 (China)</h2>
 <details open><summary><h3 id='zhHansHsk1'>HSK 2025 level 1, simplified Hanzi</h3></summary>
-<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></a></nav>
+<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
 </details><details open><summary><h3 id='zhHansHsk2'>HSK 2025 level 2, simplified Hanzi</h3></summary>
-<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></a></nav>
+<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
 </details><details open><summary><h3 id='zhHansHsk3'>HSK 2025 level 3, simplified Hanzi</h3></summary>
-<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></a></nav>
+<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
 </details><details open><summary><h3 id='zhHansHsk4'>HSK 2025 level 4, simplified Hanzi</h3></summary>
-<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></a></nav>
+<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
 </details><details open><summary><h3 id='zhHansHsk5'>HSK 2025 level 5, simplified Hanzi</h3></summary>
-<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></a></nav>
+<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
 </details><details open><summary><h3 id='zhHansHsk6'>HSK 2025 level 6, simplified Hanzi</h3></summary>
-<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></a></nav>
+<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
 </details><details open><summary><h3 id='zhHansHsk789'>HSK 2025 levels 7-9, simplified Hanzi</h3></summary>
-<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></a></nav>
+<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
 </details>
 <h2>Others (China)</h2>
 <details open><summary><h3 id='zhHansCommonNotHsk'>Other common Hanzi</h3></summary>
-<nav></a><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></a></nav>
+<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
 </details><details open><summary><h3 id='zhHansUncommon'>Some uncommon Hanzi</h3></summary>
-<nav></a><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></a></nav>
+<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
 </details><details open><summary><h3 id='zhHansTraditional'>Some traditional Hanzi</h3></summary>
-<nav></a><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></a></nav>
+<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
 </details><details open><summary><h3 id='zhHansComponent'>Some components</h3></summary>
-<nav></a><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></a></nav>
+<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
 </details><details open><summary><h3 id='zhHansBopomofo'>Bopomofo</h3></summary>
-<nav></a><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></a></nav>
+<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
 </details><details open><summary><h3 id='zhHansStroke'>Strokes</h3></summary>
-<nav></a><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></a></nav>
+<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
 </details></section>
 
 <section id="zhHantSection"><h2>Traditional Hanzi (Taiwan)</h2><details open><summary><h3 id='zhHantTaiwan4808'>Some of the traditional Hanzi commonly used in Taiwan</h3></summary>
