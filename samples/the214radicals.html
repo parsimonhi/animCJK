@@ -11,8 +11,14 @@
 {
 	--len:min(0.5rem,2.5vw);
 	--size:min(6.5rem,80vw);
+	--focus-color:#07f;
 }
 * {max-width:100%;overflow-wrap:anywhere;}
+:focus-visible
+{
+	outline:2px solid var(--focus-color);
+	outline-offset:1px;
+}
 body{font-family:sans-serif;margin:0;padding:var(--len);}
 nav
 {

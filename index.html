@@ -10,12 +10,21 @@ stroke by stroke using AnimCJK SVG files">
 :root
 {
 	--highlight-color:#c00;
+	--focus-color:#07f;
+	--selection-color:#bdf;
 	--speed:1;
 	--size:256px;
 	--len:min(0.5rem,2.5vw);
 }
+.charList::selection
+{
+	background:var(--selection-color);
+}
 * {max-width:100%;overflow-wrap:anywhere;}
-:focus-visible {outline:2px solid #07f7;outline-offset:1px;}
+:focus-visible {outline:2px solid var(--focus-color);outline-offset:1px;}
+.charList:focus-visible,#data:focus-visible{border:1px solid #0000;}
+#ok:focus-visible{background:var(--focus-color);}
+input{accent-color:var(--focus-color);}
 body
 {
 	font-family:sans-serif;
@@ -81,7 +90,7 @@ h2 {font-size:1.50rem;margin:calc(var(--len) *2) 0;padding:0 var(--len);}
 h3 {font-size:1.25rem;margin:0;padding:var(--len) 0;}
 h1,nav,fieldset,#a {text-align:center;}
 nav {margin:var(--len) 0;}
-main{margin:var(--len);};
+main {margin:var(--len);}
 h2
 {
 	border-left:var(--len) solid #c00;
@@ -150,15 +159,15 @@ section.description p {margin:var(--len);}
 	line-height:3rem;
 	margin:var(--len) auto;
 	padding:0;
-	border:1px solid #0003;
+	border:1px solid #000;
 }
 #ok
 {
 	-webkit-appearance:none;
 	appearance:none;
 	margin-top:var(--len);
-	padding:0 var(--len);
-	font-size:1.5rem;
+	padding:0 calc(3 * var(--len));
+	font-size:min(1.5rem,calc(1rem + 2vw));
 	height:3.5rem;
 	line-height:3.5rem;
 	border:0;
@@ -353,87 +362,87 @@ and other characters ("Uncommon Hanzi", "Traditional Hanzi as in China", "Compon
 <p>Note that the Hanzi don't necessarily have the same glyph or stroke order in China and Taiwan even if they share the same unicode!</p>
 </section>
 
-<section id="jaSection"><h2>Kana (Japan)</h2><details open><summary><h3 id='jaHiragana'>Hiragana</h3></summary>
+<section id="jaSection"><h2>Kana (Japan)</h2><details open><summary id='jaHiragana'><h3>Hiragana</h3></summary>
 <nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a href="#jaGs">Strokes</a></nav>
-</details><details open><summary><h3 id='jaKatakana'>Katakana</h3></summary>
+</details><details open><summary id='jaKatakana'><h3>Katakana</h3></summary>
 <nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a href="#jaGs">Strokes</a></nav>
-</details><h2>Kanji (Japan)</h2><details open><summary><h3 id='jaG1'>Grade 1</h3></summary>
+</details><h2>Kanji (Japan)</h2><details open><summary id='jaG1'><h3>Grade 1</h3></summary>
 <nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a href="#jaGs">Strokes</a></nav>
-</details><details open><summary><h3 id='jaG2'>Grade 2</h3></summary>
+</details><details open><summary id='jaG2'><h3>Grade 2</h3></summary>
 <nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a href="#jaGs">Strokes</a></nav>
-</details><details open><summary><h3 id='jaG3'>Grade 3</h3></summary>
+</details><details open><summary id='jaG3'><h3>Grade 3</h3></summary>
 <nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a href="#jaGs">Strokes</a></nav>
-</details><details open><summary><h3 id='jaG4'>Grade 4</h3></summary>
+</details><details open><summary id='jaG4'><h3>Grade 4</h3></summary>
 <nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a href="#jaGs">Strokes</a></nav>
-</details><details open><summary><h3 id='jaG5'>Grade 5</h3></summary>
+</details><details open><summary id='jaG5'><h3>Grade 5</h3></summary>
 <nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a href="#jaGs">Strokes</a></nav>
-</details><details open><summary><h3 id='jaG6'>Grade 6</h3></summary>
+</details><details open><summary id='jaG6'><h3>Grade 6</h3></summary>
 <nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a href="#jaGs">Strokes</a></nav>
-</details><details open><summary><h3 id='jaG7'>Junior high school</h3></summary>
+</details><details open><summary id='jaG7'><h3>Junior high school</h3></summary>
 <nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a href="#jaGs">Strokes</a></nav>
-</details><details open><summary><h3 id='jaG8'>Jinmeiyō</h3></summary>
+</details><details open><summary id='jaG8'><h3>Jinmeiyō</h3></summary>
 <nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a href="#jaGs">Strokes</a></nav>
-</details><details open><summary><h3 id='jaG9'>Some Hyōgai</h3></summary>
+</details><details open><summary id='jaG9'><h3>Some Hyōgai</h3></summary>
 <nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a href="#jaGs">Strokes</a></nav>
-</details><h2>Others (Japan)</h2><details open><summary><h3 id='jaGc'>Some components</h3></summary>
+</details><h2>Others (Japan)</h2><details open><summary id='jaGc'><h3>Some components</h3></summary>
 <nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a href="#jaGs">Strokes</a></nav>
-</details><details open><summary><h3 id='jaStroke'>Strokes</h3></summary>
+</details><details open><summary id='jaStroke'><h3>Strokes</h3></summary>
 <nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a href="#jaGs">Strokes</a></nav>
 </details></section>
 
-<section id="koSection"><h2>Hanja (Korea)</h2><details open><summary><h3 id='koHanja8'>Hanja level 8</h3></summary>
+<section id="koSection"><h2>Hanja (Korea)</h2><details open><summary id='koHanja8'><h3>Hanja level 8</h3></summary>
 <nav><a href="#koHanja8">Level 8</a><a href="#koHanja7">Level 7</a><a href="#koHanja6">Level 6</a><a href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a></nav>
-</details><details open><summary><h3 id='koHanja7'>Hanja level 7</h3></summary>
+</details><details open><summary id='koHanja7'><h3>Hanja level 7</h3></summary>
 <nav><a href="#koHanja8">Level 8</a><a href="#koHanja7">Level 7</a><a href="#koHanja6">Level 6</a><a href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a></nav>
-</details><details open><summary><h3 id='koHanja6'>Hanja level 6</h3></summary>
+</details><details open><summary id='koHanja6'><h3>Hanja level 6</h3></summary>
 <nav><a href="#koHanja8">Level 8</a><a href="#koHanja7">Level 7</a><a href="#koHanja6">Level 6</a><a href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a></nav>
-</details><details open><summary><h3 id='koHanja5'>Hanja level 5</h3></summary>
+</details><details open><summary id='koHanja5'><h3>Hanja level 5</h3></summary>
 <nav><a href="#koHanja8">Level 8</a><a href="#koHanja7">Level 7</a><a href="#koHanja6">Level 6</a><a href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a></nav>
-</details><details open><summary><h3 id='koHanja4'>Hanja level 4</h3></summary>
+</details><details open><summary id='koHanja4'><h3>Hanja level 4</h3></summary>
 <nav><a href="#koHanja8">Level 8</a><a href="#koHanja7">Level 7</a><a href="#koHanja6">Level 6</a><a href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a></nav>
-</details><details open><summary><h3 id='koKu'>Some uncommon Hanja</h3></summary>
+</details><details open><summary id='koKu'><h3>Some uncommon Hanja</h3></summary>
 <nav><a href="#koHanja8">Level 8</a><a href="#koHanja7">Level 7</a><a href="#koHanja6">Level 6</a><a href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a></nav>
-</details><details open><summary><h3 id='koKc'>Some components</h3></summary>
+</details><details open><summary id='koKc'><h3>Some components</h3></summary>
 <nav><a href="#koHanja8">Level 8</a><a href="#koHanja7">Level 7</a><a href="#koHanja6">Level 6</a><a href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a></nav>
 </details></section>
 
 <section id="zhHansSection">
 <h2>HSK 2025 (China)</h2>
-<details open><summary><h3 id='zhHansHsk1'>HSK 2025 level 1, simplified Hanzi</h3></summary>
+<details open><summary id='zhHansHsk1'><h3>HSK 2025 level 1, simplified Hanzi</h3></summary>
 <nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
-</details><details open><summary><h3 id='zhHansHsk2'>HSK 2025 level 2, simplified Hanzi</h3></summary>
+</details><details open><summary id='zhHansHsk2'><h3>HSK 2025 level 2, simplified Hanzi</h3></summary>
 <nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
-</details><details open><summary><h3 id='zhHansHsk3'>HSK 2025 level 3, simplified Hanzi</h3></summary>
+</details><details open><summary id='zhHansHsk3'><h3>HSK 2025 level 3, simplified Hanzi</h3></summary>
 <nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
-</details><details open><summary><h3 id='zhHansHsk4'>HSK 2025 level 4, simplified Hanzi</h3></summary>
+</details><details open><summary id='zhHansHsk4'><h3>HSK 2025 level 4, simplified Hanzi</h3></summary>
 <nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
-</details><details open><summary><h3 id='zhHansHsk5'>HSK 2025 level 5, simplified Hanzi</h3></summary>
+</details><details open><summary id='zhHansHsk5'><h3>HSK 2025 level 5, simplified Hanzi</h3></summary>
 <nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
-</details><details open><summary><h3 id='zhHansHsk6'>HSK 2025 level 6, simplified Hanzi</h3></summary>
+</details><details open><summary id='zhHansHsk6'><h3>HSK 2025 level 6, simplified Hanzi</h3></summary>
 <nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
-</details><details open><summary><h3 id='zhHansHsk789'>HSK 2025 levels 7-9, simplified Hanzi</h3></summary>
+</details><details open><summary id='zhHansHsk789'><h3>HSK 2025 levels 7-9, simplified Hanzi</h3></summary>
 <nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
 </details>
 <h2>Others (China)</h2>
-<details open><summary><h3 id='zhHansCommonNotHsk'>Other common Hanzi</h3></summary>
+<details open><summary id='zhHansCommonNotHsk'><h3>Other common Hanzi</h3></summary>
 <nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
-</details><details open><summary><h3 id='zhHansUncommon'>Some uncommon Hanzi</h3></summary>
+</details><details open><summary id='zhHansUncommon'><h3>Some uncommon Hanzi</h3></summary>
 <nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
-</details><details open><summary><h3 id='zhHansTraditional'>Some traditional Hanzi</h3></summary>
+</details><details open><summary id='zhHansTraditional'><h3>Some traditional Hanzi</h3></summary>
 <nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
-</details><details open><summary><h3 id='zhHansComponent'>Some components</h3></summary>
+</details><details open><summary id='zhHansComponent'><h3>Some components</h3></summary>
 <nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
-</details><details open><summary><h3 id='zhHansBopomofo'>Bopomofo</h3></summary>
+</details><details open><summary id='zhHansBopomofo'><h3>Bopomofo</h3></summary>
 <nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
-</details><details open><summary><h3 id='zhHansStroke'>Strokes</h3></summary>
+</details><details open><summary id='zhHansStroke'><h3>Strokes</h3></summary>
 <nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
 </details></section>
 
-<section id="zhHantSection"><h2>Traditional Hanzi (Taiwan)</h2><details open><summary><h3 id='zhHantTaiwan4808'>Some of the traditional Hanzi commonly used in Taiwan</h3></summary>
+<section id="zhHantSection"><h2>Traditional Hanzi (Taiwan)</h2><details open><summary id='zhHantTaiwan4808'><h3>Some of the traditional Hanzi commonly used in Taiwan</h3></summary>
 <nav><a href="#zhHantTaiwan4808">Common</a><a href="#zhHantTu">Uncommon</a><a href="#zhHantTc">Components</a></nav>
-</details><h2>Others (Taiwan)</h2><details open><summary><h3 id='zhHantTu'>Some other Hanzi as in Taiwan</h3></summary>
+</details><h2>Others (Taiwan)</h2><details open><summary id='zhHantTu'><h3>Some other Hanzi as in Taiwan</h3></summary>
 <nav><a href="#zhHantTaiwan4808">Common</a><a href="#zhHantTu">Uncommon</a><a href="#zhHantTc">Components</a></nav>
-</details><details open><summary><h3 id='zhHantTc'>Some components as in Taiwan</h3></summary>
+</details><details open><summary id='zhHantTc'><h3>Some components as in Taiwan</h3></summary>
 <nav><a href="#zhHantTaiwan4808">Common</a><a href="#zhHantTu">Uncommon</a><a href="#zhHantTc">Components</a></nav>
 </details></section>
 </main>
@@ -961,8 +970,7 @@ function doBack()
 				focusByKeyboard=1;
 				if(b==document.activeElement)
 				{
-					// since b has the focus already, do manually scrollIntoView() and doFocus()
-					b.scrollIntoView();
+					// since b has the focus already, do manually doFocus()
 					doFocus(b);
 				}
 				else b.focus();
@@ -1014,8 +1022,8 @@ function magic(ev,keyboardAction=0)
 	// if already a selection of more than one char and click, does nothing
 	//	if the user clicks on a char, let the user to unselect the selection
 	//	if the user tried to select something, let the user to select something
-	if(s&&!isExactlyOneChar(s.trim())&&(ev.type=="click")) return;
-	// if no selection when using arrows, does nothing
+	if(s&&(ev.type=="click")) return;
+	// if no selection or selection of several characters when using arrows, does nothing
 	if(!isExactlyOneChar(s.trim())&&(ev.type!="click")) return;
 	let t=ev.target.childNodes[0];
 	let tt=t.textContent;
@@ -1113,7 +1121,7 @@ function endPopulateChars(langLabel)
 		let langIso=langToIso(langLabel);
 		for(let qis of qi[langLabel])
 		{
-			e=document.querySelector('details:has(summary h3[id="'+lcFirst(langLabel)+ucFirst(qis[0])+'"])');
+			e=document.querySelector('details:has(summary[id="'+lcFirst(langLabel)+ucFirst(qis[0])+'"])');
 			if(e)
 			{
 				let nav=e.querySelector('nav');

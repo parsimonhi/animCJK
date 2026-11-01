@@ -10,11 +10,16 @@
 	--len:min(0.5rem,2.5vw);
 }
 * {max-width:100%;overflow-wrap:anywhere;}
+:focus-visible
+{
+	outline:2px solid #07f;
+	outline-offset:1px;
+}
 body {font-family:sans-serif;}
 h1 {font-size:1.75rem;}
 h2 {font-size:1.50rem;}
 h3 {font-size:1.25rem;}
-h1,footer
+header,footer
 {
 	max-width:32rem;
 	margin:0 auto;
@@ -40,7 +45,7 @@ li
 }
 a {color:#000;}
 a:visited {color:#666;}
-footer a
+header a,footer a
 {
 	display:inline-block;
 	margin:0 var(--len) var(--len) 0;
@@ -53,6 +58,9 @@ footer a
 <body>
 <header>
 <h1>AnimCJK Sample selector</h1>
+<nav>
+<a href="../">Home</a>
+</nav>
 </header>
 <main>
 <h2>Basic samples</h2>
@@ -82,8 +90,8 @@ footer a
 </main>
 <footer>
 <nav>
-<span><a href="../">Home</a></span>
-<span><a href="../licenses/COPYING.txt">Licenses</a></span>
+<a href="../">Home</a>
+<a href="../licenses/COPYING.txt">Licenses</a>
 </nav>
 </footer>
 </body>

@@ -1,10 +1,17 @@
-:root {--len:min(0.5rem,2.5vw);}
+:root
+{
+	--len:min(0.5rem,2.5vw);
+	--focus-color:#07f;
+}
 * {max-width:100%;overflow-wrap:anywhere;}
 :focus-visible
 {
-	outline:2px solid #07f7;
+	outline:2px solid var(--focus-color);
 	outline-offset:1px;
 }
+input{accent-color:var(--focus-color);}
+.dataSelector input[name="data"]:focus-visible {border:1px solid #0000;}
+.dataSelector button[name="run"]:focus-visible {background:var(--focus-color)}
 body
 {
 	font-family:sans-serif;
@@ -14,7 +21,7 @@ body
 }
 h1 {font-size:1.75rem;}
 h2 {font-size:1.50rem;}
-h2 {font-size:1.25rem;}
+h3 {font-size:1.25rem;}
 a
 {
 	color:#000;
@@ -88,6 +95,7 @@ a
 	color:#fff;
 	border-radius:50%;
 }
+.dataSelector button[name="run"]:hover {cursor:pointer;}
 .charListSelector h2
 {
 	margin:calc(var(--len) * 2) 0;

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
@@ -25,14 +25,13 @@ function debug(s,a)
 function status(s) {document.getElementById('status').innerHTML=s;}
 function changeDir(dir)
 {
-	let newLang,html;
-	html=document.querySelector('html');
+	let newLang,dataE;
+	dataE=document.getElementById('data');
 	svgsDir=dir;
-	if(dir=="../svgsJa") html.setAttribute("lang","ja");
-	else if(dir=="../svgsKo") html.setAttribute("lang","ko");
-	else if(dir=="../svgsZhHans") html.setAttribute("lang","zh-Hans");
-	else if(dir=="../svgsZhHant") html.setAttribute("lang","zh-Hant");
-	else html.setAttribute("lang","zh");
+	if(dir=="../svgsJa") dataE.setAttribute("lang","ja");
+	else if(dir=="../svgsKo") dataE.setAttribute("lang","ko");
+	else if(dir=="../svgsZhHant") dataE.setAttribute("lang","zh-Hant");
+	else dataE.setAttribute("lang","zh-Hans");
 	status('Push "Create" button to generate the images!');
 }
 function showAnimatedGif(image,background,dec)
@@ -186,9 +185,10 @@ function ok()
 * {max-width:100%;overflow-wrap:anywhere;}
 :focus-visible
 {
-	outline:2px solid #07f7;
+	outline:2px solid #07f;
 	outline-offset:1px;
 }
+#data:focus-visible {border:1px solid #0000;}
 body
 {
 	font-family:sans-serif;
@@ -217,6 +217,7 @@ a
 	display:inline-block;
 	width:min(10rem,calc(100% - 5 * var(--len)));
 	margin:calc(var(--len) * 2) 0;
+	border:1px solid #000;
 }
 #a,#b,#c,#d {width:min(100%,16em);}
 #e {width:min(100%,32em);}
@@ -244,6 +245,10 @@ input {font-size:1rem;}
 <body>
 <header>
 <h1>Image factory</h1>
+<nav>
+<a href="./">Sample selector</a>
+<a href="../">Home</a>
+</nav>
 </header>
 <main>
 <fieldset class="dirSelector">
@@ -255,7 +260,7 @@ input {font-size:1rem;}
 <label><input checked type="radio" name="changeDir" value="5" onclick="changeDir('svgs')"> svgs (from MakeMeAHanzi, just for testing, contains only 鼠貓牛虎兔龍蛇馬羊猴雞狗)</label>
 </fieldset>
 <fieldset class="dataSelector">
-<input id="data" type="text" maxlength="1" value="馬" placeholder="Enter a character here">
+<input id="data" type="text" maxlength="1" value="馬" placeholder="Enter data">
 <input type="button" value="Create" onclick="ok()">
 </fieldset>
 <p id="status">Push "Create" button to generate the images!</p>
@@ -280,9 +285,11 @@ using a tool such as gifsicle -->
 <p id="debug"></p>
 </main>
 <footer id="bottom">
+<nav>
 <a href="./">Sample selector</a>
 <a href="../licenses/COPYING.txt">Licenses</a>
-<a href="../"><span>Home</span></a>
+<a href="../">Home</a>
+</nav>
 </footer>
 </body>
 </html>
