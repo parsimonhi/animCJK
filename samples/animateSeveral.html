@@ -13,7 +13,7 @@ input[name="data"]
 	display:block;
 	box-sizing:border-box;
 	width:100%;
-	margin:0 0.5rem 0 0;
+	margin:0 var(--len) 0 0;
 }
 button[name="run"]
 {
@@ -26,19 +26,18 @@ button[name="run"]
 	list-style-type:none;
 	margin:0;
 	padding:0;
-	gap:0.125rem;
+	gap:var(--len);
 }
 #output li
 {
 	display:inline-flex;
-	width:min(16rem,80vw);
-	height:min(16rem,80vw);
-	border:1px solid #ccc;
+	width:min(16rem,100%);
+	aspect-ratio:1;
+	border:1px solid #000;
 	margin:0;
 	padding:0;	justify-content:center;
 	align-items:center;
 	text-align:center;
-
 	vertical-align:top;
 }
 #output li:empty:not(:first-of-type)
@@ -65,9 +64,9 @@ button[name="run"]
 <a href="../"><span>Home</span></a>
 </nav>
 <fieldset class="langSelector"></fieldset>
-<fieldset class="dataSelector"></fieldset>
 <p>Add several characters in the input field above
 or click on some characters in the bottom list.</p>
+<fieldset class="dataSelector"></fieldset>
 <ul id="output"></ul>
 <fieldset class="charListSelector"></fieldset>
 </main>
@@ -80,13 +79,11 @@ or click on some characters in the bottom list.</p>
 </nav>
 </footer>
 <script>
-let ready,store,nmax;
-if(window.location.hostname=="localhost") nmax=1000;
-else nmax=10;
+let ready,store,nmax=(window.location.hostname=="localhost")?1000:10;
 function getLangAcjk()
 {
 	let e=document.querySelector('[name="lang"]:checked');
-	return e?e.value:"Ja";
+	return e?e.value:"ZhHans";
 }
 function cleanDataForSeveral(s)
 {

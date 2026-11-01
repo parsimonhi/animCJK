@@ -16,7 +16,8 @@ h2 {font-size:1.50rem;}
 h3 {font-size:1.25rem;}
 h1,footer
 {
-	text-align:center;
+	max-width:32rem;
+	margin:0 auto;
 }
 h2
 {
@@ -39,8 +40,12 @@ li
 }
 a {color:#000;}
 a:visited {color:#666;}
-footer nav>*:not(:last-of-type):after {content:" -";}
-
+footer a
+{
+	display:inline-block;
+	margin:0 var(--len) var(--len) 0;
+	padding:0;
+}
 </style>
 <title>AnimCJK Sample selector</title>
 <link rel="icon" type="image/svg+xml" href="../animCJKIcon.svg">

@@ -11,17 +11,18 @@ of a Chinese, Japanese or Korean character displayed with an animCJK svg file">
 :root {--size:256;}
 .specificSelector
 {
-	margin:0.5rem 0;
+	margin:var(--len) 0;
 	padding:0;
 	border:0;
 }
 #a
 {
+	box-sizing:border-box;
 	display:flex;
 	justify-content:center;
 	align-items:center;
 	text-align:center;
-	margin:0.5rem 0;
+	margin:var(--len) 0;
 	padding:0;
 }
 #a:not(:empty)
@@ -37,7 +38,7 @@ of a Chinese, Japanese or Korean character displayed with an animCJK svg file">
 pre
 {
 	border:1px solid #ccc;
-	padding:0.125rem;
+	padding:calc(var(--len) / 4);
 	white-space:pre-wrap;
 }
 .specificSelector input[name="size"]
@@ -51,7 +52,7 @@ pre
 {
 	font-size:1rem;
 	display:flex;
-	margin:0 auto;
+	margin:0;
 	width:min(14rem,100%);
 	justify-content:space-between;
 }
@@ -73,7 +74,6 @@ pre
 <a href="../"><span>Home</span></a>
 </nav>
 <fieldset class="langSelector"></fieldset>
-<fieldset class="dataSelector"></fieldset>
 <fieldset class="specificSelector">
 <label>
 <span>Size:</span>
@@ -89,6 +89,7 @@ pre
 <option value="896" label="896"></option>
 </datalist>
 </fieldset>
+<fieldset class="dataSelector"></fieldset>
 <figure id="a"></figure>
 <details>
 <summary>SVG code</summary>
@@ -118,7 +119,7 @@ function updateCodeTag()
 function getLangAcjk()
 {
 	let e=document.querySelector('[name="lang"]:checked');
-	return e?e.value:"Ja";
+	return e?e.value:"ZhHans";
 }
 function cleanDataForOne(s)
 {

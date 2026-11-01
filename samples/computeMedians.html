@@ -29,7 +29,7 @@ representing a Chinese, Japanese or Korean character">
 {
 	width:var(--L1);
 	height:var(--L1);
-	border:1px solid #0003;
+	border:1px solid #000;
 	margin:0;
 	padding:0;
 }
@@ -69,7 +69,7 @@ representing a Chinese, Japanese or Korean character">
 .strokeContainer
 {
 	display:inline-block;
-	border:1px solid #0003;
+	border:1px solid #000;
 	margin:calc(var(--len) / 2);
 	padding:0;
 }
@@ -128,7 +128,7 @@ representing a Chinese, Japanese or Korean character">
 function getLangAcjk()
 {
 	let e=document.querySelector('[name="lang"]:checked');
-	return e?e.value:"Ja";
+	return e?e.value:"ZhHans";
 }
 function replaceVHbyL(d)
 {

@@ -21,7 +21,7 @@ body
 	font-family:sans-serif;
 	background:#fff;
 	margin:0;
-	padding:var(--len);
+	padding:0;
 }
 body:has(dialog[open])
 {
@@ -52,7 +52,12 @@ dialog li
 	padding:0;
 }
 a {color:#000;}
-a {display:inline-block;margin:0.25rem;padding:0.25rem;}
+a {display:inline-block;margin:0 var(--len) var(--len) 0;}
+header
+{
+	position:relative;
+	min-height:calc(var(--len) * 12);
+}
 #accessibilityBtn
 {
 	border:0;
@@ -62,6 +67,8 @@ a {display:inline-block;margin:0.25rem;padding:0.25rem;}
 	width:calc(var(--len) * 8);
 	height:calc(var(--len) * 8);
 	position:absolute;
+	top:calc(var(--len) * 2);
+	left:calc(var(--len) * 2);
 }
 #accessibilityBtn img
 {
@@ -74,6 +81,7 @@ h2 {font-size:1.50rem;margin:calc(var(--len) *2) 0;padding:0 var(--len);}
 h3 {font-size:1.25rem;margin:0;padding:var(--len) 0;}
 h1,nav,fieldset,#a {text-align:center;}
 nav {margin:var(--len) 0;}
+main{margin:var(--len);};
 h2
 {
 	border-left:var(--len) solid #c00;
@@ -140,7 +148,7 @@ section.description p {margin:var(--len);}
 	font-family:sans-serif;
 	height:3rem;
 	line-height:3rem;
-	margin:0 auto;
+	margin:var(--len) auto;
 	padding:0;
 	border:1px solid #0003;
 }
@@ -156,7 +164,7 @@ section.description p {margin:var(--len);}
 	border:0;
 	background:#c00;
 	color:#fff;
-	border-radius:0.5rem;
+	border-radius:50%;
 }
 button:hover {cursor:pointer;}
 fieldset {border:0;margin:var(--len) 0;padding:0;}
@@ -164,7 +172,7 @@ label {display:inline-block;margin:0;white-space:nowrap;}
 
 label:has([name="size"]){display:block;white-space:normal;}
 input[type="radio"],
-input[type="checkbox"] {margin:0 0.25rem;}
+input[type="checkbox"] {margin:0 calc(var(--len) / 2);}
 [name="section"]+span {display:inline-block;}
 label:not(:last-child) [name="section"]+span::first-letter {color:#c00;}
 
@@ -221,7 +229,7 @@ body:has([name="dico"]:checked) #output dl
 body:has([name="dico"]:checked) #output dt:not(:first-of-type)
 {
 	float:left;
-	margin-right:0.25rem;
+	margin-right:calc(var(--len) / 2);
 }
 /* need to clear:both (otherwise see for instance what appends with a stroke) */
 body:has([name="dico"]:checked) #output dd::after
@@ -279,7 +287,7 @@ nav:has(.skipper)
 .skipper img {width:2rem;height:auto;}
 @media (max-width:25rem)
 {
-	#accessibilityBtn {position:initial;}
+	header {padding-top:calc(var(--len) * 8);}
 }
 </style>
 <title>AnimCJK Demo</title>
@@ -323,10 +331,10 @@ nav:has(.skipper)
 </datalist>
 </fieldset>
 <fieldset>
-<input autocomplete="off" id="data" type="text" value="" maxlength="2" placeholder="Enter data">
 <p class="important instruction"><span class="very-important">Enter a character</span>
-in the data field above or <span class="very-important">click on a character</span>
+in the data field below or <span class="very-important">click on a character</span>
 in the lists at the bottom of the page!</p>
+<input autocomplete="off" id="data" type="text" value="" maxlength="2" placeholder="Enter data">
 <button id="ok" type="button">Animate</button>
 </fieldset>
 <ul id="output"></ul>
@@ -676,7 +684,7 @@ function doIt(c)
 {
 	document.getElementById("data").value=c;
 	ok();
-	document.getElementById("ok").scrollIntoView();
+	document.getElementById("data").scrollIntoView();
 }
 // -----------------
 // inits and changes

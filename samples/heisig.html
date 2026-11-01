@@ -10,7 +10,7 @@
 :root
 {
 	--len:min(0.5rem,2.5vw);
-	--size:min(6.5rem,32.5vw);
+	--size:min(6.5rem,33vw);
 }
 * {max-width:100%;overflow-wrap:anywhere;}
 body{font-family:sans-serif;margin:0;padding:var(--len);}
@@ -23,6 +23,9 @@ nav
 a
 {
 	color:#000;
+	display:inline-block;
+	margin:0 var(--len) var(--len) 0;
+	padding:0;
 }
 table,tr,th,td,caption{box-sizing:border-box;}
 table
@@ -47,6 +50,7 @@ svg
 {
 	display:block;
 	width:100%;
+	max-width:var(--size);
 	height:auto;
 	margin:auto;
 	fill:crimson;
@@ -55,10 +59,6 @@ td.C,td.A
 {
 	font-size:var(--size);
 	width:calc(var(--size) * 1.5);
-}
-td.C
-{
-	font-family:serif;
 }
 th.C,
 td.C
@@ -89,7 +89,7 @@ th.A
 		display:flex;
 		justify-content:center;
 		align-items:center;
-		padding:calc(0.25 * var(--len)) calc(0.125 * var(--len));
+		padding:calc(0.125 * var(--len));
 	}
 	th:not(:last-of-type),td:not(:last-of-type)
 	{
@@ -104,7 +104,6 @@ th.A
 	{
 		grid-column:1;
 		width:100%;
-		height:100%;
 		border-right:0;
 	}
 	th.A,td.A

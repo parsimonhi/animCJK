@@ -11,14 +11,15 @@ and colorize the stroke currently drawn in a different color">
 <style>
 #a
 {
+	box-sizing:border-box;
 	display:flex;
 	justify-content:center;
 	align-items:center;
 	text-align:center;
-	width:min(16rem,80vw);
-	height:min(16rem,80vw);
-	border:1px solid #ccc;
-	margin:0.5rem 0;
+	width:min(16rem,100%);
+	aspect-ratio:1;
+	border:1px solid #000;
+	margin:var(--len) 0;
 	padding:0;
 	resize:both;
 	overflow:auto;
@@ -26,13 +27,11 @@ and colorize the stroke currently drawn in a different color">
 #a svg
 {
 	display:block;
-	max-width:100%;
-	max-height:100%;
 }
 pre
 {
 	border:1px solid #ccc;
-	padding:0.125rem;
+	padding:calc(var(--len) / 4);
 	white-space:pre-wrap;
 }
 </style>
@@ -88,7 +87,7 @@ function cleanDataForOne(s)
 function getLangAcjk()
 {
 	let e=document.querySelector('[name="lang"]:checked');
-	return e?e.value:"Ja";
+	return e?e.value:"ZhHans";
 }
 function updateInfo(s)
 {

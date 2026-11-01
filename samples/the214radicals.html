@@ -10,7 +10,7 @@
 :root
 {
 	--len:min(0.5rem,2.5vw);
-	--size:min(6.5rem,32.5vw);
+	--size:min(6.5rem,80vw);
 }
 * {max-width:100%;overflow-wrap:anywhere;}
 body{font-family:sans-serif;margin:0;padding:var(--len);}
@@ -23,6 +23,9 @@ nav
 a
 {
 	color:#000;
+	display:inline-block;
+	margin:0 var(--len) var(--len) 0;
+	padding:0;
 }
 table,tr,th,td,caption{box-sizing:border-box;}
 table
@@ -47,6 +50,7 @@ svg
 {
 	display:block;
 	width:100%;
+	max-width:var(--size);
 	height:auto;
 	margin:auto;
 	fill:crimson;
@@ -62,7 +66,6 @@ th.C, td.C
 td.C
 {
 	font-size:var(--size);
-	font-family:serif;
 }
 th.A
 {
@@ -70,22 +73,18 @@ th.A
 }
 th.M, td.M, th.C, td.C, th.A, td.A
 {
-	width:var(--size);
+	width:calc(var(--size) * 1.5);
 }
-@media screen and (max-width: 22.5rem)
+@media screen and (max-width: 35em)
 {
-	:root{--size:calc((100vw - var(--len) * 2) / 3);}
-	.N {display:none;}
+	.N,.C {display:none;}
 }
-@media screen and (max-width: 20rem)
+@media screen and (max-width: 17.5rem)
 {
-	:root{--size:calc((100vw - var(--len) * 2) / 2);}
-	.C {display:none;}
-}
-@media screen and (max-width: 15rem)
-{
-	:root{--size:calc((100vw - var(--len) * 2));}
-	tr{display:flex;flex-direction:column;margin-bottom:var(--len);}
+	table,
+	table caption{display:block;}
+	tr{display:flex;flex-direction:column;margin-bottom:var(--len);min-width:100%;}
+	th.M, td.M, th.A, td.A {width:100%;}
 	th,td{padding:calc(0.25 * var(--len)) 0;}
 	th:not(:last-of-type),td:not(:last-of-type){border-bottom:0;}
 }
@@ -95,7 +94,6 @@ th.M, td.M, th.C, td.C, th.A, td.A
 <body id="top">
 <header>
 <h1>The 214 radicals</h1>
-<p>zh-Hans version</p>
 </header>
 <main>
 <nav class="link">
@@ -104,6 +102,7 @@ th.M, td.M, th.C, td.C, th.A, td.A
 <a href="./"><span>Sample selector</span></a>
 <a href="../"><span>Home</span></a>
 </nav>
+<p>zh-Hans version</p>
 </main>
 <footer id="bottom">
 <nav class="link">

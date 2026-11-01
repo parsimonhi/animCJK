@@ -11,8 +11,9 @@ displaying a card of the character with additional data as its description and r
 <style>
 #card
 {
+	box-sizing:border-box;
 	display:block;
-	width:calc(min(16rem,80vw) + 2px);
+	width:min(16rem,100%);
 	margin:var(--len) 0;
 }
 #card figure
@@ -28,9 +29,10 @@ displaying a card of the character with additional data as its description and r
 }
 #card figure svg
 {
-	width:min(16rem,80vw);
-	height:min(16rem,80vw);
-	border:1px solid #ccc;
+	box-sizing:border-box;
+	display:block;
+	width:min(16rem,100%);
+	border:1px solid #000;
 }
 #card figure svg text
 {
@@ -161,7 +163,7 @@ let dicos={ZhHans:null,Ja:null,Ko:null,ZhHant:null}; // set by selectorAcjk.js
 function getLangAcjk()
 {
 	let e=document.querySelector('[name="lang"]:checked');
-	return e?e.value:"Ja";
+	return e?e.value:"ZhHans";
 }
 function getLangIso()
 {

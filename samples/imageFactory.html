@@ -203,11 +203,14 @@ nav
 {
 	display:flex;
 	flex-wrap:wrap;
-	gap:0.25rem;
+	gap:calc(var(--len) / 2);
 }
 a
 {
 	color:#000;
+	display:inline-block;
+	margin:0 var(--len) var(--len) 0;
+	padding:0;
 }
 #data
 {

@@ -9,10 +9,11 @@ html
 	a[href="#bottom"],
 	a[href="#top"]
 	{
-		--ws:min(1rem,5vmin);
+		--ws:min(1rem,5vw);
 		font-size:var(--ws);
 		position:fixed;
 		z-index:99;
+		top:var(--ws);
 		right:var(--ws);
 		width:calc(4 * var(--ws));
 		height:calc(4 * var(--ws));
@@ -32,7 +33,6 @@ html
 		animation-range:45% 50%;
 		scale:1;
 		opacity:1;
-		top:calc(50% - 2 * var(--ws));
 	}
 	a[href="#top"]
 	{
@@ -42,6 +42,5 @@ html
 		animation-range:50% 55%;
 		scale:0;
 		opacity:0;
-		bottom:calc(50% - 2 * var(--ws));
 	}
 }

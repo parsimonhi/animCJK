@@ -19,20 +19,8 @@ a
 {
 	color:#000;
 	display:inline-block;
-	margin:0.25rem;
-	padding:0.25rem;
-}
-input[name="data"]
-{
-	display:inline-block;
-	width:min(10rem,calc(100% - 5 * var(--len)));
-	margin:var(--len);
-}
-button[name="run"]
-{
-	display:inline-block;
-	font-size:1rem;
-	margin:var(--len);
+	margin:0 var(--len) var(--len) 0;
+	padding:0;
 }
 .langSelector label
 {
@@ -40,7 +28,7 @@ button[name="run"]
 	width:max-content;
 	max-width:100%;
 }
-.langSelector, .dataSelector, fieldset
+.langSelector, .dataSelector, .charListSelector, .charListSelector fieldset
 {
 	margin:var(--len) 0;
 	padding:0;
@@ -61,6 +49,44 @@ button[name="run"]
 .langSelector label:not(:last-child) span::first-letter
 {
 	color:#c00;
+}
+.dataSelector
+{
+	max-width:max-content;
+}
+.dataSelector, .dataSelector label
+{
+	display:flex;
+	flex-direction:column;
+}
+.dataSelector input[name="data"],
+.dataSelector button[name="run"]
+{
+	box-sizing:border-box;
+}
+.dataSelector input[name="data"]
+{
+	width:min(16rem,100%);
+	border:1px solid #000;
+	font-size:1.5rem;
+	margin:var(--len) 0;
+}
+.dataSelector button[name="run"]
+{
+	-webkit-appearance:none;
+	appearance:none;
+	box-sizing:border-box;
+	display:block;
+	margin:var(--len) 0 var(--len) calc((min(16rem,100%) - min(8rem,100%)) / 2);
+	padding:0;
+	font-size:1.5rem;
+	width:min(8rem,100%);
+	height:4rem;
+	line-height:4rem;
+	border:0;
+	background:#c00;
+	color:#fff;
+	border-radius:50%;
 }
 .charListSelector h2
 {
@@ -98,3 +124,4 @@ body:has([type="Radio"][value="ZhHans"]:checked) .charListSelector section:not([
 body:has([type="Radio"][value="Ja"]:checked) .charListSelector section:not([data-lang="Ja"]){display:none;}
 body:has([type="Radio"][value="Ko"]:checked) .charListSelector section:not([data-lang="Ko"]){display:none;}
 body:has([type="Radio"][value="ZhHant"]:checked) .charListSelector section:not([data-lang="ZhHant"]){display:none;}
+

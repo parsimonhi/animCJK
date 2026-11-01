@@ -10,28 +10,33 @@ representing a Chinese, Japanese or Korean character">
 <style>
 .strokeWidthSelector
 {
-	margin:0.5rem 0;
+	margin:var(--len) 0;
 	padding:0;
 	border:0;
 }
 .strokeWidthSelector input[name="strokeWidth"]
 {
 	display:block;
-	width:min(14rem,80vw);
+	width:min(14rem,100%);
 }
 #c
 {
-	margin:0.5rem 0 0 0;
+	display:flex;
+	width:min(16rem,100%);
+	margin:var(--len) 0;
 	list-style-type:none;
 	padding:0;
+	gap:var(--len);
+	flex-wrap:wrap;
 }
 #c>*
 {
-	display:inline-block;
-	width:min(16rem,80vw);
-	height:min(16rem,80vw);
-	border:1px solid #ccc;
-	margin:0.125rem;
+	box-sizing:border-box;
+	width:min(16rem,100%);
+	aspect-ratio:1;
+	border:1px solid #000;
+	margin:var(--len) 0;
+	padding:0;
 	vertical-align:top;
 }
 #r path[id]
@@ -69,12 +74,12 @@ The paths obtained can also be used as medians.
 See also <a href="https://towardsdatascience.com/b%C3%A9zier-interpolation-8033e9a262c2">Bézier Interpolation</a>
 and <a href="https://en.wikipedia.org/wiki/Tridiagonal_matrix_algorithm">Tridiagonal matrix algorithm</a>.
 </p>
-<fieldset class="dataSelector"></fieldset>
 <fieldset class="strokeWidthSelector">
 <label>Stroke-width:
 <input type="range" name="strokeWidth" min="1" max="100" value="46" step="9" onclick="doRange()">
 </label>
 </fieldset>
+<fieldset class="dataSelector"></fieldset>
 <ul id="c">
 <li id="s"></li>
 <li id="r"></li>
@@ -95,7 +100,7 @@ and <a href="https://en.wikipedia.org/wiki/Tridiagonal_matrix_algorithm">Tridiag
 function getLangAcjk()
 {
 	let e=document.querySelector('[name="lang"]:checked');
-	return e?e.value:"Ja";
+	return e?e.value:"ZhHans";
 }
 function getStrokeWidth()
 {
