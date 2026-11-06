@@ -29,15 +29,17 @@ of a Chinese, Japanese or Korean character displayed with an animCJK svg file">
 {
 	width:calc(var(--size) * 1px);
 	height:calc(var(--size) * 1px);
-	border:1px solid #ccc;
+	border:1px solid #000;
 }
 #a svg
 {
 	display:block;
+	max-width:100%;
+	max-height:100%;
 }
 pre
 {
-	border:1px solid #ccc;
+	border:1px solid #000;
 	padding:calc(var(--len) / 4);
 	white-space:pre-wrap;
 }
@@ -80,13 +82,13 @@ pre
 <input autocomplete="off" name="size" type="range" list="sizeMarks" value="256" step="64" min="64" max="960">
 </label>
 <datalist id="sizeMarks">
-<option value="128" label="128"></option>
+<option value="128" label="128">128</option>
 <option value="256"></option>
 <option value="384"></option>
-<option value="512" label="512"></option>
+<option value="512" label="512">512</option>
 <option value="640"></option>
 <option value="768"></option>
-<option value="896" label="896"></option>
+<option value="896" label="896">896</option>
 </datalist>
 </fieldset>
 <fieldset class="dataSelector"></fieldset>

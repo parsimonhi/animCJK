@@ -1,1199 +1,1524 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="description" content="To draw Kana, Kanji, Hanja and Hanzi
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0">
+	<meta name="description" content="To draw Kana, Kanji, Hanja and Hanzi
 stroke by stroke using AnimCJK SVG files">
-<link rel="stylesheet" href="samples/_css/topBottom.css" type="text/css">
-<style>
-:root
-{
-	--highlight-color:#c00;
-	--focus-color:#07f;
-	--selection-color:#bdf;
-	--speed:1;
-	--size:256px;
-	--len:min(0.5rem,2.5vw);
-}
-.charList::selection
-{
-	background:var(--selection-color);
-}
-* {max-width:100%;overflow-wrap:anywhere;}
-:focus-visible {outline:2px solid var(--focus-color);outline-offset:1px;}
-.charList:focus-visible,#data:focus-visible{border:1px solid #0000;}
-#ok:focus-visible{background:var(--focus-color);}
-input{accent-color:var(--focus-color);}
-body
-{
-	font-family:sans-serif;
-	background:#fff;
-	margin:0;
-	padding:0;
-}
-body:has(dialog[open])
-{
-	overflow:hidden; /* prevent body to be scrolled when a dialog is open */
-}
-dialog::backdrop
-{
-	background-color:#3333;
-}
-dialog
-{
-	padding:calc(var(--len) * 2);
-}
-dialog h2[tabindex="0"]
-{
-	outline:0;
-}
-dialog h2 {font-size:1.5rem;margin:calc(var(--len) *2) 0;padding:0 var(--len);}
-dialog h3 {font-size:1.25rem;margin:0;padding:var(--len) 0;}
-dialog ul
-{
-	margin:calc(var(--len) * 2) 0;
-	padding:0 0 0 calc(var(--len) * 4);
-}
-dialog li
-{
-	margin:0;
-	padding:0;
-}
-a {color:#000;}
-a {display:inline-block;margin:0 var(--len) var(--len) 0;}
-header
-{
-	position:relative;
-	min-height:calc(var(--len) * 12);
-}
-#accessibilityBtn
-{
-	border:0;
-	background:#0000;
-	margin:0;
-	padding:0;
-	width:calc(var(--len) * 8);
-	height:calc(var(--len) * 8);
-	position:absolute;
-	top:calc(var(--len) * 2);
-	left:calc(var(--len) * 2);
-}
-#accessibilityBtn img
-{
-	display:block;
-	width:100%;
-	height:100%;
-}
-h1 {font-size:1.75rem;margin:0;padding:var(--len) 0;}
-h2 {font-size:1.50rem;margin:calc(var(--len) *2) 0;padding:0 var(--len);}
-h3 {font-size:1.25rem;margin:0;padding:var(--len) 0;}
-h1,nav,fieldset,#a {text-align:center;}
-nav {margin:var(--len) 0;}
-main {margin:var(--len);}
-h2
-{
-	border-left:var(--len) solid #c00;
-}
-summary
-{
-	margin:0;
-	padding:0;
-	width:max-content;
-	max-width:100%;
-}
-summary h3
-{
-	display:inline;
-	margin:0;
-	padding:var(--len);
-}
-.important {color:#000;}
-.very-important {color:#c00;}
-p.instruction {padding:0 var(--len);}
-[name="size"]
-{
-	font-size:1rem;
-	display:block;
-	width:min(14rem,100%);
-	margin:0 auto;
-}
-#sizeMarks
-{
-	font-size:1rem;
-	display:flex;
-	margin:0 auto;
-	width:min(14rem,100%);
-	justify-content:space-between;
-}
-#sizeMarks option:not([label]) {display:none;}
-#sizeMarks option {width:min(3rem,25%);text-align:center;margin:0;padding:0;font-size:0.875rem;}
+	<link rel="stylesheet" href="samples/_css/topBottom.css" type="text/css">
+	<style>
+		:root {
+			--highlight-color: #c00;
+			--focus-color: #07f;
+			--selection-color: #bdf;
+			--speed: 1;
+			--size: 256;
+			--len: min(0.5rem, 2.5vw);
+		}
 
-#jaSection,
-#koSection,
-#zhHansSection,
-#zhHantSection {display:none;}
-body:has([name="section"][value="Ja"]:checked) #jaSection {display:block;}
-body:has([name="section"][value="Ko"]:checked) #koSection {display:block;}
-body:has([name="section"][value="ZhHans"]:checked) #zhHansSection {display:block;}
-body:has([name="section"][value="ZhHant"]:checked) #zhHantSection {display:block;}
-section.description p {margin:var(--len);}
-.charList
-{
-	cursor:pointer;
-	color:#000;
-	padding:var(--len);
-	margin:var(--len);
-	font-size:1.75rem;
-	border:1px solid #000;
-	text-align:left;
-}
-#data
-{
-	display:block;
-	text-align:center;
-	width:calc(min(16rem,100%) - 2px);
-	font-size:1.75rem;
-	font-family:sans-serif;
-	height:3rem;
-	line-height:3rem;
-	margin:var(--len) auto;
-	padding:0;
-	border:1px solid #000;
-}
-#ok
-{
-	-webkit-appearance:none;
-	appearance:none;
-	margin-top:var(--len);
-	padding:0 calc(3 * var(--len));
-	font-size:min(1.5rem,calc(1rem + 2vw));
-	height:3.5rem;
-	line-height:3.5rem;
-	border:0;
-	background:#c00;
-	color:#fff;
-	border-radius:50%;
-}
-button:hover {cursor:pointer;}
-fieldset {border:0;margin:var(--len) 0;padding:0;}
-label {display:inline-block;margin:0;white-space:nowrap;}
+		.charList::selection {
+			background: var(--selection-color);
+		}
 
-label:has([name="size"]){display:block;white-space:normal;}
-input[type="radio"],
-input[type="checkbox"] {margin:0 calc(var(--len) / 2);}
-[name="section"]+span {display:inline-block;}
-label:not(:last-child) [name="section"]+span::first-letter {color:#c00;}
+		* {
+			max-width: 100%;
+			overflow-wrap: anywhere;
+		}
 
-#output
-{
-	list-style-type:none;
-	margin:0;
-	padding:var(--len) 0;
-}
-#output li
-{
-	margin:var(--len) auto;
-	padding:0;
-	max-width:min(100%,calc(var(--size) + 2px));
-	min-width:min-content;
-}
-#output li.error
-{
-	border:1px solid #000;
-}
-#output dl, #output dt, #output dd
-{
-	margin:0;
-	padding:0;
-	min-width:min-content;
-}
-#output svg
-{
-	display:block;
-	border:1px solid #000;
-	max-width:calc(100% - 2px);
-}
-#output svg text
-{
-	fill:var(--highlight-color);
-}
-body:has([name="grid"]:checked) #output svg
-{
-	background:url('data:image/svg+xml,<svg viewBox="0 0 4 4" fill="none" stroke="%230003" xmlns="http://www.w3.org/2000/svg"><path vector-effect="non-scaling-stroke" d="M1 0V4M2 0V4M3 0V4M0 1H4M0 2H4M0 3H4M.4 .4H3.6V3.6H.4Z"/></svg>');
-}
-#output dl
-{
-	display:none;
-}
-body:has([name="dico"]:checked) #output dl
-{
-	display:block;
-	text-align:left;
-	overflow:auto;
-	margin:0;
-	padding:0;
-	line-height:1.5rem;
-}
-body:has([name="dico"]:checked) #output dt:not(:first-of-type)
-{
-	float:left;
-	margin-right:calc(var(--len) / 2);
-}
-/* need to clear:both (otherwise see for instance what appends with a stroke) */
-body:has([name="dico"]:checked) #output dd::after
-{
-	content:"";
-	clear:both;
-    display:block; 
-}
-body:has([name="dico"]:checked) #output dt:not(:first-of-type)::after
-{
-	content:":";
-}
-/* style for svg.acjk since style from svg file was removed when loading svg */
-@keyframes zk
-{
-	from {
-		stroke-dashoffset:3339;
-		stroke:#c00;
-	}
-	75% {
-		stroke-dashoffset:0;
-		stroke:#c00;
-	}
-	to {
-		stroke-dashoffset:0;
-		stroke:#000;
-	}
-}
-svg.acjk
-{
-	width:calc(var(--size));
-	height:auto;
-}
-svg.acjk path[clip-path]
-{
-	--t:0.8s;
-	animation:zk var(--t) linear forwards var(--d);
-	stroke-dasharray:3337;
-	stroke-dashoffset:3339;
-	stroke-width:128;
-	stroke-linecap:round;
-	fill:none;
-	stroke:#000;
-}
-svg.acjk path[id] {fill:#ccc;}
-body:has([name="xrays"]:checked) svg.acjk path[clip-path] {stroke:var(--highlight-color);stroke-width:6.4;}
-body:has([name="xrays"]:checked) svg.acjk path[id] {fill:#6666;}
-nav:has(.skipper)
-{
-	display:flex;
-	justify-content:center;
-	align-items:center;
-	flex-wrap:wrap;
-}
-.skipper img {width:2rem;height:auto;}
-@media (max-width:25rem)
-{
-	header {padding-top:calc(var(--len) * 8);}
-}
-</style>
-<title>AnimCJK Demo</title>
-<link rel="icon" type="image/svg+xml" href="animCJKIcon.svg">
+		:focus-visible {
+			outline: 2px solid var(--focus-color);
+			outline-offset: 1px;
+		}
+
+		.charList:focus-visible,
+		#data:focus-visible {
+			border: 1px solid #0000;
+		}
+
+		#ok:focus-visible {
+			background: var(--focus-color);
+		}
+
+		input {
+			accent-color: var(--focus-color);
+		}
+
+		body {
+			font-family: sans-serif;
+			background: #fff;
+			margin: 0;
+			padding: 0;
+		}
+
+		body:has(dialog[open]) {
+			overflow: hidden;
+			/* prevent body to be scrolled when a dialog is open */
+		}
+
+		dialog::backdrop {
+			background-color: #3333;
+		}
+
+		dialog {
+			padding: calc(var(--len) * 2);
+		}
+
+		dialog h2[tabindex="0"] {
+			outline: 0;
+		}
+
+		dialog h2 {
+			font-size: 1.5rem;
+			margin: calc(var(--len) *2) 0;
+			padding: 0 var(--len);
+		}
+
+		dialog h3 {
+			font-size: 1.25rem;
+			margin: 0;
+			padding: var(--len) 0;
+		}
+
+		dialog ul {
+			margin: calc(var(--len) * 2) 0;
+			padding: 0 0 0 calc(var(--len) * 4);
+		}
+
+		dialog li {
+			margin: 0;
+			padding: 0;
+		}
+
+		a {
+			color: #000;
+		}
+
+		a {
+			display: inline-block;
+			margin: 0 var(--len) var(--len) 0;
+		}
+
+		header {
+			position: relative;
+			min-height: calc(var(--len) * 12);
+		}
+
+		#accessibilityBtn {
+			border: 0;
+			background: #0000;
+			margin: 0;
+			padding: 0;
+			width: calc(var(--len) * 8);
+			height: calc(var(--len) * 8);
+			position: absolute;
+			top: calc(var(--len) * 2);
+			left: calc(var(--len) * 2);
+		}
+
+		#accessibilityBtn img {
+			display: block;
+			width: 100%;
+			height: 100%;
+		}
+
+		h1 {
+			font-size: 1.75rem;
+			margin: 0;
+			padding: var(--len) 0;
+		}
+
+		h2 {
+			font-size: 1.50rem;
+			margin: calc(var(--len) *2) 0;
+			padding: 0 var(--len);
+		}
+
+		h3 {
+			font-size: 1.25rem;
+			margin: 0;
+			padding: var(--len) 0;
+		}
+
+		h1,
+		nav,
+		fieldset,
+		#a {
+			text-align: center;
+		}
+
+		nav {
+			margin: var(--len) 0;
+		}
+
+		main {
+			margin: var(--len);
+		}
+
+		h2 {
+			border-left: var(--len) solid #c00;
+		}
+
+		summary {
+			margin: 0;
+			padding: 0;
+			width: max-content;
+			max-width: 100%;
+		}
+
+		summary h3 {
+			display: inline;
+			margin: 0;
+			padding: var(--len);
+		}
+
+		.important {
+			color: #000;
+		}
+
+		.very-important {
+			color: #c00;
+		}
+
+		p.instruction {
+			padding: 0 var(--len);
+		}
+
+		[name="size"] {
+			font-size: 1rem;
+			display: block;
+			width: min(14rem, 100%);
+			margin: 0 auto;
+		}
+
+		#jaSection,
+		#koSection,
+		#zhHansSection,
+		#zhHantSection {
+			display: none;
+		}
+
+		body:has([name="section"][value="Ja"]:checked) #jaSection {
+			display: block;
+		}
+
+		body:has([name="section"][value="Ko"]:checked) #koSection {
+			display: block;
+		}
+
+		body:has([name="section"][value="ZhHans"]:checked) #zhHansSection {
+			display: block;
+		}
+
+		body:has([name="section"][value="ZhHant"]:checked) #zhHantSection {
+			display: block;
+		}
+
+		section.description p {
+			margin: var(--len);
+		}
+
+		.charList {
+			cursor: pointer;
+			color: #000;
+			padding: var(--len);
+			margin: var(--len);
+			font-size: 1.75rem;
+			border: 1px solid #000;
+			text-align: left;
+		}
+
+		#data {
+			display: block;
+			text-align: center;
+			width: calc(min(16rem, 100%) - 2px);
+			font-size: 1.75rem;
+			font-family: sans-serif;
+			height: 3rem;
+			line-height: 3rem;
+			margin: var(--len) auto;
+			padding: 0;
+			border: 1px solid #000;
+		}
+
+		#ok {
+			-webkit-appearance: none;
+			appearance: none;
+			margin-top: var(--len);
+			padding: 0 calc(3 * var(--len));
+			font-size: min(1.5rem, calc(1rem + 2vw));
+			height: 3.5rem;
+			line-height: 3.5rem;
+			border: 0;
+			background: #c00;
+			color: #fff;
+			border-radius: 50%;
+		}
+
+		button:hover {
+			cursor: pointer;
+		}
+
+		fieldset {
+			border: 0;
+			margin: var(--len) 0;
+			padding: 0;
+		}
+
+		label {
+			display: inline-block;
+			margin: 0;
+			white-space: nowrap;
+		}
+
+		label:has([name="size"]) {
+			display: block;
+			white-space: normal;
+		}
+
+		input[type="radio"],
+		input[type="checkbox"] {
+			margin: 0 calc(var(--len) / 2);
+		}
+
+		[name="section"]+span {
+			display: inline-block;
+		}
+
+		label:not(:last-child) [name="section"]+span::first-letter {
+			color: #c00;
+		}
+
+		#output {
+			list-style-type: none;
+			margin: 0;
+			padding: var(--len) 0;
+		}
+
+		#output li {
+			margin: var(--len) auto;
+			padding: 0;
+			max-width: min(100%, calc(var(--size) * 1px + 2px));
+			min-width: min-content;
+		}
+
+		#output li.error {
+			border: 1px solid #000;
+		}
+
+		#output dl,
+		#output dt,
+		#output dd {
+			margin: 0;
+			padding: 0;
+			min-width: min-content;
+		}
+
+		#output svg {
+			display: block;
+			border: 1px solid #000;
+			max-width: calc(100% - 2px);
+		}
+
+		#output svg text {
+			fill: var(--highlight-color);
+		}
+
+		body:has([name="grid"]:checked) #output svg {
+			background: url('data:image/svg+xml,<svg viewBox="0 0 4 4" fill="none" stroke="%230003" xmlns="http://www.w3.org/2000/svg"><path vector-effect="non-scaling-stroke" d="M1 0V4M2 0V4M3 0V4M0 1H4M0 2H4M0 3H4M.4 .4H3.6V3.6H.4Z"/></svg>');
+		}
+
+		#output dl {
+			display: none;
+		}
+
+		body:has([name="dico"]:checked) #output dl {
+			display: block;
+			text-align: left;
+			overflow: auto;
+			margin: 0;
+			padding: 0;
+			line-height: 1.5rem;
+		}
+
+		body:has([name="dico"]:checked) #output dt:not(:first-of-type) {
+			float: left;
+			margin-right: calc(var(--len) / 2);
+		}
+
+		/* need to clear:both (otherwise see for instance what appends with a stroke) */
+		body:has([name="dico"]:checked) #output dd::after {
+			content: "";
+			clear: both;
+			display: block;
+		}
+
+		body:has([name="dico"]:checked) #output dt:not(:first-of-type)::after {
+			content: ":";
+		}
+
+		/* style for svg.acjk since style from svg file was removed when loading svg */
+		@keyframes zk {
+			from {
+				stroke-dashoffset: 3339;
+				stroke: #c00;
+			}
+
+			75% {
+				stroke-dashoffset: 0;
+				stroke: #c00;
+			}
+
+			to {
+				stroke-dashoffset: 0;
+				stroke: #000;
+			}
+		}
+
+		svg.acjk {
+			width: calc(var(--size) * 1px);
+			height: auto;
+		}
+
+		svg.acjk path[clip-path] {
+			--t: 0.8s;
+			animation: zk var(--t) linear forwards var(--d);
+			stroke-dasharray: 3337;
+			stroke-dashoffset: 3339;
+			stroke-width: 128;
+			stroke-linecap: round;
+			fill: none;
+			stroke: #000;
+		}
+
+		svg.acjk path[id] {
+			fill: #ccc;
+		}
+
+		body:has([name="xrays"]:checked) svg.acjk path[clip-path] {
+			stroke: var(--highlight-color);
+			stroke-width: 6.4;
+		}
+
+		body:has([name="xrays"]:checked) svg.acjk path[id] {
+			fill: #6666;
+		}
+
+		nav:has(.skipper) {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex-wrap: wrap;
+		}
+
+		.skipper img {
+			width: 2rem;
+			height: auto;
+		}
+
+		@media (max-width:25rem) {
+			header {
+				padding-top: calc(var(--len) * 8);
+			}
+		}
+	</style>
+	<title>AnimCJK Demo</title>
+	<link rel="icon" type="image/svg+xml" href="animCJKIcon.svg">
 </head>
+
 <body id="top">
-<header>
-<button type="button" id="accessibilityBtn">
-<img alt="Accessibility" width="32" height="32" src="images/visual-impairments.svg">
-</button>
-<h1>AnimCJK Demo</h1>
-<nav>
-<a href="https://github.com/parsimonhi/animCJK">Download</a>
-<a href="samples/">Samples</a>
-<a href="#bottom">Bottom</a>
-</nav>
-</header>
-<main>
-<fieldset>
-<label><input id="zhHansRadio" type="radio" name="section" value="ZhHans" data-lang="zh-Hans"><span>Chinese</span></label>
-<label><input id="jaRadio" type="radio" name="section" value="Ja" data-lang="ja"><span>Japanese</span></label>
-<label><input id="koRadio" type="radio" name="section" value="Ko" data-lang="ko"><span>Korean</span></label>
-<label><input id="zhHantRadio" type="radio" name="section" value="ZhHant" data-lang="zh-Hant"><span>Taiwanese</span></label>
-</fieldset>
-<fieldset>
-<label><input name="dico" type="checkbox">Dico</label>
-<label><input name="grid" type="checkbox">Grid</label>
-<label><input name="numbers" type="checkbox">Numbers</label>
-<label><input name="xrays" type="checkbox">X-rays</label>
-</fieldset>
-<fieldset>
-<label>Size <input name="size" type="range" list="sizeMarks" value="256" step="64" min="64" max="960"></label>
-<datalist id="sizeMarks">
-<option value="128" label="128"></option>
-<option value="256"></option>
-<option value="384"></option>
-<option value="512" label="512"></option>
-<option value="640"></option>
-<option value="768"></option>
-<option value="896" label="896"></option>
-</datalist>
-</fieldset>
-<fieldset>
-<p class="important instruction"><span class="very-important">Enter a character</span>
-in the data field below or <span class="very-important">click on a character</span>
-in the lists at the bottom of the page!</p>
-<input autocomplete="off" id="data" type="text" value="" maxlength="2" placeholder="Enter data">
-<button id="ok" type="button">Animate</button>
-</fieldset>
-<ul id="output"></ul>
-<section class="description">
-<h2>Description</h2>
-<p>
-AnimCJK contains SVG files to draw Chinese Hanzi,
-Japanese Kana or Kanji and Korean Hanja stroke by stroke.
-</p>
-<p>The Chinese repository contains "Commonly used Hanzi" (7000 characters)
-and other characters ("Uncommon Hanzi", "Traditional Hanzi as in China", "Components", "Bopomofo" and "Strokes").</p>
-<p>The Japanese repository contains "Kana" (177 characters),
-"Jōyō Kanji" (2136 characters), "Jinmeyō Kanji" (863 characters) and other characters ("Hyōgai Kanji", "Components" and "Strokes").</p>
-<p>The Korean repository contains some "Hanja".</p>
-<p>The Taiwanese repository contains some of the 4808 traditional Hanzi used in Taiwan, other Hanzi and some components.</p>
-<p>Note that the Hanzi don't necessarily have the same glyph or stroke order in China and Taiwan even if they share the same unicode!</p>
-</section>
+	<header>
+		<button type="button" id="accessibilityBtn">
+			<img alt="Accessibility" width="32" height="32" src="images/visual-impairments.svg">
+		</button>
+		<h1>AnimCJK Demo</h1>
+		<nav>
+			<a href="https://github.com/parsimonhi/animCJK">Download</a>
+			<a href="samples/">Samples</a>
+			<a href="#bottom">Bottom</a>
+		</nav>
+	</header>
+	<main>
+		<fieldset>
+			<label><input id="zhHansRadio" type="radio" name="section" value="ZhHans"
+					data-lang="zh-Hans"><span>Chinese</span></label>
+			<label><input id="jaRadio" type="radio" name="section" value="Ja"
+					data-lang="ja"><span>Japanese</span></label>
+			<label><input id="koRadio" type="radio" name="section" value="Ko" data-lang="ko"><span>Korean</span></label>
+			<label><input id="zhHantRadio" type="radio" name="section" value="ZhHant"
+					data-lang="zh-Hant"><span>Taiwanese</span></label>
+		</fieldset>
+		<fieldset>
+			<label><input name="dico" type="checkbox">Dico</label>
+			<label><input name="grid" type="checkbox">Grid</label>
+			<label><input name="numbers" type="checkbox">Numbers</label>
+			<label><input name="xrays" type="checkbox">X-rays</label>
+		</fieldset>
+		<fieldset>
+			<label>Size <input name="size" type="range" value="256" step="64" min="64" max="960"></label>
+		</fieldset>
+		<fieldset>
+			<p class="important instruction"><span class="very-important">Enter a character</span>
+				in the data field below or <span class="very-important">click on a character</span>
+				in the lists at the bottom of the page!</p>
+			<input autocomplete="off" id="data" type="text" value="" maxlength="2" placeholder="Enter data">
+			<button id="ok" type="button">Animate</button>
+		</fieldset>
+		<ul id="output"></ul>
+		<section class="description">
+			<h2>Description</h2>
+			<p>
+				AnimCJK contains SVG files to draw Chinese Hanzi,
+				Japanese Kana or Kanji and Korean Hanja stroke by stroke.
+			</p>
+			<p>The Chinese repository contains "Commonly used Hanzi" (7000 characters)
+				and other characters ("Uncommon Hanzi", "Traditional Hanzi as in China", "Components", "Bopomofo" and
+				"Strokes").</p>
+			<p>The Japanese repository contains "Kana" (177 characters),
+				"Jōyō Kanji" (2136 characters), "Jinmeyō Kanji" (863 characters) and other characters ("Hyōgai Kanji",
+				"Components" and "Strokes").</p>
+			<p>The Korean repository contains some "Hanja".</p>
+			<p>The Taiwanese repository contains some of the 4808 traditional Hanzi used in Taiwan, other Hanzi and some
+				components.</p>
+			<p>Note that the Hanzi don't necessarily have the same glyph or stroke order in China and Taiwan even if
+				they share the same unicode!</p>
+		</section>
 
-<section id="jaSection"><h2>Kana (Japan)</h2><details open><summary id='jaHiragana'><h3>Hiragana</h3></summary>
-<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a href="#jaGs">Strokes</a></nav>
-</details><details open><summary id='jaKatakana'><h3>Katakana</h3></summary>
-<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a href="#jaGs">Strokes</a></nav>
-</details><h2>Kanji (Japan)</h2><details open><summary id='jaG1'><h3>Grade 1</h3></summary>
-<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a href="#jaGs">Strokes</a></nav>
-</details><details open><summary id='jaG2'><h3>Grade 2</h3></summary>
-<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a href="#jaGs">Strokes</a></nav>
-</details><details open><summary id='jaG3'><h3>Grade 3</h3></summary>
-<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a href="#jaGs">Strokes</a></nav>
-</details><details open><summary id='jaG4'><h3>Grade 4</h3></summary>
-<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a href="#jaGs">Strokes</a></nav>
-</details><details open><summary id='jaG5'><h3>Grade 5</h3></summary>
-<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a href="#jaGs">Strokes</a></nav>
-</details><details open><summary id='jaG6'><h3>Grade 6</h3></summary>
-<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a href="#jaGs">Strokes</a></nav>
-</details><details open><summary id='jaG7'><h3>Junior high school</h3></summary>
-<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a href="#jaGs">Strokes</a></nav>
-</details><details open><summary id='jaG8'><h3>Jinmeiyō</h3></summary>
-<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a href="#jaGs">Strokes</a></nav>
-</details><details open><summary id='jaG9'><h3>Some Hyōgai</h3></summary>
-<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a href="#jaGs">Strokes</a></nav>
-</details><h2>Others (Japan)</h2><details open><summary id='jaGc'><h3>Some components</h3></summary>
-<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a href="#jaGs">Strokes</a></nav>
-</details><details open><summary id='jaStroke'><h3>Strokes</h3></summary>
-<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a href="#jaGs">Strokes</a></nav>
-</details></section>
+		<section id="jaSection">
+			<h2>Kana (Japan)</h2>
+			<details open>
+				<summary id='jaHiragana'>
+					<h3>Hiragana</h3>
+				</summary>
+				<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a
+						href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a
+						href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a
+						href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a
+						href="#jaGs">Strokes</a></nav>
+			</details>
+			<details open>
+				<summary id='jaKatakana'>
+					<h3>Katakana</h3>
+				</summary>
+				<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a
+						href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a
+						href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a
+						href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a
+						href="#jaGs">Strokes</a></nav>
+			</details>
+			<h2>Kanji (Japan)</h2>
+			<details open>
+				<summary id='jaG1'>
+					<h3>Grade 1</h3>
+				</summary>
+				<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a
+						href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a
+						href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a
+						href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a
+						href="#jaGs">Strokes</a></nav>
+			</details>
+			<details open>
+				<summary id='jaG2'>
+					<h3>Grade 2</h3>
+				</summary>
+				<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a
+						href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a
+						href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a
+						href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a
+						href="#jaGs">Strokes</a></nav>
+			</details>
+			<details open>
+				<summary id='jaG3'>
+					<h3>Grade 3</h3>
+				</summary>
+				<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a
+						href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a
+						href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a
+						href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a
+						href="#jaGs">Strokes</a></nav>
+			</details>
+			<details open>
+				<summary id='jaG4'>
+					<h3>Grade 4</h3>
+				</summary>
+				<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a
+						href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a
+						href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a
+						href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a
+						href="#jaGs">Strokes</a></nav>
+			</details>
+			<details open>
+				<summary id='jaG5'>
+					<h3>Grade 5</h3>
+				</summary>
+				<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a
+						href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a
+						href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a
+						href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a
+						href="#jaGs">Strokes</a></nav>
+			</details>
+			<details open>
+				<summary id='jaG6'>
+					<h3>Grade 6</h3>
+				</summary>
+				<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a
+						href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a
+						href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a
+						href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a
+						href="#jaGs">Strokes</a></nav>
+			</details>
+			<details open>
+				<summary id='jaG7'>
+					<h3>Junior high school</h3>
+				</summary>
+				<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a
+						href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a
+						href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a
+						href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a
+						href="#jaGs">Strokes</a></nav>
+			</details>
+			<details open>
+				<summary id='jaG8'>
+					<h3>Jinmeiyō</h3>
+				</summary>
+				<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a
+						href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a
+						href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a
+						href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a
+						href="#jaGs">Strokes</a></nav>
+			</details>
+			<details open>
+				<summary id='jaG9'>
+					<h3>Some Hyōgai</h3>
+				</summary>
+				<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a
+						href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a
+						href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a
+						href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a
+						href="#jaGs">Strokes</a></nav>
+			</details>
+			<h2>Others (Japan)</h2>
+			<details open>
+				<summary id='jaGc'>
+					<h3>Some components</h3>
+				</summary>
+				<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a
+						href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a
+						href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a
+						href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a
+						href="#jaGs">Strokes</a></nav>
+			</details>
+			<details open>
+				<summary id='jaStroke'>
+					<h3>Strokes</h3>
+				</summary>
+				<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a
+						href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a
+						href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a
+						href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a
+						href="#jaGs">Strokes</a></nav>
+			</details>
+		</section>
 
-<section id="koSection"><h2>Hanja (Korea)</h2><details open><summary id='koHanja8'><h3>Hanja level 8</h3></summary>
-<nav><a href="#koHanja8">Level 8</a><a href="#koHanja7">Level 7</a><a href="#koHanja6">Level 6</a><a href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a></nav>
-</details><details open><summary id='koHanja7'><h3>Hanja level 7</h3></summary>
-<nav><a href="#koHanja8">Level 8</a><a href="#koHanja7">Level 7</a><a href="#koHanja6">Level 6</a><a href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a></nav>
-</details><details open><summary id='koHanja6'><h3>Hanja level 6</h3></summary>
-<nav><a href="#koHanja8">Level 8</a><a href="#koHanja7">Level 7</a><a href="#koHanja6">Level 6</a><a href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a></nav>
-</details><details open><summary id='koHanja5'><h3>Hanja level 5</h3></summary>
-<nav><a href="#koHanja8">Level 8</a><a href="#koHanja7">Level 7</a><a href="#koHanja6">Level 6</a><a href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a></nav>
-</details><details open><summary id='koHanja4'><h3>Hanja level 4</h3></summary>
-<nav><a href="#koHanja8">Level 8</a><a href="#koHanja7">Level 7</a><a href="#koHanja6">Level 6</a><a href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a></nav>
-</details><details open><summary id='koKu'><h3>Some uncommon Hanja</h3></summary>
-<nav><a href="#koHanja8">Level 8</a><a href="#koHanja7">Level 7</a><a href="#koHanja6">Level 6</a><a href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a></nav>
-</details><details open><summary id='koKc'><h3>Some components</h3></summary>
-<nav><a href="#koHanja8">Level 8</a><a href="#koHanja7">Level 7</a><a href="#koHanja6">Level 6</a><a href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a></nav>
-</details></section>
+		<section id="koSection">
+			<h2>Hanja (Korea)</h2>
+			<details open>
+				<summary id='koHanja8'>
+					<h3>Hanja level 8</h3>
+				</summary>
+				<nav><a href="#koHanja8">Level 8</a><a href="#koHanja7">Level 7</a><a href="#koHanja6">Level 6</a><a
+						href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a></nav>
+			</details>
+			<details open>
+				<summary id='koHanja7'>
+					<h3>Hanja level 7</h3>
+				</summary>
+				<nav><a href="#koHanja8">Level 8</a><a href="#koHanja7">Level 7</a><a href="#koHanja6">Level 6</a><a
+						href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a></nav>
+			</details>
+			<details open>
+				<summary id='koHanja6'>
+					<h3>Hanja level 6</h3>
+				</summary>
+				<nav><a href="#koHanja8">Level 8</a><a href="#koHanja7">Level 7</a><a href="#koHanja6">Level 6</a><a
+						href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a></nav>
+			</details>
+			<details open>
+				<summary id='koHanja5'>
+					<h3>Hanja level 5</h3>
+				</summary>
+				<nav><a href="#koHanja8">Level 8</a><a href="#koHanja7">Level 7</a><a href="#koHanja6">Level 6</a><a
+						href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a></nav>
+			</details>
+			<details open>
+				<summary id='koHanja4'>
+					<h3>Hanja level 4</h3>
+				</summary>
+				<nav><a href="#koHanja8">Level 8</a><a href="#koHanja7">Level 7</a><a href="#koHanja6">Level 6</a><a
+						href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a></nav>
+			</details>
+			<details open>
+				<summary id='koKu'>
+					<h3>Some uncommon Hanja</h3>
+				</summary>
+				<nav><a href="#koHanja8">Level 8</a><a href="#koHanja7">Level 7</a><a href="#koHanja6">Level 6</a><a
+						href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a></nav>
+			</details>
+			<details open>
+				<summary id='koKc'>
+					<h3>Some components</h3>
+				</summary>
+				<nav><a href="#koHanja8">Level 8</a><a href="#koHanja7">Level 7</a><a href="#koHanja6">Level 6</a><a
+						href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a></nav>
+			</details>
+		</section>
 
-<section id="zhHansSection">
-<h2>HSK 2025 (China)</h2>
-<details open><summary id='zhHansHsk1'><h3>HSK 2025 level 1, simplified Hanzi</h3></summary>
-<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
-</details><details open><summary id='zhHansHsk2'><h3>HSK 2025 level 2, simplified Hanzi</h3></summary>
-<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
-</details><details open><summary id='zhHansHsk3'><h3>HSK 2025 level 3, simplified Hanzi</h3></summary>
-<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
-</details><details open><summary id='zhHansHsk4'><h3>HSK 2025 level 4, simplified Hanzi</h3></summary>
-<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
-</details><details open><summary id='zhHansHsk5'><h3>HSK 2025 level 5, simplified Hanzi</h3></summary>
-<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
-</details><details open><summary id='zhHansHsk6'><h3>HSK 2025 level 6, simplified Hanzi</h3></summary>
-<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
-</details><details open><summary id='zhHansHsk789'><h3>HSK 2025 levels 7-9, simplified Hanzi</h3></summary>
-<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
-</details>
-<h2>Others (China)</h2>
-<details open><summary id='zhHansCommonNotHsk'><h3>Other common Hanzi</h3></summary>
-<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
-</details><details open><summary id='zhHansUncommon'><h3>Some uncommon Hanzi</h3></summary>
-<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
-</details><details open><summary id='zhHansTraditional'><h3>Some traditional Hanzi</h3></summary>
-<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
-</details><details open><summary id='zhHansComponent'><h3>Some components</h3></summary>
-<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
-</details><details open><summary id='zhHansBopomofo'><h3>Bopomofo</h3></summary>
-<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
-</details><details open><summary id='zhHansStroke'><h3>Strokes</h3></summary>
-<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
-</details></section>
+		<section id="zhHansSection">
+			<h2>HSK 2025 (China)</h2>
+			<details open>
+				<summary id='zhHansHsk1'>
+					<h3>HSK 2025 level 1, simplified Hanzi</h3>
+				</summary>
+				<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a
+						href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a
+						href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
+						href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a
+						href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
+			</details>
+			<details open>
+				<summary id='zhHansHsk2'>
+					<h3>HSK 2025 level 2, simplified Hanzi</h3>
+				</summary>
+				<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a
+						href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a
+						href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
+						href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a
+						href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
+			</details>
+			<details open>
+				<summary id='zhHansHsk3'>
+					<h3>HSK 2025 level 3, simplified Hanzi</h3>
+				</summary>
+				<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a
+						href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a
+						href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
+						href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a
+						href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
+			</details>
+			<details open>
+				<summary id='zhHansHsk4'>
+					<h3>HSK 2025 level 4, simplified Hanzi</h3>
+				</summary>
+				<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a
+						href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a
+						href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
+						href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a
+						href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
+			</details>
+			<details open>
+				<summary id='zhHansHsk5'>
+					<h3>HSK 2025 level 5, simplified Hanzi</h3>
+				</summary>
+				<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a
+						href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a
+						href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
+						href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a
+						href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
+			</details>
+			<details open>
+				<summary id='zhHansHsk6'>
+					<h3>HSK 2025 level 6, simplified Hanzi</h3>
+				</summary>
+				<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a
+						href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a
+						href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
+						href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a
+						href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
+			</details>
+			<details open>
+				<summary id='zhHansHsk789'>
+					<h3>HSK 2025 levels 7-9, simplified Hanzi</h3>
+				</summary>
+				<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a
+						href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a
+						href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
+						href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a
+						href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
+			</details>
+			<h2>Others (China)</h2>
+			<details open>
+				<summary id='zhHansCommonNotHsk'>
+					<h3>Other common Hanzi</h3>
+				</summary>
+				<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a
+						href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a
+						href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
+						href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a
+						href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
+			</details>
+			<details open>
+				<summary id='zhHansUncommon'>
+					<h3>Some uncommon Hanzi</h3>
+				</summary>
+				<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a
+						href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a
+						href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
+						href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a
+						href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
+			</details>
+			<details open>
+				<summary id='zhHansTraditional'>
+					<h3>Some traditional Hanzi</h3>
+				</summary>
+				<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a
+						href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a
+						href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
+						href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a
+						href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
+			</details>
+			<details open>
+				<summary id='zhHansComponent'>
+					<h3>Some components</h3>
+				</summary>
+				<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a
+						href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a
+						href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
+						href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a
+						href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
+			</details>
+			<details open>
+				<summary id='zhHansBopomofo'>
+					<h3>Bopomofo</h3>
+				</summary>
+				<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a
+						href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a
+						href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
+						href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a
+						href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
+			</details>
+			<details open>
+				<summary id='zhHansStroke'>
+					<h3>Strokes</h3>
+				</summary>
+				<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a
+						href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a
+						href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
+						href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a
+						href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
+			</details>
+		</section>
 
-<section id="zhHantSection"><h2>Traditional Hanzi (Taiwan)</h2><details open><summary id='zhHantTaiwan4808'><h3>Some of the traditional Hanzi commonly used in Taiwan</h3></summary>
-<nav><a href="#zhHantTaiwan4808">Common</a><a href="#zhHantTu">Uncommon</a><a href="#zhHantTc">Components</a></nav>
-</details><h2>Others (Taiwan)</h2><details open><summary id='zhHantTu'><h3>Some other Hanzi as in Taiwan</h3></summary>
-<nav><a href="#zhHantTaiwan4808">Common</a><a href="#zhHantTu">Uncommon</a><a href="#zhHantTc">Components</a></nav>
-</details><details open><summary id='zhHantTc'><h3>Some components as in Taiwan</h3></summary>
-<nav><a href="#zhHantTaiwan4808">Common</a><a href="#zhHantTu">Uncommon</a><a href="#zhHantTc">Components</a></nav>
-</details></section>
-</main>
-<footer id="bottom">
-<nav>
-<a href="licenses/COPYING.txt">Licenses</a>
-<a href="https://github.com/parsimonhi/animCJK">Download</a>
-<a href="samples/">Samples</a>
-<a href="#top">Top</a>
-</nav>
-</footer>
-<dialog id="accessibilityDialog">
-<h2 tabindex="0">Accessibility</h2>
-<form method="dialog">
-<p>A click on a character animates it. The same can be done with the keyboard.</p>
-<h3>Select and animate a character with the keyboard</h3>
-<ul>
-<li>Give focus to the list containing the character with the Tab or Shift + Tab keys</li>
-<li>Move the selection within the list with the Arrow keys</li>
-<li>Press the Enter key to animate the selected character</li>
-</ul>
-<h3>Shortcuts</h3>
-<ul>
-<li>a: open this dialog</li>
-<li>b: go back to the list of the selected character if there is one</li>
-<li>p: go to the preferences panel</li>
-</ul>
-<fieldset class="dialog-menu">
-<button name="OK" type="submit" value="OK">OK</button>
-</fieldset>
-</form>
-</dialog>
-<script src="samples/_js/setNumbersAcjk.js"></script>
-<script>
-let dicos={ZhHans:null,Ja:null,Ko:null,ZhHant:null};
-let qi=[];
-qi["Ja"]=[
-	["hiragana","Hiragana"],
-	["katakana","Katakana"],
-	["g1","Grade 1"],
-	["g2","Grade 2"],
-	["g3","Grade 3"],
-	["g4","Grade 4"],
-	["g5","Grade 5"],
-	["g6","Grade 6"],
-	["g7","Junior high school"],
-	["g8","Jinmeiyō"],
-	["g9","Some Hyōgai"],
-	["gc","Some components"],
-	["stroke","Strokes"]
-	];
-qi["Ko"]=[
-	["hanja8","Hanja level 8"],
-	["hanja7","Hanja level 7"],
-	["hanja6","Hanja level 6"],
-	["hanja5","Hanja level 5"],
-	["hanja4","Hanja level 4"],
-	//["hanja3","Hanja level 3"],
-	//["hanja2","Hanja level 2"],
-	//["hanja1","Hanja level 1"],
-	["ku","Some uncommon Hanja"],
-	["kc","Some components"]
-	];
-qi["ZhHans"]=[
-	["hsk1","HSK 2025 level 1, simplified Hanzi"],
-	["hsk2","HSK 2025 level 2, simplified Hanzi"],
-	["hsk3","HSK 2025 level 3, simplified Hanzi"],
-	["hsk4","HSK 2025 level 4, simplified Hanzi"],
-	["hsk5","HSK 2025 level 5, simplified Hanzi"],
-	["hsk6","HSK 2025 level 6, simplified Hanzi"],
-	["hsk789","HSK 2025 levels 7-9, simplified Hanzi"],
-	["commonNotHsk","Other commonly used Hanzi"],
-	["uncommon","Some uncommon Hanzi"],
-	["traditional","Some traditional Hanzi as in Mainland China"],
-	["component","Some components"],
-	["bopomofo","Bopomofo"],
-	["stroke","Strokes"]
-	];
-qi["ZhHant"]=[
-	//["tocflN1","TOCFL Novice 1, traditional Hanzi as in Taiwan"],
-	//["tocflN2","TOCFL Novice 1, traditional Hanzi as in Taiwan"],
-	//["tocflL1","TOCFL Level 1, traditional Hanzi as in Taiwan"],
-	//["tocflL2","TOCFL Level 2, traditional Hanzi as in Taiwan"],
-	//["tocflL3","TOCFL Level 3, traditional Hanzi as in Taiwan"],
-	//["tocflL4","TOCFL Level 4, traditional Hanzi as in Taiwan"],
-	//["tocflL5","TOCFL Level 5, traditional Hanzi as in Taiwan"],
-	//["taiwan4808NotTocfl","Other traditional Hanzi commonly used in Taiwan"],
-	["taiwan4808","Some of the traditional Hanzi commonly used in Taiwan"],
-	["tu","Some other Hanzi as in Taiwan"],
-	["tc","Some components as in Taiwan"]
-	];
-let focusByKeyboard=0;
-function ucFirst(s)
-{
-	return s.charAt(0).toUpperCase()+s.slice(1);
-}
-function lcFirst(s)
-{
-	return s.charAt(0).toLowerCase()+s.slice(1);
-}
-function cleanData(e)
-{
-	// don't use this function as an input handler because it disturbs asian language IME
-	// remember spaces are inserted between characters in animCJK char lists
-	// keep only the 1st convenient character if any
-	// todo: keep also jamo
-	let data=e.value;
-	e.value="";
-	for(let c of data) if(c.codePointAt(0)>=11904) {e.value=c;break;}
-}
-function langToDir(lang)
-{
-	switch(lang)
-	{
-		case "ko":return "Ko";
-		case "zh-Hans":return "ZhHans";
-		case "zh-Hant":return "ZhHant";
-		default:return "Ja";
-	}
-}
-function langToIso(langLabel)
-{
-	switch(langLabel)
-	{
-		case "Ja":return "ja";
-		case "Ko":return "ko";
-		case "ZhHant":return "zh-Hant";
-		default:return "zh-Hans";
-	}
-}
-function getLangIso()
-{
-	let e=document.querySelector('[name="section"]:checked');
-	if(e) return e.getAttribute("data-lang");
-	return "zh-Hans";
-}
-function getStrokesFromAcjk(acjk)
-{
-	let a=acjk.split(/[^0-9]+/u),n=0;
-	a.forEach(b=>n+=-(-b));
-	return n;
-}
-function addLangSpan(s)
-{
-	let r,langIso=getLangIso();
-	r=s.replace(/(\p{sc=Han}+)/gu,"<span lang=\""+langIso+"\">$1</span>");
-	return r;
-}
-function buildDicoContent(r)
-{
-	let c,dec,hex,dico="";
-	c=r.character; // assume r has the character property
-	dec=c.codePointAt(0);
-	hex=dec.toString(16).padStart(5,'0');
-	dico+="<dt>"+addLangSpan(c)+" U+"+hex+" &amp;#"+dec+";</dt>";
-	if(Object.hasOwn(r,"pinyin")) dico+="<dt>Pinyin</dt><dd class=\"pinyin\">"+(r.pinyin+"").replace(/\([^\)]+\)/g,"").replace(/[ ]+/g,", ").replace(/,([^ ])/gu,", $1")+"</dd>";
-	if(Object.hasOwn(r,"on")) dico+="<dt>On</dt><dd class=\"on\">"+(r.on+"").replace(/,([^ ])/g,", $1")+"</dd>";
-	if(Object.hasOwn(r,"kun")) dico+="<dt>Kun</dt><dd class=\"kun\">"+(r.kun+"").replace(/,([^ ])/g,", $1")+"</dd>";
-	if(Object.hasOwn(r,"definition")) dico+="<dt>Definition</dt><dd class=\"definition\">"+addLangSpan(r.definition)+"</dd>";
-	if(Object.hasOwn(r,"acjk")) dico+="<dt>Strokes</dt><dd class=\"strokes\">"+getStrokesFromAcjk(r.acjk)+"</dd>";
-	if(Object.hasOwn(r,"radical")) dico+="<dt>Radical</dt><dd class=\"radical\">"+addLangSpan(r.radical)+"</dd>";
-	if(Object.hasOwn(r,"decomposition")) dico+="<dt>Decomposition</dt><dd class=\"decomposition\">"+addLangSpan(r.decomposition)+"</dd>";
-	if(Object.hasOwn(r,"acjk")) dico+="<dt>Acjk</dt><dd class=\"acjkDecomposition\">"+addLangSpan(r.acjk)+"</dd>";
-	if(Object.hasOwn(r,"acjks")) dico+="<dt>Acjks</dt><dd class=\"acjksDecomposition\">"+addLangSpan(r.acjks)+"</dd>";
-	return dico;
-}
-function getOneFromDico(c,langLabel)
-{
-	for(let e of dicos[langLabel])
-		if(e["character"]==c) return e;
-	return null;
-}
-function endError(c,lang,dec)
-{
-	let ul=document.getElementById("output");
-	let li=document.createElement("li");
-	let language;
-	switch(lang)
-	{
-		case "zh-Hans":language="simplified Chinese";break;
-		case "zh-Hant":language="traditional Chinese";break;
-		case "ko":language="Korean";break;
-		default: language="Japanese";
-	}
-	li.classList.add("error");
-	li.innerHTML=c+" not found in "+language+" repository!";
-	ul.append(li);
-}
-function endOk(c,lang,dec,svg,dicoLine)
-{
-	let ul=document.getElementById("output");
-	let li=document.createElement("li");
-	let cartouche="<dl>"+buildDicoContent(dicoLine)+"</dl>";
-	li.innerHTML=svg+cartouche;
-	ul.append(li);
-	setNumbers(document.querySelector('[name="numbers"]').checked);
-	if(document.ariaNotify) document.ariaNotify("The SVG of the character is being displayed");
-}
-function continueOk(c,lang,langLabel,dec,j,o)
-{
-	let dicoLine=getOneFromDico(c,langLabel);
-	if(dicoLine)
-	{
-		let dir='svgs'+langLabel;
-		if((langLabel=="Ja")
-		&&Object.hasOwn(dicoLine,"set")
-		&&(dicoLine['set'].includes("hiragana")||dicoLine['set'].includes("katakana")))
-			dir+="Kana";
-		else if((langLabel=="ZhHans")
-		&&Object.hasOwn(dicoLine,"set")
-		&&dicoLine['set'].includes("bopomofo"))
-			dir+="Zoo";
-		fetch(dir+"/"+dec+".svg",o)
-		.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
-		.then(s=>{endOk(c,lang,dec,s,dicoLine);return true;})
-		.catch(e=>{console.log(e);endError(c,lang,dec)});
-	}
-	else endError(c,lang,dec);
-}
-function ok()
-{
-	let c,dec,e,s,lang;
-	e=document.getElementById("data");
-	s=document.querySelector('[name="section"]:checked');
-	lang=s?s.getAttribute("data-lang"):"zh-Hans";
-	document.getElementById("output").innerHTML="";
-	cleanData(e);
-	c=e.value;
-	if(c)
-	{
-		let j,langLabel=langToDir(lang);
-		let o={cache:"no-cache"};
-		dec=c.codePointAt(0);
-		if(j=dicos[langLabel]) continueOk(c,lang,langLabel,dec,j,o);
-		else fetch('dictionary'+langLabel+".txt",o)
-			.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
-			.then(j=>
-				{
-					j=j.replace(/\}\n\{/ug,"},{");
-					dicos[langLabel]=JSON.parse("["+j+"]");
-					continueOk(c,lang,langLabel,dec,j,o);
-					return true;
-				})
-			.catch(e=>{console.log(e)}); // just in case
-	}
-}
-function doIt(c)
-{
-	document.getElementById("data").value=c;
-	ok();
-	document.getElementById("data").scrollIntoView();
-}
-// -----------------
-// inits and changes
-// -----------------
-function initSection()
-{
-	let section=localStorage.getItem("section")?localStorage.getItem("section"):"ZhHans",
-		e=document.querySelector('[name="section"][value="'+section+'"]');
-	if(e)
-	{
-		e.checked=true;
-		let langIso=e.getAttribute("data-lang");
-		document.getElementById("data").lang=langIso;
-		populateCharLists();
-	}
-}
-function initDico()
-{
-	let dico=(localStorage.getItem("dico")=="1")?true:false;
-	document.querySelector('[name="dico"]').checked=dico;
-}
-function initGrid()
-{
-	let grid=(localStorage.getItem("grid")=="1")?true:false;
-	document.querySelector('[name="grid"]').checked=grid;
-}
-function initNumbers()
-{
-	let numbers=(localStorage.getItem("numbers")=="1")?true:false;
-	document.querySelector('[name="numbers"]').checked=numbers;
-}
-function initXrays()
-{
-	let xrays=(localStorage.getItem("xrays")=="1")?true:false;
-	document.querySelector('[name="xrays"]').checked=xrays;
-}
-function initSize()
-{
-	let size;
-	size=localStorage.getItem("size")?localStorage.getItem("size"):"256";
-	document.querySelector('[name="size"]').value=size;
-	document.querySelector(':root').style.setProperty('--size',size+"px");
-}
-function initAll()
-{
-	initSection();
-	initDico();
-	initGrid();
-	initNumbers();
-	initXrays();
-	initSize();
-}
-function changeSection()
-{
-	let e=document.querySelector('[name="section"]:checked');
-	if(e)
-	{
-		let langIso=e.getAttribute("data-lang");
-		document.getElementById("data").lang=langIso;
-		localStorage.setItem("section",e.value);
-		populateCharLists();
-		ok();
-	}
-}
-function changeDico()
-{
-	let dico=document.querySelector('[name="dico"]').checked;
-	localStorage.setItem("dico",dico?"1":"0");
-}
-function changeGrid()
-{
-	let grid=document.querySelector('[name="grid"]').checked;
-	localStorage.setItem("grid",grid?"1":"0");
-}
-function changeNumbers()
-{
-	let numbers=document.querySelector('[name="numbers"]').checked;
-	localStorage.setItem("numbers",numbers?"1":"0");
-	setNumbers(numbers);
-}
-function changeXrays()
-{
-	let xrays=document.querySelector('[name="xrays"]').checked;
-	localStorage.setItem("xrays",xrays?"1":"0");
-}
-function changeSize()
-{
-	let size=document.querySelector('[name="size"]').value;
-	localStorage.setItem("size", size);
-	document.querySelector(':root').style.setProperty('--size',size+"px");
-}
-// --------------------------------------
-// selection of a char using the keyboard
-// --------------------------------------
-function isStartingWithSurrogate(s)
-{
-	let sa=[...s];
-	return (sa[0]&&(sa[0].length>1));
-}
-function isStartingWithSpace(s)
-{
-	return s.match(/^ /);
-}
-function isSpace(s)
-{
-	return s==" ";
-}
-function isExactlyOneChar(s)
-{
-	let sz=isStartingWithSurrogate(s)?2:1;
-	return s.length==sz;
-}
-function getNearestChar(sel,tt)
-{
-	// sel has at least one range here
-	// get a string containing only one character that is not a space
-	// if sel contains more than one character, the character is on the right of the initial a 
-	// else if sel starts is a character that is not a space, the character is on the right of the initial a 
-	// else the character is on the left of the initial sel
-	let a=sel.getRangeAt(0).startOffset,b=sel.getRangeAt(0).endOffset,s=tt.substring(a);
-	if(a)
-	{
-		if(isStartingWithSpace(s))
-		{
-			if(a==b)
-			{
-				// the user clicks on the right part of a char or the left part of a space
-				// or move the caret on the left of a space
-				a--;
-			} 
-			else if ((b-a)==1)
-			{
-				// the user selects a space only (evenly the last of tt)
-				a--;
-			}
-			else a++; // the user selects at least a space and another char
+		<section id="zhHantSection">
+			<h2>Traditional Hanzi (Taiwan)</h2>
+			<details open>
+				<summary id='zhHantTaiwan4808'>
+					<h3>Some of the traditional Hanzi commonly used in Taiwan</h3>
+				</summary>
+				<nav><a href="#zhHantTaiwan4808">Common</a><a href="#zhHantTu">Uncommon</a><a
+						href="#zhHantTc">Components</a></nav>
+			</details>
+			<h2>Others (Taiwan)</h2>
+			<details open>
+				<summary id='zhHantTu'>
+					<h3>Some other Hanzi as in Taiwan</h3>
+				</summary>
+				<nav><a href="#zhHantTaiwan4808">Common</a><a href="#zhHantTu">Uncommon</a><a
+						href="#zhHantTc">Components</a></nav>
+			</details>
+			<details open>
+				<summary id='zhHantTc'>
+					<h3>Some components as in Taiwan</h3>
+				</summary>
+				<nav><a href="#zhHantTaiwan4808">Common</a><a href="#zhHantTu">Uncommon</a><a
+						href="#zhHantTc">Components</a></nav>
+			</details>
+		</section>
+	</main>
+	<footer id="bottom">
+		<nav>
+			<a href="licenses/COPYING.txt">Licenses</a>
+			<a href="https://github.com/parsimonhi/animCJK">Download</a>
+			<a href="samples/">Samples</a>
+			<a href="#top">Top</a>
+		</nav>
+	</footer>
+	<dialog id="accessibilityDialog">
+		<h2 tabindex="0">Accessibility</h2>
+		<form method="dialog">
+			<p>A click on a character animates it. The same can be done with the keyboard.</p>
+			<h3>Select and animate a character with the keyboard</h3>
+			<ul>
+				<li>Give focus to the list containing the character with the Tab or Shift + Tab keys</li>
+				<li>Move the selection within the list with the Arrow keys</li>
+				<li>Press the Enter key to animate the selected character</li>
+			</ul>
+			<h3>Shortcuts</h3>
+			<ul>
+				<li>a: open this dialog</li>
+				<li>b: go back to the list of the selected character if there is one</li>
+				<li>p: go to the preferences panel</li>
+			</ul>
+			<fieldset class="dialog-menu">
+				<button name="OK" type="submit" value="OK">OK</button>
+			</fieldset>
+		</form>
+	</dialog>
+	<script src="samples/_js/setNumbersAcjk.js"></script>
+	<script>
+		let dicos = { ZhHans: null, Ja: null, Ko: null, ZhHant: null };
+		let qi = [];
+		qi["Ja"] = [
+			["hiragana", "Hiragana"],
+			["katakana", "Katakana"],
+			["g1", "Grade 1"],
+			["g2", "Grade 2"],
+			["g3", "Grade 3"],
+			["g4", "Grade 4"],
+			["g5", "Grade 5"],
+			["g6", "Grade 6"],
+			["g7", "Junior high school"],
+			["g8", "Jinmeiyō"],
+			["g9", "Some Hyōgai"],
+			["gc", "Some components"],
+			["stroke", "Strokes"]
+		];
+		qi["Ko"] = [
+			["hanja8", "Hanja level 8"],
+			["hanja7", "Hanja level 7"],
+			["hanja6", "Hanja level 6"],
+			["hanja5", "Hanja level 5"],
+			["hanja4", "Hanja level 4"],
+			//["hanja3","Hanja level 3"],
+			//["hanja2","Hanja level 2"],
+			//["hanja1","Hanja level 1"],
+			["ku", "Some uncommon Hanja"],
+			["kc", "Some components"]
+		];
+		qi["ZhHans"] = [
+			["hsk1", "HSK 2025 level 1, simplified Hanzi"],
+			["hsk2", "HSK 2025 level 2, simplified Hanzi"],
+			["hsk3", "HSK 2025 level 3, simplified Hanzi"],
+			["hsk4", "HSK 2025 level 4, simplified Hanzi"],
+			["hsk5", "HSK 2025 level 5, simplified Hanzi"],
+			["hsk6", "HSK 2025 level 6, simplified Hanzi"],
+			["hsk789", "HSK 2025 levels 7-9, simplified Hanzi"],
+			["commonNotHsk", "Other commonly used Hanzi"],
+			["uncommon", "Some uncommon Hanzi"],
+			["traditional", "Some traditional Hanzi as in Mainland China"],
+			["component", "Some components"],
+			["bopomofo", "Bopomofo"],
+			["stroke", "Strokes"]
+		];
+		qi["ZhHant"] = [
+			//["tocflN1","TOCFL Novice 1, traditional Hanzi as in Taiwan"],
+			//["tocflN2","TOCFL Novice 1, traditional Hanzi as in Taiwan"],
+			//["tocflL1","TOCFL Level 1, traditional Hanzi as in Taiwan"],
+			//["tocflL2","TOCFL Level 2, traditional Hanzi as in Taiwan"],
+			//["tocflL3","TOCFL Level 3, traditional Hanzi as in Taiwan"],
+			//["tocflL4","TOCFL Level 4, traditional Hanzi as in Taiwan"],
+			//["tocflL5","TOCFL Level 5, traditional Hanzi as in Taiwan"],
+			//["taiwan4808NotTocfl","Other traditional Hanzi commonly used in Taiwan"],
+			["taiwan4808", "Some of the traditional Hanzi commonly used in Taiwan"],
+			["tu", "Some other Hanzi as in Taiwan"],
+			["tc", "Some components as in Taiwan"]
+		];
+		let sel = window.getSelection(), onAir = 0;
+		function notify(e, s) {
+			if (e.ariaNotify) e.ariaNotify(s, { priority: "high" });
 		}
-	}
-	// look for a space preceding a or the start of the list
-	// a cannot be the position of a space here
-	if(a) do{a--;}while(a&&!isStartingWithSpace(tt.substring(a)));
-	// if(a), a is the position of a space here, thus skip the space forward
-	if(a) a++;
-	let sz=isStartingWithSurrogate(tt.substring(a))?2:1;
-	b=a+sz;
-	s=tt.substring(a,b);
-	return [s,a,b];
-	// now s contains only one char that is not a space nor the right part of a surrogate
-}
-function scrollToSel()
-{
-	let sel=window.getSelection();
-	let a=sel.anchorNode;
-	if(a)
-	{
-		if(a.parentNode.classList.contains("charList"))
-		{
-			let ran=sel.getRangeAt(0);
-			if(ran)
-			{
-				let vh=document.documentElement.clientHeight;
-				let rec=ran.getBoundingClientRect();
-				if((rec.top>0)&&(rec.bottom<vh)) return;
-				let y=rec.y+scrollY;
-				scroll(0,y-0.5*vh);
+		function ucFirst(s) {
+			return s.charAt(0).toUpperCase() + s.slice(1);
+		}
+		function lcFirst(s) {
+			return s.charAt(0).toLowerCase() + s.slice(1);
+		}
+		function cleanData(e) {
+			// don't use this function as an input handler because it disturbs asian language IME
+			// remember spaces are inserted between characters in animCJK char lists
+			// keep only the 1st convenient character if any
+			// todo: keep also jamo
+			let data = e.value;
+			e.value = "";
+			for (let c of data) if (c.codePointAt(0) >= 11904) { e.value = c; break; }
+		}
+		function langToDir(lang) {
+			switch (lang) {
+				case "ko": return "Ko";
+				case "zh-Hans": return "ZhHans";
+				case "zh-Hant": return "ZhHant";
+				default: return "Ja";
 			}
 		}
-	}
-}
-function selectPredChar(ev,km)
-{
-	// assume sel has at least one range here
-	let sel=window.getSelection();
-	let t=ev.target.childNodes[0];
-	let tt=t.textContent;
-	let a,b,s;
-	if(t!=sel.anchorNode)
-	{
-		// possible when the last char was selected and the user clicked on the right padding
-		a=b=tt.length;
-		s="";
-	}
-	else
-	{
-		a=sel.getRangeAt(0).startOffset;
-		b=sel.getRangeAt(0).endOffset;
-		s=tt.substring(a);
-	}
-	if(!a) return;
-	let st=0,sz,k=0;
-	if(isStartingWithSpace(s)) a++;
-	while(((a+st)>0)&&(k<=km))
-	{
-		st--;
-		if(isSpace(tt.charAt(a+st))) k++;
-	}
-	if(isSpace(tt.charAt(a+st))) st++;
-	sz=isStartingWithSurrogate(tt.substring(a+st))?2:1;
-	sel.setBaseAndExtent(t,a+st,t,a+st+sz);
-	scrollToSel();
-	ev.preventDefault();
-}
-function selectNextChar(ev,km)
-{
-	// assume sel has at least one range here
-	let sel=window.getSelection();
-	let t=ev.target.childNodes[0];
-	let tt=t.textContent;
-	let a,b,s,z=0;
-	if(t!=sel.anchorNode)
-	{
-		// possible when the first char was selected and the user clicked on the left padding
-		a=b=0;
-		s="";
-	}
-	else
-	{
-		a=sel.getRangeAt(0).startOffset;
-		b=sel.getRangeAt(0).endOffset;
-		s=tt.substring(a);
-	}
-	if(a>(tt.length-3)) return;
-	let st=0,sz,k=0;
-	if((a==b)&&!a&&(km==1)) k++;
-	else if(isStartingWithSpace(s)) a--;
-	while(((a+st)<(tt.length-3))&&(k<km))
-	{
-		st++;
-		if(isSpace(tt.charAt(a+st))) k++;
-	}
-	if(isSpace(tt.charAt(a+st))) st++;
-	sz=isStartingWithSurrogate(tt.substring(a+st))?2:1;
-	sel.setBaseAndExtent(t,a+st,t,a+st+sz);
-	scrollToSel();
-	ev.preventDefault();
-}
-function doFocus(e)
-{
-	// assume e is a char list
- 	if(focusByKeyboard)
-	{
-		let t=e.childNodes[0],tt=t.textContent,sel=window.getSelection();
-		if(sel.anchorNode==t)
-		{
-			let s=sel.toString();
-			if(!s)
-			{
-				let cab=getNearestChar(sel,tt);
-				sel.setBaseAndExtent(t,cab[1],t,cab[2]);
+		function langToIso(langLabel) {
+			switch (langLabel) {
+				case "Ja": return "ja";
+				case "Ko": return "ko";
+				case "ZhHant": return "zh-Hant";
+				default: return "zh-Hans";
 			}
-			// else does nothing, a selection is already here
 		}
-		// else select one char at the beginning of the char list
-		else sel.setBaseAndExtent(t,0,t,(isStartingWithSurrogate(tt)?2:1));
-		focusByKeyboard=0; // Reset flag immediately
-		scrollToSel();
-  	}
-}
-function doAccessibility()
-{
-	document.getElementById("accessibilityDialog").showModal();
-}
-function doBack()
-{
-	let sel=window.getSelection();
-	if(sel)
-	{
-		let a=sel.anchorNode;
-		if (a&&(a.nodeType===Node.TEXT_NODE))
-		{
-			let b=a.parentNode;
-			if (b.classList.contains("charList"))
-			{
-				focusByKeyboard=1;
-				if(b==document.activeElement)
-				{
-					// since b has the focus already, do manually doFocus()
-					doFocus(b);
+		function getLangIso() {
+			let e = document.querySelector('[name="section"]:checked');
+			if (e) return e.getAttribute("data-lang");
+			return "zh-Hans";
+		}
+		function getStrokesFromAcjk(acjk) {
+			let a = acjk.split(/[^0-9]+/u), n = 0;
+			a.forEach(b => n += -(-b));
+			return n;
+		}
+		function addLangSpan(s) {
+			let r, langIso = getLangIso();
+			r = s.replace(/(\p{sc=Han}+)/gu, "<span lang=\"" + langIso + "\">$1</span>");
+			return r;
+		}
+		function buildDicoContent(r) {
+			let c, dec, hex, dico = "";
+			c = r.character; // assume r has the character property
+			dec = c.codePointAt(0);
+			hex = dec.toString(16).padStart(5, '0');
+			dico += "<dt>" + addLangSpan(c) + " U+" + hex + " &amp;#" + dec + ";</dt>";
+			if (Object.hasOwn(r, "pinyin")) dico += "<dt>Pinyin</dt><dd class=\"pinyin\">" + (r.pinyin + "").replace(/\([^\)]+\)/g, "").replace(/[ ]+/g, ", ").replace(/,([^ ])/gu, ", $1") + "</dd>";
+			if (Object.hasOwn(r, "on")) dico += "<dt>On</dt><dd class=\"on\">" + (r.on + "").replace(/,([^ ])/g, ", $1") + "</dd>";
+			if (Object.hasOwn(r, "kun")) dico += "<dt>Kun</dt><dd class=\"kun\">" + (r.kun + "").replace(/,([^ ])/g, ", $1") + "</dd>";
+			if (Object.hasOwn(r, "definition")) dico += "<dt>Definition</dt><dd class=\"definition\">" + addLangSpan(r.definition) + "</dd>";
+			if (Object.hasOwn(r, "acjk")) dico += "<dt>Strokes</dt><dd class=\"strokes\">" + getStrokesFromAcjk(r.acjk) + "</dd>";
+			if (Object.hasOwn(r, "radical")) dico += "<dt>Radical</dt><dd class=\"radical\">" + addLangSpan(r.radical) + "</dd>";
+			if (Object.hasOwn(r, "decomposition")) dico += "<dt>Decomposition</dt><dd class=\"decomposition\">" + addLangSpan(r.decomposition) + "</dd>";
+			if (Object.hasOwn(r, "acjk")) dico += "<dt>Acjk</dt><dd class=\"acjkDecomposition\">" + addLangSpan(r.acjk) + "</dd>";
+			if (Object.hasOwn(r, "acjks")) dico += "<dt>Acjks</dt><dd class=\"acjksDecomposition\">" + addLangSpan(r.acjks) + "</dd>";
+			return dico;
+		}
+		function getOneFromDico(c, langLabel) {
+			for (let e of dicos[langLabel])
+				if (e["character"] == c) return e;
+			return null;
+		}
+		function endError(c, lang, dec) {
+			let ul = document.getElementById("output");
+			let li = document.createElement("li");
+			let language;
+			switch (lang) {
+				case "zh-Hans": language = "simplified Chinese"; break;
+				case "zh-Hant": language = "traditional Chinese"; break;
+				case "ko": language = "Korean"; break;
+				default: language = "Japanese";
+			}
+			li.classList.add("error");
+			li.innerHTML = c + " not found in " + language + " repository!";
+			ul.append(li);
+		}
+		function endOk(c, lang, dec, svg, dicoLine) {
+			let ul = document.getElementById("output");
+			let li = document.createElement("li");
+			let cartouche = "<dl>" + buildDicoContent(dicoLine) + "</dl>";
+			li.innerHTML = svg + cartouche;
+			ul.append(li);
+			setNumbers(document.querySelector('[name="numbers"]').checked);
+			notify(document.body, "The SVG of the character is being displayed", "high");
+		}
+		function continueOk(c, lang, langLabel, dec, j, o) {
+			let dicoLine = getOneFromDico(c, langLabel);
+			if (dicoLine) {
+				let dir = 'svgs' + langLabel;
+				if ((langLabel == "Ja")
+					&& Object.hasOwn(dicoLine, "set")
+					&& (dicoLine['set'].includes("hiragana") || dicoLine['set'].includes("katakana")))
+					dir += "Kana";
+				else if ((langLabel == "ZhHans")
+					&& Object.hasOwn(dicoLine, "set")
+					&& dicoLine['set'].includes("bopomofo"))
+					dir += "Zoo";
+				fetch(dir + "/" + dec + ".svg", o)
+					.then(r => { if (!r.ok) throw r.statusText; return r.text(); })
+					.then(s => { endOk(c, lang, dec, s, dicoLine); return true; })
+					.catch(e => { console.log(e); endError(c, lang, dec) });
+			}
+			else endError(c, lang, dec);
+		}
+		function ok() {
+			let c, dec, e, s, lang;
+			e = document.getElementById("data");
+			s = document.querySelector('[name="section"]:checked');
+			lang = s ? s.getAttribute("data-lang") : "zh-Hans";
+			document.getElementById("output").innerHTML = "";
+			cleanData(e);
+			c = e.value;
+			if (c) {
+				let j, langLabel = langToDir(lang);
+				let o = { cache: "no-cache" };
+				dec = c.codePointAt(0);
+				if (j = dicos[langLabel]) continueOk(c, lang, langLabel, dec, j, o);
+				else fetch('dictionary' + langLabel + ".txt", o)
+					.then(r => { if (!r.ok) throw r.statusText; return r.text(); })
+					.then(j => {
+						j = j.replace(/\}\n\{/ug, "},{");
+						dicos[langLabel] = JSON.parse("[" + j + "]");
+						continueOk(c, lang, langLabel, dec, j, o);
+						return true;
+					})
+					.catch(e => { console.log(e) }); // just in case
+			}
+		}
+		function doIt(c) {
+			document.getElementById("data").value = c;
+			ok();
+			document.getElementById("data").scrollIntoView();
+		}
+		// -----------------
+		// inits and changes
+		// -----------------
+		function initSection() {
+			let section = localStorage.getItem("section") ? localStorage.getItem("section") : "ZhHans",
+				e = document.querySelector('[name="section"][value="' + section + '"]');
+			if (e) {
+				e.checked = true;
+				let langIso = e.getAttribute("data-lang");
+				document.getElementById("data").lang = langIso;
+				populateCharLists();
+			}
+		}
+		function initDico() {
+			let dico = (localStorage.getItem("dico") == "1") ? true : false;
+			document.querySelector('[name="dico"]').checked = dico;
+		}
+		function initGrid() {
+			let grid = (localStorage.getItem("grid") == "1") ? true : false;
+			document.querySelector('[name="grid"]').checked = grid;
+		}
+		function initNumbers() {
+			let numbers = (localStorage.getItem("numbers") == "1") ? true : false;
+			document.querySelector('[name="numbers"]').checked = numbers;
+		}
+		function initXrays() {
+			let xrays = (localStorage.getItem("xrays") == "1") ? true : false;
+			document.querySelector('[name="xrays"]').checked = xrays;
+		}
+		function initSize() {
+			let size;
+			size = localStorage.getItem("size") ? localStorage.getItem("size") : "256";
+			document.querySelector('[name="size"]').value = size;
+			document.querySelector(':root').style.setProperty('--size', size);
+		}
+		function initAll() {
+			initSection();
+			initDico();
+			initGrid();
+			initNumbers();
+			initXrays();
+			initSize();
+		}
+		function changeSection() {
+			let e = document.querySelector('[name="section"]:checked');
+			if (e) {
+				let langIso = e.getAttribute("data-lang");
+				document.getElementById("data").lang = langIso;
+				localStorage.setItem("section", e.value);
+				populateCharLists();
+				ok();
+			}
+		}
+		function changeDico() {
+			let dico = document.querySelector('[name="dico"]').checked;
+			localStorage.setItem("dico", dico ? "1" : "0");
+		}
+		function changeGrid() {
+			let grid = document.querySelector('[name="grid"]').checked;
+			localStorage.setItem("grid", grid ? "1" : "0");
+		}
+		function changeNumbers() {
+			let numbers = document.querySelector('[name="numbers"]').checked;
+			localStorage.setItem("numbers", numbers ? "1" : "0");
+			setNumbers(numbers);
+		}
+		function changeXrays() {
+			let xrays = document.querySelector('[name="xrays"]').checked;
+			localStorage.setItem("xrays", xrays ? "1" : "0");
+		}
+		function changeSize() {
+			let size = document.querySelector('[name="size"]').value;
+			localStorage.setItem("size", size);
+			document.querySelector(':root').style.setProperty('--size', size);
+		}
+		// --------------------------------------
+		// selection of a char using the keyboard
+		// --------------------------------------
+		function isStartingWithSurrogate(s) {
+			let sa = [...s];
+			return (sa[0] && (sa[0].length > 1));
+		}
+		function isStartingWithSpace(s) {
+			return s.match(/^ /);
+		}
+		function isSpace(s) {
+			return s == " ";
+		}
+		function hasOnlyOneHanChar(s) {
+			let sz = isStartingWithSurrogate(s) ? 2 : 1;
+			return s.length == sz;
+		}
+		function getNearestChar(tt) {
+			// sel has at least one range here
+			// get a string containing only one character that is not a space
+			// if sel contains more than one character, the character is on the right of the initial a 
+			// else if sel starts is a character that is not a space, the character is on the right of the initial a 
+			// else the character is on the left of the initial sel
+			let a = sel.getRangeAt(0).startOffset, b = sel.getRangeAt(0).endOffset, s = tt.substring(a);
+			if (a) {
+				if (isStartingWithSpace(s)) {
+					if (a == b) {
+						// the user clicks on the right part of a char or the left part of a space
+						// or move the caret on the left of a space
+						a--;
+					}
+					else if ((b - a) == 1) {
+						// the user selects a space only (evenly the last of tt)
+						a--;
+					}
+					else a++; // the user selects at least a space and another char
 				}
-				else b.focus();
+			}
+			// look for a space preceding a or the start of the list
+			// a cannot be the position of a space here
+			if (a) do { a--; } while (a && !isStartingWithSpace(tt.substring(a)));
+			// if(a), a is the position of a space here, thus skip the space forward
+			if (a) a++;
+			let sz = isStartingWithSurrogate(tt.substring(a)) ? 2 : 1;
+			b = a + sz;
+			s = tt.substring(a, b);
+			return [s, a, b];
+			// now s contains only one char that is not a space nor the right part of a surrogate
+		}
+		function scrollToSel() {
+			setTimeout(() => {
+				if(onAir) return;
+				let a = sel.anchorNode;
+				if (a) {
+					let b = a.parentNode;
+					if (b && b.classList && b.classList.contains("charList")) {
+						let ran = sel.getRangeAt(0);
+						if (ran) {
+							let vh = window.innerHeight, y = 0;
+							let rec = ran.getBoundingClientRect();
+							if ((rec.top < 0) || (rec.bottom > vh)) y = 1;
+							if (y) {
+								y = rec.top + scrollY - 32;
+								// the browser may scroll before animCJK when voice over is on
+								// in this case, a smooth scroll leads to a bad visual effect
+								// no workaround at the moment
+								window.scrollTo(0,y);
+							}
+						}
+						// for firefox, just in case, give focus to the char list
+						// setTimeout(() => { if (b != document.activeElement) b.focus() }, 100);
+					}
+				}
+			// when voice over is on, the browser may scroll after animCJK
+			// and the selection may be not visible
+			// to reproduce, chrome + voice over, tab to common hanzi list
+			// tab to give focus to the next element then shift+tab to give back focus to the list
+			// press ArrowUp Key several times
+			// so use a large setTimeout
+			}, 500);
+		}
+		function setAcjkSelection(t, tt, a, b, scrollIsOn) {
+			let a2 = Math.min(Math.max(0, Math.min(a, tt.length - 1)), Math.max(0, Math.min(b, tt.length - 1))),
+				b2 = Math.max(Math.max(0, Math.min(a, tt.length - 1)), Math.max(0, Math.min(b, tt.length - 1)));
+			// for chrome and safari, collapse when voice over is on
+			// then use a micro setTimeout to let it describing the selection
+			sel.collapse(t,a);
+			onAir=setTimeout((t, a, b, scrollIsOn) => {
+				sel.setBaseAndExtent(t, a, t, b);
+				onAir = 0;
+				if(scrollIsOn) scrollToSel();
+			}, 10, t, a2, b2, scrollIsOn);
+		}
+		function selectPredChar(ev, km) {
+			// assume sel has at least one range
+			// assume ev.target is a charList
+			if(onAir)
+			{
+				ev.preventDefault();
+				ev.stopPropagation();
+				return;
+			}
+			let t = ev.target.childNodes[0];
+			let tt = t.textContent;
+			let a, b, s;
+			if (t != sel.anchorNode) {
+				// possible when the last char was selected and the user clicked on the right padding
+				a = b = tt.length;
+				s = "";
+			}
+			else {
+				a = sel.getRangeAt(0).startOffset;
+				b = sel.getRangeAt(0).endOffset;
+				s = tt.substring(a);
+			}
+			// preventDefault after the return to go out of the element when caret browsing
+			if (!a) return;
+			ev.preventDefault();
+			ev.stopPropagation();
+			let st = 0, sz, k = 0;
+			if (isStartingWithSpace(s)) a++;
+			while (((a + st) > 0) && (k <= km)) {
+				st--;
+				if (isSpace(tt.charAt(a + st))) k++;
+			}
+			if (isSpace(tt.charAt(a + st))) st++;
+			sz = isStartingWithSurrogate(tt.substring(a + st)) ? 2 : 1;
+			setAcjkSelection(t, tt, a + st, a + st + sz, 1);
+		}
+		function selectNextChar(ev, km) {
+			// assume sel has at least one range
+			// assume ev.target is a charList
+			if(onAir)
+			{
+				ev.preventDefault();
+				ev.stopPropagation();
+				return;
+			}
+			let t = ev.target.childNodes[0];
+			let tt = t.textContent;
+			let a, b, s, z = 0;
+			if (t != sel.anchorNode) {
+				// possible when the first char was selected and the user clicked on the left padding
+				a = b = 0;
+				s = "";
+			}
+			else {
+				a = sel.getRangeAt(0).startOffset;
+				b = sel.getRangeAt(0).endOffset;
+				s = tt.substring(a);
+			}
+			// preventDefault after the return to go out of the element if caret browsing
+			if (a >= (tt.length - 3)) return;
+			ev.preventDefault();
+			ev.stopPropagation();
+			let st = 0, sz, k = 0;
+			if ((a == b) && !a && (km == 1)) k++;
+			else if ((a == b) && (a > 1) && !isStartingWithSpace(s)) a -= 2;
+			else if (isStartingWithSpace(s)) a--;
+			while (((a + st) < (tt.length - 3)) && (k < km)) {
+				st++;
+				if (isSpace(tt.charAt(a + st))) k++;
+			}
+			if (isSpace(tt.charAt(a + st))) st++;
+			sz = isStartingWithSurrogate(tt.substring(a + st)) ? 2 : 1;
+			setAcjkSelection(t, tt, a + st, a + st + sz, 1);
+		}
+		function doAccessibility() {
+			document.getElementById("accessibilityDialog").showModal();
+		}
+		function forceFocusOnSelectedIfAny(ev)
+		{
+			let a = sel.anchorNode;
+			if (a && (a.nodeType === Node.TEXT_NODE)) {
+				let b = a.parentNode;
+				if (b && b.classList && b.classList.contains("charList") && (b != document.activeElement))
+				{
+					ev.preventDefault();
+					ev.stopPropagation();
+					let t = b.childNodes[0];
+					let tt = t.textContent;
+					let cab = getNearestChar(tt);
+					b.focus();
+					setAcjkSelection(t, tt, cab[1], cab[2], 0);
+				}
 			}
 		}
-		scrollToSel();
-	}
-}
-function doPreferences()
-{
-	document.querySelector('[data-lang]').focus();
-}
-document.addEventListener('keydown',(ev)=>
-{
-	if(document.activeElement==document.getElementById("data")) return;
-	if(ev.altKey||ev.ctrlKey||ev.metaKey) return;
-	if(ev.key==='Tab')
-	{ 
-		focusByKeyboard=1;
-		setTimeout(()=>(focusByKeyboard=0),100);
-	}
-	else if((ev.key=="ArrowUp")||(ev.key=="ArrowLeft")||(ev.key=="ArrowRight")||(ev.key=="ArrowDown"))
-	{
-		// caret browsing
-		if(!ev.shiftKey)
-		{
-			focusByKeyboard=1;
-			setTimeout(()=>(focusByKeyboard=0),100);
+		function doBack(ev) {
+			forceFocusOnSelectedIfAny(ev);
+			scrollToSel();
 		}
-	}
-	else if(ev.key==='a') {doAccessibility();}
-	else if(ev.key==='b') doBack();
-	else if(ev.key==='p') doPreferences();
-});
-// -------------
-// chars handler
-// -------------
-function magic(ev,keyboardAction=0)
-{
-	// assume sel has at least one range
-	// ev.target is a char list
-	// at this point, ev.target is a char list in theory
-	// a char list is just text, not a list of buttons, to reduce the size of the html
-	// this function retrieves which character was clicked on the list
-	// sel.rangeCount cannot be 0 here
-	let sel=window.getSelection(),s=sel.toString(),a,b;
-	// if only a space is selected, does nothing
-	if(s==" ") return;
-	// if already a selection of more than one char and click, does nothing
-	//	if the user clicks on a char, let the user to unselect the selection
-	//	if the user tried to select something, let the user to select something
-	if(s&&(ev.type=="click")) return;
-	// if no selection or selection of several characters when using arrows, does nothing
-	if(!isExactlyOneChar(s.trim())&&(ev.type!="click")) return;
-	let t=ev.target.childNodes[0];
-	let tt=t.textContent;
-	let cab=getNearestChar(sel,tt);
-	sel.setBaseAndExtent(t,cab[1],t,cab[2]);
-	doIt(cab[0]);
-}
-function getNumOfCharsPerLine(e)
-{
-	if(e&&e.classList.contains("charList"))
-	{
-		let p=document.createElement('p');
-		let nc=0;
-		p.classList.add("charList");
-		p.setAttribute("lang",e.getAttribute("lang"));
-		p.innerHTML='一 ';
-		e.after(p);
-		let poh=p.offsetHeight;
-		while(p.offsetHeight<1.1*poh)
-		{
-			p.innerHTML+='一 ';
-			nc++;
+		function doPreferences() {
+			document.querySelector('[data-lang]').focus();
 		}
-		p.remove();
-		return nc;
-	}
-	return 1;
-}
-function doKeydownOnCharList(ev)
-{
-	// assume ev.target is a char list
-	if(ev.shiftKey||ev.altKey||ev.ctrlKey||ev.metaKey) return;
-	switch(ev.key)
-	{
-		case "ArrowUp":selectPredChar(ev,getNumOfCharsPerLine(ev.target));break;
-		case "ArrowLeft":selectPredChar(ev,1);break;
-		case "ArrowRight":selectNextChar(ev,1);break;
-		case "ArrowDown":selectNextChar(ev,getNumOfCharsPerLine(ev.target));break;
-		case "Enter":magic(ev,1);break;
-	}
-}
-function addHandlersOnCharLists(langLabel)
-{
-	document.querySelectorAll('details:has([id^="'+lcFirst(langLabel)+'"]) .charList').forEach(e=>
-	{
-		// insert a space between each han characters to make magic() working
-		// when one clicks on a character
-		// the caret will be on the left or on the right of the character
-		// depending if the user clicked on the left part or the right part of the character
-		// so by adding a space between characters
-		// if the caret is on the left of a space
-		// it means the user would like to click on the previous han character
-		// and the caret is on the right of a space
-		// it means the user would like to click on the next han character
-		e.innerHTML=e.innerHTML.replace(/(.)/ug,"$1 ");
-		// add a handler to each .charList for click and focus
-		e.addEventListener("click",function(ev){magic(ev);});
-		e.addEventListener("focus",function(ev){doFocus(ev.target);});
-	});
-}
-// -------------------
-// populate char lists
-// -------------------
-function getcharListFromDico(langLabel,setLabel)
-{
-	let s="";
-	for(let e of dicos[langLabel])
-		if(e["set"].includes(setLabel)) s+=e["character"];
-	// sort by unicode
-	// most of the time, it is already done, but not always
-	let a=[...s];
-	a.sort(function(x,y){return x.codePointAt(0)-y.codePointAt(0);});
-	return a.join('');
-}
-function addSkipper(nav)
-{
-	let a,id=nav.id.replace(/^nav/,"");
-	a=document.createElement("a");
-	a.innerHTML='<img alt="Skip forward" src="images/skipAheadIcon.svg">';
-	a.id="skipForward"+id;
-	a.classList.add("skipper");
-	a.setAttribute("href","#skipBackward"+id);
-	nav.prepend(a);
-	a=document.createElement("a");
-	a.innerHTML='<img alt="Skip backward" src="images/skipBackIcon.svg">';
-	a.id="skipBackward"+id;
-	a.classList.add("skipper");
-	a.setAttribute("href","#skipForward"+id);
-	nav.append(a);
-}
-function endPopulateChars(langLabel)
-{
-	if(dicos[langLabel])
-	{
-		let langIso=langToIso(langLabel);
-		for(let qis of qi[langLabel])
-		{
-			e=document.querySelector('details:has(summary[id="'+lcFirst(langLabel)+ucFirst(qis[0])+'"])');
-			if(e)
+		document.addEventListener('keydown', (ev) => {
+			if (document.activeElement == document.getElementById("data")) return;
+			if (ev.altKey || ev.ctrlKey || ev.metaKey) return;
+			switch (ev.key)
 			{
-				let nav=e.querySelector('nav');
-				nav.id="nav"+langLabel+ucFirst(qis[0]);
-				let p=document.createElement('p');
+				case 'a': doAccessibility(); break;
+				case 'b': doBack(); break;
+				case 'p': doPreferences(); break;
+				case "ArrowUp":
+				case "ArrowLeft":
+				case "ArrowRight":
+				case "ArrowDown":
+					forceFocusOnSelectedIfAny(ev);
+					break;
+			}
+		});
+		// -------------
+		// chars handler
+		// -------------
+		function magic(ev, keyboardAction = 0) {
+			// assume sel has at least one range
+			// ev.target is a char list
+			// at this point, ev.target is a char list in theory
+			// a char list is just text, not a list of buttons, to reduce the size of the html
+			// this function retrieves which character was clicked on the list
+			// sel.rangeCount cannot be 0 here
+			let s = sel.toString(), a, b;
+			// if only a space is selected, does nothing
+			if (s == " ") return;
+			// if already a selection of more than one char and click, does nothing
+			//	if the user clicks on a char, let the user to unselect the selection
+			//	if the user tried to select something, let the user to select something
+			if (s && (ev.type == "click")) return;
+			// if no selection or selection of several characters when using arrows, does nothing
+			if (!hasOnlyOneHanChar(s.trim()) && (ev.type != "click")) return;
+			let t = ev.target.childNodes[0];
+			let tt = t.textContent;
+			let cab = getNearestChar(tt);
+			setAcjkSelection(t, tt, cab[1], cab[2], 0);
+			doIt(cab[0]);
+		}
+		function getNumOfCharsPerLine(e) {
+			if (e && e.classList && e.classList.contains("charList")) {
+				let p = document.createElement('p');
+				let nc = 0;
 				p.classList.add("charList");
-				p.setAttribute("tabindex","0");
-				p.setAttribute("lang",langIso);
-				let s=getcharListFromDico(langLabel,qis[0]);
-				p.append(s);
-				nav.before(p);
-				p.addEventListener("keydown",doKeydownOnCharList);
-				let h3=e.querySelector('h3');
-				if(h3)
-				{
-					let len=[...s].length;
-					h3.innerHTML=h3.innerHTML+" ( "+len+" character"+(len>1?"s":"")+")";
+				p.setAttribute("lang", e.getAttribute("lang"));
+				p.innerHTML = '一 ';
+				e.after(p);
+				let poh = p.offsetHeight;
+				while (p.offsetHeight < 1.1 * poh) {
+					p.innerHTML += '一 ';
+					nc++;
 				}
-				addSkipper(nav);
+				p.remove();
+				return nc;
+			}
+			return 1;
+		}
+		function doKeydownOnCharList(ev) {
+			// assume ev.target is a char list
+			if (ev.shiftKey || ev.altKey || ev.ctrlKey || ev.metaKey) return;
+			switch (ev.key) {
+				case "ArrowUp": selectPredChar(ev, getNumOfCharsPerLine(ev.target)); break;
+				case "ArrowLeft": selectPredChar(ev, 1); break;
+				case "ArrowRight": selectNextChar(ev, 1); break;
+				case "ArrowDown": selectNextChar(ev, getNumOfCharsPerLine(ev.target)); break;
+				case "Enter": magic(ev, 1); break;
 			}
 		}
-		addHandlersOnCharLists(langLabel);
-	}
-}
-function populateCharLists()
-{
-	let langLabel=localStorage.getItem("section")?localStorage.getItem("section"):"ZhHans";
-	// if(dicos[langLabel]) assume populateCharLists() was already done for langLabel
-	if(!dicos[langLabel])
-	{
-		let o={cache:"no-cache"};
-		fetch('dictionary'+langLabel+".txt",o)
-		.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
-		.then(j=>
-			{
-				// a dictionary contains one json per line
-				// transform it in a global json
-				j=j.replace(/\}\n\{/ug,"},{");
-				dicos[langLabel]=JSON.parse("["+j+"]");
-				endPopulateChars(langLabel);
-				return true;
-			})
-		.catch(e=>{console.log(e)}); // just in case
-	};
-}
-//-------------
-// when loading
-//-------------
-window.addEventListener("load",function()
-{
-	// add a handler to #accessibilityBtn button to display the accessibility dialog
-	document.getElementById("accessibilityBtn").addEventListener('click',doAccessibility);
-	// add a handler to #data input to do something when the user hits the return key
-	document.getElementById("data").addEventListener("keyup",function(event)
-	{
-		event.preventDefault();
-		if (event.keyCode==13) ok();
-	});
-	// add a handler to #ok button to do something when the user hits it
-	document.getElementById("ok").addEventListener("click",ok);
-	// add other handlers
-	document.querySelector('[name="section"][value="Ja"]').addEventListener("change",changeSection);
-	document.querySelector('[name="section"][value="Ko"]').addEventListener("change",changeSection);
-	document.querySelector('[name="section"][value="ZhHans"]').addEventListener("change",changeSection);
-	document.querySelector('[name="section"][value="ZhHant"]').addEventListener("change",changeSection);
-	document.querySelector('[name="dico"]').addEventListener("change",changeDico);
-	document.querySelector('[name="grid"]').addEventListener("change",changeGrid);
-	document.querySelector('[name="numbers"]').addEventListener("change",changeNumbers);
-	document.querySelector('[name="xrays"]').addEventListener("change",changeXrays);
-	document.querySelector('[name="size"]').addEventListener("change",changeSize);
-	initAll();
-});
-</script>
+		function addHandlersOnCharLists(langLabel) {
+			document.querySelectorAll('details:has([id^="' + lcFirst(langLabel) + '"]) .charList').forEach(e => {
+				// insert a space between each han characters to make magic() working
+				// when one clicks on a character
+				// the caret will be on the left or on the right of the character
+				// depending if the user clicked on the left part or the right part of the character
+				// so by adding a space between characters
+				// if the caret is on the left of a space
+				// it means the user would like to click on the previous han character
+				// and the caret is on the right of a space
+				// it means the user would like to click on the next han character
+				e.innerHTML = e.innerHTML.replace(/(.)/ug, "$1 ");
+				// add a handler to each .charList for click
+				e.addEventListener("click", function (ev) { magic(ev); });
+			});
+		}
+		// -------------------
+		// populate char lists
+		// -------------------
+		function getcharListFromDico(langLabel, setLabel) {
+			let s = "";
+			for (let e of dicos[langLabel])
+				if (e["set"].includes(setLabel)) s += e["character"];
+			// sort by unicode
+			// most of the time, it is already done, but not always
+			let a = [...s];
+			a.sort(function (x, y) { return x.codePointAt(0) - y.codePointAt(0); });
+			return a.join('');
+		}
+		function addSkipper(nav) {
+			let a, id = nav.id.replace(/^nav/, "");
+			a = document.createElement("a");
+			a.innerHTML = '<img alt="Skip forward" src="images/skipAheadIcon.svg">';
+			a.id = "skipForward" + id;
+			a.classList.add("skipper");
+			a.setAttribute("href", "#skipBackward" + id);
+			nav.prepend(a);
+			a = document.createElement("a");
+			a.innerHTML = '<img alt="Skip backward" src="images/skipBackIcon.svg">';
+			a.id = "skipBackward" + id;
+			a.classList.add("skipper");
+			a.setAttribute("href", "#skipForward" + id);
+			nav.append(a);
+		}
+		function endPopulateChars(langLabel) {
+			if (dicos[langLabel]) {
+				let langIso = langToIso(langLabel);
+				for (let qis of qi[langLabel]) {
+					e = document.querySelector('details:has(summary[id="' + lcFirst(langLabel) + ucFirst(qis[0]) + '"])');
+					if (e) {
+						let nav = e.querySelector('nav');
+						nav.id = "nav" + langLabel + ucFirst(qis[0]);
+						let p = document.createElement('p');
+						p.classList.add("charList");
+						p.setAttribute("tabindex", "0");
+						p.setAttribute("lang", langIso);
+						let s = getcharListFromDico(langLabel, qis[0]);
+						p.append(s);
+						nav.before(p);
+						p.addEventListener("keydown", doKeydownOnCharList);
+						let h3 = e.querySelector('h3');
+						if (h3) {
+							let len = [...s].length;
+							h3.innerHTML = h3.innerHTML + " ( " + len + " character" + (len > 1 ? "s" : "") + ")";
+						}
+						addSkipper(nav);
+					}
+				}
+				addHandlersOnCharLists(langLabel);
+			}
+		}
+		function populateCharLists() {
+			let langLabel = localStorage.getItem("section") ? localStorage.getItem("section") : "ZhHans";
+			// if(dicos[langLabel]) assume populateCharLists() was already done for langLabel
+			if (!dicos[langLabel]) {
+				let o = { cache: "no-cache" };
+				fetch('dictionary' + langLabel + ".txt", o)
+					.then(r => { if (!r.ok) throw r.statusText; return r.text(); })
+					.then(j => {
+						// a dictionary contains one json per line
+						// transform it in a global json
+						j = j.replace(/\}\n\{/ug, "},{");
+						dicos[langLabel] = JSON.parse("[" + j + "]");
+						endPopulateChars(langLabel);
+						return true;
+					})
+					.catch(e => { console.log(e) }); // just in case
+			};
+		}
+		//-------------
+		// when loading
+		//-------------
+		window.addEventListener("load", function () {
+			// add a handler to #accessibilityBtn button to display the accessibility dialog
+			document.getElementById("accessibilityBtn").addEventListener('click', doAccessibility);
+			// add a handler to #data input to do something when the user hits the return key
+			document.getElementById("data").addEventListener("keyup", function (event) {
+				event.preventDefault();
+				if (event.keyCode == 13) ok();
+			});
+			// add a handler to #ok button to do something when the user hits it
+			document.getElementById("ok").addEventListener("click", ok);
+			// add other handlers
+			document.querySelector('[name="section"][value="Ja"]').addEventListener("change", changeSection);
+			document.querySelector('[name="section"][value="Ko"]').addEventListener("change", changeSection);
+			document.querySelector('[name="section"][value="ZhHans"]').addEventListener("change", changeSection);
+			document.querySelector('[name="section"][value="ZhHant"]').addEventListener("change", changeSection);
+			document.querySelector('[name="dico"]').addEventListener("change", changeDico);
+			document.querySelector('[name="grid"]').addEventListener("change", changeGrid);
+			document.querySelector('[name="numbers"]').addEventListener("change", changeNumbers);
+			document.querySelector('[name="xrays"]').addEventListener("change", changeXrays);
+			document.querySelector('[name="size"]').addEventListener("change", changeSize);
+			initAll();
+		});
+	</script>
 </body>
+
 </html>
