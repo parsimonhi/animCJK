@@ -248,7 +248,7 @@ function run(r)
 	if(e) p.langIso=document.querySelector('input[lang]').getAttribute("lang");
 	// run all
 	acjkm.run(p);
-	document.querySelector('[name="data"]').scrollIntoView();
+	document.querySelector('[name="data"]').parentNode.scrollIntoView();
 }
 
 function doIt()

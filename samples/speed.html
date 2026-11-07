@@ -14,12 +14,17 @@ of a Japanese or Chinese character displayed with an animCJK svg file">
 	padding:0;
 	border:0;
 }
+/* when caret browsing, prevents Chrome from giving focus to the input */
+.specificSelector span
+{
+	display: inline-block;
+	width: 100%;
+}
 .specificSelector input[name="speed"]
 {
-	font-size:1rem;
-	display:block;
-	width:min(14rem,100%);
-	margin:0;
+	font-size: 1rem;
+	width: 100%;
+	max-width: 14rem;
 }
 #a
 {
@@ -63,8 +68,10 @@ pre
 </nav>
 <fieldset class="langSelector"></fieldset>
 <fieldset class="specificSelector">
-<label>Speed:
+<label>
+<span>Speed</span>
 <input type="range" name="speed" list="sizeMarks" min="0" max="256" step="16" value="128">
+</label>
 <datalist id="sizeMarks">
 <option value="0"></option>
 <option value="64"></option>
@@ -72,7 +79,6 @@ pre
 <option value="192"></option>
 <option value="256"></option>
 </datalist>
-</label>
 </fieldset>
 <fieldset class="dataSelector"></fieldset>
 <figure id="a"></figure>
@@ -175,7 +181,7 @@ function run(s,c,dir,msg)
 		s=c+" not found in "+dir;
 		e.innerHTML=s;
 	}
-	document.querySelector('[name="data"]').scrollIntoView();
+	document.querySelector('[name="data"]').parentNode.scrollIntoView();
 }
 function doIt()
 {

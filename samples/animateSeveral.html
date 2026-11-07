@@ -132,7 +132,7 @@ function run(s,c,dir,k,kmax)
 	ready++;
 	// display svgs once they are all fetched
 	if(ready==kmax) displayAll();
-	document.querySelector('[name="data"]').scrollIntoView();
+	document.querySelector('[name="data"]').parentNode.scrollIntoView();
 }
 function doIt()
 {

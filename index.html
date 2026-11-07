@@ -172,23 +172,9 @@ stroke by stroke using AnimCJK SVG files">
 			padding: var(--len);
 		}
 
-		.important {
-			color: #000;
-		}
-
-		.very-important {
+		strong {
+			font-weight: normal;
 			color: #c00;
-		}
-
-		p.instruction {
-			padding: 0 var(--len);
-		}
-
-		[name="size"] {
-			font-size: 1rem;
-			display: block;
-			width: min(14rem, 100%);
-			margin: 0 auto;
 		}
 
 		#jaSection,
@@ -229,7 +215,6 @@ stroke by stroke using AnimCJK SVG files">
 		}
 
 		#data {
-			display: block;
 			text-align: center;
 			width: calc(min(16rem, 100%) - 2px);
 			font-size: 1.75rem;
@@ -253,6 +238,7 @@ stroke by stroke using AnimCJK SVG files">
 			background: #c00;
 			color: #fff;
 			border-radius: 50%;
+			max-width: max-content;
 		}
 
 		button:hover {
@@ -265,28 +251,57 @@ stroke by stroke using AnimCJK SVG files">
 			padding: 0;
 		}
 
-		label {
-			display: inline-block;
-			margin: 0;
+		fieldset:has(#ok) {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		label:has(#data) {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: calc(var(--len) / 2);
+		}
+
+
+		fieldset:has(input[type="radio"]),
+		fieldset:has(input[type="checkbox"]) {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			justify-content: center;
+			gap: calc(var(--len) / 2);
+		}
+		
+		label:has(input[type="radio"]),
+		label:has(input[type="checkbox"]) {
 			white-space: nowrap;
 		}
 
-		label:has([name="size"]) {
-			display: block;
-			white-space: normal;
+		input[type="radio"] {
+			display: inline-block;
+			margin-right: calc(var(--len) / 2);
 		}
 
-		input[type="radio"],
-		input[type="checkbox"] {
-			margin: 0 calc(var(--len) / 2);
-		}
-
-		[name="section"]+span {
+		label:has(input[type="radio"]) span {
 			display: inline-block;
 		}
 
-		label:not(:last-child) [name="section"]+span::first-letter {
+		label:has(input[type="radio"]):not(:last-child) span::first-letter {
 			color: #c00;
+		}
+
+		/* when caret browsing, prevents Chrome from giving focus to the input */
+		label:has(input[name="size"]) span {
+			display: inline-block;
+			width: 100%;
+		}
+
+		input[name="size"] {
+			font-size: 1rem;
+			width: 100%;
+			max-width: 14rem;
 		}
 
 		#output {
@@ -421,6 +436,17 @@ stroke by stroke using AnimCJK SVG files">
 				padding-top: calc(var(--len) * 8);
 			}
 		}
+
+		@media (max-width:15rem) {
+			fieldset:has(input[type="radio"]),
+			fieldset:has(input[type="checkbox"]) {
+				display: flex;
+				flex-direction: column;
+				gap: calc(var(--len) / 2);
+				max-width: max-content;
+				align-items: flex-start;
+			}
+		}
 	</style>
 	<title>AnimCJK Demo</title>
 	<link rel="icon" type="image/svg+xml" href="animCJKIcon.svg">
@@ -449,19 +475,20 @@ stroke by stroke using AnimCJK SVG files">
 					data-lang="zh-Hant"><span>Taiwanese</span></label>
 		</fieldset>
 		<fieldset>
-			<label><input name="dico" type="checkbox">Dico</label>
-			<label><input name="grid" type="checkbox">Grid</label>
-			<label><input name="numbers" type="checkbox">Numbers</label>
-			<label><input name="xrays" type="checkbox">X-rays</label>
+			<label><input name="dico" type="checkbox"><span>Dico</span></label>
+			<label><input name="grid" type="checkbox"><span>Grid</span></label>
+			<label><input name="numbers" type="checkbox"><span>Numbers</span></label>
+			<label><input name="xrays" type="checkbox"><span>X-rays</span></label>
 		</fieldset>
 		<fieldset>
-			<label>Size <input name="size" type="range" value="256" step="64" min="64" max="960"></label>
+			<label><span>Size</span><input name="size" type="range" value="256" step="64" min="64" max="960"></label>
 		</fieldset>
 		<fieldset>
-			<p class="important instruction"><span class="very-important">Enter a character</span>
-				in the data field below or <span class="very-important">click on a character</span>
-				in the lists at the bottom of the page!</p>
-			<input autocomplete="off" id="data" type="text" value="" maxlength="2" placeholder="Enter data">
+			<label><span><strong>Enter a character</strong>
+					in the data field below or <strong>click on a character</strong>
+					in the lists at the bottom of the page!
+				</span><input autocomplete="off" id="data" type="text" value="" maxlength="2" placeholder="Enter data">
+			</label>
 			<button id="ok" type="button">Animate</button>
 		</fieldset>
 		<ul id="output"></ul>
@@ -609,7 +636,7 @@ stroke by stroke using AnimCJK SVG files">
 						href="#jaGs">Strokes</a></nav>
 			</details>
 			<details open>
-				<summary id='jaStroke'>
+				<summary id='jaGs'>
 					<h3>Strokes</h3>
 				</summary>
 				<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a
@@ -627,49 +654,56 @@ stroke by stroke using AnimCJK SVG files">
 					<h3>Hanja level 8</h3>
 				</summary>
 				<nav><a href="#koHanja8">Level 8</a><a href="#koHanja7">Level 7</a><a href="#koHanja6">Level 6</a><a
-						href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a></nav>
+						href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a><a href="#koKu">Uncommon</a><a
+						href="#koKc">Components</a></nav>
 			</details>
 			<details open>
 				<summary id='koHanja7'>
 					<h3>Hanja level 7</h3>
 				</summary>
 				<nav><a href="#koHanja8">Level 8</a><a href="#koHanja7">Level 7</a><a href="#koHanja6">Level 6</a><a
-						href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a></nav>
+						href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a><a href="#koKu">Uncommon</a><a
+						href="#koKc">Components</a></nav>
 			</details>
 			<details open>
 				<summary id='koHanja6'>
 					<h3>Hanja level 6</h3>
 				</summary>
 				<nav><a href="#koHanja8">Level 8</a><a href="#koHanja7">Level 7</a><a href="#koHanja6">Level 6</a><a
-						href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a></nav>
+						href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a><a href="#koKu">Uncommon</a><a
+						href="#koKc">Components</a></nav>
 			</details>
 			<details open>
 				<summary id='koHanja5'>
 					<h3>Hanja level 5</h3>
 				</summary>
 				<nav><a href="#koHanja8">Level 8</a><a href="#koHanja7">Level 7</a><a href="#koHanja6">Level 6</a><a
-						href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a></nav>
+						href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a><a href="#koKu">Uncommon</a><a
+						href="#koKc">Components</a></nav>
 			</details>
 			<details open>
 				<summary id='koHanja4'>
 					<h3>Hanja level 4</h3>
 				</summary>
 				<nav><a href="#koHanja8">Level 8</a><a href="#koHanja7">Level 7</a><a href="#koHanja6">Level 6</a><a
-						href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a></nav>
+						href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a><a href="#koKu">Uncommon</a><a
+						href="#koKc">Components</a></nav>
 			</details>
 			<details open>
 				<summary id='koKu'>
 					<h3>Some uncommon Hanja</h3>
 				</summary>
 				<nav><a href="#koHanja8">Level 8</a><a href="#koHanja7">Level 7</a><a href="#koHanja6">Level 6</a><a
-						href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a></nav>
+						href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a><a href="#koKu">Uncommon</a><a
+						href="#koKc">Components</a></nav>
 			</details>
 			<details open>
 				<summary id='koKc'>
 					<h3>Some components</h3>
 				</summary>
 				<nav><a href="#koHanja8">Level 8</a><a href="#koHanja7">Level 7</a><a href="#koHanja6">Level 6</a><a
-						href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a></nav>
+						href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a><a href="#koKu">Uncommon</a><a
+						href="#koKc">Components</a></nav>
 			</details>
 		</section>
 
@@ -681,8 +715,8 @@ stroke by stroke using AnimCJK SVG files">
 				</summary>
 				<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a
 						href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a
-						href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
-						href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a
+						href="#zhHansHsk789">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
+						href="#zhHansUncommon">Uncommon</a><a href="#zhHansComponent">Components</a><a
 						href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
 			</details>
 			<details open>
@@ -691,8 +725,8 @@ stroke by stroke using AnimCJK SVG files">
 				</summary>
 				<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a
 						href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a
-						href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
-						href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a
+						href="#zhHansHsk789">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
+						href="#zhHansUncommon">Uncommon</a><a href="#zhHansComponent">Components</a><a
 						href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
 			</details>
 			<details open>
@@ -701,8 +735,8 @@ stroke by stroke using AnimCJK SVG files">
 				</summary>
 				<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a
 						href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a
-						href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
-						href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a
+						href="#zhHansHsk789">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
+						href="#zhHansUncommon">Uncommon</a><a href="#zhHansComponent">Components</a><a
 						href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
 			</details>
 			<details open>
@@ -711,8 +745,8 @@ stroke by stroke using AnimCJK SVG files">
 				</summary>
 				<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a
 						href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a
-						href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
-						href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a
+						href="#zhHansHsk789">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
+						href="#zhHansUncommon">Uncommon</a><a href="#zhHansComponent">Components</a><a
 						href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
 			</details>
 			<details open>
@@ -721,8 +755,8 @@ stroke by stroke using AnimCJK SVG files">
 				</summary>
 				<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a
 						href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a
-						href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
-						href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a
+						href="#zhHansHsk789">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
+						href="#zhHansUncommon">Uncommon</a><a href="#zhHansComponent">Components</a><a
 						href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
 			</details>
 			<details open>
@@ -731,8 +765,8 @@ stroke by stroke using AnimCJK SVG files">
 				</summary>
 				<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a
 						href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a
-						href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
-						href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a
+						href="#zhHansHsk789">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
+						href="#zhHansUncommon">Uncommon</a><a href="#zhHansComponent">Components</a><a
 						href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
 			</details>
 			<details open>
@@ -741,8 +775,8 @@ stroke by stroke using AnimCJK SVG files">
 				</summary>
 				<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a
 						href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a
-						href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
-						href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a
+						href="#zhHansHsk789">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
+						href="#zhHansUncommon">Uncommon</a><a href="#zhHansComponent">Components</a><a
 						href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
 			</details>
 			<h2>Others (China)</h2>
@@ -752,8 +786,8 @@ stroke by stroke using AnimCJK SVG files">
 				</summary>
 				<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a
 						href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a
-						href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
-						href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a
+						href="#zhHansHsk789">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
+						href="#zhHansUncommon">Uncommon</a><a href="#zhHansComponent">Components</a><a
 						href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
 			</details>
 			<details open>
@@ -762,8 +796,8 @@ stroke by stroke using AnimCJK SVG files">
 				</summary>
 				<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a
 						href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a
-						href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
-						href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a
+						href="#zhHansHsk789">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
+						href="#zhHansUncommon">Uncommon</a><a href="#zhHansComponent">Components</a><a
 						href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
 			</details>
 			<details open>
@@ -772,8 +806,8 @@ stroke by stroke using AnimCJK SVG files">
 				</summary>
 				<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a
 						href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a
-						href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
-						href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a
+						href="#zhHansHsk789">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
+						href="#zhHansUncommon">Uncommon</a><a href="#zhHansComponent">Components</a><a
 						href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
 			</details>
 			<details open>
@@ -782,8 +816,8 @@ stroke by stroke using AnimCJK SVG files">
 				</summary>
 				<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a
 						href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a
-						href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
-						href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a
+						href="#zhHansHsk789">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
+						href="#zhHansUncommon">Uncommon</a><a href="#zhHansComponent">Components</a><a
 						href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
 			</details>
 			<details open>
@@ -792,8 +826,8 @@ stroke by stroke using AnimCJK SVG files">
 				</summary>
 				<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a
 						href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a
-						href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
-						href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a
+						href="#zhHansHsk789">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
+						href="#zhHansUncommon">Uncommon</a><a href="#zhHansComponent">Components</a><a
 						href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
 			</details>
 			<details open>
@@ -802,8 +836,8 @@ stroke by stroke using AnimCJK SVG files">
 				</summary>
 				<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a
 						href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a
-						href="#zhHansHsk7">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
-						href="#zhHansUncommon">Uncommon</a><a href="#zhHanscomponent">Components</a><a
+						href="#zhHansHsk789">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
+						href="#zhHansUncommon">Uncommon</a><a href="#zhHansComponent">Components</a><a
 						href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
 			</details>
 		</section>
@@ -1063,7 +1097,7 @@ stroke by stroke using AnimCJK SVG files">
 		function doIt(c) {
 			document.getElementById("data").value = c;
 			ok();
-			document.getElementById("data").scrollIntoView();
+			document.getElementById("data").parentNode.scrollIntoView();
 		}
 		// -----------------
 		// inits and changes
@@ -1191,7 +1225,7 @@ stroke by stroke using AnimCJK SVG files">
 		}
 		function scrollToSel() {
 			setTimeout(() => {
-				if(onAir) return;
+				if (onAir) return;
 				let a = sel.anchorNode;
 				if (a) {
 					let b = a.parentNode;
@@ -1206,19 +1240,17 @@ stroke by stroke using AnimCJK SVG files">
 								// the browser may scroll before animCJK when voice over is on
 								// in this case, a smooth scroll leads to a bad visual effect
 								// no workaround at the moment
-								window.scrollTo(0,y);
+								window.scrollTo(0, y);
 							}
 						}
-						// for firefox, just in case, give focus to the char list
-						// setTimeout(() => { if (b != document.activeElement) b.focus() }, 100);
 					}
 				}
-			// when voice over is on, the browser may scroll after animCJK
-			// and the selection may be not visible
-			// to reproduce, chrome + voice over, tab to common hanzi list
-			// tab to give focus to the next element then shift+tab to give back focus to the list
-			// press ArrowUp Key several times
-			// so use a large setTimeout
+				// when voice over is on, the browser may scroll after animCJK
+				// and the selection may be not visible
+				// to reproduce, chrome + voice over, tab to common hanzi list
+				// tab to give focus to the next element then shift+tab to give back focus to the list
+				// press ArrowUp Key several times
+				// so use a large setTimeout
 			}, 500);
 		}
 		function setAcjkSelection(t, tt, a, b, scrollIsOn) {
@@ -1226,18 +1258,17 @@ stroke by stroke using AnimCJK SVG files">
 				b2 = Math.max(Math.max(0, Math.min(a, tt.length - 1)), Math.max(0, Math.min(b, tt.length - 1)));
 			// for chrome and safari, collapse when voice over is on
 			// then use a micro setTimeout to let it describing the selection
-			sel.collapse(t,a);
-			onAir=setTimeout((t, a, b, scrollIsOn) => {
+			sel.collapse(t, a);
+			onAir = setTimeout((t, a, b, scrollIsOn) => {
 				sel.setBaseAndExtent(t, a, t, b);
 				onAir = 0;
-				if(scrollIsOn) scrollToSel();
+				if (scrollIsOn) scrollToSel();
 			}, 10, t, a2, b2, scrollIsOn);
 		}
 		function selectPredChar(ev, km) {
 			// assume sel has at least one range
 			// assume ev.target is a charList
-			if(onAir)
-			{
+			if (onAir) {
 				ev.preventDefault();
 				ev.stopPropagation();
 				return;
@@ -1272,8 +1303,7 @@ stroke by stroke using AnimCJK SVG files">
 		function selectNextChar(ev, km) {
 			// assume sel has at least one range
 			// assume ev.target is a charList
-			if(onAir)
-			{
+			if (onAir) {
 				ev.preventDefault();
 				ev.stopPropagation();
 				return;
@@ -1310,13 +1340,11 @@ stroke by stroke using AnimCJK SVG files">
 		function doAccessibility() {
 			document.getElementById("accessibilityDialog").showModal();
 		}
-		function forceFocusOnSelectedIfAny(ev)
-		{
+		function forceFocusOnSelectedIfAny(ev) {
 			let a = sel.anchorNode;
 			if (a && (a.nodeType === Node.TEXT_NODE)) {
 				let b = a.parentNode;
-				if (b && b.classList && b.classList.contains("charList") && (b != document.activeElement))
-				{
+				if (b && b.classList && b.classList.contains("charList") && (b != document.activeElement)) {
 					ev.preventDefault();
 					ev.stopPropagation();
 					let t = b.childNodes[0];
@@ -1337,8 +1365,7 @@ stroke by stroke using AnimCJK SVG files">
 		document.addEventListener('keydown', (ev) => {
 			if (document.activeElement == document.getElementById("data")) return;
 			if (ev.altKey || ev.ctrlKey || ev.metaKey) return;
-			switch (ev.key)
-			{
+			switch (ev.key) {
 				case 'a': doAccessibility(); break;
 				case 'b': doBack(); break;
 				case 'p': doPreferences(); break;

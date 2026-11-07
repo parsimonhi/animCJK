@@ -190,7 +190,7 @@ function run(r)
 	svg+="</svg>";
 	document.getElementById("a").innerHTML=svg;
 	updateCode();
-	document.querySelector('[name="data"]').scrollIntoView();
+	document.querySelector('[name="data"]').parentNode.scrollIntoView();
 }
 
 function doIt()

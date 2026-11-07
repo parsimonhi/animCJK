@@ -43,12 +43,17 @@ pre
 	padding:calc(var(--len) / 4);
 	white-space:pre-wrap;
 }
+/* when caret browsing, prevents Chrome from giving focus to the input */
+.specificSelector span
+{
+	display: inline-block;
+	width: 100%;
+}
 .specificSelector input[name="size"]
 {
-	font-size:1rem;
-	display:block;
-	width:min(14rem,100%);
-	margin:0;
+	font-size: 1rem;
+	width: 100%;
+	max-width: 14rem;
 }
 #sizeMarks
 {
@@ -78,7 +83,7 @@ pre
 <fieldset class="langSelector"></fieldset>
 <fieldset class="specificSelector">
 <label>
-<span>Size:</span>
+<span>Size</span>
 <input autocomplete="off" name="size" type="range" list="sizeMarks" value="256" step="64" min="64" max="960">
 </label>
 <datalist id="sizeMarks">
@@ -172,7 +177,7 @@ function run(s,c,dir)
 		s=c+" not found in "+dir;
 		e.innerHTML=s;
 	}
-	document.querySelector('[name="data"]').scrollIntoView();
+	document.querySelector('[name="data"]').parentNode.scrollIntoView();
 }
 function doIt()
 {

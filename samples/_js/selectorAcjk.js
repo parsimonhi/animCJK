@@ -135,9 +135,11 @@
 		let c=b.innerHTML;
 		let d=document.querySelector('[name="data"]');
 		let r=document.querySelector('[name="run"]');
-		if(d) d.value=c+d.value; // able to deal several characters
-		if(r) r.focus(); // otherwise mobiles may show keyboard
-		window.scrollTo(0,0);
+		if(d)
+		{
+			d.value=c+d.value; // able to deal several characters
+			d.blur(); // otherwise mobiles may show keyboard
+		}
 		if(r) r.dispatchEvent(new Event('click'));
 		else if(!!window.doIt) doIt({c:c});
 		b.classList.add="visited";
