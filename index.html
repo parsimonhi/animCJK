@@ -956,7 +956,7 @@ stroke by stroke using AnimCJK SVG files">
 			["tu", "Some other Hanzi as in Taiwan"],
 			["tc", "Some components as in Taiwan"]
 		];
-		let sel = window.getSelection(), onAir = 0;
+		let sel = window.getSelection(), onAir = 0, onAirs = [];
 		function notify(e, s) {
 			if (e.ariaNotify) e.ariaNotify(s, { priority: "high" });
 		}
@@ -1237,7 +1237,7 @@ stroke by stroke using AnimCJK SVG files">
 							if ((rec.top < 0) || (rec.bottom > vh)) y = 1;
 							if (y) {
 								y = rec.top + scrollY - 32;
-								// the browser may scroll before animCJK when voice over is on
+								// the browser may scroll before animCJK when a screen reader is on
 								// in this case, a smooth scroll leads to a bad visual effect
 								// no workaround at the moment
 								window.scrollTo(0, y);
@@ -1245,10 +1245,11 @@ stroke by stroke using AnimCJK SVG files">
 						}
 					}
 				}
-				// when voice over is on, the browser may scroll after animCJK
+				// when a screen reader is on, the browser may scroll after animCJK
 				// and the selection may be not visible
-				// to reproduce, chrome + voice over, tab to common hanzi list
-				// tab to give focus to the next element then shift+tab to give back focus to the list
+				// to reproduce, chrome + screen reader, tab to common hanzi list
+				// tab to give focus to the next element
+				// then shift+tab to give back focus to the list
 				// press ArrowUp Key several times
 				// so use a large setTimeout
 			}, 500);
@@ -1256,12 +1257,14 @@ stroke by stroke using AnimCJK SVG files">
 		function setAcjkSelection(t, tt, a, b, scrollIsOn) {
 			let a2 = Math.min(Math.max(0, Math.min(a, tt.length - 1)), Math.max(0, Math.min(b, tt.length - 1))),
 				b2 = Math.max(Math.max(0, Math.min(a, tt.length - 1)), Math.max(0, Math.min(b, tt.length - 1)));
-			// for chrome and safari, collapse when voice over is on
-			// then use a micro setTimeout to let it describing the selection
+			// for chrome and safari,
+			// collapse for the case of MacOS + voice over on (and possibly other devices)
+			// then use a micro setTimeout to let the screen reader describing the selection
 			sel.collapse(t, a);
-			onAir = setTimeout((t, a, b, scrollIsOn) => {
+			onAir++;
+			setTimeout((t, a, b, scrollIsOn) => {
 				sel.setBaseAndExtent(t, a, t, b);
-				onAir = 0;
+				onAir--;
 				if (scrollIsOn) scrollToSel();
 			}, 10, t, a2, b2, scrollIsOn);
 		}
