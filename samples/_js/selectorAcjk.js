@@ -75,7 +75,6 @@
 			charList2.title["stroke"]="Strokes";
 		}
 	}
-	
 	function makeLangIso(langAcjk)
 	{
 		if(langAcjk=="Ja") return "ja";
@@ -101,7 +100,9 @@
 		e=document.createElement('label');
 		s+="<input type=\"radio\" name=\"lang\"";
 		s+=" data-lang=\""+langIso+"\" value=\""+value+"\" "+checked+">";
-		s+="<span>"+label+"</span>";
+		// add a zero width space between inputs and spans
+		// to avoid a caret block when pressing ArrowLeft key with caret browsing on firefox
+		s+="&#x200B;<span>"+label+"</span>";
 		e.innerHTML=s;
 		p.appendChild(e);
 		e=p.querySelector('[value="'+value+'"]');

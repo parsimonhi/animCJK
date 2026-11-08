@@ -24,6 +24,7 @@ stroke by stroke using AnimCJK SVG files">
 		* {
 			max-width: 100%;
 			overflow-wrap: anywhere;
+			caret-color:#c00;
 		}
 
 		:focus-visible {
@@ -466,13 +467,15 @@ stroke by stroke using AnimCJK SVG files">
 	</header>
 	<main>
 		<fieldset>
+			<!-- add a zero width space between inputs and spans
+			to avoid a caret block when pressing ArrowLeft key with caret browsing on firefox -->
 			<label><input id="zhHansRadio" type="radio" name="section" value="ZhHans"
-					data-lang="zh-Hans"><span>Chinese</span></label>
+					data-lang="zh-Hans">&#x200B;<span>Chinese</span></label>
 			<label><input id="jaRadio" type="radio" name="section" value="Ja"
-					data-lang="ja"><span>Japanese</span></label>
-			<label><input id="koRadio" type="radio" name="section" value="Ko" data-lang="ko"><span>Korean</span></label>
+					data-lang="ja">&#x200B;<span>Japanese</span></label>
+			<label><input id="koRadio" type="radio" name="section" value="Ko" data-lang="ko">&#x200B;<span>Korean</span></label>
 			<label><input id="zhHantRadio" type="radio" name="section" value="ZhHant"
-					data-lang="zh-Hant"><span>Taiwanese</span></label>
+					data-lang="zh-Hant">&#x200B;<span>Taiwanese</span></label>
 		</fieldset>
 		<fieldset>
 			<label><input name="dico" type="checkbox"><span>Dico</span></label>
@@ -487,7 +490,7 @@ stroke by stroke using AnimCJK SVG files">
 			<label><span><strong>Enter a character</strong>
 					in the data field below or <strong>click on a character</strong>
 					in the lists at the bottom of the page!
-				</span><input autocomplete="off" id="data" type="text" value="" maxlength="2" placeholder="Enter data">
+				</span><input autocomplete="off" id="data" name="data" type="text" value="" maxlength="2" placeholder="Enter data">
 			</label>
 			<button id="ok" type="button">Animate</button>
 		</fieldset>
