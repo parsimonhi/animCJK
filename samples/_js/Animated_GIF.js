@@ -432,7 +432,6 @@ function GifReader(buf) {
             while (true) {  // Seek through subblocks.
               var block_size = buf[p++];
               if (block_size === 0) break;
-              // console.log(buf.slice(p, p+block_size).toString('ascii'));
               p += block_size;
             }
             break;

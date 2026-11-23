@@ -3,7 +3,12 @@
 	--len:min(0.5rem,2.5vw);
 	--focus-color:#07f;
 }
-* {max-width:100%;overflow-wrap:anywhere;caret-color:#c00;}
+*
+{
+	max-width:100%;
+	overflow-wrap:anywhere;
+	caret-color:#c00;
+}
 :focus-visible
 {
 	outline:2px solid var(--focus-color);
@@ -11,7 +16,8 @@
 }
 input{accent-color:var(--focus-color);}
 .dataSelector input[name="data"]:focus-visible {border:1px solid #0000;}
-.dataSelector button[name="run"]:focus-visible {background:var(--focus-color)}
+.dataSelector button[name="run"]:focus-visible,
+.dataSelector button[name="run"]:hover {background:var(--focus-color)}
 body
 {
 	font-family:sans-serif;
@@ -77,6 +83,7 @@ a
 	border:1px solid #000;
 	font-size:1.5rem;
 	margin:var(--len) 0;
+	text-align:center;
 }
 .dataSelector button[name="run"]
 {
@@ -96,25 +103,26 @@ a
 	border-radius:50%;
 }
 .dataSelector button[name="run"]:hover {cursor:pointer;}
+
+.charListSelector
+{
+	min-width:0; /* otherwise summary h3 does not wrap */
+} 
 .charListSelector h2
 {
 	margin:calc(var(--len) * 2) 0;
 	border-left:var(--len) solid #c00;
 	padding:0 0 0 var(--len);
-	width:min(max-content,100%);
 }
 .charListSelector summary
 {
 	margin:0;
 	padding:0;
-	width:min(max-content,100%);
-	white-space:normal;
+	width:max-content;
 }
 .charListSelector h3
 {
-	display:inline;
-	margin:0;
-	padding:var(--len);
+	display:inline; /* otherwise h3 does not stay on the triangle line if it has to wrap */
 }
 .charListSelector button
 {
@@ -132,4 +140,3 @@ body:has([type="Radio"][value="ZhHans"]:checked) .charListSelector section:not([
 body:has([type="Radio"][value="Ja"]:checked) .charListSelector section:not([data-lang="Ja"]){display:none;}
 body:has([type="Radio"][value="Ko"]:checked) .charListSelector section:not([data-lang="Ko"]){display:none;}
 body:has([type="Radio"][value="ZhHant"]:checked) .charListSelector section:not([data-lang="ZhHant"]){display:none;}
-

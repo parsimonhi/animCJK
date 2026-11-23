@@ -38,17 +38,17 @@ pre
 <title>AnimCJK Radical</title>
 <link rel="icon" type="image/svg+xml" href="../animCJKIcon.svg">
 </head>
-<body id="top">
-<header>
+<body>
+<header id="top">
 <h1>AnimCJK Radical</h1>
-</header>
-<main>
 <nav class="link">
 <a href="#bottom"><span>Bottom</span></a>
 <a href="https://github.com/parsimonhi/animCJK"><span>Download</span></a>
 <a href="./"><span>Sample selector</span></a>
 <a href="../"><span>Home</span></a>
 </nav>
+</header>
+<main>
 <fieldset class="langSelector"></fieldset>
 <fieldset class="dataSelector"></fieldset>
 <figure id="a"></figure>
@@ -116,6 +116,19 @@ function getOneFromDico(c,langLabel)
 			if(e["character"]==c) return e;
 	return null;
 }
+function magicScroll()
+{
+	let e1=document.querySelector('[name="data"]').parentNode;
+	let t1=e1.getBoundingClientRect().top;
+	let e2=document.querySelector('[name="run"]');
+	let t2=e2.getBoundingClientRect().top;
+	let e3=document.getElementById("a");
+	let t3=e3.getBoundingClientRect().bottom;
+	let h=document.documentElement.clientHeight;
+	if(h>(t3-t1)) e1.scrollIntoView();
+	else if(h>(t3-t2)) e2.scrollIntoView();
+	else e3.scrollIntoView();
+}
 function run(s,d,c,dir)
 {
 	let e=document.getElementById("a");
@@ -136,14 +149,14 @@ function run(s,d,c,dir)
 		s=c+" not found in "+dir;
 		e.innerHTML=s;
 	}
-	document.querySelector('[name="data"]').parentNode.scrollIntoView();
+	magicScroll();
 }
 function doIt(tried=0)
 {
   	let e=document.querySelector('[name="data"]'),c=cleanDataForOne(e.value);
-  	document.querySelector('#a').innerHTML="";
-  	document.querySelector('#b').innerHTML="";
-  	document.querySelector('.codeTag').innerHTML="";
+  	document.querySelector('#a').replaceChildren();
+  	document.querySelector('#b').replaceChildren();
+  	document.querySelector('.codeTag').replaceChildren();
 	if(c)
 	{
 		let dec=c.codePointAt(0),lang=getLangAcjk();

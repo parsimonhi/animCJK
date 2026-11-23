@@ -219,6 +219,7 @@ a
 	margin:calc(var(--len) * 2) 0;
 	border:1px solid #000;
 }
+#a,#b,#c,#d,#e {box-sizing:border-box;}
 #a,#b,#c,#d {width:min(100%,16em);}
 #e {width:min(100%,32em);}
 #a img,#b img,#c img,#d img,#e img {display:block; width:100%;}
@@ -236,6 +237,17 @@ figure:empty{display:none;}
 body:has(figure:empty) #status+p{display:none;}
 #status {color:#c00;}
 input {font-size:1rem;}
+ul.showCodes
+{
+	margin:0;
+	padding:0;
+	list-style-type:none;
+}
+ul.showCodes li
+{
+	margin:1rem 0;
+	padding:0;
+}
 #base64codes:not(.showCodes) {display:none;}
 .dirSelector,.dataSelector {margin:0 0 calc(var(--len) * 2) 0; padding:0; border:0;}
 .dirSelector label,.dataSelector label {display:block;}
@@ -243,7 +255,7 @@ input {font-size:1rem;}
 <link rel="icon" type="image/svg+xml" href="../animCJKIcon.svg">
 </head>
 <body>
-<header>
+<header id="top">
 <h1>Image factory</h1>
 <nav>
 <a href="./">Sample selector</a>
@@ -252,12 +264,12 @@ input {font-size:1rem;}
 </header>
 <main>
 <fieldset class="dirSelector">
-<p>Select a repository:</p>
+<p>Select a repository</p>
 <label><input type="radio" name="changeDir" value="1" onclick="changeDir('../svgsJa')"> svgsJa (from AnimCJK)</label>
 <label><input type="radio" name="changeDir" value="2" onclick="changeDir('../svgsKo')"> svgsKo (from AnimCJK)</label>
 <label><input type="radio" name="changeDir" value="3" onclick="changeDir('../svgsZhHans')"> svgsZhHans (from AnimCJK)</label>
 <label><input type="radio" name="changeDir" value="4" onclick="changeDir('../svgsZhHant')"> svgsZhHant (from AnimCJK)</label>
-<label><input checked type="radio" name="changeDir" value="5" onclick="changeDir('svgs')"> svgs (from MakeMeAHanzi, just for testing, contains only 鼠貓牛虎兔龍蛇馬羊猴雞狗)</label>
+<label><input checked type="radio" name="changeDir" value="5" onclick="changeDir('svgs')"> svgs (from MakeMeAHanzi, just for testing, in this demo contains only 鼠貓牛虎兔龍蛇馬羊猴雞狗)</label>
 </fieldset>
 <fieldset class="dataSelector">
 <input id="data" type="text" maxlength="1" value="馬" placeholder="Enter data">
@@ -272,15 +284,15 @@ input {font-size:1rem;}
 <figure id="e"></figure>
 <!-- Note: animated GIF images without grey strokes can be transformed in transparent image
 using a tool such as gifsicle -->
-<p>Images encoded in base64:
+<p>Images encoded in base64
 <input id="showCode" type="button" value="Show codes" onclick="ok2(this)">
 </p>
 <ul id="base64codes">
-<li>Code of transparent red PNG image: <span id="a2"></span></li>
-<!-- <li>Source of not transparent red PNG image: <span id="b2"></span></li> -->
-<li>Code of animated GIF image with grey strokes: <span id="c2"></span></li>
-<!-- <li>Source of animated GIF image without grey strokes: <span id="d2"></span></li> -->
-<li>Code of sequence PNG image: <span id="e2"></span></li>
+<li><p>Code of transparent red PNG image</p><p id="a2"></p></li>
+<!-- <li><p>Source of not transparent red PNG image</p><p id="b2"></p></li> -->
+<li><p>Code of animated GIF image with grey strokes</p><p id="c2"></p></li>
+<!-- <li>p>Source of animated GIF image without grey strokes</p><p id="d2"></p></li> -->
+<li><p>Code of sequence PNG image</p><p id="e2"></p></li>
 </ul>
 <p id="debug"></p>
 </main>

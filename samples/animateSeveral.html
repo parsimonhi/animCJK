@@ -55,19 +55,19 @@ button[name="run"]
 <title>AnimCJK - Animate Several</title>
 <link rel="icon" type="image/svg+xml" href="../animCJKIcon.svg">
 </head>
-<body id="top">
-<header>
+<body>
+<header id="top">
 <h1>AnimCJK - Animate Several</h1>
-</header>
-<main>
 <nav class="link">
 <a href="#bottom"><span>Bottom</span></a>
 <a href="https://github.com/parsimonhi/animCJK"><span>Download</span></a>
 <a href="./"><span>Sample selector</span></a>
 <a href="../"><span>Home</span></a>
 </nav>
+</header>
+<main>
 <fieldset class="langSelector"></fieldset>
-<p>Add several characters in the input field above
+<p>Add several characters in the input field below
 or click on some characters in the bottom list.</p>
 <fieldset class="dataSelector"></fieldset>
 <ul id="output"></ul>
@@ -139,7 +139,7 @@ function doIt()
   	let e=document.querySelector('[name="data"]'),s=cleanDataForSeveral(e.value);
   	e.value=s;
   	let list=document.querySelectorAll('#output li');
-  	for(let e2 of list) e2.innerHTML="";
+  	for(let e2 of list) e2.replaceChildren();
 	if(s)
 	{
 		let lang=getLangAcjk(),a=[...s],kmax=a.length,n=0;
@@ -151,7 +151,7 @@ function doIt()
 			if(dec)
 			{
 				let o={cache:"no-cache"},k=n++,dir="svgs"+lang;
-				if((lang=="Ja")&&c.match(/^[ぁ-ゟァ-ヿ]$/u)) dir+="Kana";
+				if((lang=="Ja")&&c.match(/^[ぁ-ヿ]$/u)) dir+="Kana";
 				fetch('../'+dir+'/'+dec+'.svg',o)
 				.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
 				.then(r=>run(r,c,dir,k,kmax))
@@ -161,9 +161,9 @@ function doIt()
 	}
 }
 window.addEventListener("load",function(){
-	let e,dataLabel="Kana, Kanji, Hanja or Hanzi (up to "+nmax+")";
+	let e,a="Enter characters (up to "+nmax+")";
 	e=document.querySelector('label:has([name="data"])');
-	e.innerHTML=e.innerHTML.replace(/^[^)]+[)]/,dataLabel);
+	e.innerHTML=e.innerHTML.replace(/^[^<]+/,a);
 	let c=document.getElementById("output");
 	for(let k=0;k<nmax;k++) c.appendChild(document.createElement("li"));
 });

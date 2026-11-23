@@ -24,7 +24,7 @@ stroke by stroke using AnimCJK SVG files">
 		* {
 			max-width: 100%;
 			overflow-wrap: anywhere;
-			caret-color:#c00;
+			caret-color: #c00;
 		}
 
 		:focus-visible {
@@ -37,7 +37,8 @@ stroke by stroke using AnimCJK SVG files">
 			border: 1px solid #0000;
 		}
 
-		#ok:focus-visible {
+		#ok:focus-visible,
+		#ok:hover {
 			background: var(--focus-color);
 		}
 
@@ -65,10 +66,6 @@ stroke by stroke using AnimCJK SVG files">
 			padding: calc(var(--len) * 2);
 		}
 
-		dialog h2[tabindex="0"] {
-			outline: 0;
-		}
-
 		dialog h2 {
 			font-size: 1.5rem;
 			margin: calc(var(--len) *2) 0;
@@ -89,6 +86,11 @@ stroke by stroke using AnimCJK SVG files">
 		dialog li {
 			margin: 0;
 			padding: 0;
+		}
+
+		dialog button[name="ok"] {
+			-webkit-appearance: none;
+			appearance: none;
 		}
 
 		a {
@@ -164,13 +166,10 @@ stroke by stroke using AnimCJK SVG files">
 			margin: 0;
 			padding: 0;
 			width: max-content;
-			max-width: 100%;
 		}
 
 		summary h3 {
 			display: inline;
-			margin: 0;
-			padding: var(--len);
 		}
 
 		strong {
@@ -265,7 +264,6 @@ stroke by stroke using AnimCJK SVG files">
 			gap: calc(var(--len) / 2);
 		}
 
-
 		fieldset:has(input[type="radio"]),
 		fieldset:has(input[type="checkbox"]) {
 			display: flex;
@@ -274,7 +272,7 @@ stroke by stroke using AnimCJK SVG files">
 			justify-content: center;
 			gap: calc(var(--len) / 2);
 		}
-		
+
 		label:has(input[type="radio"]),
 		label:has(input[type="checkbox"]) {
 			white-space: nowrap;
@@ -294,6 +292,7 @@ stroke by stroke using AnimCJK SVG files">
 		}
 
 		/* when caret browsing, prevents Chrome from giving focus to the input */
+
 		label:has(input[name="size"]) span {
 			display: inline-block;
 			width: 100%;
@@ -303,6 +302,8 @@ stroke by stroke using AnimCJK SVG files">
 			font-size: 1rem;
 			width: 100%;
 			max-width: 14rem;
+			margin: 0;
+			/* otherwise a browser margin may be applied */
 		}
 
 		#output {
@@ -320,6 +321,13 @@ stroke by stroke using AnimCJK SVG files">
 
 		#output li.error {
 			border: 1px solid #000;
+			max-width: min(100%, calc(256 * 1px + 2px));
+			min-width: min-content;
+			aspect-ratio: 1;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			text-align: center;
 		}
 
 		#output dl,
@@ -439,6 +447,7 @@ stroke by stroke using AnimCJK SVG files">
 		}
 
 		@media (max-width:15rem) {
+
 			fieldset:has(input[type="radio"]),
 			fieldset:has(input[type="checkbox"]) {
 				display: flex;
@@ -453,8 +462,8 @@ stroke by stroke using AnimCJK SVG files">
 	<link rel="icon" type="image/svg+xml" href="animCJKIcon.svg">
 </head>
 
-<body id="top">
-	<header>
+<body>
+	<header id="top">
 		<button type="button" id="accessibilityBtn">
 			<img alt="Accessibility" width="32" height="32" src="images/visual-impairments.svg">
 		</button>
@@ -470,12 +479,13 @@ stroke by stroke using AnimCJK SVG files">
 			<!-- add a zero width space between inputs and spans
 			to avoid a caret block when pressing ArrowLeft key with caret browsing on firefox -->
 			<label><input id="zhHansRadio" type="radio" name="section" value="ZhHans"
-					data-lang="zh-Hans">&#x200B;<span>Chinese</span></label>
+					data-lang="zh-Hans">&#x200B;<span>China</span></label>
 			<label><input id="jaRadio" type="radio" name="section" value="Ja"
-					data-lang="ja">&#x200B;<span>Japanese</span></label>
-			<label><input id="koRadio" type="radio" name="section" value="Ko" data-lang="ko">&#x200B;<span>Korean</span></label>
+					data-lang="ja">&#x200B;<span>Japan</span></label>
+			<label><input id="koRadio" type="radio" name="section" value="Ko"
+					data-lang="ko">&#x200B;<span>Korea</span></label>
 			<label><input id="zhHantRadio" type="radio" name="section" value="ZhHant"
-					data-lang="zh-Hant">&#x200B;<span>Taiwanese</span></label>
+					data-lang="zh-Hant">&#x200B;<span>Taiwan</span></label>
 		</fieldset>
 		<fieldset>
 			<label><input name="dico" type="checkbox"><span>Dico</span></label>
@@ -490,7 +500,8 @@ stroke by stroke using AnimCJK SVG files">
 			<label><span><strong>Enter a character</strong>
 					in the data field below or <strong>click on a character</strong>
 					in the lists at the bottom of the page!
-				</span><input autocomplete="off" id="data" name="data" type="text" value="" maxlength="2" placeholder="Enter data">
+				</span><input autocomplete="off" id="data" name="data" type="text" value="" maxlength="2"
+					placeholder="Enter data">
 			</label>
 			<button id="ok" type="button">Animate</button>
 		</fieldset>
@@ -520,133 +531,153 @@ stroke by stroke using AnimCJK SVG files">
 				<summary id='jaHiragana'>
 					<h3>Hiragana</h3>
 				</summary>
-				<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a
-						href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a
-						href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a
-						href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a
-						href="#jaGs">Strokes</a></nav>
+				<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaKana">Kana</a><a
+						href="#jaG1">Grade 1</a><a href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a
+						href="#jaG4">Grade 4</a><a href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a
+						href="#jaG7">Junior high school</a><a href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a
+						href="#jaGc">Components</a><a href="#jaJsymbol">Symbols</a><a href="#jaStroke">Strokes</a></nav>
 			</details>
 			<details open>
 				<summary id='jaKatakana'>
 					<h3>Katakana</h3>
 				</summary>
-				<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a
-						href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a
-						href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a
-						href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a
-						href="#jaGs">Strokes</a></nav>
+				<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaKana">Kana</a><a
+						href="#jaG1">Grade 1</a><a href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a
+						href="#jaG4">Grade 4</a><a href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a
+						href="#jaG7">Junior high school</a><a href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a
+						href="#jaGc">Components</a><a href="#jaJsymbol">Symbols</a><a href="#jaStroke">Strokes</a></nav>
+			</details>
+			<details open>
+				<summary id='jaKana'>
+					<h3>Hiragana or Katakana</h3>
+				</summary>
+				<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaKana">Kana</a><a
+						href="#jaG1">Grade 1</a><a href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a
+						href="#jaG4">Grade 4</a><a href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a
+						href="#jaG7">Junior high school</a><a href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a
+						href="#jaGc">Components</a><a href="#jaJsymbol">Symbols</a><a href="#jaStroke">Strokes</a></nav>
 			</details>
 			<h2>Kanji (Japan)</h2>
 			<details open>
 				<summary id='jaG1'>
 					<h3>Grade 1</h3>
 				</summary>
-				<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a
-						href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a
-						href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a
-						href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a
-						href="#jaGs">Strokes</a></nav>
+				<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaKana">Kana</a><a
+						href="#jaG1">Grade 1</a><a href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a
+						href="#jaG4">Grade 4</a><a href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a
+						href="#jaG7">Junior high school</a><a href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a
+						href="#jaGc">Components</a><a href="#jaJsymbol">Symbols</a><a href="#jaStroke">Strokes</a></nav>
 			</details>
 			<details open>
 				<summary id='jaG2'>
 					<h3>Grade 2</h3>
 				</summary>
-				<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a
-						href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a
-						href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a
-						href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a
-						href="#jaGs">Strokes</a></nav>
+				<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaKana">Kana</a><a
+						href="#jaG1">Grade 1</a><a href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a
+						href="#jaG4">Grade 4</a><a href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a
+						href="#jaG7">Junior high school</a><a href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a
+						href="#jaGc">Components</a><a href="#jaJsymbol">Symbols</a><a href="#jaStroke">Strokes</a></nav>
 			</details>
 			<details open>
 				<summary id='jaG3'>
 					<h3>Grade 3</h3>
 				</summary>
-				<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a
-						href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a
-						href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a
-						href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a
-						href="#jaGs">Strokes</a></nav>
+				<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaKana">Kana</a><a
+						href="#jaG1">Grade 1</a><a href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a
+						href="#jaG4">Grade 4</a><a href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a
+						href="#jaG7">Junior high school</a><a href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a
+						href="#jaGc">Components</a><a href="#jaJsymbol">Symbols</a><a href="#jaStroke">Strokes</a></nav>
 			</details>
 			<details open>
 				<summary id='jaG4'>
 					<h3>Grade 4</h3>
 				</summary>
-				<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a
-						href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a
-						href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a
-						href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a
-						href="#jaGs">Strokes</a></nav>
+				<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaKana">Kana</a><a
+						href="#jaG1">Grade 1</a><a href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a
+						href="#jaG4">Grade 4</a><a href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a
+						href="#jaG7">Junior high school</a><a href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a
+						href="#jaGc">Components</a><a href="#jaJsymbol">Symbols</a><a href="#jaStroke">Strokes</a></nav>
 			</details>
 			<details open>
 				<summary id='jaG5'>
 					<h3>Grade 5</h3>
 				</summary>
-				<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a
-						href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a
-						href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a
-						href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a
-						href="#jaGs">Strokes</a></nav>
+				<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaKana">Kana</a><a
+						href="#jaG1">Grade 1</a><a href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a
+						href="#jaG4">Grade 4</a><a href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a
+						href="#jaG7">Junior high school</a><a href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a
+						href="#jaGc">Components</a><a href="#jaJsymbol">Symbols</a><a href="#jaStroke">Strokes</a></nav>
 			</details>
 			<details open>
 				<summary id='jaG6'>
 					<h3>Grade 6</h3>
 				</summary>
-				<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a
-						href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a
-						href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a
-						href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a
-						href="#jaGs">Strokes</a></nav>
+				<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaKana">Kana</a><a
+						href="#jaG1">Grade 1</a><a href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a
+						href="#jaG4">Grade 4</a><a href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a
+						href="#jaG7">Junior high school</a><a href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a
+						href="#jaGc">Components</a><a href="#jaJsymbol">Symbols</a><a href="#jaStroke">Strokes</a></nav>
 			</details>
 			<details open>
 				<summary id='jaG7'>
 					<h3>Junior high school</h3>
 				</summary>
-				<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a
-						href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a
-						href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a
-						href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a
-						href="#jaGs">Strokes</a></nav>
+				<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaKana">Kana</a><a
+						href="#jaG1">Grade 1</a><a href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a
+						href="#jaG4">Grade 4</a><a href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a
+						href="#jaG7">Junior high school</a><a href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a
+						href="#jaGc">Components</a><a href="#jaJsymbol">Symbols</a><a href="#jaStroke">Strokes</a></nav>
 			</details>
 			<details open>
 				<summary id='jaG8'>
 					<h3>Jinmeiyō</h3>
 				</summary>
-				<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a
-						href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a
-						href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a
-						href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a
-						href="#jaGs">Strokes</a></nav>
+				<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaKana">Kana</a><a
+						href="#jaG1">Grade 1</a><a href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a
+						href="#jaG4">Grade 4</a><a href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a
+						href="#jaG7">Junior high school</a><a href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a
+						href="#jaGc">Components</a><a href="#jaJsymbol">Symbols</a><a href="#jaStroke">Strokes</a></nav>
 			</details>
 			<details open>
 				<summary id='jaG9'>
 					<h3>Some Hyōgai</h3>
 				</summary>
-				<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a
-						href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a
-						href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a
-						href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a
-						href="#jaGs">Strokes</a></nav>
+				<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaKana">Kana</a><a
+						href="#jaG1">Grade 1</a><a href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a
+						href="#jaG4">Grade 4</a><a href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a
+						href="#jaG7">Junior high school</a><a href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a
+						href="#jaGc">Components</a><a href="#jaJsymbol">Symbols</a><a href="#jaStroke">Strokes</a></nav>
 			</details>
 			<h2>Others (Japan)</h2>
 			<details open>
 				<summary id='jaGc'>
 					<h3>Some components</h3>
 				</summary>
-				<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a
-						href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a
-						href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a
-						href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a
-						href="#jaGs">Strokes</a></nav>
+				<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaKana">Kana</a><a
+						href="#jaG1">Grade 1</a><a href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a
+						href="#jaG4">Grade 4</a><a href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a
+						href="#jaG7">Junior high school</a><a href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a
+						href="#jaGc">Components</a><a href="#jaJsymbol">Symbols</a><a href="#jaStroke">Strokes</a></nav>
 			</details>
 			<details open>
-				<summary id='jaGs'>
+				<summary id='jaJsymbol'>
+					<h3>Some symbols</h3>
+				</summary>
+				<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaKana">Kana</a><a
+						href="#jaG1">Grade 1</a><a href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a
+						href="#jaG4">Grade 4</a><a href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a
+						href="#jaG7">Junior high school</a><a href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a
+						href="#jaGc">Components</a><a href="#jaJsymbol">Symbols</a><a href="#jaStroke">Strokes</a></nav>
+			</details>
+			<details open>
+				<summary id='jaStroke'>
 					<h3>Strokes</h3>
 				</summary>
-				<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaG1">Grade 1</a><a
-						href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a href="#jaG4">Grade 4</a><a
-						href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a href="#jaG7">Junior high school</a><a
-						href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a href="#jaGc">Components</a><a
-						href="#jaGs">Strokes</a></nav>
+				<nav><a href="#jaHiragana">Hiragana</a><a href="#jaKatakana">Katakana</a><a href="#jaKana">Kana</a><a
+						href="#jaG1">Grade 1</a><a href="#jaG2">Grade 2</a><a href="#jaG3">Grade 3</a><a
+						href="#jaG4">Grade 4</a><a href="#jaG5">Grade 5</a><a href="#jaG6">Grade 6</a><a
+						href="#jaG7">Junior high school</a><a href="#jaG8">Jinmeiyō</a><a href="#jaG9">Hyōgai</a><a
+						href="#jaGc">Components</a><a href="#jaJsymbol">Symbols</a><a href="#jaStroke">Strokes</a></nav>
 			</details>
 		</section>
 
@@ -658,7 +689,7 @@ stroke by stroke using AnimCJK SVG files">
 				</summary>
 				<nav><a href="#koHanja8">Level 8</a><a href="#koHanja7">Level 7</a><a href="#koHanja6">Level 6</a><a
 						href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a><a href="#koKu">Uncommon</a><a
-						href="#koKc">Components</a></nav>
+						href="#koKc">Components</a><a href="#koKsymbol">Symbols</a><a href="#koStroke">Strokes</a></nav>
 			</details>
 			<details open>
 				<summary id='koHanja7'>
@@ -666,7 +697,7 @@ stroke by stroke using AnimCJK SVG files">
 				</summary>
 				<nav><a href="#koHanja8">Level 8</a><a href="#koHanja7">Level 7</a><a href="#koHanja6">Level 6</a><a
 						href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a><a href="#koKu">Uncommon</a><a
-						href="#koKc">Components</a></nav>
+						href="#koKc">Components</a><a href="#koKsymbol">Symbols</a><a href="#koStroke">Strokes</a></nav>
 			</details>
 			<details open>
 				<summary id='koHanja6'>
@@ -674,7 +705,7 @@ stroke by stroke using AnimCJK SVG files">
 				</summary>
 				<nav><a href="#koHanja8">Level 8</a><a href="#koHanja7">Level 7</a><a href="#koHanja6">Level 6</a><a
 						href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a><a href="#koKu">Uncommon</a><a
-						href="#koKc">Components</a></nav>
+						href="#koKc">Components</a><a href="#koKsymbol">Symbols</a><a href="#koStroke">Strokes</a></nav>
 			</details>
 			<details open>
 				<summary id='koHanja5'>
@@ -682,7 +713,7 @@ stroke by stroke using AnimCJK SVG files">
 				</summary>
 				<nav><a href="#koHanja8">Level 8</a><a href="#koHanja7">Level 7</a><a href="#koHanja6">Level 6</a><a
 						href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a><a href="#koKu">Uncommon</a><a
-						href="#koKc">Components</a></nav>
+						href="#koKc">Components</a><a href="#koKsymbol">Symbols</a><a href="#koStroke">Strokes</a></nav>
 			</details>
 			<details open>
 				<summary id='koHanja4'>
@@ -690,7 +721,7 @@ stroke by stroke using AnimCJK SVG files">
 				</summary>
 				<nav><a href="#koHanja8">Level 8</a><a href="#koHanja7">Level 7</a><a href="#koHanja6">Level 6</a><a
 						href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a><a href="#koKu">Uncommon</a><a
-						href="#koKc">Components</a></nav>
+						href="#koKc">Components</a><a href="#koKsymbol">Symbols</a><a href="#koStroke">Strokes</a></nav>
 			</details>
 			<details open>
 				<summary id='koKu'>
@@ -698,7 +729,7 @@ stroke by stroke using AnimCJK SVG files">
 				</summary>
 				<nav><a href="#koHanja8">Level 8</a><a href="#koHanja7">Level 7</a><a href="#koHanja6">Level 6</a><a
 						href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a><a href="#koKu">Uncommon</a><a
-						href="#koKc">Components</a></nav>
+						href="#koKc">Components</a><a href="#koKsymbol">Symbols</a><a href="#koStroke">Strokes</a></nav>
 			</details>
 			<details open>
 				<summary id='koKc'>
@@ -706,7 +737,23 @@ stroke by stroke using AnimCJK SVG files">
 				</summary>
 				<nav><a href="#koHanja8">Level 8</a><a href="#koHanja7">Level 7</a><a href="#koHanja6">Level 6</a><a
 						href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a><a href="#koKu">Uncommon</a><a
-						href="#koKc">Components</a></nav>
+						href="#koKc">Components</a><a href="#koKsymbol">Symbols</a><a href="#koStroke">Strokes</a></nav>
+			</details>
+			<details open>
+				<summary id='koKsymbol'>
+					<h3>Some symbols</h3>
+				</summary>
+				<nav><a href="#koHanja8">Level 8</a><a href="#koHanja7">Level 7</a><a href="#koHanja6">Level 6</a><a
+						href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a><a href="#koKu">Uncommon</a><a
+						href="#koKc">Components</a><a href="#koKsymbol">Symbols</a><a href="#koStroke">Strokes</a></nav>
+			</details>
+			<details open>
+				<summary id='koStroke'>
+					<h3>Strokes</h3>
+				</summary>
+				<nav><a href="#koHanja8">Level 8</a><a href="#koHanja7">Level 7</a><a href="#koHanja6">Level 6</a><a
+						href="#koHanja5">Level 5</a><a href="#koHanja4">Level 4</a><a href="#koKu">Uncommon</a><a
+						href="#koKc">Components</a><a href="#koKsymbol">Symbols</a><a href="#koStroke">Strokes</a></nav>
 			</details>
 		</section>
 
@@ -719,8 +766,9 @@ stroke by stroke using AnimCJK SVG files">
 				<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a
 						href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a
 						href="#zhHansHsk789">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
-						href="#zhHansUncommon">Uncommon</a><a href="#zhHansComponent">Components</a><a
-						href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
+						href="#zhHansUncommon">Uncommon</a><a href="#zhHansTraditional">Traditional</a><a
+						href="#zhHansComponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a
+						href="#zhHansCsymbol">Symbols</a><a href="#zhHansStroke">Strokes</a></nav>
 			</details>
 			<details open>
 				<summary id='zhHansHsk2'>
@@ -729,8 +777,9 @@ stroke by stroke using AnimCJK SVG files">
 				<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a
 						href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a
 						href="#zhHansHsk789">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
-						href="#zhHansUncommon">Uncommon</a><a href="#zhHansComponent">Components</a><a
-						href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
+						href="#zhHansUncommon">Uncommon</a><a href="#zhHansTraditional">Traditional</a><a
+						href="#zhHansComponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a
+						href="#zhHansCsymbol">Symbols</a><a href="#zhHansStroke">Strokes</a></nav>
 			</details>
 			<details open>
 				<summary id='zhHansHsk3'>
@@ -739,8 +788,9 @@ stroke by stroke using AnimCJK SVG files">
 				<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a
 						href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a
 						href="#zhHansHsk789">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
-						href="#zhHansUncommon">Uncommon</a><a href="#zhHansComponent">Components</a><a
-						href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
+						href="#zhHansUncommon">Uncommon</a><a href="#zhHansTraditional">Traditional</a><a
+						href="#zhHansComponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a
+						href="#zhHansCsymbol">Symbols</a><a href="#zhHansStroke">Strokes</a></nav>
 			</details>
 			<details open>
 				<summary id='zhHansHsk4'>
@@ -749,8 +799,9 @@ stroke by stroke using AnimCJK SVG files">
 				<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a
 						href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a
 						href="#zhHansHsk789">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
-						href="#zhHansUncommon">Uncommon</a><a href="#zhHansComponent">Components</a><a
-						href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
+						href="#zhHansUncommon">Uncommon</a><a href="#zhHansTraditional">Traditional</a><a
+						href="#zhHansComponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a
+						href="#zhHansCsymbol">Symbols</a><a href="#zhHansStroke">Strokes</a></nav>
 			</details>
 			<details open>
 				<summary id='zhHansHsk5'>
@@ -759,8 +810,9 @@ stroke by stroke using AnimCJK SVG files">
 				<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a
 						href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a
 						href="#zhHansHsk789">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
-						href="#zhHansUncommon">Uncommon</a><a href="#zhHansComponent">Components</a><a
-						href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
+						href="#zhHansUncommon">Uncommon</a><a href="#zhHansTraditional">Traditional</a><a
+						href="#zhHansComponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a
+						href="#zhHansCsymbol">Symbols</a><a href="#zhHansStroke">Strokes</a></nav>
 			</details>
 			<details open>
 				<summary id='zhHansHsk6'>
@@ -769,8 +821,9 @@ stroke by stroke using AnimCJK SVG files">
 				<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a
 						href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a
 						href="#zhHansHsk789">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
-						href="#zhHansUncommon">Uncommon</a><a href="#zhHansComponent">Components</a><a
-						href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
+						href="#zhHansUncommon">Uncommon</a><a href="#zhHansTraditional">Traditional</a><a
+						href="#zhHansComponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a
+						href="#zhHansCsymbol">Symbols</a><a href="#zhHansStroke">Strokes</a></nav>
 			</details>
 			<details open>
 				<summary id='zhHansHsk789'>
@@ -779,8 +832,9 @@ stroke by stroke using AnimCJK SVG files">
 				<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a
 						href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a
 						href="#zhHansHsk789">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
-						href="#zhHansUncommon">Uncommon</a><a href="#zhHansComponent">Components</a><a
-						href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
+						href="#zhHansUncommon">Uncommon</a><a href="#zhHansTraditional">Traditional</a><a
+						href="#zhHansComponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a
+						href="#zhHansCsymbol">Symbols</a><a href="#zhHansStroke">Strokes</a></nav>
 			</details>
 			<h2>Others (China)</h2>
 			<details open>
@@ -790,8 +844,9 @@ stroke by stroke using AnimCJK SVG files">
 				<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a
 						href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a
 						href="#zhHansHsk789">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
-						href="#zhHansUncommon">Uncommon</a><a href="#zhHansComponent">Components</a><a
-						href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
+						href="#zhHansUncommon">Uncommon</a><a href="#zhHansTraditional">Traditional</a><a
+						href="#zhHansComponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a
+						href="#zhHansCsymbol">Symbols</a><a href="#zhHansStroke">Strokes</a></nav>
 			</details>
 			<details open>
 				<summary id='zhHansUncommon'>
@@ -800,8 +855,9 @@ stroke by stroke using AnimCJK SVG files">
 				<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a
 						href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a
 						href="#zhHansHsk789">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
-						href="#zhHansUncommon">Uncommon</a><a href="#zhHansComponent">Components</a><a
-						href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
+						href="#zhHansUncommon">Uncommon</a><a href="#zhHansTraditional">Traditional</a><a
+						href="#zhHansComponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a
+						href="#zhHansCsymbol">Symbols</a><a href="#zhHansStroke">Strokes</a></nav>
 			</details>
 			<details open>
 				<summary id='zhHansTraditional'>
@@ -810,8 +866,9 @@ stroke by stroke using AnimCJK SVG files">
 				<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a
 						href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a
 						href="#zhHansHsk789">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
-						href="#zhHansUncommon">Uncommon</a><a href="#zhHansComponent">Components</a><a
-						href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
+						href="#zhHansUncommon">Uncommon</a><a href="#zhHansTraditional">Traditional</a><a
+						href="#zhHansComponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a
+						href="#zhHansCsymbol">Symbols</a><a href="#zhHansStroke">Strokes</a></nav>
 			</details>
 			<details open>
 				<summary id='zhHansComponent'>
@@ -820,8 +877,9 @@ stroke by stroke using AnimCJK SVG files">
 				<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a
 						href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a
 						href="#zhHansHsk789">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
-						href="#zhHansUncommon">Uncommon</a><a href="#zhHansComponent">Components</a><a
-						href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
+						href="#zhHansUncommon">Uncommon</a><a href="#zhHansTraditional">Traditional</a><a
+						href="#zhHansComponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a
+						href="#zhHansCsymbol">Symbols</a><a href="#zhHansStroke">Strokes</a></nav>
 			</details>
 			<details open>
 				<summary id='zhHansBopomofo'>
@@ -830,8 +888,20 @@ stroke by stroke using AnimCJK SVG files">
 				<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a
 						href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a
 						href="#zhHansHsk789">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
-						href="#zhHansUncommon">Uncommon</a><a href="#zhHansComponent">Components</a><a
-						href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
+						href="#zhHansUncommon">Uncommon</a><a href="#zhHansTraditional">Traditional</a><a
+						href="#zhHansComponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a
+						href="#zhHansCsymbol">Symbols</a><a href="#zhHansStroke">Strokes</a></nav>
+			</details>
+			<details open>
+				<summary id='zhHansCsymbol'>
+					<h3>Some symbols</h3>
+				</summary>
+				<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a
+						href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a
+						href="#zhHansHsk789">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
+						href="#zhHansUncommon">Uncommon</a><a href="#zhHansTraditional">Traditional</a><a
+						href="#zhHansComponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a
+						href="#zhHansCsymbol">Symbols</a><a href="#zhHansStroke">Strokes</a></nav>
 			</details>
 			<details open>
 				<summary id='zhHansStroke'>
@@ -840,8 +910,9 @@ stroke by stroke using AnimCJK SVG files">
 				<nav><a href="#zhHansHsk1">HSK 1</a><a href="#zhHansHsk2">HSK 2</a><a href="#zhHansHsk3">HSK 3</a><a
 						href="#zhHansHsk4">HSK 4</a><a href="#zhHansHsk5">HSK 5</a><a href="#zhHansHsk6">HSK 6</a><a
 						href="#zhHansHsk789">HSK 7-9</a><a href="#zhHansCommonNotHsk">Other common</a><a
-						href="#zhHansUncommon">Uncommon</a><a href="#zhHansComponent">Components</a><a
-						href="#zhHansBopomofo">Bopomofo</a><a href="#zhHansStroke">Strokes</a></nav>
+						href="#zhHansUncommon">Uncommon</a><a href="#zhHansTraditional">Traditional</a><a
+						href="#zhHansComponent">Components</a><a href="#zhHansBopomofo">Bopomofo</a><a
+						href="#zhHansCsymbol">Symbols</a><a href="#zhHansStroke">Strokes</a></nav>
 			</details>
 		</section>
 
@@ -852,7 +923,8 @@ stroke by stroke using AnimCJK SVG files">
 					<h3>Some of the traditional Hanzi commonly used in Taiwan</h3>
 				</summary>
 				<nav><a href="#zhHantTaiwan4808">Common</a><a href="#zhHantTu">Uncommon</a><a
-						href="#zhHantTc">Components</a></nav>
+						href="#zhHantTc">Components</a><a href="#zhHantTsymbol">Symbols</a><a
+						href="#zhHantStroke">Strokes</a></nav>
 			</details>
 			<h2>Others (Taiwan)</h2>
 			<details open>
@@ -860,14 +932,32 @@ stroke by stroke using AnimCJK SVG files">
 					<h3>Some other Hanzi as in Taiwan</h3>
 				</summary>
 				<nav><a href="#zhHantTaiwan4808">Common</a><a href="#zhHantTu">Uncommon</a><a
-						href="#zhHantTc">Components</a></nav>
+						href="#zhHantTc">Components</a><a href="#zhHantTsymbol">Symbols</a><a
+						href="#zhHantStroke">Strokes</a></nav>
 			</details>
 			<details open>
 				<summary id='zhHantTc'>
 					<h3>Some components as in Taiwan</h3>
 				</summary>
 				<nav><a href="#zhHantTaiwan4808">Common</a><a href="#zhHantTu">Uncommon</a><a
-						href="#zhHantTc">Components</a></nav>
+						href="#zhHantTc">Components</a><a href="#zhHantTsymbol">Symbols</a><a
+						href="#zhHantStroke">Strokes</a></nav>
+			</details>
+			<details open>
+				<summary id='zhHantTsymbol'>
+					<h3>Some symbols</h3>
+				</summary>
+				<nav><a href="#zhHantTaiwan4808">Common</a><a href="#zhHantTu">Uncommon</a><a
+						href="#zhHantTc">Components</a><a href="#zhHantTsymbol">Symbols</a><a
+						href="#zhHantStroke">Strokes</a></nav>
+			</details>
+			<details open>
+				<summary id='zhHantStroke'>
+					<h3>Strokes</h3>
+				</summary>
+				<nav><a href="#zhHantTaiwan4808">Common</a><a href="#zhHantTu">Uncommon</a><a
+						href="#zhHantTc">Components</a><a href="#zhHantTsymbol">Symbols</a><a
+						href="#zhHantStroke">Strokes</a></nav>
 			</details>
 		</section>
 	</main>
@@ -907,6 +997,7 @@ stroke by stroke using AnimCJK SVG files">
 		qi["Ja"] = [
 			["hiragana", "Hiragana"],
 			["katakana", "Katakana"],
+			["kana", "Hiragana or Katakana"],
 			["g1", "Grade 1"],
 			["g2", "Grade 2"],
 			["g3", "Grade 3"],
@@ -917,6 +1008,7 @@ stroke by stroke using AnimCJK SVG files">
 			["g8", "Jinmeiyō"],
 			["g9", "Some Hyōgai"],
 			["gc", "Some components"],
+			["jsymbol", "Some symbols"],
 			["stroke", "Strokes"]
 		];
 		qi["Ko"] = [
@@ -929,7 +1021,9 @@ stroke by stroke using AnimCJK SVG files">
 			//["hanja2","Hanja level 2"],
 			//["hanja1","Hanja level 1"],
 			["ku", "Some uncommon Hanja"],
-			["kc", "Some components"]
+			["kc", "Some components"],
+			["ksymbol", "Some symbols"],
+			["stroke", "Strokes"]
 		];
 		qi["ZhHans"] = [
 			["hsk1", "HSK 2025 level 1, simplified Hanzi"],
@@ -944,6 +1038,7 @@ stroke by stroke using AnimCJK SVG files">
 			["traditional", "Some traditional Hanzi as in Mainland China"],
 			["component", "Some components"],
 			["bopomofo", "Bopomofo"],
+			["csymbol", "Some symbols"],
 			["stroke", "Strokes"]
 		];
 		qi["ZhHant"] = [
@@ -957,7 +1052,9 @@ stroke by stroke using AnimCJK SVG files">
 			//["taiwan4808NotTocfl","Other traditional Hanzi commonly used in Taiwan"],
 			["taiwan4808", "Some of the traditional Hanzi commonly used in Taiwan"],
 			["tu", "Some other Hanzi as in Taiwan"],
-			["tc", "Some components as in Taiwan"]
+			["tc", "Some components as in Taiwan"],
+			["tsymbol", "Some symbols"],
+			["stroke", "Strokes"]
 		];
 		let sel = window.getSelection(), onAir = 0, onAirs = [];
 		function notify(e, s) {
@@ -1031,19 +1128,32 @@ stroke by stroke using AnimCJK SVG files">
 				if (e["character"] == c) return e;
 			return null;
 		}
+		function magicScroll() {
+			let e1 = document.getElementById("data").parentNode;
+			let t1 = e1.getBoundingClientRect().top;
+			let e2 = document.getElementById("ok");
+			let t2 = e2.getBoundingClientRect().top;
+			let e3 = document.querySelector("#output svg");
+			let t3 = e3.getBoundingClientRect().bottom;
+			let h = document.documentElement.clientHeight;
+			if (h > (t3 - t1 + 2)) e1.scrollIntoView();
+			else if (h > (t3 - t2 + 2)) e2.scrollIntoView();
+			else e3.scrollIntoView();
+		}
 		function endError(c, lang, dec) {
 			let ul = document.getElementById("output");
 			let li = document.createElement("li");
 			let language;
 			switch (lang) {
-				case "zh-Hans": language = "simplified Chinese"; break;
-				case "zh-Hant": language = "traditional Chinese"; break;
+				case "ja": language = "Japanese"; break;
 				case "ko": language = "Korean"; break;
-				default: language = "Japanese";
+				case "zh-Hant": language = "Taiwanese"; break;
+				default: language = "Chinese";
 			}
 			li.classList.add("error");
-			li.innerHTML = c + " not found in " + language + " repository!";
+			li.textContent = c + " not found in " + language + " repository!";
 			ul.append(li);
+			magicScroll();
 		}
 		function endOk(c, lang, dec, svg, dicoLine) {
 			let ul = document.getElementById("output");
@@ -1051,6 +1161,7 @@ stroke by stroke using AnimCJK SVG files">
 			let cartouche = "<dl>" + buildDicoContent(dicoLine) + "</dl>";
 			li.innerHTML = svg + cartouche;
 			ul.append(li);
+			magicScroll();
 			setNumbers(document.querySelector('[name="numbers"]').checked);
 			notify(document.body, "The SVG of the character is being displayed", "high");
 		}
@@ -1060,7 +1171,7 @@ stroke by stroke using AnimCJK SVG files">
 				let dir = 'svgs' + langLabel;
 				if ((langLabel == "Ja")
 					&& Object.hasOwn(dicoLine, "set")
-					&& (dicoLine['set'].includes("hiragana") || dicoLine['set'].includes("katakana")))
+					&& (dicoLine['set'].includes("hiragana") || dicoLine['set'].includes("katakana") || dicoLine['set'].includes("kana")))
 					dir += "Kana";
 				else if ((langLabel == "ZhHans")
 					&& Object.hasOwn(dicoLine, "set")
@@ -1078,7 +1189,7 @@ stroke by stroke using AnimCJK SVG files">
 			e = document.getElementById("data");
 			s = document.querySelector('[name="section"]:checked');
 			lang = s ? s.getAttribute("data-lang") : "zh-Hans";
-			document.getElementById("output").innerHTML = "";
+			document.getElementById("output").replaceChildren();
 			cleanData(e);
 			c = e.value;
 			if (c) {
@@ -1100,13 +1211,17 @@ stroke by stroke using AnimCJK SVG files">
 		function doIt(c) {
 			document.getElementById("data").value = c;
 			ok();
-			document.getElementById("data").parentNode.scrollIntoView();
 		}
 		// -----------------
 		// inits and changes
 		// -----------------
+		function getSectionFromLocalStorage() {
+			let langLabel = localStorage.getItem("section");
+			if (langLabel) return langLabel.replace(/[^a-zA-Z]/g, "");
+			return "ZhHans";
+		}
 		function initSection() {
-			let section = localStorage.getItem("section") ? localStorage.getItem("section") : "ZhHans",
+			let section = getSectionFromLocalStorage(),
 				e = document.querySelector('[name="section"][value="' + section + '"]');
 			if (e) {
 				e.checked = true;
@@ -1133,7 +1248,8 @@ stroke by stroke using AnimCJK SVG files">
 		}
 		function initSize() {
 			let size;
-			size = localStorage.getItem("size") ? localStorage.getItem("size") : "256";
+			size = localStorage.getItem("size");
+			size = size ? size.replace(/[^0-9]/g, "") : "256";
 			document.querySelector('[name="size"]').value = size;
 			document.querySelector(':root').style.setProperty('--size', size);
 		}
@@ -1375,12 +1491,6 @@ stroke by stroke using AnimCJK SVG files">
 				case 'a': doAccessibility(); break;
 				case 'b': doBack(); break;
 				case 'p': doPreferences(); break;
-				case "ArrowUp":
-				case "ArrowLeft":
-				case "ArrowRight":
-				case "ArrowDown":
-					forceFocusOnSelectedIfAny(ev);
-					break;
 			}
 		});
 		// -------------
@@ -1414,11 +1524,11 @@ stroke by stroke using AnimCJK SVG files">
 				let nc = 0;
 				p.classList.add("charList");
 				p.setAttribute("lang", e.getAttribute("lang"));
-				p.innerHTML = '一 ';
+				p.textContent = '一 ';
 				e.after(p);
 				let poh = p.offsetHeight;
 				while (p.offsetHeight < 1.1 * poh) {
-					p.innerHTML += '一 ';
+					p.textContent += '一 ';
 					nc++;
 				}
 				p.remove();
@@ -1448,7 +1558,7 @@ stroke by stroke using AnimCJK SVG files">
 				// it means the user would like to click on the previous han character
 				// and the caret is on the right of a space
 				// it means the user would like to click on the next han character
-				e.innerHTML = e.innerHTML.replace(/(.)/ug, "$1 ");
+				e.textContent = e.textContent.replace(/(.)/ug, "$1 ");
 				// add a handler to each .charList for click
 				e.addEventListener("click", function (ev) { magic(ev); });
 			});
@@ -1467,18 +1577,24 @@ stroke by stroke using AnimCJK SVG files">
 			return a.join('');
 		}
 		function addSkipper(nav) {
-			let a, id = nav.id.replace(/^nav/, "");
+			let a, id = nav.id.replace(/^nav/, ""), img;
 			a = document.createElement("a");
-			a.innerHTML = '<img alt="Skip forward" src="images/skipAheadIcon.svg">';
+			img = document.createElement("img");
+			img.setAttribute("alt", "Skip forward");
+			img.setAttribute("src", "images/skipAheadIcon.svg");
 			a.id = "skipForward" + id;
 			a.classList.add("skipper");
 			a.setAttribute("href", "#skipBackward" + id);
+			a.append(img);
 			nav.prepend(a);
 			a = document.createElement("a");
-			a.innerHTML = '<img alt="Skip backward" src="images/skipBackIcon.svg">';
+			img = document.createElement("img");
+			img.setAttribute("alt", "Skip forward");
+			img.setAttribute("src", "images/skipAheadIcon.svg");
 			a.id = "skipBackward" + id;
 			a.classList.add("skipper");
 			a.setAttribute("href", "#skipForward" + id);
+			a.append(img);
 			nav.append(a);
 		}
 		function endPopulateChars(langLabel) {
@@ -1500,7 +1616,8 @@ stroke by stroke using AnimCJK SVG files">
 						let h3 = e.querySelector('h3');
 						if (h3) {
 							let len = [...s].length;
-							h3.innerHTML = h3.innerHTML + " ( " + len + " character" + (len > 1 ? "s" : "") + ")";
+							let z = " ( " + len + " character" + (len > 1 ? "s" : "") + ")";
+							h3.textContent += z;
 						}
 						addSkipper(nav);
 					}
@@ -1509,7 +1626,7 @@ stroke by stroke using AnimCJK SVG files">
 			}
 		}
 		function populateCharLists() {
-			let langLabel = localStorage.getItem("section") ? localStorage.getItem("section") : "ZhHans";
+			let langLabel = getSectionFromLocalStorage();
 			// if(dicos[langLabel]) assume populateCharLists() was already done for langLabel
 			if (!dicos[langLabel]) {
 				let o = { cache: "no-cache" };

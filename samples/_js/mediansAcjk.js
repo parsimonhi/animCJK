@@ -1042,10 +1042,10 @@ acjkm.run=function(p)
 	// source and target should be html elements
 	// data: only one character
 	if(p.data) acjkm.data=p.data; // required
-	else {console.log("Error: no data provided to acjkm!");return;}
+	else return;
 	// source: a html element (not the svg itself) than contains a svg
 	if(p.source) acjkm.source=p.source; // required
-	else {console.log("Error: no source provided to acjkm!");return;}
+	else return;
 	// target: a html element than can contain a svg
 	if(p.target) acjkm.target=p.target; // optional
 	else acjkm.target=null;
@@ -1059,11 +1059,11 @@ acjkm.run=function(p)
 	else acjkm.canvasContainer=null;
 	if(p.finalResultOutput) acjkm.finalResultOutput=p.finalResultOutput; // optional
 	else acjkm.finalResultOutput=null;
-	if(acjkm.errorOutput) acjkm.errorOutput.innerHTML="";
-	if(acjkm.strangeStrokesOutput) acjkm.strangeStrokesOutput.innerHTML="";
-	if(acjkm.debugOutput) acjkm.debugOutput.innerHTML="";
-	if(acjkm.canvasContainer) acjkm.canvasContainer.innerHTML="";
-	if(acjkm.finalResultOutput) acjkm.finalResultOutput.innerHTML="";
+	if(acjkm.errorOutput) acjkm.errorOutput.replaceChildren();
+	if(acjkm.strangeStrokesOutput) acjkm.strangeStrokesOutput.replaceChildren();
+	if(acjkm.debugOutput) acjkm.debugOutput.replaceChildren();
+	if(acjkm.canvasContainer) acjkm.canvasContainer.replaceChildren();
+	if(acjkm.finalResultOutput) acjkm.finalResultOutput.replaceChildren();
 	acjkm.saveOn=p.saveOn&&p.target; // optional
 	acjkm.strokeOn=p.strokeOn; // optional
 	acjkm.originOn=p.originOn; // optional

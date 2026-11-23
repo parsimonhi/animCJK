@@ -82,6 +82,12 @@
 		if(langAcjk=="Ko") return "ko";
 		return "zh-Hans";
 	}
+	function getSectionFromLocalStorage(defaultLangLabel="ZhHans")
+		{
+			let langLabel = localStorage.getItem("section");
+			if(langLabel) return langLabel.replace(/[^a-zA-Z]/g,"");
+			return defaultLangLabel;
+		}
 	function setLang(lang)
 	{
 		localStorage.setItem("section",lang);
@@ -95,7 +101,7 @@
 	}
 	function addOneLangRadio(p,value,label,langIso)
 	{
-		let lang=localStorage.getItem("section")?localStorage.getItem("section"):"ZhHans";
+		let lang=getSectionFromLocalStorage();
 		let s="",e,checked=(value==lang?" checked":"");
 		e=document.createElement('label');
 		s+="<input type=\"radio\" name=\"lang\"";
@@ -110,17 +116,17 @@
 	}
 	function addLangSelector(p)
 	{
-		addOneLangRadio(p,"ZhHans","Chinese","zh-Hans");
-		addOneLangRadio(p,"Ja","Japanese","ja");
-		addOneLangRadio(p,"Ko","Korean","ko");
-		addOneLangRadio(p,"ZhHant","Taiwanese","zh-Hant");
+		addOneLangRadio(p,"ZhHans","China","zh-Hans");
+		addOneLangRadio(p,"Ja","Japan","ja");
+		addOneLangRadio(p,"Ko","Korea","ko");
+		addOneLangRadio(p,"ZhHant","Taiwan","zh-Hant");
 	}
 	if(langSelector) addLangSelector(langSelector);
 	
 	function addDataSelector(p)
 	{
-		let s="Hanzi, Kanji, or Hanja (one char only)",e;
-		let lang=localStorage.getItem("section")?localStorage.getItem("section"):"ZhHans";
+		let s="Enter a character",e;
+		let lang=getSectionFromLocalStorage();
 		let langIso=makeLangIso(lang);
 		s="<label>"+s+"<input lang=\""+langIso+"\" name=\"data\"></label>";
 		s+="<button type=\"button\" name=\"run\">Run</button>";
@@ -252,7 +258,7 @@
 		let langs=Object.getOwnPropertyNames(charList2.map);
 		if(langSelector)
 		{
-			let lang=localStorage.getItem("section")?localStorage.getItem("section"):langs[0];
+			let lang=getSectionFromLocalStorage(langs[0]);
 			buildSections(lang,path,0);
 		}
 		// if no langSelector, one cannot assume anything about the sections

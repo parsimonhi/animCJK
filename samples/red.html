@@ -35,7 +35,7 @@ of a Chinese, Japanese or Korean character using animCJK svg files">
 }
 pre
 {
-	border:1px solid #000;
+	border:1px solid #ccc;
 	padding:calc(var(--len) / 4);
 	white-space:pre-wrap;
 }
@@ -43,17 +43,17 @@ pre
 <title>AnimCJK Red</title>
 <link rel="icon" type="image/svg+xml" href="../animCJKIcon.svg">
 </head>
-<body id="top">
-<header>
+<body>
+<header id="top">
 <h1>AnimCJK Red</h1>
-</header>
-<main>
 <nav class="link">
 <a href="#bottom"><span>Bottom</span></a>
 <a href="https://github.com/parsimonhi/animCJK"><span>Download</span></a>
 <a href="./"><span>Sample selector</span></a>
 <a href="../"><span>Home</span></a>
 </nav>
+</header>
+<main>
 <fieldset class="langSelector"></fieldset>
 <fieldset class="specificSelector">
 <label>Make blush: <input type="checkbox" name="red"></label>
@@ -159,6 +159,19 @@ function updateInfo(s)
 	s=s.replace(/AnimCJK [0-9-]+/,"AnimCJK 2016-"+d);
 	return s;
 }
+function magicScroll()
+{
+	let e1=document.querySelector('[name="data"]').parentNode;
+	let t1=e1.getBoundingClientRect().top;
+	let e2=document.querySelector('[name="run"]');
+	let t2=e2.getBoundingClientRect().top;
+	let e3=document.getElementById("a");
+	let t3=e3.getBoundingClientRect().bottom;
+	let h=document.documentElement.clientHeight;
+	if(h>(t3-t1)) e1.scrollIntoView();
+	else if(h>(t3-t2)) e2.scrollIntoView();
+	else e3.scrollIntoView();
+}
 function run(s,c,dir)
 {
 	let e=document.getElementById("a");
@@ -175,19 +188,19 @@ function run(s,c,dir)
 		s=c+" not found in "+dir;
 		e.innerHTML=s;
 	}
-	document.querySelector('[name="data"]').parentNode.scrollIntoView();
+	magicScroll();
 }
 function doIt()
 {
   	let e=document.querySelector('[name="data"]'),c=cleanDataForOne(e.value);
-  	document.getElementById("a").innerHTML="";
-  	document.querySelector('.codeTag').innerHTML="";
+  	document.getElementById("a").replaceChildren();
+  	document.querySelector('.codeTag').replaceChildren();
 	if(c)
 	{
 		let dec=c.codePointAt(0);
 		e.value=c=String.fromCodePoint(dec);
 		let lang=getLangAcjk(),dir='svgs'+lang;
-		if((lang=="Ja")&&c.match(/^[ぁ-ゟァ-ヿ]$/u)) dir+="Kana";
+		if((lang=="Ja")&&c.match(/^[ぁ-ヿ]$/u)) dir+="Kana";
 		fetch('../'+dir+'/'+dec+'.svg',{cache:"no-cache"})
 		.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
 		.then(r=>run(r,c,dir))

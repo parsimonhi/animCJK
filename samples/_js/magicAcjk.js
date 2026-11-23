@@ -191,7 +191,6 @@ function makeAnimatedGifFromPngs(ghost,delay,background,dec,show,save) {
         runNextTask();
         function runNextTask() {
             if(nextTaskIndex < tasks.length) {
-                // console.log('running task', nextTaskIndex);
                 var task = tasks[nextTaskIndex];
                 task(function() {
                     nextTaskIndex++;

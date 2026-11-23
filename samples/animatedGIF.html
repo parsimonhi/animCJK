@@ -10,6 +10,7 @@ of a Japanese or Chinese character using animCJK SVG files">
 <style>
 #a
 {
+	box-sizing:border-box;
 	width:min(16rem,100%);
 	aspect-ratio:1;
 	border:1px solid #000;
@@ -26,6 +27,7 @@ of a Japanese or Chinese character using animCJK SVG files">
 <link rel="icon" type="image/svg+xml" href="../animCJKIcon.svg">
 </head>
 <body>
+<header id="top">
 <h1>AnimCJK Animated GIF</h1>
 <nav class="link">
 <a href="#bottom"><span>Bottom</span></a>
@@ -33,11 +35,14 @@ of a Japanese or Chinese character using animCJK SVG files">
 <a href="./"><span>Sample selector</span></a>
 <a href="../"><span>Home</span></a>
 </nav>
+</header>
+<main>
 <fieldset class="langSelector"></fieldset>
 <p id="p">Animated GIF image generated on the fly from a SVG</p>
 <fieldset class="dataSelector"></fieldset>
 <figure id="a"></figure>
 <fieldset class="charListSelector"></fieldset>
+</main>
 <footer id="bottom">
 <nav class="link">
 <a href="#top"><span>Top</span></a>
@@ -56,28 +61,41 @@ function getLangAcjk()
 }
 function showAnimatedGif(image,background,dec)
 {
-	document.getElementById("a").innerHTML="<img src=\""+image+"\">";
+	document.getElementById("a").innerHTML="<img alt=\"Animated gif of the character\" src=\""+image+"\">";
+}
+function magicScroll()
+{
+	let e1=document.querySelector('[name="data"]').parentNode;
+	let t1=e1.getBoundingClientRect().top;
+	let e2=document.querySelector('[name="run"]');
+	let t2=e2.getBoundingClientRect().top;
+	let e3=document.getElementById("a");
+	let t3=e3.getBoundingClientRect().bottom;
+	let h=document.documentElement.clientHeight;
+	if(h>(t3-t1)) e1.scrollIntoView();
+	else if(h>(t3-t2)) e2.scrollIntoView();
+	else e3.scrollIntoView();
 }
 function run(s,dec)
 {
 	generateAnimatedGifFromSvg(s,300,"white",1000,dec,showAnimatedGif,"");
-	document.querySelector('[name="data"]').parentNode.scrollIntoView();
+	magicScroll();
 }
 function doIt()
 {
   	let e=document.querySelector('[name="data"]'),c=e.value;
-  	document.getElementById("a").innerHTML="";
+  	document.getElementById("a").replaceChildren();
 	if(c)
 	{
 		let dec=c.codePointAt(0),lang=getLangAcjk();
 		e.value=c=String.fromCodePoint(dec);
 		let o={cache:"no-cache"};
 		let dir='svgs'+lang;
-		if((lang=="Ja")&&c.match(/^[ぁ-ゟァ-ヿ]$/u)) dir+="Kana";
+		if((lang=="Ja")&&c.match(/^[ぁ-ヿ]$/u)) dir+="Kana";
 		fetch('../'+dir+'/'+dec+'.svg',o)
 		.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
 		.then(r=>{run(r,dec);return true;})
-		.catch(e=>document.getElementById("a").innerHTML=e+' in '+dir);
+		.catch(e=>document.getElementById("a").textContent='Error in '+dir);
 	}
 }
 </script>

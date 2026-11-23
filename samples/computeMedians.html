@@ -83,17 +83,17 @@ representing a Chinese, Japanese or Korean character">
 <title>AnimCJK Compute medians</title>
 <link rel="icon" type="image/svg+xml" href="../animCJKIcon.svg">
 </head>
-<body id="top">
-<header>
+<body>
+<header id="top">
 <h1>AnimCJK Compute medians</h1>
-</header>
-<main>
 <nav class="link">
 <a href="#bottom"><span>Bottom</span></a>
 <a href="https://github.com/parsimonhi/animCJK"><span>Download</span></a>
 <a href="./"><span>Sample selector</span></a>
 <a href="../"><span>Home</span></a>
 </nav>
+</header>
+<main>
 <fieldset class="langSelector"></fieldset>
 <p>Given a shape and a starting point for each stroke, compute their medians.</p>
 <fieldset class="dataSelector"></fieldset>
@@ -185,7 +185,19 @@ function cleanMedianPath(d)
 	d=d.replace(/^M[^0-9-]*([0-9-]+)[^0-9-]+([0-9-]+).*$/,"M$1 $2L$1 $2");
 	return d;
 }
-
+function magicScroll()
+{
+	let e1=document.querySelector('[name="data"]').parentNode;
+	let t1=e1.getBoundingClientRect().top;
+	let e2=document.querySelector('[name="run"]');
+	let t2=e2.getBoundingClientRect().top;
+	let e3=document.querySelector('section.initial');
+	let t3=e3.getBoundingClientRect().bottom;
+	let h=document.documentElement.clientHeight;
+	if(h>(t3-t1)) e1.scrollIntoView();
+	else if(h>(t3-t2)) e2.scrollIntoView();
+	else e3.scrollIntoView();
+}
 function run(r)
 {
 	let initial=document.querySelector('.initial>:last-child');
@@ -248,16 +260,16 @@ function run(r)
 	if(e) p.langIso=document.querySelector('input[lang]').getAttribute("lang");
 	// run all
 	acjkm.run(p);
-	document.querySelector('[name="data"]').parentNode.scrollIntoView();
+	magicScroll();
 }
 
 function doIt()
 {
 	let data=document.querySelector('input[name="data"]'),c=data.value,list;
-	document.querySelector('.initial>:last-child').innerHTML="";
-	document.querySelector('.medians>:last-child').innerHTML="";
+	document.querySelector('.initial>:last-child').replaceChildren();
+	document.querySelector('.medians>:last-child').replaceChildren();
 	list=document.querySelectorAll('.trace>:not(h2)');
-	for(let e of list) e.innerHTML="";
+	for(let e of list) e.replaceChildren();
 	if(c)
 	{
 		let dec=c.codePointAt(0),lang=getLangAcjk();

@@ -10,24 +10,26 @@ For a demo, see https://parsimonhi.github.io/animCJK/
 
 For each character of a given language, there is a svg file in AnimCJK repository that contains paths defining its shape and some css code to animate it. The name of the svg is the decimal unicode of the character followed by the "svg" extension.
 
+The characters are in Kai script (also called Regular script in English, 楷书 [Kǎishū] in Chinese, 楷書 [Kaisho] in Japanese and 해서 [Haeseo] in Korean).
+
 ## SVG files
 
 SVG files are stored in several folders.
 
 ### svgsJa
-The svgsJa folder contains svg files corresponding to the union of the Japanese "Jōyō Kanji" (2136 characters), the Japanese "Jinmeyō Kanji" (863 characters), the Japanese characters needed for the Kanji Kentei test (6355 characters), some "Hyōgai Kanji", some components, and the 38 basic strokes. In all, the svgsJa folder contains 7343 characters.
+The svgsJa folder contains svg files corresponding to the union of the Japanese "Jōyō Kanji" (2136 characters), the Japanese "Jinmeyō Kanji" (863 characters), the Japanese characters needed for the Kanji Kentei test (6355 characters), some "Hyōgai Kanji", some components, and the 38 basic strokes. In all, the svgsJa folder contains 7368 characters.
 
 ### svgsJaKana
-The svgsJaKana folder contains svg files corresponding to the Japanese "Hiragana" (86 characters) and Japanese "Katakana" (91 characters). In all, the svgsJaKana folder contains 177 characters.
+The svgsJaKana folder contains svg files corresponding to the Japanese "Hiragana" and "Katakana". In all, the svgsJaKana folder contains 187 characters.
 
 ### svgsKo
-The svgsKo folder contains svg files corresponding to Korean "Hanja level 8, 7, 6, 5", some of the level 4, and some other characters. In all, the svgsKo folder contains 535 characters.
+The svgsKo folder contains svg files corresponding to Korean "Hanja level 8, 7, 6, 5", some of the level 4, and some other characters. In all, the svgsKo folder contains 576 characters.
 
 ### svgsZhHans
-The svgsZhHans folder contains svg files corresponding to Chinese "commonly used simplified Hanzi" (7000 characters), some "uncommon Hanzi", some "traditional Hanzi" (that can appear in a simplified Hanzi text), some components and the 38 basic strokes. This set includes the Hanzi of "HSK 2025" (3088 characters) and the "frequently used simplified Hanzi" (3500 characters). In all, the svgsZhHans folder contains 8360 characters.
+The svgsZhHans folder contains svg files corresponding to Chinese "commonly used simplified Hanzi" (7000 characters), some "uncommon Hanzi", some "traditional Hanzi" (that can appear in a simplified Hanzi text), some components and the 38 basic strokes. This set includes the Hanzi of "HSK 2025" (3088 characters) and the "frequently used simplified Hanzi" (3500 characters). In all, the svgsZhHans folder contains 8556 characters.
 
 ### svgsZhHant
-The svgsZhHant folder contains svg files corresponding to some of the 4808 commonly used Hanzi in Taiwan and some other characters. Note that some simplified characters have more than one corresponding traditional character. In all, the svgsZhHant folder contains 1839 characters.
+The svgsZhHant folder contains svg files corresponding to some of the 4808 commonly used Hanzi in Taiwan and some other characters. Note that some simplified characters have more than one corresponding traditional character. In all, the svgsZhHant folder contains 2185 characters.
 
 ### Special folders
 These folders contain a "special" version of svg files for characters that have at least one stroke that belongs only partially to the radical. These "special" versions are useful only when one want to display the radical in a different color. Note that all these characters have also a "normal" version in svgsJa, svgsKo, svgsZhHans or svgsZhHant. 
@@ -330,10 +332,50 @@ We used various sources to cross-check our data. In particular:
 - How SVG Line Animation Works, https://css-tricks.com/svg-line-animation-works/
 
 ## What is new?
-2026/11/06
-- various minor changes in home page and sample pages
+026/11/23
+- improve in svgsJa
+	𤇾榮曆乗剰唾錘撫憮
+- improve in svgsZhHans
+	错仳唾
+- modify number of strokes in svgsJa
+	菰
+- modify stroke order in svgsJa
+	烕虛
+- modify glyph in svgsJa
+	覽儖鑒攬欖纜檻濫繿艦 襤鑑蔭財閉麟麒㐅帚帰 掃隠穏𢚩縁录剥禄緑録 潛朁僭譖
+- modify glyph in svgsZhHans
+	婦彗棂
+- modify glyph in svgsZhHant
+	勵厲罷與舉
+- add in svgsJaKana
+	ゞゝゟヾヽヿ゛゜゠・ー
+- add in svgsJa
+	　、。〆
+	仳擋曬檔勻噁撐牚拋 𡯄攔睜龐仝喻噓埵橅瀆罣 𧒑
+-addinsvgsKo
+	　、。
+	㇀㇁㇂㇃㇄㇅㇆㇇㇈㇉㇊㇋㇌㇍㇎㇏㇐㇑㇒㇓㇔㇕㇖㇗㇘㇙㇚㇛㇜㇝㇞㇟㇠㇡㇢㇣㇤㇥
+- add in svgsZhHans
+	　、。
+	𤇾榮併漸偵撥擋曆曬劼 構檔權滾袞漲濃瀏劉灑 猶紛瘋療𨥫稅築糧綜緒 織繞罰肅𣶒脅膽臨艱螢 覽詢謹諮讚贈趨踐芻戔
+	載輯辭違遺邏羅鈴鍋閉 閒陣階霧飾駕皆崗銅側 傑傾頃儀償儲剎劍諸勁 勻喪啟噁噴塵壇壽奪嬰 飢饋徑審賏吋賁頸嶄尷
+	慾憤頂閃釣災貧彌懲懼 拋捲撐撲𡯄擊擬攔闌棟 攜巂敘暈暢槍樸橫欄歸 殘湧滅烕潔絜潛爛牽譖 癢睜磚穎篩籌籠糾納吶
+	絨編緻繪腫腸膠莊蘭訊 託誕諧諾譽豎貸賦蹤躍 軌輔頑闊遙邁鋪鎮鏈鑑 額闖隱鞏飄龐齷噓埵錘 瀆罣
+- add in svgsZhHant
+	　、。
+	㇀㇁㇂㇃㇄㇅㇆ ㇇㇈㇉㇊㇋㇌㇍㇎㇏㇐㇑㇒㇓㇔㇕㇖㇗㇘㇙㇚㇛㇜㇝㇞㇟㇠㇡㇢㇣㇤㇥
+	𤇾榮俱佩併佑漸侵倦偏 偵仳撥擋曆構冓𠀎檔權 雚𨾴滾袞㕣漲佗濃瀏劉 灑猶酋紛瘋療𨥫稅築糧 綜緒爰乂織繞罰肅𣶒⺊
+	脅劦詹膽臨艱螢覽詢堇 監旬謹咨諮偶讚贈趨踐 𧾷芻戔赴載𢦏輯咠辭𤔔 丆乛亇卪卵侈違遺𠀐邏 羅鈴鍋閉閒陣階霧飾駕
+	咼阝皆飠廿曬岡銅側佞 傑傾頃麟麒儀償儲剎劍 僉从亼朮諸𠃊刂㐅勁巠 勻喪𧘇啟启噁噴塵壇壽 奪嬰飢饋徑審賏吋賁内
+	氵𠆢𫝀龷頸嶄尷慾憤頂 閃釣災貧彌懲徵懼拋捲 撐牚菰孤撲𡯄菐业䒑擊 𣪠擬疑龴攔闌棟柬攜巂 崔冏敘暈暢槍攵昜申樸
+	橫欄歸殘𠂤帚湧㠯滅烕 潔絜潛㓞朁爛牽僭譖癢 睜𦍌磚穎𠤕篩籌帀𦚏肋 籠糾納吶絨編緻繪腫腸 膠翏莊蘭訊託卂誕乇諧
+	延諾譽豎𦥑与臤氶貸𫠠 賦蹤躍龰軌輔甫頑闊遙 䍃邁辶鋪鎮鏈𱍸鑑額闖 隱鞏飄龐齷傅喻亻𭕄噓 錘瀆罣
+- various changes on home page
+- various changes on sample pages
+- various decomposition changes
+- various minor changes
 
-2026/10/31
+2026/11/06
 - various minor changes in home page and sample pages
 
 2026/10/29

@@ -26,17 +26,17 @@ from AnimCJK SVG files">
 <title>AnimCJK Red PNG Demo</title>
 <link rel="icon" type="image/svg+xml" href="../animCJKIcon.svg">
 </head>
-<body id="top">
-<header>
+<body>
+<header id="top">
 <h1>AnimCJK Red PNG Demo</h1>
-</header>
-<main>
 <nav class="link">
 <a href="#bottom"><span>Bottom</span></a>
 <a href="https://github.com/parsimonhi/animCJK"><span>Download</span></a>
 <a href="./"><span>Sample selector</span></a>
 <a href="../"><span>Home</span></a>
 </nav>
+</header>
+<main>
 <fieldset class="langSelector"></fieldset>
 <p id="p">PNG image generated on the fly from a SVG</p>
 <fieldset class="dataSelector"></fieldset>
@@ -59,24 +59,37 @@ function getRadioValue(name)
 	for(k=0;k<list.length;k++) if(list[k].checked) return list[k].value;
 	return "Ja";
 }
+function magicScroll()
+{
+	let e1=document.querySelector('[name="data"]').parentNode;
+	let t1=e1.getBoundingClientRect().top;
+	let e2=document.querySelector('[name="run"]');
+	let t2=e2.getBoundingClientRect().top;
+	let e3=document.getElementById("a");
+	let t3=e3.getBoundingClientRect().bottom;
+	let h=document.documentElement.clientHeight;
+	if(h>(t3-t1)) e1.scrollIntoView();
+	else if(h>(t3-t2)) e2.scrollIntoView();
+	else e3.scrollIntoView();
+}
 function run(s)
 {
 	let r;
 	r=generateRedPngFromSvg(s,300,"transparent");
 	document.getElementById("a").innerHTML="<img src=\""+r+"\">";
-	document.querySelector('[name="data"]').parentNode.scrollIntoView();
+	magicScroll();
 }
 function doIt()
 {
   	let e=document.querySelector('[name="data"]'),c=e.value;
-  	document.getElementById("a").innerHTML="";
+  	document.getElementById("a").replaceChildren();
 	if(c)
 	{
 		let dec=c.codePointAt(0),lang=getRadioValue("lang");
 		e.value=c=String.fromCodePoint(dec);
 		let o={cache:"no-cache"};
 		let dir='svgs'+lang;
-		if((lang=="Ja")&&c.match(/^[ぁ-ゟァ-ヿ]$/u)) dir+="Kana";
+		if((lang=="Ja")&&c.match(/^[ぁ-ヿ]$/u)) dir+="Kana";
 		fetch('../'+dir+'/'+dec+'.svg',o)
 		.then(r=>{if(!r.ok) throw r.statusText; return r.text();})
 		.then(r=>{run(r);return true;})
