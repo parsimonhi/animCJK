@@ -352,7 +352,7 @@ We used various sources to cross-check our data. In particular:
 - add in svgsJa
 	　、。〆
 	仳擋曬檔勻噁撐牚拋 𡯄攔睜龐仝喻噓埵橅瀆罣 𧒑
--addinsvgsKo
+- addinsvgsKo
 	　、。
 	㇀㇁㇂㇃㇄㇅㇆㇇㇈㇉㇊㇋㇌㇍㇎㇏㇐㇑㇒㇓㇔㇕㇖㇗㇘㇙㇚㇛㇜㇝㇞㇟㇠㇡㇢㇣㇤㇥
 - add in svgsZhHans
