@@ -17,19 +17,29 @@ The characters are in Kai script (also called Regular script in English, 楷书 
 SVG files are stored in several folders.
 
 ### svgsJa
-The svgsJa folder contains svg files corresponding to the union of the Japanese "Jōyō Kanji" (2136 characters), the Japanese "Jinmeyō Kanji" (863 characters), the Japanese characters needed for the Kanji Kentei test (6355 characters), some "Hyōgai Kanji", some components, and the 38 basic strokes. In all, the svgsJa folder contains 7368 characters.
+The svgsJa folder contains svg files corresponding to the union of the Japanese "Jōyō Kanji" (2136 characters), the Japanese "Jinmeyō Kanji" (863 characters), the Japanese characters needed for the Kanji Kentei test (6355 characters), some "Hyōgai Kanji", some components, and the 38 basic strokes.
+
+In all, the svgsJa folder contains 7368 characters.
 
 ### svgsJaKana
 The svgsJaKana folder contains svg files corresponding to the Japanese "Hiragana" and "Katakana". In all, the svgsJaKana folder contains 187 characters.
 
 ### svgsKo
-The svgsKo folder contains svg files corresponding to Korean "Hanja level 8, 7, 6, 5", some of the level 4, and some other characters. In all, the svgsKo folder contains 576 characters.
+The svgsKo folder contains svg files corresponding to Korean "Hanja level 8, 7, 6, 5", some of the level 4, and some other characters.
+
+In all, the svgsKo folder contains 576 characters.
 
 ### svgsZhHans
-The svgsZhHans folder contains svg files corresponding to Chinese "commonly used simplified Hanzi" (7000 characters), some "uncommon Hanzi", some "traditional Hanzi" (that can appear in a simplified Hanzi text), some components and the 38 basic strokes. This set includes the Hanzi of "HSK 2025" (3088 characters) and the "frequently used simplified Hanzi" (3500 characters). In all, the svgsZhHans folder contains 8556 characters.
+The svgsZhHans folder contains svg files corresponding to Chinese "commonly used simplified Hanzi" (7000 characters), some "uncommon Hanzi", some "traditional Hanzi" (that can appear in a simplified Hanzi text), some components and the 38 basic strokes. This set includes the Hanzi of "HSK 2025" (3088 characters) and the "frequently used simplified Hanzi" (3500 characters).
+
+In all, the svgsZhHans folder contains 8556 characters.
+
+Note that some simplified characters have more than one corresponding traditional character.
 
 ### svgsZhHant
-The svgsZhHant folder contains svg files corresponding to some of the 4808 commonly used Hanzi in Taiwan and some other characters. Note that some simplified characters have more than one corresponding traditional character. In all, the svgsZhHant folder contains 2185 characters.
+The svgsZhHant folder contains svg files corresponding to some of the 4808 commonly used Hanzi in Taiwan and some other characters.
+
+In all, the svgsZhHant folder contains 2185 characters.
 
 ### Special folders
 These folders contain a "special" version of svg files for characters that have at least one stroke that belongs only partially to the radical. These "special" versions are useful only when one want to display the radical in a different color. Note that all these characters have also a "normal" version in svgsJa, svgsKo, svgsZhHans or svgsZhHant. 
@@ -136,7 +146,7 @@ svg.acjk path[id] {fill:#ccc;}
 </body>
 </html>
 ```
-Alternately, you can use Javascript to insert a svg in a HTML page. Write the code below in a file called simple3.html and store it in the samples folder of AnimCJK. Then display simple3.html in a browser (assuming that you moved the AnimCJK repository on a web server otherwise it will not work).
+Alternately, you can use Javascript to insert a svg in a HTML page. Write the code below in a file called simple3.html and store it in the samples folder of AnimCJK. Then display simple3.html in a browser, assuming that you moved the AnimCJK repository on a web server (local or remote, it doesn't matter) otherwise it will not work.
 ```
 <!doctype html>
 <html>
